@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.3.xsd">
+	
+	<!-- Oracle DB에 접속할 수 있는 URL 및 계정 정보들을 bean에 등록 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="#{util['jdbc.driverClassName']}"></property>
+		<property name="url" value="#{util['jdbc.url']}"></property>
+		<property name="username" value="#{util['jdbc.username']}"></property>
+		<property name="password" value="#{util['jdbc.password']}"></property>
+	</bean>
+	
+	<!-- Mybatis 설정 파일 및 mapper 파일들의 경로를 알려준다. -->
+	<bean id="sqlSessionFatctory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations" value="/WEB-INF/classes/mybatis/mapper/*.xml"></property>
+		<property name="configLocation" value="/WEB-INF/classes/mybatis/mybatis-config.xml"></property>
+	</bean>
+	
+	<!-- @Mapper 어노테이션이 붙은 DAO 클래스를 스캔하여 메모리에 등록 -->
+	<mybatis-spring:scan base-package="com.jtgj.finalProject" annotation="org.apache.ibatis.annotations.Mapper"/>
+	
+	<!-- appconfig.properties 파일 내 데이터를 util 이름을 가진 bean에 등록 -->
+	<util:properties id="util" location="/WEB-INF/classes/spring/appconfig.properties"></util:properties>
+</beans>
