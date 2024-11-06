@@ -5,4 +5,41 @@
 		SELECT *
 		FROM users
 	</select>
+	
+	<!-- 로그인 실행 -->
+	<select id="loginUser" parameterType="com.jtgj.finalProject.user.dto.UserDTO" resultType="com.jtgj.finalProject.user.dto.UserDTO">
+		SELECT
+			user_id
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+		FROM users
+		WHERE 1=1
+		  AND user_id = #{userId}
+		  AND user_pw = #{userPw}
+	</select>
+	
+	<!-- 개인회원 가입 실행 -->
+	<select id="registPersonalUser" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+		INSERT INTO users(
+			user_id
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+		) VALUES (
+			#{userId}
+			, #{userPw}
+			, #{userEmail}
+			, SYSDATE
+			, #{userPhone}
+			, 'P'
+			, 'N'
+		)
+	</select>
 </mapper>

@@ -10,4 +10,10 @@ import com.jtgj.finalProject.user.dto.UserDTO;
 public interface IUserDAO {
 	
 	List<UserDTO> userSelect();
+	
+	// 로그인 구현
+	UserDTO loginUser(UserDTO user);
+	
+	// 개인회원가입 구현
+	Integer registPersonalUser(UserDTO user);
 }
