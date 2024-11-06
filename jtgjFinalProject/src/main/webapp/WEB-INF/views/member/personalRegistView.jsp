@@ -8,16 +8,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>저탄고집 개인회원 가입</title>
+    <%@ include file="/WEB-INF/inc/header.jsp" %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
     <style>
         *{
             margin: 0;
             padding: 0;
-        }
-
-        div{
-
         }
 
         html,
@@ -31,25 +27,41 @@
             user-select:none
         }
 
-        .container{
+        .custom-container{
             width: 20%;
-            margin-top: 2%;
+            height: 50%;
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -90%);
             background-color: #FFFFFF;
             border-radius: 10px;
             display: flex;
             flex-direction: column;
             padding: 0;
         }
-
-
-
     </style>
 </head>
 
 <body>
+	<!-- Preloader -->
+	<div class="cover"></div>
+
+    	<div class="header">
+		<div class="container">
+			<div class="logo">
+				<a href="${pageContext.request.contextPath }/"> <img src="img/logo.png" alt="Logo">
+				</a>
+			</div>
+
+			<!-- nav -->
+			<%@ include file="/WEB-INF/inc/nav.jsp" %>
+
+		</div>
+	</div>
     
-    <div class="container">
-        <div class="mb-4" style="text-align:center;"><h4>저탄고집 개인회원 가입</h4></div>
+    <div class="custom-container">
+        <div class="mb-4" style="text-align:center;"><h4 style="display:inline;">저탄고집 개인회원 가입</h4></div>
 
 		<form action="${pageContext.request.contextPath }/personalRegistDo" method="POST">
 	        <div class="mb-3">
@@ -86,18 +98,13 @@
 	        </div>
 	
 	        <div class="mt-3">
-	            <button class="btn btn-primary w-100" type="submit">가입하기</button>
+	            <button class="btn btn-primary btn-lg w-100" type="submit">가입하기</button>
 	        </div>		
 		</form>
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-
-            
-
-    </script>
+	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>
 
 </html>

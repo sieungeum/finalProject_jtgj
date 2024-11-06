@@ -51,6 +51,15 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	// 로그아웃 실행
+	@RequestMapping("/logoutDo")
+	public String logoutDo(HttpSession session) {
+		// 세션 종료
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
 	// 개인회원 가입 화면 실행
 	@RequestMapping("/personalRegistView")
 	public String personalRegistView() {

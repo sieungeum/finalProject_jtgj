@@ -8,16 +8,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>저탄고집 로그인</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+	<%@ include file="/WEB-INF/inc/header.jsp" %>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	
     <style>
         *{
             margin: 0;
             padding: 0;
-        }
-
-        div{
-
         }
 
         html,
@@ -28,13 +25,16 @@
             -webkit-user-select:none;
             -moz-user-select:none;
             -ms-user-select:none;
-            user-select:none
+            user-select:none;
+            margin: auto;
         }
 
-        .container{
+        .custom-container{
             width: 50%;
+            height: 50%;
             position: relative;
-            top: 15%;
+            top: 3%;
+            left: 25%;
             background-color: #FFFFFF;
             border-radius: 10px;
             display: flex;
@@ -46,8 +46,27 @@
             width: 50%;
             display: flex;
             flex-direction: column;
+            justify-content: end;
+            position: relative;
         }
 
+        #carouselExampleFade{
+        	width: 80%;
+        	height: 43%;
+        	position: absolute;
+			top: 40%;
+			left: 50%;
+    		transform: translate(-50%, -50%);
+        }
+        
+        .sign-in-btn-box{
+            width: 100%;
+            margin-bottom: 27%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
         .login-box{
             width: 50%;
         }
@@ -63,32 +82,6 @@
         .logo-img{
             width: 100%;
             height: 100%;
-        }
-
-        .sign-in-mini-box{
-            height: 80%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .sign-in-carousel{
-            width: 80%;
-            height: 70%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .sign-in-btn-box{
-            width: 100%;
-            height: 30%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding-bottom: 40px;
         }
 
         .div-line-box{
@@ -124,6 +117,8 @@
             text-align: center;
             font-size: 20px;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
         .individual-member:hover{
@@ -136,6 +131,8 @@
             text-align: center;
             font-size: 20px;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
         .corporate-member:hover{
@@ -166,83 +163,90 @@
             display: flex;
             font-size: 10px;
         }
-
-
     </style>
+    
 </head>
 
 <body>
+	<!-- Preloader -->
+	<div class="cover"></div>
+
+    	<div class="header">
+		<div class="container">
+			<div class="logo">
+				<a href="${pageContext.request.contextPath }/"> <img src="img/logo.png" alt="Logo">
+				</a>
+			</div>
+
+			<!-- nav -->
+			<%@ include file="/WEB-INF/inc/nav.jsp" %>
+
+		</div>
+	</div>
     
-    <div class="container">
+    <div class="custom-container">
+    
         <div class="sign-in-box">
-            <div class="logo-box">
-                <img class="logo-img" src="./img/test/로고.png">
-            </div>
-
-            <div class="sign-in-mini-box">
-                <div class="sign-in-carousel">
-                    <div id="carouselExampleFade" class="carousel slide carousel-fade" style="width:100%;height:260px;">
-                        <div class="carousel-inner" style="width:100%;height:100%;">
-                            <div class="carousel-item active w-100">
-                                <img src="./img/test/아이젠소스케.png" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케2.png" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케9.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케3.png" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케4.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케5.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케6.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케7.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케8.jpg" class="w-100 h-100">
-                            </div>
-                            <div class="carousel-item w-100 h-100">
-                                <img src="./img/test/아이젠소스케10.jpg" class="w-100 h-100">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div> 
-                </div>
-
-                <div class="sign-in-btn-box">
-                	<a href="${pageContext.request.contextPath }/personalRegistView" class="btn btn-success" id="sign-in-btn" style="width:80%;">개인회원가입</a>
-                </div>
-            </div>
+        	<!-- 캐러셀 -->
+	        <div id="carouselExampleFade" class="carousel slide carousel-fade" >
+	            <div class="carousel-inner w-100 h-100">
+	                <div class="carousel-item active w-100">
+	                    <img src="./img/test/아이젠소스케.png" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케2.png" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케9.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케3.png" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케4.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케5.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케6.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케7.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케8.jpg" class="w-100 h-100">
+	                </div>
+	                <div class="carousel-item w-100 h-100">
+	                    <img src="./img/test/아이젠소스케10.jpg" class="w-100 h-100">
+	                </div>
+	            </div>
+	            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </button>
+	            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Next</span>
+	            </button>
+	        </div> 
+	
+			<!-- 회원가입 버튼 -->
+	        <div class="sign-in-btn-box">
+	        	<a href="${pageContext.request.contextPath }/personalRegistView" class="btn btn-success btn-lg" id="sign-in-btn" style="width:80%;">개인회원가입</a>
+	        </div>
         </div>
-
-        <hr style="border: 0.6px solid grey; height: 90%; margin-top:4%;" >
 
         <div class="login-box">
             <div class="login-mini-box">
                 <div class="login-div">
                     <div class="individual-member">
                         개인회원
-                        <hr style="margin:0; border:5px solid #4876EF;">
+                        <hr style="width: 100%; margin:0; height:3px; background-color:#4876EF;">
                     </div>
                     <div class="corporate-member">
                         기업회원
-                        <hr style="visibility:hidden; margin:0; border:5px solid #4876EF;">
+                        <hr style="visibility:hidden; width:100%; margin:0; height:3px; background-color:#4876EF;">
                     </div>
                 </div>
 
@@ -268,7 +272,7 @@
 	                </div>
 	
 	                <div class="login-btn-box">
-	                    <button class="btn btn-primary" id="login-btn" type="submit">로그인</button>
+	                    <button class="btn btn-primary btn-lg" id="login-btn" type="submit">로그인</button>
 	                </div>				
 				</form>
                 
@@ -328,6 +332,8 @@
 		
         
     </script>
+	<!-- footer -->
+	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>
 
 </html>
