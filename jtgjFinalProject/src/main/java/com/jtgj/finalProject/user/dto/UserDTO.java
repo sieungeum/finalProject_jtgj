@@ -2,32 +2,40 @@ package com.jtgj.finalProject.user.dto;
 
 public class UserDTO {
 	private String userId;
+	private String userName;
 	private String userPw;
 	private String userEmail;
 	private String userDate;
+	private String userPhone;
 	private String userAccount;
 	private String userRank;
+	private String userProfImg;
 	
 	
 	public UserDTO() {
 	}
 
 
-	public UserDTO(String userId, String userPw, String userEmail, String userDate, String userAccount,
-			String userRank) {
+	public UserDTO(String userId, String userName, String userPw, String userEmail, String userDate, String userPhone,
+			String userAccount, String userRank, String userProfImg) {
+		super();
 		this.userId = userId;
+		this.userName = userName;
 		this.userPw = userPw;
 		this.userEmail = userEmail;
 		this.userDate = userDate;
+		this.userPhone = userPhone;
 		this.userAccount = userAccount;
 		this.userRank = userRank;
+		this.userProfImg = userProfImg;
 	}
 
 
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId + ", userPw=" + userPw + ", userEmail=" + userEmail + ", userDate="
-				+ userDate + ", userAccount=" + userAccount + ", userRank=" + userRank + "]";
+		return "UserDTO [userId=" + userId + ", userName=" + userName + ", userPw=" + userPw + ", userEmail="
+				+ userEmail + ", userDate=" + userDate + ", userPhone=" + userPhone + ", userAccount=" + userAccount
+				+ ", userRank=" + userRank + ", userProfImg=" + userProfImg + "]";
 	}
 
 
@@ -38,6 +46,16 @@ public class UserDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 
@@ -71,6 +89,16 @@ public class UserDTO {
 	}
 
 
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+
 	public String getUserAccount() {
 		return userAccount;
 	}
@@ -89,6 +117,15 @@ public class UserDTO {
 	public void setUserRank(String userRank) {
 		this.userRank = userRank;
 	}
-	
-	
+
+
+	public String getUserProfImg() {
+		return userProfImg;
+	}
+
+
+	public void setUserProfImg(String userProfImg) {
+		this.userProfImg = userProfImg;
+	}
+
 }

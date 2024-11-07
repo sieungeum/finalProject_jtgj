@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.estimate.dao.IEstimateDAO">
+	
+	<!-- 기본 자제들 가져오기 -->
+	<select id="basic_mater" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+		SELECT
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify
+		FROM building_materials
+		WHERE 1=1
+			AND mater_classify = 'N'
+	</select>
+		
+
+</mapper>

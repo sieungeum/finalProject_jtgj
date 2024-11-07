@@ -21,12 +21,7 @@
 		<nav class="menu">
 			<div class="menu-list">
 				<ul>
-					<li class="menu-item-has-children"><a href="#">Home</a>
-						<ul class="sub-menu">
-							<li><a href="${pageContext.request.contextPath }/myPage">- Default</a></li>
-							<li><a href="index-architecture.html">- Architecture</a></li>
-							<li><a href="index-full-slider.html">- Slider Full Width</a></li>
-						</ul></li>
+					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath }/myPage">MyPage</a></li>
 					<li><a href="about.html">About</a></li>
 					<li class="menu-item-has-children"><a href="#">Portfolio</a>
 						<ul class="sub-menu">
@@ -42,7 +37,19 @@
 							<li><a href="blog-timeline.html">Blog Timeline</a></li>
 							<li><a href="single-blog.html">Blog Single</a></li>
 						</ul></li>
-					<li><a href="contact.html">Contact</a></li>
+					
+					<c:if test="${sessionScope.login == null }">
+						<li><a href="${pageContext.request.contextPath }/loginView">로그인</a></li>
+					</c:if>
+					<c:if test="${sessionScope.login != null }">
+					<li class="menu-item-has-children"><a href="#">${sessionScope.login.userName }님</a>
+						<ul class="sub-menu">
+							<li><a href="${pageContext.request.contextPath }/myPage">마이페이지</a></li>
+							<li><a href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></li>
+						</ul>
+					</li>
+					</c:if>
+					
 				</ul>
 			</div>
 		</nav>

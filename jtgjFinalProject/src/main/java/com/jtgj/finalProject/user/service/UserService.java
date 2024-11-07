@@ -21,4 +21,27 @@ public class UserService {
 		
 		return result;
 	}
+	
+	// 로그인 구현
+	public UserDTO loginUser(UserDTO user) {
+		UserDTO result = dao.loginUser(user);
+		
+		return result;
+	}
+	
+	// 개인 회원가입 구현
+	public Integer registPersonalUser(UserDTO user) {
+		Integer result = dao.registPersonalUser(user);
+		
+		System.out.println(result);
+		
+		return result;
+	}
+	
+	// 아이디 중복체크
+	public boolean confirmId(String id) {
+		boolean result = dao.confirmId(id);
+	
+		return result;
+	}
 }

@@ -5,4 +5,53 @@
 		SELECT *
 		FROM users
 	</select>
+	
+	<!-- 로그인 실행 -->
+	<select id="loginUser" parameterType="com.jtgj.finalProject.user.dto.UserDTO" resultType="com.jtgj.finalProject.user.dto.UserDTO">
+		SELECT
+			user_id
+			, user_name
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+			, user_prof_img
+		FROM users
+		WHERE 1=1
+		  AND user_id = #{userId}
+	</select>
+	
+	<!-- 개인회원 가입 실행 -->
+	<select id="registPersonalUser" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+		INSERT INTO users(
+			user_id
+			, user_name
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+			, user_prof_img
+		) VALUES (
+			#{userId}
+			, #{userName}
+			, #{userPw}
+			, #{userEmail}
+			, SYSDATE
+			, #{userPhone}
+			, 'P'
+			, 'N'
+			, 'N'
+		)
+	</select>
+	
+	<!-- 아이디 중복체크 -->
+	<select id="confirmId" resultType="boolean">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_id = #{id}
+	</select>
 </mapper>
