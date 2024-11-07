@@ -37,4 +37,11 @@ public class UserService {
 		
 		return result;
 	}
+	
+	// 아이디 중복체크
+	public boolean confirmId(String id) {
+		boolean result = dao.confirmId(id);
+	
+		return result;
+	}
 }

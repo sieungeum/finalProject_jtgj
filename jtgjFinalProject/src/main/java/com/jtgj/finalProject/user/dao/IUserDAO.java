@@ -16,4 +16,7 @@ public interface IUserDAO {
 	
 	// 개인회원가입 구현
 	Integer registPersonalUser(UserDTO user);
+	
+	// 아이디 중복확인
+	boolean confirmId(String id);
 }

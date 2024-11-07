@@ -41,8 +41,6 @@
         	flex-direction: column;
         }
 
-
-
     </style>
 </head>
 
@@ -68,15 +66,8 @@
 	        <div class="mb-4" style="text-align:center;"><h4>저탄고집 기업회원 가입</h4></div>
 	
 	        <div class="mb-3">
-	            <label for="inputBusinessNum" class="form-label" style="font-weight:bolder;">사업자등록번호</label>
-	            <div class="input-group d-flex">
-	                <input type="text" class="form-control" id="inputBusinessNum" placeholder="등록번호를 입력하세요">
-	            </div>
-	        </div>
-	
-	        <div class="mb-3">
 	            <div class="input-group">
-	                <label for="inputFile" class="form-label" style="font-weight:bolder;">기업 인증</label>
+	                <label for="inputFile" class="form-label" style="font-weight:bolder;">기업 인증(사업자등록증명원을 첨부해주세요!)</label>
 	                <div class="input-group">
 	                    <input type="file" class="form-control" id="inputFile" aria-describedby="inputGroupFileAddon04">
 	                </div>
@@ -114,35 +105,10 @@
 	        </div>
 	
 	        <div class="mb-3">
-	            <label for="inputIndustry" class="form-label" style="font-weight:bolder;">업종</label>
-	            <div class="input-group">
-	                <input type="text" class="form-control" id="inputIndustry" placeholder="업종선택">
-	                <button class="btn btn-primary ms-2">선택</button>
-	            </div>
-	        </div>
-	
-	        <div class="mb-3">
 	            <label for="inputDate" class="form-label" style="font-weight:bolder;">개업일</label>
 	            <div class="input-group">
 	                <input type="date" class="form-control" id="inputDate">
 	            </div>
-	        </div>
-	
-	        <div class="mb-3">
-	            <label for="inputDate" class="form-label" style="font-weight:bolder;">기업구분</label>
-	            <br>
-	
-	            <div class="d-flex">
-	                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
-	                <label style="color:white;" class="btn btn-info me-2" for="option1">일반</label>
-	                
-	                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-	                <label style="color:white;" class="btn btn-info me-2" for="option2">헤드헌터</label>
-	                
-	                <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">
-	                <label style="color:white;" class="btn btn-info" for="option4">파견/도급/채용대행</label>
-	            </div>
-	
 	        </div>
 	
 	        <div class="mb-3">

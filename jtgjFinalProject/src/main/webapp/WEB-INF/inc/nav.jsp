@@ -42,7 +42,7 @@
 						<li><a href="${pageContext.request.contextPath }/loginView">로그인</a></li>
 					</c:if>
 					<c:if test="${sessionScope.login != null }">
-					<li class="menu-item-has-children"><a href="#">${sessionScope.login.userId }님</a>
+					<li class="menu-item-has-children"><a href="#">${sessionScope.login.userName }님</a>
 						<ul class="sub-menu">
 							<li><a href="${pageContext.request.contextPath }/myPage">마이페이지</a></li>
 							<li><a href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></li>
