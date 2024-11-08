@@ -86,6 +86,7 @@
 .sjm_mocdal-box{
 	display: none;
 	position: fixed;
+	overflow-x: hidden;
 	
 	top: 50%;
 	left: 50%;
