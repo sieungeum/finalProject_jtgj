@@ -26,7 +26,6 @@
             -moz-user-select:none;
             -ms-user-select:none;
             user-select:none;
-            margin: auto;
         }
 
         .custom-container{
@@ -252,7 +251,7 @@
 
 				<form action="${pageContext.request.contextPath }/loginDo" method="POST">
 					<div class="id-box">
-	                    <input class="form-control" type="text" placeholder="아이디" name='userId'>
+	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }">
 	                </div>
 	
 	                <div class="pw-box">
@@ -260,12 +259,7 @@
 	                </div>
 	
 	                <div class="check-box">
-	                    <input class="form-check-input me-1" type="checkbox" value="" id="maintain-login">
-	                    <label class="form-check-label me-3" for="maintain-login">
-	                        로그인 유지하기
-	                    </label>
-	
-	                    <input class="form-check-input me-1" type="checkbox" value="" id="remember-login">
+	                    <input class="form-check-input me-1" type="checkbox" id="remember-login" name="rememberId" ${cookie.rememberId.value == null ? "" : "checked" }>
 	                    <label class="form-check-label" for="remember-login">
 	                        아이디 기억하기
 	                    </label>
@@ -301,12 +295,7 @@
             signInBtnBox.children[0]['attributes'][0]['nodeValue'] = "/finalProject/personalRegistView"
             signInBtn.innerHTML = "개인회원가입";
             checkBox.innerHTML = [
-                '<input class="form-check-input me-1" type="checkbox" value="" id="maintain-login">' +
-                '<label class="form-check-label me-3" for="maintain-login">' +
-                '로그인 유지하기' +
-                '</label>' +
-
-                '<input class="form-check-input me-1" type="checkbox" value="" id="remember-login">' +
+                '<input class="form-check-input me-1" type="checkbox" id="remember-login" name="remeberId" ${cookie.rememberId.value == null ? "" : "checked"}>' +
                 '<label class="form-check-label" for="remember-login">' +
                 '아이디 기억하기' +
                 '</label>'
@@ -326,11 +315,8 @@
                 '</label>'
             ]
             individualMember.children[0]['style']['visibility'] = "hidden";
-        })
-            
-		// 로그인 구현
+        })       
 		
-        
     </script>
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
