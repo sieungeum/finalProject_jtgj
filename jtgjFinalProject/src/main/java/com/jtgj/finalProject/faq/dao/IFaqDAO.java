@@ -1,0 +1,13 @@
+package com.jtgj.finalProject.faq.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.jtgj.finalProject.faq.dto.FaqDTO;
+
+@Mapper
+public interface IFaqDAO {
+	List<FaqDTO> getFaqList();
+	int writeFaq(FaqDTO faq);
+}

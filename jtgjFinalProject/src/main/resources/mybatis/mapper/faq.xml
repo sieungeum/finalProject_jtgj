@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.faq.dao.IFaqDAO">
+	
+	<select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO">
+		SELECT
+			a.faq_no,
+			a.faq_title,
+			b.user_id,
+			a.faq_content,
+			TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
+		FROM 
+			faqs a
+			, users b
+		WHERE 1=1
+			AND a.user_id = b.user_id
+	</select>
+	
+	<insert id="writeFaq" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
+		INSERT INTO faqs(
+			user_id,
+			faq_no,
+			faq_title,
+			faq_content,
+			faq_date,
+			faq_del_yn,
+			faq_sic_yn
+		) VALUES (
+			#{userId},
+			(SELECT COUNT(*)+1 FROM faqs),
+			#{faqTitle},
+			#{faqContent},
+			SYSDATE,
+			'N',
+			'N'
+		)
+		
+	</insert>
+	
+</mapper>
