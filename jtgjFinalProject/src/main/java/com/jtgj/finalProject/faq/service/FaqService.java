@@ -24,4 +24,19 @@ public class FaqService {
 		return result;
 	}
 	
+	public FaqDTO getFaq(int faqNo) {
+		FaqDTO result = dao.getFaq(faqNo);
+		return result;
+	}
+	
+	public int editFaq(FaqDTO faq) {
+		int result = dao.editFaq(faq);
+		return result;
+	}
+	
+	public int deleteFaq(int faqNo) {
+		int result = dao.deleteFaq(faqNo);
+		return result;
+	}
+	
 }

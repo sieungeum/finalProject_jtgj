@@ -22,7 +22,7 @@
 	<div class="header">
 		<div class="container">
 			<div class="logo">
-				<a href="index.html"> <img src="img/logo.png" alt="Logo">
+				<a href="${pageContext.request.contextPath }/"> <img src="img/logo.png" alt="Logo">
 				</a>
 			</div>
 
@@ -47,8 +47,8 @@
 					<c:forEach items="${faqList }" var="faq">
 						<tr>
 							<td scope="row">${faq.faqNo }</td>
-							<td>${faq.faqTitle }</td>
-							<td>${faq.userId }</td>
+							<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+							<td>${faq.userName }</td>
 							<td>${faq.faqDate }</td>
 						</tr>
 					</c:forEach>
