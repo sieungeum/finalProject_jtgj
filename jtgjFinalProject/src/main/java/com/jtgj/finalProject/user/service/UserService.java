@@ -44,4 +44,17 @@ public class UserService {
 	
 		return result;
 	}
+	
+	// 닉네임 중복체크
+	public boolean confirmName(String name) {
+		boolean result = dao.confirmName(name);
+	
+		return result;
+	}
+	
+	// 프로필 이미지 이름 삽 입
+	public int editProfImg(UserDTO user) {
+		int result = dao.editProfImg(user);
+		return result;
+	}
 }
