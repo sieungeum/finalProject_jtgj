@@ -16,6 +16,7 @@
 		WHERE 1=1
 			AND a.user_id = b.user_id
 			AND a.faq_del_yn = 'N'
+		ORDER BY faq_no DESC
 	</select>
 	
 	<insert id="writeFaq" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
