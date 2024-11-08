@@ -16,6 +16,10 @@
             margin: 0;
             padding: 0;
         }
+        
+        a {
+		 	text-decoration-line: none;
+		}
 
         html,
         body {

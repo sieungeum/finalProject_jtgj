@@ -5,21 +5,31 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.logging.Logger;
 
+import javax.inject.Inject;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
@@ -34,6 +44,10 @@ public class UserController {
 	
 	@Autowired
 	FileUploadUtils fileUploadUtils;
+	
+	@Inject // 서비스를 호출하기 위해서 의존성 주입
+	JavaMailSender mailSender; // 메일 서비스를 사용하기 위해 의존성 주입
+	
 	
 	@RequestMapping("/home")
 	public String test() {
@@ -240,6 +254,70 @@ public class UserController {
 		result.put("result", profImgName);
 		
 		return result;
+	}
+	
+	
+	// mailSending 코드
+	// 인증번호를 보낸다!
+	@ResponseBody
+	@RequestMapping (value="/ConfirmEmail", method=RequestMethod.POST)
+	public ResponseEntity<Boolean> ConfirmEmail(HttpServletRequest request, String email, HttpServletResponse response_email) throws IOException{
+		boolean result = false;
+		
+		Random r = new Random();
+		int dice = r.nextInt(4589362) + 493111; // 이메일로 받는 인증코드 부분(난수)
+		
+		String setfrom = "jjjjkuul@gmail.com";
+		String tomail = request.getParameter("email"); // 받는 사람 이메일
+		String title = "저탄고집 웹사이트 회원가입 인증 이메일 입니다."; // 제목
+		String content =
+	            
+	            System.getProperty("line.separator") + // 한 줄씩 줄간격을 두기위해 작성
+	            
+	            System.getProperty("line.separator") + 
+	            
+	            "안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다."
+	            
+	            + System.getProperty("line.separator")
+	            
+	            + System.getProperty("line.separator") 
+	            
+	            + "인증번호는 " + dice + " 입니다!"; // 내용
+		
+		try {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동하지 않음
+			messageHelper.setTo(tomail); // 받는사람 이메일
+			messageHelper.setSubject(title); // 메일제목은 생략 가능!
+			messageHelper.setText(content); // 메일 내용
+			
+			mailSender.send(message);
+			System.out.println("메일 성공적으로 보내짐!");
+			
+			result = true;
+			
+		} catch(Exception e) {
+			System.out.println(e);
+			
+			result = false;
+		}
+		
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	
+	// 이메일로 받은 인증번호를 입력하고 확인버튼을 누르면 맵핑되는 메소드
+	// 인증번호가 일치하면 true 반환, 일치하지 않으면 false 반환
+	@ResponseBody
+	@RequestMapping (value="/ReConfirmEmail", method=RequestMethod.POST)
+	public ResponseEntity<Boolean> ReConfirmEmail(String number) throws IOException{
+		System.out.println("인증실행");
+		
+		boolean result = true;		
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
 }
