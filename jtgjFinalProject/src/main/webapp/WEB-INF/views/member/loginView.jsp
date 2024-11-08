@@ -51,16 +51,16 @@
 
         #carouselExampleFade{
         	width: 80%;
-        	height: 43%;
+        	height: 50%;
         	position: absolute;
-			top: 40%;
+			top: 45%;
 			left: 50%;
     		transform: translate(-50%, -50%);
         }
         
         .sign-in-btn-box{
             width: 100%;
-            margin-bottom: 27%;
+            margin-bottom: 17%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -250,6 +250,7 @@
                 </div>
 
 				<form action="${pageContext.request.contextPath }/loginDo" method="POST">
+			       	<input type="hidden" value="${fromUrl }" name="fromUrl">
 					<div class="id-box">
 	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }">
 	                </div>
