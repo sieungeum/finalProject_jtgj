@@ -73,7 +73,7 @@
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" href="index.html">저탄고집</a>
+		<a class="navbar-brand ps-3" href="home">저탄고집</a>
 		<!-- Sidebar Toggle-->
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
@@ -88,8 +88,8 @@
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
-						<a class="nav-link" href=""> 견적 </a> 
-						<a class="nav-link" href=""> 건의사항 </a> 
+						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
+						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
 						<a class="nav-link" href=""> 수정 </a> 
 						<a class="nav-link" href=""> 홍보 </a>
 					</div>
@@ -178,56 +178,7 @@
 										<td>티치</td>
 										<td>인도네시아</td>
 									</tr>
-									<tr>
-										<td>2</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">에이스!</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">내
-												몸이...</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">달아오르고있잖아!</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">드디어...</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">나타났군요</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">조이는</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">보이가!</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
+									
 								</tbody>
 							</table>
 						</div>
@@ -261,56 +212,7 @@
 										<td>티치</td>
 										<td>인도네시아</td>
 									</tr>
-									<tr>
-										<td>2</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">에이스!</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">내
-												몸이...</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">달아오르고있잖아!</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>1</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">드디어...</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">나타났군요</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">조이는</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
-									<tr>
-										<td>4</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">보이가!</a></td>
-										<td>레일리</td>
-										<td>인도네시아</td>
-									</tr>
+									
 								</tbody>
 							</table>
 						</div>
