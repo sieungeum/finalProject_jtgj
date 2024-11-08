@@ -7,6 +7,7 @@
 			a.faq_no,
 			a.faq_title,
 			b.user_id,
+			b.user_name,
 			a.faq_content,
 			TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
 		FROM 
@@ -14,11 +15,13 @@
 			, users b
 		WHERE 1=1
 			AND a.user_id = b.user_id
+			AND a.faq_del_yn = 'N'
 	</select>
 	
 	<insert id="writeFaq" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
 		INSERT INTO faqs(
 			user_id,
+			user_name,
 			faq_no,
 			faq_title,
 			faq_content,
@@ -27,6 +30,7 @@
 			faq_sic_yn
 		) VALUES (
 			#{userId},
+			#{userName},
 			(SELECT COUNT(*)+1 FROM faqs),
 			#{faqTitle},
 			#{faqContent},
@@ -36,5 +40,41 @@
 		)
 		
 	</insert>
+	
+	<select id="getFaq" resultType="com.jtgj.finalProject.faq.dto.FaqDTO" parameterType="int">
+		SELECT
+			a.faq_no,
+			a.faq_title,
+			b.user_id,
+			b.user_name,
+			a.faq_content,
+			TO_CHAR(a.faq_date, 'yyyy.MM.dd hh24:mm') AS faq_date
+		FROM 
+			faqs a,
+			users b
+		WHERE 1=1
+			AND a.user_id = b.user_id
+			AND a.faq_no = #{faqNo}
+			AND a.faq_del_yn = 'N'
+	</select>
+	
+	<update id="editFaq" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
+		UPDATE
+			faqs
+		SET
+			faq_title = #{faqTitle},
+			faq_content = #{faqContent}
+		WHERE 1=1
+			AND faq_no = #{faqNo}
+	</update>
+	
+	<update id="deleteFaq">
+		UPDATE
+			faqs
+		SET
+			faq_del_yn = 'Y'
+		WHERE 1=1
+			AND faq_no = #{faqNo}
+	</update>
 	
 </mapper>

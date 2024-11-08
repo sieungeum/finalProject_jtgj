@@ -3,6 +3,7 @@ package com.jtgj.finalProject.faq.dto;
 public class FaqDTO {
 	
 	private String userId;
+	private String userName;
 	private int faqNo;
 	private String faqTitle;
 	private String faqContent;
@@ -14,10 +15,11 @@ public class FaqDTO {
 		super();
 	}
 
-	public FaqDTO(String userId, int faqNo, String faqTitle, String faqContent, String faqDate, String faqDelYn,
-			String faqSicYn) {
+	public FaqDTO(String userId, String userName, int faqNo, String faqTitle, String faqContent, String faqDate,
+			String faqDelYn, String faqSicYn) {
 		super();
 		this.userId = userId;
+		this.userName = userName;
 		this.faqNo = faqNo;
 		this.faqTitle = faqTitle;
 		this.faqContent = faqContent;
@@ -32,6 +34,14 @@ public class FaqDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public int getFaqNo() {
@@ -84,8 +94,9 @@ public class FaqDTO {
 
 	@Override
 	public String toString() {
-		return "FaqDTO [userId=" + userId + ", faqNo=" + faqNo + ", faqTitle=" + faqTitle + ", faqContent=" + faqContent
-				+ ", faqDate=" + faqDate + ", faqDelYn=" + faqDelYn + ", faqSicYn=" + faqSicYn + "]";
+		return "FaqDTO [userId=" + userId + ", userName=" + userName + ", faqNo=" + faqNo + ", faqTitle=" + faqTitle
+				+ ", faqContent=" + faqContent + ", faqDate=" + faqDate + ", faqDelYn=" + faqDelYn + ", faqSicYn="
+				+ faqSicYn + "]";
 	}
 	
 }

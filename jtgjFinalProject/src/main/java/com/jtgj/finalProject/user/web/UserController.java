@@ -2,7 +2,9 @@ package com.jtgj.finalProject.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +15,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.jtgj.finalProject.attach.dto.AttachDTO;
+import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.user.dto.UserDTO;
 import com.jtgj.finalProject.user.service.UserService;
 
@@ -25,6 +31,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	FileUploadUtils fileUploadUtils;
 	
 	@RequestMapping("/home")
 	public String test() {
@@ -39,17 +48,23 @@ public class UserController {
 	
 	// 로그인 화면 실행
 	@RequestMapping("/loginView")
-	public String loginView() {
+	public String loginView(HttpServletRequest request, Model model) {
 		System.out.println(" - Login Page - ");
+		
+		String fromUrl = request.getHeader("Referer");
+		System.out.println(fromUrl + "에서 /loginView 요청");
+		model.addAttribute("fromUrl", fromUrl);
 		
 		return "member/loginView";
 	}
 	
 	// 로그인 실행
 	@PostMapping("/loginDo")
-	public String loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response, HttpServletRequest request) throws IOException {
+	public String loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response, 
+			HttpServletRequest request, String fromUrl) throws IOException {
 		UserDTO login = userService.loginUser(user);
-
+		
+		System.out.println(fromUrl);
 		System.out.println(user);
 		System.out.println(login);
 		
@@ -84,7 +99,11 @@ public class UserController {
 			}
 			
 			PrintWriter out = response.getWriter();
-	        out.println("<script>alert('환영합니다!'); location.href='" + request.getContextPath() + "/';</script>");
+			if(fromUrl.contains("Do")) {
+				out.println("<script>alert('환영합니다!'); location.href='" + request.getContextPath() + "/';</script>");
+		        out.close();
+			}
+			out.println("<script>alert('환영합니다!'); location.href='" + fromUrl + "';</script>");
 	        out.close();
 			
 			return null;
@@ -110,7 +129,7 @@ public class UserController {
 	
 	// 개인회원 가입 실행
 	@PostMapping("/personalRegistDo")
-	public String personalregistDo(UserDTO user, HttpServletResponse response, HttpServletRequest request) throws IOException {
+	public void personalregistDo(UserDTO user, HttpServletResponse response, HttpServletRequest request) throws IOException {
 	    response.setCharacterEncoding("utf-8");
 	    response.setContentType("text/html; charset=utf-8");
 		
@@ -124,16 +143,19 @@ public class UserController {
 			out.println("<script>alert('아이디가 중복됐습니다! 다른 아이디를 입력해주세요!');");
 			out.println("history.go(-1);</script>");
 			out.close();
-			
-			return null;
+		} else if(userService.confirmName(user.getUserName())) { // 닉네임이 중복됐을 시 alert로 경고
+			PrintWriter out = response.getWriter();
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("text/html; charset=utf-8");
+			out.println("<script>alert('닉네임이 중복됐습니다! 다른 닉네임을 입력해주세요!');");
+			out.println("history.go(-1);</script>");
+			out.close();
 		} else {
 			userService.registPersonalUser(user);
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('환영합니다!'); location.href='" + request.getContextPath() + "/loginView';</script>");
 	        out.close();
-			
-			return null;
 		}	
 	}
 	
@@ -148,7 +170,7 @@ public class UserController {
 	// 아이디 중복 여부 체크
 	@PostMapping("/ConfirmId")
 	@ResponseBody
-	public ResponseEntity<Boolean> confirmId(String id){
+	public ResponseEntity<Boolean> ConfirmId(String id){
 		boolean result = true;
 		
 		System.out.println(id);
@@ -164,6 +186,60 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	// 닉네임 중복 여부 체크
+	@PostMapping("/ConfirmName")
+	@ResponseBody
+	public ResponseEntity<Boolean> ConfirmName(String name){
+		boolean result = true;
+		System.out.println(name);
+		
+		if(name.trim().isEmpty()) {
+			result = false;
+		} else {
+			if(userService.confirmName(name)) {
+				result = false;
+			} else {
+				result = true;
+			}
+		}
+	
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	
+	// 프로필 이미지 업로드
+	@ResponseBody
+	@PostMapping(value="/uploadProfile", produces="application/json; charset=utf-8")
+	public Map<String, Object> uploadProfile(Model model, HttpSession session, MultipartFile file){
+		// 첨부된 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴
+		Map<String, Object> result = new HashMap<>();
+		
+		String profImgName = null;
+		
+		if(file != null) {
+			try {
+				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file);
+				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("이미지 파일 저장 실패");
+			}
+		}
+		
+		// 현재 로그인 중인 사용자의 정보 가져오기
+		UserDTO login = (UserDTO)session.getAttribute("login");
+		
+		// 방금 로컬에 저장된 프로필 이미지의 파일명을 login 객체 내부에 저장
+		login.setUserProfImg(profImgName);
+		
+		// DB에 회원정보 수정을 통해 프로필 이미지명 반영!
+		userService.editProfImg(login);
+		
+		result.put("result", profImgName);
+		
+		return result;
 	}
 	
 }

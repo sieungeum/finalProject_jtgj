@@ -10,4 +10,7 @@ import com.jtgj.finalProject.faq.dto.FaqDTO;
 public interface IFaqDAO {
 	List<FaqDTO> getFaqList();
 	int writeFaq(FaqDTO faq);
+	FaqDTO getFaq(int faqNo);
+	int editFaq(FaqDTO faq);
+	int deleteFaq(int faqNo);
 }

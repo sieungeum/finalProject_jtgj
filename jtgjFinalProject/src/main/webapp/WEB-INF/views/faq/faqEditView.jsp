@@ -45,14 +45,17 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                	<form action="${pageContext.request.contextPath }/faqWriteDo" method="POST">
+                	<form action="${pageContext.request.contextPath }/faqEditDo" method="POST">
+                		<!-- 사용자에게는 보이지 않고 submit 시 전송됨 -->
+                		<input type="hidden" name="faqNo" value="${faq.faqNo }">
+                		
 	             		<div class="mb-3">
 	             			<label for="inputTitle">제목</label>
-	                    	<input class="form-control" type="text" name="faqTitle" placeholder="제목을 입력해주세요" />
+	                    	<input class="form-control" type="text" name="faqTitle" value="${faq.faqTitle }" />
 	                    </div>
 	                    
 	                    <div class="mb-3">
-	                         <textarea class="form-control" rows="10" name="faqContent"></textarea>
+	                         <textarea class="form-control" rows="10" name="faqContent" >${faq.faqContent }</textarea>
 	                    </div>               
 	                    
 	                    <div class ="d-flex justify-content-end">

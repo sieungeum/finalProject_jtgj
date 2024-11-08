@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
@@ -48,6 +49,8 @@ public class FaqController {
 	    if (login != null) {
 	        String userId = login.getUserId();
 	        faq.setUserId(userId);  // FaqDTO에 userId를 설정
+	        String userName = login.getUserName();
+	        faq.setUserName(userName);
 	    } else {
 	        return "redirect:/loginView";  // 로그인 정보가 없으면 로그인 페이지로 리다이렉트
 	    }
@@ -56,6 +59,35 @@ public class FaqController {
 		
 		return "redirect:/faqView";
 		
+	}
+	
+	@RequestMapping("/faqDetailView")
+	public String faqDeatailView(int faqNo, Model model) {
+		System.out.println("클릭한 게시글의 번호: "  +  faqNo + "번");
+		
+		FaqDTO faq = faqService.getFaq(faqNo);
+		model.addAttribute("faq", faq);
+		return "faq/faqDetailView";
+	}
+	
+	@RequestMapping(value = "/faqEditView", method=RequestMethod.POST)
+	public String faqEditView(int faqNo, Model model) {
+		FaqDTO faq = faqService.getFaq(faqNo);
+		model.addAttribute("faq", faq);
+		return "faq/faqEditView";
+	}
+	
+	@PostMapping("faqEditDo")
+	public String faqEditDo(FaqDTO faq) {
+		faqService.editFaq(faq);
+		return "redirect:/faqView";
+	}
+	
+	@PostMapping("faqDeleteDo")
+	public String faqDeleteDo(int faqNo) {
+		faqService.deleteFaq(faqNo);
+		
+		return "redirect:/faqView";
 	}
 	
 }

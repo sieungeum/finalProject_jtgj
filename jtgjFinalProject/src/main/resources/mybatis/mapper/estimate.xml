@@ -18,6 +18,23 @@
 		WHERE 1=1
 			AND mater_classify = 'N'
 	</select>
-		
+	
+	<!-- 선택한 카테고리에 대한 데이터 가져오기 -->
+	<select id="categoryMater" parameterType="String" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+		SELECT
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify
+		FROM building_materials
+		WHERE 1=1
+			AND mater_category = #{materCategory}
+			AND mater_classify = 'N'
+	</select>
 
 </mapper>

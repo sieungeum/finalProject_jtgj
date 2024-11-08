@@ -16,7 +16,7 @@ import com.jtgj.finalProject.attach.dto.AttachDTO;
 @Component
 public class FileUploadUtils {
 	
-	@Value("#[util['file.upload.path']}")
+	@Value("#{util['file.upload.path']}")
 	private String uploadPath;
 	
 	// MultipartFile 이 배열에 담겨서 오는 경우
@@ -35,7 +35,7 @@ public class FileUploadUtils {
 	}
 
 	// 첨부된 파일을 서버 PC 로컬에 저장하기 위한 FileUploadUtils 객체 생성 및 메소드 작성
-	private AttachDTO getAttachByMultipart(MultipartFile boFile) throws IOException {
+	public AttachDTO getAttachByMultipart(MultipartFile boFile) throws IOException {
 		// uploadPath 에 저장될 파일명 생성 (유니크 아이디)
 		String fileName = UUID.randomUUID().toString();
 		

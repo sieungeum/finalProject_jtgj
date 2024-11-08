@@ -19,4 +19,10 @@ public interface IUserDAO {
 	
 	// 아이디 중복확인
 	boolean confirmId(String id);
+	
+	// 닉네임 중복확인
+	boolean confirmName(String name);
+	
+	// user_prof_img에 값 넣기
+	int editProfImg(UserDTO user);
 }
