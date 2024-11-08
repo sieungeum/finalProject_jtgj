@@ -54,4 +54,20 @@
 		FROM users
 		WHERE user_id = #{id}
 	</select>
+	
+	<!-- 닉네임 중복체크 -->
+	<select id="confirmName" resultType="boolean">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_name = #{name}
+	</select>
+	
+	<update id="editProfImg" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+		UPDATE
+			users
+		SET
+			user_prof_img = #{userProfImg}
+		WHERE
+			user_id = #{userId}
+	</update>
 </mapper>

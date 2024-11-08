@@ -63,7 +63,7 @@
 			<div class="card-wrapper">
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
-						<div class="mater-name">외장재</div>
+						<div class="mater-category">외장재</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -76,6 +76,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">지붕재</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -91,6 +92,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">창호재</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -106,6 +108,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">주방</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -121,6 +124,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">욕실</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -136,6 +140,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">거실</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -151,6 +156,7 @@
 				</div>
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
+						<div class="mater-category">방</div>
 						<img src="${pageContext.request.contextPath}/img/test/아이젠소스케.png">
 					</div>
 					<div class="card-box__bottom">
@@ -175,7 +181,7 @@
 			<img src="${pageContext.request.contextPath}/img/test/아이젠소스케2.png">
 		</div>
 		<div class="modal-box__bottom">
-			<div class="modal-botton__material">탄소 덩어리 자제</div>
+			<div class="modal-botton__material"></div>
 			<div class="modal-botton__rating">
 				<div>
 					<div>
@@ -189,23 +195,19 @@
 					</div>
 				</div>
 				<div>
-					<div>
-						****
+					<div class="modal-botton__carbon">
+						<!-- db값 -->
 					</div>
-					<div>
-						****
+					<div class="modal-botton__price">
+						<!-- db값 -->
 					</div>
-					<div>
-						****
+					<div class="modal-botton__durability">
+						<!-- db값 -->
 					</div>
 				</div>
 			</div>
 			<div class="modal-botton__explain">
-				탄소량을, 탄소량을 높이지 마라.
-				<br> 
-				왜 이 자제가 골라지지 않았다고 생각하는거지?
-				<br>
-				다른 자제를 쓰지마. 탄소 배출량이 올라가 버린다구.
+				<!-- db값 -->
 			</div>
 			<div>
 				<button class="btn btn-primary btn-select">선택</button>
@@ -233,14 +235,21 @@
 		crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
+	
+	
 		// card
 		let v_materials = document.querySelector(".materials");
+		let v_materCategory = document.querySelector(".mater-category");
 	
 		// modal
 		let v_modalBox = document.querySelector(".sjm_mocdal-box");
+
 		let v_modalMterial = document.querySelector(".modal-botton__material");
+		let v_modalCarbon = document.querySelector(".modal-botton__carbon");
+		let v_modalPrice = document.querySelector(".modal-botton__price");
+		let v_modalDurability = document.querySelector(".modal-botton__durability");
+		let v_modalExplain = document.querySelector(".modal-botton__explain");
 		
-	
 		// modal btn
 		let v_btnModal = document.querySelector(".btn-modal");
 		let v_btnSelect = document.querySelector(".btn-select");
@@ -248,6 +257,9 @@
 		
 		// 클릭 시 모달 생성
 		v_btnModal.addEventListener("click", ()=>{
+			let v_category = "materCategory=" + v_materCategory.innerHTML;
+			sendCategory(v_category);
+			console.log("굳");
 			v_modalBox.style.display = "block";
 		})
 		
@@ -263,6 +275,43 @@
 		v_btnCancel.addEventListener("click", ()=>{
 			v_modalBox.style.display = "none";
 		})
+		
+		
+		
+		
+		// 바닐라 ajax
+		function sendCategory(v_category) {
+			// 1. v_ajax 선언
+			const v_ajax = new XMLHttpRequest();
+			
+			// 2. Http 요청 준비
+			v_ajax.open('POST', '${pageContext.request.contextPath}/getMaterials', false);
+			
+			// 3. 요청 헤더 설정
+			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			// v_ajax.responseType = "json"; // 응답을 JSON 객체로 설정
+			
+			// 응답 처리
+			v_ajax.onload = () => {
+				// 통신 성공 시
+				if (v_ajax.status == 200){
+					let v_data = v_ajax.response;
+					// JSON 문자열을 자바스크립트 배열로 변환
+					v_data = JSON.parse(v_data);
+					console.log(v_data);
+					
+					v_modalMterial.innerHTML = v_data[0]['materName']
+					v_modalCarbon.innerHTML = v_data[0]['materGasKg']
+					v_modalPrice.innerHTML = v_data[0]['materPrice']
+					v_modalDurability.innerHTML = v_data[0]['materDurability']
+					v_modalExplain.innerHTML = v_data[0]['materInfo']
+					
+				}
+			}
+			
+			v_ajax.send(v_category);
+		}
+		
 	</script>
 </body>
 </html>
