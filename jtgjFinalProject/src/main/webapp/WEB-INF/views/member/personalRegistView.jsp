@@ -11,6 +11,10 @@
     <%@ include file="/WEB-INF/inc/header.jsp" %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
+        a {
+		 	text-decoration-line: none;
+		}    
+    
         html,
         body {
             background-color: #FFFFFF;
@@ -105,8 +109,14 @@
 	
 	        <div class="mb-3">
 	            <label for="inputEmail" class="form-label" style="font-weight:bolder;">이메일</label>
-	            <div class="input-group">
-	                <input type="email" class="form-control" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
+	            <div class="input-group mb-2">
+	                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
+	                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
+	            </div>
+	            <div class="input-group" style="display:none;" id="auth-box">
+	            	<input type="text" class="form-control me-2" id="inputAuthEmail" placeholder="인증번호를 입력하세요">
+	            	<div class="me-2"><button class="btn btn-warning h-100" type="button" id="checkAuthEmail">인증확인</button></div>
+	            	<button class="btn btn-warning" type="button" id="reCheckAuthEmail">재인증</button>
 	            </div>
 	        </div>
 	        
@@ -128,6 +138,58 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
+		// 이메일 인증
+		let v_emailAuthBtn = document.getElementById('emailAuthBtn');
+		
+		v_emailAuthBtn.addEventListener('click', () => {
+			if(confirm('인증번호를 보내시겠습니까?')){
+				let email = document.getElementById('inputEmail').value;
+
+  				$.ajax({
+					url : '${pageContext.request.contextPath}/ConfirmEmail',
+					data : {
+						email : email
+					},
+					type : 'POST',
+					dataType : 'json',
+					success : function(result){
+						if(result == true){
+							alert("이메일이 성공적으로 전송됐습니다!");
+							
+							document.getElementById('auth-box').style.display = "";
+							v_emailAuthBtn.disabled = "false";
+							
+							// 인증번호 확인 함수?
+						}
+					}
+				});  
+			}
+		});
+		
+		
+		// 이메일 인증번호 확인
+		let v_checkAuthEmail = document.getElementById('checkAuthEmail');
+		v_checkAuthEmail.addEventListener('click', () => {
+			let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/ReConfirmEmail',
+				data : {
+					number : v_inputAuthEmail
+				},
+				type : 'POST',
+				dataType : 'json',
+				success : function(result){
+					if(result == true){
+						alert('인증번호가 일치합니다!');
+					} else{
+						alert('인증번호가 틀립니다!');
+					}
+				}
+			});
+		});
+		
+	
 		
 		$(document).ready(function() {
 			let idOn = false; // 아이디 중복 체크 여부
