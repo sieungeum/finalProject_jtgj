@@ -2,21 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jtgj.finalProject.faq.dao.IFaqDAO">
 	
-	<select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO">
-		SELECT
-			a.faq_no,
-			a.faq_title,
-			b.user_id,
-			b.user_name,
-			a.faq_content,
-			TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
+	<select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO">
+		SELECT * FROM (
+			SELECT 
+				a.*
+				, ROWNUM AS RNUM
+			FROM(
+				SELECT
+					a.faq_no,
+					a.faq_title,
+					b.user_id,
+					b.user_name,
+					a.faq_content,
+					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
+				FROM 
+					faqs a
+					, users b
+				WHERE 1=1
+					AND a.user_id = b.user_id
+					AND a.faq_del_yn = 'N'
+				<if test="searchWord != null">
+					<choose>
+						<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
+						<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
+						<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
+					</choose>
+				</if>
+				ORDER BY faq_no DESC
+			)a
+		)
+		WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
+	</select>
+	
+	<select id="getFaqCount" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO" resultType="int">
+		SELECT 
+			COUNT(*)
 		FROM 
-			faqs a
-			, users b
+			faqs a, users b
 		WHERE 1=1
 			AND a.user_id = b.user_id
 			AND a.faq_del_yn = 'N'
-		ORDER BY faq_no DESC
+		<if test="searchWord != null">
+			<choose>
+				<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
+				<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
+				<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
+			</choose>
+		</if>
 	</select>
 	
 	<insert id="writeFaq" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
@@ -76,6 +108,63 @@
 			faq_del_yn = 'Y'
 		WHERE 1=1
 			AND faq_no = #{faqNo}
+	</update>
+	
+	<!-- 여기서 부터틑 댓글 관련 -->
+	
+	<select id="getCommentList" parameterType="int" resultType="com.jtgj.finalProject.faq.dto.CommentDTO">
+		SELECT 
+			a.com_no,
+			a.faq_no,
+			a.user_id,
+			b.user_name,
+			a.com_content,
+			TO_CHAR(a.com_date, 'MM/dd' ) AS com_date,
+		FROM comments a, users b
+		WHERE 1=1
+			AND a.user_id = b_user_id
+			AND a.faq_no = #{faqNo}
+			AND a.com_del_yn = 'N'
+		ORDER BY com_no DESC
+	</select>
+	
+	<select id="getComment" parameterType="String" resultType="com.jtgj.finalProject.faq.dto.CommentDTO">
+		SELECT 
+			a.com_no,
+			a.faq_no,
+			a.user_id,
+			b.user_name,
+			a.com_content,
+			TO_CHAR(a.com_date, 'MM/dd' ) AS com_date,
+		FROM comments a, users b
+		WHERE 1=1
+			AND a.user_id = b_user_id
+			AND a.faq_no = #{faqNo}
+	</select>
+	
+	<insert id="writeComment" parameterType="com.jtgj.finalProject.faq.dto.CommentDTO">
+		INSERT INTO comments(
+			com_no,
+			faq_no,
+			user_id,
+			com_content,
+			com_date,
+			com_del_yn
+		) VALUES (
+			#{comNo},
+			#{faqNo},
+			#{userId},
+			#{comContent},
+			SYSDATE,
+			'N'
+		)
+	</insert>
+	
+	<update id="delComment" parameterType="String">
+		UPDATE comments
+			SET com_del_yn = 'Y'
+		WHERE 1=1 
+			commnet_no = #{comNo}
 	</update>
 	
 </mapper>

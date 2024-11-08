@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.jtgj.finalProject.common.dto.SearchDTO;
+import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
@@ -22,11 +24,19 @@ public class FaqController {
 	FaqService faqService;
 	
 	@RequestMapping("/faqView")
-	public String FaqView(Model model) {
+	public String FaqView(Model model, PageSearchVO pageSearch) {
 		
-		List<FaqDTO> faqList = faqService.getFaqList();
+		System.out.println(pageSearch);
+		
+		int totalRowCount = faqService.getFaqCount(pageSearch);
+		
+		pageSearch.setTotalRowCount(totalRowCount);
+		pageSearch.pageSetting();
+		
+		List<FaqDTO> faqList = faqService.getFaqList(pageSearch);
 		
 		model.addAttribute("faqList", faqList);
+		model.addAttribute("pageSearch", pageSearch);
 		
 		return "faq/faqView";
 	}

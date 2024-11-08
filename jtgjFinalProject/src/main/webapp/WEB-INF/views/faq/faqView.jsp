@@ -13,6 +13,7 @@
 		content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
 	
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
@@ -55,13 +56,82 @@
 				</tbody>
 			</table>
 		</div>
+		<div>
+			<a href="${pageContext.request.contextPath }/faqWriteView">
+				<button class="button">글쓰기</button>
+			</a>
+		</div>
+		
+		<!-- Paging Bar -->
+		<div class="d-flex justify-content-center">
+			<nav aria-label="Page navigation example">
+				<ul class="pagination">
+
+					<!-- 이전 페이지 -->
+					<li class="page-item ${pageSearch.firstPage == 1 ? 'disabled' : '' }">
+						<c:if test="${searchWord == null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.firstPage - 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+						</c:if> <c:if test="${searchWord != null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.firstPage - 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+						</c:if>
+					</li>
+
+					<!-- 중간 페이지 번호 부분 -->
+					<!-- model에 keySearch 이름으로 searchVO를 담음 -->
+					<!-- searchVO 내 pageNo, firstPage, lastPage 채워져있음 -->
+					<c:forEach begin="${pageSearch.firstPage }"
+						end="${pageSearch.lastPage }" var="num">
+						<li class="page-item ${pageSearch.pageNo == num ? 'active' : ''}">
+							<c:if test="${pageSearch.searchWord == null }">
+								<a class="page-link" href="${pageContext.request.contextPath }/faqView?pageNo=${num }&rowSizePerPage=${pageSearch.rowSizePerPage}">${num }</a>
+							</c:if> <c:if test="${pageSearch.searchWord != null }">
+								<a class="page-link" href="${pageContext.request.contextPath }/faqView?pageNo=${num }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}">${num }</a>
+							</c:if>
+						</li>
+					</c:forEach>
+
+					<!-- 다음 페이지 -->
+					<!-- 마지막 페이지 도달 시 disabled 추가 -->
+					<li class="page-item ${pageSearch.lastPage == pageSearch.totalPageCount ? 'disabled' : '' }">
+						<c:if test="${pageSearch.searchWord == null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.lastPage + 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+						</c:if> 
+						<c:if test="${pageSearch.searchWord != null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.lastPage + 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+						</c:if>
+					</li>
+				</ul>
+			</nav>
+		</div>
+		
+		<div class="d-flex justify-content-center">
+			<form class="d-flex" action="<c:url value="/faqView"/>" method="GET">
+				<select class="form-select me-1" name="searchOption">
+					<option value="title" selected>제목</option>
+					<option value="content">내용</option>
+					<option value="name">작성자</option>
+				</select>
+				<input class="form-control me-1" type="text" name="searchWord">
+				<button class="btn btn-primary" type="submit">
+					<i class="fa-solid fa-magnifying-glass fa-2xl" style="color: #63E6BE;"></i>
+				</button>
+			</form>
+		</div>
+		
 	</section>
 	
-	<div>
-		<a href="${pageContext.request.contextPath }/faqWriteView">
-			<button class="button">글쓰기</button>
-		</a>
-	</div>
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
