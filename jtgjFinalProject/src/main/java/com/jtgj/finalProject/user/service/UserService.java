@@ -52,6 +52,13 @@ public class UserService {
 		return result;
 	}
 	
+	// 이메일 중복체크
+	public boolean confirmEmail(String email) {
+		boolean result = dao.confirmEmail(email);
+		
+		return result;
+	}
+	
 	// 프로필 이미지 이름 삽 입
 	public int editProfImg(UserDTO user) {
 		int result = dao.editProfImg(user);

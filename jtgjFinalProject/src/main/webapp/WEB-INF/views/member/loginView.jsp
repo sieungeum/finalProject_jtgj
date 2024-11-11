@@ -277,9 +277,7 @@
                 
 
                 <div class="find-member">
-                    <div style="margin-right: 10px;"><a style="text-decoration:none;color:black;" href="#">아이디 찾기</a></div>
-                    <div style="margin-right: 10px;">|</div>
-                    <div><a style="text-decoration:none;color:black;" href="#">비밀번호 찾기</a></div>
+                    <div style="margin-right: 10px;"><a style="text-decoration:none;color:black;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a></div>
                 </div>
             </div>
         </div>
