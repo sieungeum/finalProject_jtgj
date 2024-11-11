@@ -23,6 +23,9 @@ public interface IUserDAO {
 	// 닉네임 중복확인
 	boolean confirmName(String name);
 	
+	// 이메일 중복확인
+	boolean confirmEmail(String email);
+	
 	// user_prof_img에 값 넣기
 	int editProfImg(UserDTO user);
 }

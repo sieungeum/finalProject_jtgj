@@ -62,6 +62,13 @@
 		WHERE user_name = #{name}
 	</select>
 	
+	<!-- 이메일 중복체크 -->
+	<select id="confirmEmail" resultType="boolean">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_email = #{email}
+	</select>
+	
 	<update id="editProfImg" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
 		UPDATE
 			users

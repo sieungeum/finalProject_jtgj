@@ -167,6 +167,37 @@
 		</div>
 	</div>
 
+	<!-- 총 예산 및 총 탄소배출량 -->
+	<div class="container">
+		<div class="main-title">
+			
+			<div class="calculate-box">
+				<div class="calculate-carbon">
+					<div>탄소배출량</div>
+					<div>
+						<div id="calCarbon" >
+							<span>0</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="calculate-cost">
+					<div>자제비</div>
+					<div>
+						<div id="calPrice" >
+							<span>0</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="burget-btn-box">
+				<div class="btn btn-primary">다음</div>
+			</div>
+
+		</div>
+	</div>
+	
 	<!-- Modal -->
 	<div class="sjm_mocdal-box">
 		<!--   	이건 일단 삭제 ㄴㄴ
@@ -272,9 +303,14 @@
 					// JSON 문자열을 자바스크립트 배열로 변환
 					v_data = JSON.parse(v_data);
 					
+					// 이미 선택된 것은 모달창에 추가 X
+					let v_calCarbon = document.querySelector("#calCarbon");
+					let v_calPrice = document.querySelector("#calPrice");
+					
 					/* 모달창 생성 */
 					v_addModal.innerHTML = "" // 카테고리 변경할 때마다 모달 초기화
 					for (let i = 0; i < v_data.length; i++){
+						
 						let v_query = ""
 							v_query += '<div class="modal-box__top">'
 							v_query += '	<img src="' + v_data[i]['materImg'] + '">'
@@ -309,6 +345,25 @@
 							v_query += '</div>'
 							
 						v_addModal.innerHTML += v_query;
+
+						// 이미 선택된 것은 모달창에 추가 X
+						if (v_calCarbon.children){
+							for (let j = 0; j < v_calCarbon.children.length; j++){
+								
+								if (v_calCarbon.children[j].id == v_data[i]['materName'] + "Carbon"){
+									
+									console.log(v_calCarbon.children[j].id)
+									
+									let v_modalBoxTop = document.querySelectorAll(".modal-box__top")[i];
+									let v_modalBoxBottom = document.querySelectorAll(".modal-box__bottom")[i];
+									
+									v_modalBoxTop.style.display = "none";
+									v_modalBoxBottom.style.display = "none";
+									break;
+								}
+							}
+						}
+						
 					}
 					
 					/* 모달 별 자제 등록 버튼 및 닫기 버튼(닫기 버튼은 다른 걸로 수정 예정) */
@@ -318,8 +373,46 @@
 					for (let i = 0; i < v_data.length; i++){
 						// 클릭 시 선택한 자제 등록
 						v_btnSelect[i].addEventListener("click", ()=>{
-							v_materials[cate_idx].innerHTML += '<div>' + v_data[i]['materName'] + ' <input type="number">kg' + '</div>';
+							
+							// 새로운 자재 요소를 생성
+							let v_newMaterialDiv = document.createElement("div");
+							v_newMaterialDiv.innerHTML = v_data[i]['materName'] + ' <input type="number" oninput="f_inputValue()" value="0">kg';
+							v_newMaterialDiv.innerHTML += '<img width="18px" height="18px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
+							
+							// 숨겨진 input 요소 생성
+							let v_price = document.createElement("input");
+							v_price.type = "hidden";
+							v_price.value = v_data[i]['materPrice'];
+							
+							let v_carbon = document.createElement("input");
+							v_carbon.type = "hidden";
+							v_carbon.value = v_data[i]['materGasKg'];
+							
+							// 새로 생성ㅎ나 요소들을 추가
+							v_materials[cate_idx].appendChild(v_newMaterialDiv);
+							v_materials[cate_idx].appendChild(v_price);
+							v_materials[cate_idx].appendChild(v_carbon);
+							
 							v_modalBox.style.display = "none";
+							
+							let v_materDataDict = {'matName' : v_data[i]['materName'], 'matPrice' : v_data[i]['materPrice'], 'matCarbon' : v_data[i]['materGasKg']}
+
+						    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
+							f_inputValue(0, v_materDataDict);
+						    inputElement.addEventListener("keyup", function (event) {
+						        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
+						        if (!(this.value == 0)){
+							        this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
+						        }
+						        f_inputValue(this.value, v_materDataDict);
+						    });
+
+						    let imgElement = v_newMaterialDiv.querySelector("img");
+						    imgElement.addEventListener("click", () => {
+						    	v_newMaterialDiv.remove();
+								f_deleteValue(v_materDataDict);
+						    });
+						    
 						})
 						
 						// 클릭 시 모달 닫기
@@ -347,6 +440,118 @@
 			}    
 			
 			return newNum.join(',');
+		}
+		
+		function f_inputValue(inputNum, v_materDataDict){
+			
+			if (inputNum == null){
+				return;
+			}
+			
+			let v_calCarbon = document.querySelector("#calCarbon");
+			let v_calPrice = document.querySelector("#calPrice");
+			
+			v_calCarbon.children[0].innerHTML = 0;
+			v_calPrice.children[0].innerHTML = 0;
+
+			inputNum = parseInt(inputNum);
+			
+			let v_existInput = false;
+			if (v_calCarbon.children){
+				for (let i = 0; i < v_calCarbon.children.length; i++){
+					if (v_calCarbon.children[i].id == v_materDataDict['matName'] + "Carbon"){
+						v_calCarbon.children[i].value = v_materDataDict['matCarbon'] + "," + inputNum;
+						v_calPrice.children[i].value = v_materDataDict['matPrice'] + "," + inputNum;
+						
+						v_existInput = true;
+						break;
+					}
+				}
+			}
+			
+			if (!v_existInput) {
+				// 탄소배출량 input 태그 추가
+				let v_carbon = document.createElement("input");
+				v_carbon.type = "hidden";
+				v_carbon.id = v_materDataDict['matName'] + "Carbon";
+				v_carbon.value = v_materDataDict['matCarbon'] + "," + inputNum;
+				
+				v_calCarbon.appendChild(v_carbon);
+				
+				// 가격 input 태그 추가
+				let v_price = document.createElement("input");
+				v_price.type = "hidden";
+				v_price.id = v_materDataDict['matName'] + "Price";
+				v_price.value = v_materDataDict['matPrice'] + "," + inputNum;
+				
+				v_calPrice.appendChild(v_price);
+	 			
+	 			v_existInput = false;
+			}
+			
+			let v_carbonCost = 0;
+			let v_priceCost = 0;
+ 			for (let i = 1; i < v_calCarbon.children.length; i++){
+				console.log(v_calCarbon.children[i].value);
+				console.log(v_calPrice.children[i].value);
+				
+				let v_splitCarbon = v_calCarbon.children[i].value.split(",");
+				let v_splitPrice = v_calPrice.children[i].value.split(",");
+				
+
+				v_carbonCost += parseInt(v_splitCarbon[1]) * parseFloat(v_splitCarbon[0]);
+				console.log(v_carbonCost);
+				v_carbonCost = parseFloat(v_carbonCost.toFixed(2));
+				v_priceCost += parseInt(v_splitPrice[1]) * parseFloat(v_splitPrice[0]);
+			}
+			
+			v_calCarbon.children[0].innerHTML = v_carbonCost;
+			v_calPrice.children[0].innerHTML = insertComma(v_priceCost.toString());
+			
+			
+		}
+		
+		function f_deleteValue(v_materDataDict){
+			
+			let v_calCarbon = document.querySelector("#calCarbon");
+			let v_calPrice = document.querySelector("#calPrice");
+			
+			for (let i = 0; i < v_calCarbon.children.length; i++){
+				
+				if (v_calCarbon.children[i].id == v_materDataDict['matName'] + "Carbon"){
+					v_calCarbon.children[i].remove();
+					v_calPrice.children[i].remove();
+					
+					console.log("X")
+					
+					break;
+				}
+				
+			}
+			
+			v_calCarbon.children[0].innerHTML = 0;
+			v_calPrice.children[0].innerHTML = 0;
+			
+			let v_carbonCost = 0;
+			let v_priceCost = 0;
+			
+ 			for (let i = 1; i < v_calCarbon.children.length; i++){
+				console.log(v_calCarbon.children[i].value);
+				console.log(v_calPrice.children[i].value);
+				
+				let v_splitCarbon = v_calCarbon.children[i].value.split(",");
+				let v_splitPrice = v_calPrice.children[i].value.split(",");
+				
+
+				v_carbonCost += parseInt(v_splitCarbon[1]) * parseFloat(v_splitCarbon[0]);
+				console.log(v_carbonCost);
+				v_carbonCost = parseFloat(v_carbonCost.toFixed(2));
+				v_priceCost += parseInt(v_splitPrice[1]) * parseFloat(v_splitPrice[0]);
+			}
+			
+			v_calCarbon.children[0].innerHTML = v_carbonCost;
+			v_calPrice.children[0].innerHTML = insertComma(v_priceCost.toString());
+			
 		}
 		
 	</script>
