@@ -99,10 +99,10 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/myPage">마이페이지</a></h1>
+					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a></h1>
 
 					<div class="row">
-						<div class="col-xl-4 col-lg-5">
+						<%-- <div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">프로필</div>
 								<div class="card-body" style="height: 330px;">
@@ -127,7 +127,7 @@
 										style="font-size: 40px; font-weight: bold; margin-top: 30px;">${sessionScope.login.userName }</div>
 								</div>
 							</div>
-						</div>
+						</div> --%>
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
@@ -136,21 +136,45 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-5">
-							<div class="card mb-4">
-								<div class="card-header">탄소배출권</div>
-								<div class="card-body" style="height: 330px;">
-									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
-										<canvas id="myDoughnutChart" width="400" height="400"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
+					
+					
 					<div class="card mb-4">
-						<div class="card-header">내 건의사항</div>
+						<div class="card-header">회원관리</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>회원ID</th>
+										<th>이름</th>
+										<th>이메일</th>
+										<th>가입일</th>
+										<th>기업여부</th>
+										<th>관리자권한</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+									<c:forEach items="${userList}" var="admin">
+										<tr>
+											<td scope="row">${user.userId }</td>
+											<td>${user.userName }</td>
+											<td>${user.useEmail }</td>
+											<td>${user.userDate }</td>
+											<td>${user.userAccount }</td>
+											<td>${user.userRank }</td>
+										</tr>
+									</c:forEach>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="card mb-4">
+						<div class="card-header">건의사항</div>
+						<div class="card-body">
+							<table class="custom-table">
 								<thead>
 									<tr>
 										<th>글번호</th>
@@ -168,14 +192,22 @@
 											<td>${faq.faqDate }</td>
 										</tr>
 									</c:forEach>
-									
+									<tr>
+										<td>1</td>
+										<td><a
+											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">젠장</a></td>
+										<td>티치</td>
+										<td>인도네시아</td>
+									</tr>
 									
 								</tbody>
 							</table>
 						</div>
 					</div>
+					
+					
 					<div class="card mb-4">
-						<div class="card-header">내 견적</div>
+						<div class="card-header"> 견적</div>
 						<div class="card-body">
 							<table class="custom-table">
 								<thead>

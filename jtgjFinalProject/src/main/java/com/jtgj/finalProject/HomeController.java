@@ -43,4 +43,13 @@ public class HomeController {
 		return "myPage/index";
 	}
 	
+	@RequestMapping("/editView")
+	public String editView() {
+		System.out.println("- editView - ");
+		
+		return "myPage/editView";
+	}
+	
+
+	
 }
