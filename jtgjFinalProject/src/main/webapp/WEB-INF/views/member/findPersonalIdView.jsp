@@ -45,6 +45,13 @@
 			color:white;
 		}
 	
+		#emailSpinner{
+			position: absolute;
+			top: 37%;
+			right: 4%;
+			display: none;
+		}
+	
 
     </style>
 </head>
@@ -70,27 +77,46 @@
         <div class="w-100" style="padding-bottom:3%;"><h1>개인회원 아이디 찾기</h3></div>
         
         <!-- 이메일 인증 on -->
-        <form action="">
-			<div style="border:1px solid black;padding-top:10%;padding-bottom:5%;padding-left:8%;padding-right:8%;margin-bottom:5%;">
-				<div class="mb-3"><h5 style="font-size:13px;font-weight:bolder;">이메일 인증으로 회원정보에 등록된 아이디를 찾을 수 있습니다.</h5></div>
-				
-				<div class="w-100" style="display:flex;flex-direction:column;">
-					<div class="d-flex w-100">
-						<div style="width:10%;display:flex;justify-content:center;align-items:center;margin-right:5%;">
-							<p style="color:#747474;">이메일</p>
-						</div>
-				        <div class="input-group mb-2">
-				                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
-				                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
-				        </div>
+		<div style="border:1px solid black;padding-top:10%;padding-bottom:5%;padding-left:8%;padding-right:8%;margin-bottom:5%;position:relative;">
+		  	<div class="spinner-border text-primary" role="status" id="emailSpinner">
+				<span class="visually-hidden">Loading...</span>
+			</div>
+		
+			<div class="mb-3"><h5 style="font-size:13px;font-weight:bolder;">이메일 인증으로 회원정보에 등록된 아이디를 찾을 수 있습니다.</h5></div>
+			
+			<div class="w-100" style="display:flex;flex-direction:column;">
+				<div class="d-flex w-100">
+					<div style="width:10%;display:flex;justify-content:center;align-items:center;">
+						<p style="color:#747474;text-align:center;">이메일</p>
 					</div>
+			        <div class="input-group mb-2" style="padding-left:4.5%;">
+			                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
+			                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>		                
+			        </div>				     
 				</div>
+			</div>
+			
+			<div class="w-100" style="display:flex;flex-direction:column;margin-top:2%;">
+				<div class="d-flex w-100">
+					<div style="width:10%;display:flex;justify-content:center;align-items:center;">
+						<p style="color:#747474;">인증번호</p>
+					</div>
+			        <div class="input-group mb-2" style="width:80%;padding-left:3.6%;">
+			                <input type="text" class="form-control me-2" id="inputAuthNumber">
+			        </div>
+				</div>
+			</div>
+			
+			<div style="display:flex;justify-content:center;align-items:center;margin-top:2%;margin-bottom:2%;">
+				<button class="btn btn-primary btn-lg" style="width:20%;" type="button" id="checkIdAuthBtn">인증확인</button>
+			</div>
+			
+			<div class="w-100" id="idInfoBox" style="font-size:14px;color:black;display:none;">
 				
-				<div style="display:flex;justify-content:center;align-items:center;margin-top:5%;">
-					<button class="btn btn-primary btn-lg" style="width:20%;" type="submit">인증확인</button>
-				</div>
-			</div>        
-        </form>
+			</div>
+		</div>        
+ 
+
 		
 		<div style="display:flex;flex-direction:column;background-color:#EEEEEE;padding-top:3%;padding-bottom:3%;padding-left:3%;">
 			<div class="d-flex">
@@ -110,7 +136,92 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
+		$(document).ready(function() {
+			let v_emailAuthBtn = document.getElementById('emailAuthBtn');
+			let v_checkIdAuthBtn = document.getElementById('checkIdAuthBtn');
+			
+		    v_emailAuthBtn.addEventListener("click", () => {
+		    	$("#idInfoBox").css("display", "none");
+
+		        let v_email = document.getElementById('inputEmail').value;
+		    	
+				if(v_email == "" || v_email.length == 0){
+					alert('이메일을 입력해주세요!');
+					
+					return;
+				}		        
+		        
+		        if (confirm('입력하신 이메일로 인증번호를 전송하시겠습니까?')) {
+		            console.log(v_email);
+
+		            $("#emailSpinner").css("display", "block");
+		            
+		            $.ajax({
+		                url: '${pageContext.request.contextPath}/findAccountConfirmEmail',
+		                data: { email: v_email },
+		                type: 'POST',
+		                dataType: 'json',
+		                success: function(result) {
+		                    console.log(result);
+		                    if (result) {
+		                        alert('인증번호가 전송되었습니다. 이메일을 확인하세요.');
+		                        $("#emailSpinner").css("display", "none");
+		                    } else {
+		                    	$("#emailSpinner").css("display", "none");
+		                    	
+		                        if(confirm("가입되지 않은 이메일입니다. 회원가입 페이지로 넘어가시겠습니까?")){
+		                        	location.href = "${pageContext.request.contextPath}/personalRegistView";
+		                        }
+		                    }
+		                },
+		                error: function(xhr, status, error) {
+		                    console.error("AJAX 에러 발생:", error);
+		                    alert('인증 요청 중 오류가 발생했습니다.');
+		                }
+		            });
+		        }
+		    });
+		    
+		    v_checkIdAuthBtn.addEventListener('click', () => {
+		    	let v_inputAuthNumber = document.getElementById('inputAuthNumber').value;
+		        let v_email = document.getElementById('inputEmail').value;
+		        
+				if(v_email == "" || v_email.length == 0){
+					alert('이메일을 입력해주세요!');
+					
+					return;
+				}
+		    	
+	            $.ajax({
+	                url: '${pageContext.request.contextPath}/findPersonalIdDo',
+	                data: { 
+	                	authNumber: v_inputAuthNumber, 	
+						email: v_email                				
+	                },
+	                type: 'POST',
+	                dataType: 'json',
+	                success: function(result) {
+	                    console.log(result);
+	                    if (result.success) {
+	                        alert('인증을 성공하셨습니다.');
+	                        $("#idInfoBox").css("display", "block");
+	                        document.getElementById('idInfoBox').innerHTML = "회원님의 아이디는 " + result.userId + " 입니다!";
+	                        $('#checkIdAuthBtn').prop('disabled', true);
+	                    } else {
+	                        alert(result.warning);
+	                    }
+	                },
+	                error: function(xhr, status, error) {
+	                    console.error("AJAX 에러 발생:", error);
+	                    alert('인증 요청 중 오류가 발생했습니다.');
+	                }
+	            });
+		    });
+		    
+		});
 		
+		
+	
 	</script>
 </body>
 

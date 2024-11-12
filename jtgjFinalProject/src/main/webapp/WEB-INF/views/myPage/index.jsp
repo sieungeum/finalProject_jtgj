@@ -88,10 +88,14 @@
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
+						<a class="nav-link" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/editView""> 수정 </a> 
+						<a class="nav-link" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
 						<a class="nav-link" href=""> 홍보 </a>
+						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+							<a class="nav-link" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+						</c:if>
 					</div>
 				</div>
 			</nav>
@@ -102,6 +106,8 @@
 					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/myPage">마이페이지</a></h1>
 
 					<div class="row">
+						<c:if test="${sessionScope.login.userRank == 'N'|| sessionScope.login.userRank == 'K' }">
+						
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">프로필</div>
@@ -128,6 +134,7 @@
 								</div>
 							</div>
 						</div>
+						</c:if>
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
@@ -161,14 +168,15 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${faqList}" var="faq">
-										<tr>
-											<td scope="row">${faq.faqNo }</td>
-											<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
-											<td>${faq.userName }</td>
-											<td>${faq.faqDate }</td>
-										</tr>
+										<c:if test="${faq.userId == sessionScope.login.userId }">
+											<tr>
+												<td scope="row">${faq.faqNo }</td>
+												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+												<td>${faq.userName }</td>
+												<td>${faq.faqDate }</td>
+											</tr>
+										</c:if>
 									</c:forEach>
-									
 									
 								</tbody>
 							</table>
@@ -188,18 +196,10 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${faqList}" var="faq">
-										<tr>
-											<td scope="row">${faq.faqNo }</td>
-											<td>${faq.faqTitle }</td>
-											<td>${faq.userId }</td>
-											<td>${faq.faqDate }</td>
-										</tr>
-									</c:forEach>
+									
 									<tr>
 										<td>1</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">젠장</a></td>
+										<td>젠장</td>
 										<td>티치</td>
 										<td>인도네시아</td>
 									</tr>
