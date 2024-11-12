@@ -91,7 +91,7 @@
 						<a class="nav-link" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
+						<a class="nav-link" href="${pageContext.request.contextPath }/editView""> 수정 </a> 
 						<a class="nav-link" href=""> 홍보 </a>
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 							<a class="nav-link" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
@@ -103,12 +103,10 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/myPage">마이페이지</a></h1>
+					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a></h1>
 
 					<div class="row">
-						<c:if test="${sessionScope.login.userRank == 'N'|| sessionScope.login.userRank == 'K' }">
-						
-						<div class="col-xl-4 col-lg-5">
+						<%-- <div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">프로필</div>
 								<div class="card-body" style="height: 330px;">
@@ -133,8 +131,7 @@
 										style="font-size: 40px; font-weight: bold; margin-top: 30px;">${sessionScope.login.userName }</div>
 								</div>
 							</div>
-						</div>
-						</c:if>
+						</div> --%>
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
@@ -143,21 +140,75 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-xl-4 col-lg-5">
-							<div class="card mb-4">
-								<div class="card-header">탄소배출권</div>
-								<div class="card-body" style="height: 330px;">
-									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
-										<canvas id="myDoughnutChart" width="400" height="400"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
+					
+					
 					<div class="card mb-4">
-						<div class="card-header">내 건의사항</div>
+						<div class="card-header">회원관리</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
+								<thead>
+									<tr>
+										<th>회원ID</th>
+										<th>이름</th>
+										<th>이메일</th>
+										<th>가입일</th>
+										<th>기업여부</th>
+										<th>관리자권한</th>
+									</tr>
+								</thead>
+								<tbody>
+									
+									<c:forEach items="${userList}" var="user">
+										<tr>
+											<td scope="row">${user.userId }</td>
+											<td>${user.userName }</td>
+											<td>${user.userEmail }</td>
+											<td>${user.userDate }</td>
+											<td>${user.userAccount }</td>
+											<td>
+												<c:if test="${user.userRank == 'N'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+														<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormB">
+															<input type="hidden" name="userId" value="${user.userId}">
+															<input type="hidden" name="userName" value="${user.userName}">
+														    <c:if test="${sessionScope.login.userRank == 'Y' }">
+														    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit">일반회원</button>
+															</c:if>
+															<c:if test="${sessionScope.login.userRank == 'K' }">
+															    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">일반회원</button>
+															</c:if>
+														</form>
+													</c:if>
+												</c:if>
+												<c:if test="${user.userRank == 'K'}">
+													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														<c:if test="${sessionScope.login.userRank == 'Y' }">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">관리자</button>
+														</c:if>
+														<c:if test="${sessionScope.login.userRank == 'K' }">
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														</c:if>
+													</form>
+												</c:if>
+												<c:if test="${user.userRank == 'Y'}">
+													<button class="btn btn-primary btn-xl" disabled="disabled">총괄 관리자</button>
+												</c:if>
+											</td>
+										</tr>
+									</c:forEach>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+					<div class="card mb-4">
+						<div class="card-header">건의사항</div>
+						<div class="card-body">
+							<table class="custom-table">
 								<thead>
 									<tr>
 										<th>글번호</th>
@@ -182,8 +233,10 @@
 							</table>
 						</div>
 					</div>
+					
+					
 					<div class="card mb-4">
-						<div class="card-header">내 견적</div>
+						<div class="card-header"> 견적</div>
 						<div class="card-body">
 							<table class="custom-table">
 								<thead>
@@ -267,5 +320,30 @@
         });
     };
 </script>
+
+<script type="text/javascript">
+			
+			// 권한 강등 버튼
+		    const btnsA = document.querySelectorAll("#checkBtnA");
+		    btnsA.forEach((btn, index) => {
+		        btn.addEventListener("click", () => {
+		            if (confirm('정말로 권한을 강등 시키겠습니까?')) {
+		                document.querySelectorAll("#checkFormA")[index].submit();
+		            }
+		        });
+		    });
+	
+		    // 권한 승급 버튼
+		    const btnsB = document.querySelectorAll("#checkBtnB");
+		    btnsB.forEach((btn, index) => {
+		        btn.addEventListener("click", () => {
+		            if (confirm('정말로 권한을 승급 시키겠습니까?')) {
+		                document.querySelectorAll("#checkFormB")[index].submit();
+		            }
+		        });
+		    });
+		
+		</script>
+
 </body>
 </html>

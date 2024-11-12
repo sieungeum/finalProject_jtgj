@@ -62,6 +62,40 @@
 		WHERE user_name = #{name}
 	</select>
 	
+	<!-- 이메일 중복체크 -->
+	<select id="confirmEmail" resultType="boolean">
+		SELECT COUNT(*)
+		FROM users
+		WHERE user_email = #{email}
+	</select>
+	
+	<!-- 이메일을 통한 아이디 값 받아오기 -->
+	<select id="getIdUsedEmail" parameterType="String" resultType="String">
+		SELECT
+			user_id
+		FROM users
+		WHERE 1=1
+		  AND user_email = #{userEmail}		
+	</select>
+	
+	<!-- 기존에 사용한 비밀번호 불러오기 -->
+	<select id="getPwUsedEmail" parameterType="String" resultType="String">
+		SELECT
+			user_pw
+		FROM users
+		WHERE 1=1
+		  AND user_email = #{userEmail}		
+	</select>
+	
+	<update id="updateNewPw" parameterType="String">
+		UPDATE
+			users
+		SET
+			user_pw = #{password}
+		WHERE
+			user_email = #{email}
+	</update>
+	
 	<update id="editProfImg" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
 		UPDATE
 			users

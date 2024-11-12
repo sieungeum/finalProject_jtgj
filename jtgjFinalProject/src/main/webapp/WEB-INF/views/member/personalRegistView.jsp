@@ -113,6 +113,9 @@
 	                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
 	                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
 	            </div>
+    	        <div class="spinner-border text-primary" role="status" id="emailSpinner" style="display:none;">
+					<span class="visually-hidden">Loading...</span>
+				</div>
 	            <div class="input-group" style="display:none;" id="auth-box">
 	            	<input type="text" class="form-control me-2" id="inputAuthEmail" placeholder="인증번호를 입력하세요">
 	            	<div class="me-2"><button class="btn btn-warning h-100" type="button" id="checkAuthEmail">인증확인</button></div>
@@ -129,7 +132,7 @@
 	
 	        <div class="mt-5">
 	            <button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="submit" disabled>가입하기</button>
-	            <p id="signUpWarning" style="font-size:13px;color:red;font-weight:bolder;">아이디, 비밀번호, 이름의 중복여부를 확인해주세요!</p>
+	            <p id="signUpWarning" style="font-size:13px;color:red;font-weight:bolder;">아이디, 비밀번호, 이름의 중복여부를 확인해주시고 이메일을 인증해주세요!</p>
 	        </div>		
 		</form>
 
@@ -138,63 +141,15 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
-		// 이메일 인증
-		let v_emailAuthBtn = document.getElementById('emailAuthBtn');
-		
-		v_emailAuthBtn.addEventListener('click', () => {
-			if(confirm('인증번호를 보내시겠습니까?')){
-				let email = document.getElementById('inputEmail').value;
 
-  				$.ajax({
-					url : '${pageContext.request.contextPath}/ConfirmEmail',
-					data : {
-						email : email
-					},
-					type : 'POST',
-					dataType : 'json',
-					success : function(result){
-						if(result == true){
-							alert("이메일이 성공적으로 전송됐습니다!");
-							
-							document.getElementById('auth-box').style.display = "";
-							v_emailAuthBtn.disabled = "false";
-							
-							// 인증번호 확인 함수?
-						}
-					}
-				});  
-			}
-		});
 		
 		
 		// 이메일 인증번호 확인
-		let v_checkAuthEmail = document.getElementById('checkAuthEmail');
-		v_checkAuthEmail.addEventListener('click', () => {
-			let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
-			
-			$.ajax({
-				url : '${pageContext.request.contextPath}/ReConfirmEmail',
-				data : {
-					number : v_inputAuthEmail
-				},
-				type : 'POST',
-				dataType : 'json',
-				success : function(result){
-					if(result == true){
-						alert('인증번호가 일치합니다!');
-					} else{
-						alert('인증번호가 틀립니다!');
-					}
-				}
-			});
-		});
-		
-	
-		
 		$(document).ready(function() {
 			let idOn = false; // 아이디 중복 체크 여부
 			let pwOn = false; // 비밀번호 일치 여부
 			let nameOn = false; // 닉네임 중복 체크 여부
+			let emailOn = false; // 이메일 인증 체크 여부
 			let v_signUpBtn = $('#signUpBtn'); // 가입하기 버튼
 			let v_warning = $('#signUpWarning'); // 가입안내문구
 			
@@ -205,6 +160,7 @@
 				if(id == "" || id.length == 0){
 					$("#label1").css('color', "red").css('font-size', '13px').text('공백은 ID로 사용할 수 없습니다.');
 					idOn = false;
+					toggleSignUpButton(); 
 					return false;
 				}
 				
@@ -237,6 +193,7 @@
 				if(name == "" || name.length == 0){
 					$("#label3").css('color', 'red').css('font-size', '13px').text('공백은 닉네임으로 사용할 수 없습니다.');
 					nameOn = false;
+					toggleSignUpButton(); 
 					return false;
 				}
 				
@@ -281,9 +238,96 @@
 				toggleSignUpButton(); // 가입 버튼 활성화 갱신 상태
 			}
 			
+
+			// 이메일 인증 함수
+			function sendEmailAuth() {
+				$('#emailSpinner').css('display', 'block');
+				
+				let email = document.getElementById('inputEmail').value;
+				
+				if (confirm('인증번호를 보내시겠습니까?')) {
+					$.ajax({
+						url: '${pageContext.request.contextPath}/ConfirmEmail',
+						data: { email: email },
+						type: 'POST',
+						dataType: 'json',
+						success: function(result) {
+							if (result === true) {
+								$('#emailSpinner').css('display', 'none');
+								alert("인증번호가 성공적으로 전송됐습니다!");
+								document.getElementById('auth-box').style.display = "";
+								// 인증번호 확인 함수 호출 가능하도록 활성화
+								$('#checkAuthEmail').prop('disabled', false);
+								$('#emailAuthBtn').prop('disabled', true);
+							} else{
+								$('#emailSpinner').css('display', 'none');
+								document.getElementById('inputEmail').innerHMTL = "";
+								alert("이미 가입된 이메일입니다.");
+								
+								if(confirm("로그인 페이지로 이동하시겠습니까?")){
+									location.href = "${pageContext.request.contextPath}/loginView";
+								} 
+							}
+						}
+					});
+				}
+			}
+
+			// 인증번호 확인 함수
+			function checkEmailAuth() {
+				let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
+				
+				$.ajax({
+					url: '${pageContext.request.contextPath}/findIdConfirmEmail',
+					data: { number: v_inputAuthEmail },
+					type: 'POST',
+					dataType: 'json',
+					success: function(result) {
+						if (result === true) {
+							alert('인증번호가 일치합니다!');
+							emailOn = true;
+							
+							// 이메일 인증 완료 메시지 표시
+							let v_authBox = document.getElementById('auth-box');
+							let v_emailAuthBtn = document.getElementById('emailAuthBtn');
+							v_authBox.innerHTML = "<p style='color:green; font-size:13px;'>이메일 인증이 완료됐습니다!</p>";
+							v_emailAuthBtn.disabled = "true";
+							
+							toggleSignUpButton(); // 가입 버튼 상태 업데이트
+						} else {
+							alert('인증번호가 틀립니다! 다시 입력해주세요!');
+						}
+					}
+				});
+			}
+			
+			// 재인증 함수
+			function reSendEmailAuth() {
+				if(confirm('다시 인증번호를 보내시겠습니까?')){
+					$('#emailSpinner').css('display', 'block');
+					let email = document.getElementById('inputEmail').value;
+					
+					$.ajax({
+						url: '${pageContext.request.contextPath}/ConfirmEmail',
+						data: { email: email },
+						type: 'POST',
+						dataType: 'json',
+						success: function(result) {
+							if (result === true) {
+								$('#emailSpinner').css('display', 'none');
+								alert("인증번호가 성공적으로 재전송됐습니다!");
+								document.getElementById('auth-box').style.display = "";
+								// 인증번호 확인 함수 호출 가능하도록 활성화
+								$('#checkAuthEmail').prop('disabled', false);
+							}
+						}
+					});			
+				}
+			}
+			
 			// 가입 버튼 활성화 상태 관리 함수
 			function toggleSignUpButton() {
-				if(idOn && pwOn && nameOn){
+				if(idOn && pwOn && nameOn && emailOn){
 					v_signUpBtn.prop('disabled', false);
 					v_warning[0]['attributes']['style']['value'] = "font-size:13px;color:red;font-weight:bolder;display:none;"
 				} else {
@@ -296,6 +340,9 @@
 			$('#inputId').on("focusout", checkIdDuplicate); // 아이디 focusout 이벤트
 			$('#inputName').on("focusout", checkNameDuplicate); // 닉네임 focusout 이벤트
 			$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
+			$('#emailAuthBtn').on("click", sendEmailAuth); // 이메일 인증 버튼 클릭 시
+			$('#checkAuthEmail').on("click", checkEmailAuth); // 인증번호 확인 버튼 클릭 시
+			$('#reCheckAuthEmail').on('click', reSendEmailAuth); // 인증번호 재전송 버튼 클릭 시
 			
 			// 초기 버튼 상태 설정
 			toggleSignUpButton();

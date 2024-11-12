@@ -41,7 +41,13 @@
 					<c:if test="${sessionScope.login != null }">
 						<li class="menu-item-has-children"><a href="#">${sessionScope.login.userName }님</a>
 							<ul class="sub-menu">
+							
 								<li><a href="${pageContext.request.contextPath }/myPage">마이페이지</a></li>
+								
+								<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+									<li><a href="${pageContext.request.contextPath }/adminPage">관리자페이지</a></li>
+								</c:if>
+								
 								<li><a href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></li>
 							</ul>
 						</li>

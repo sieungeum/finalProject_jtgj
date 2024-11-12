@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.admin.dao.IAdminDAO">
+
+<select id="getUserList" resultType="com.jtgj.finalProject.user.dto.UserDTO">
+
+		SELECT
+			  user_id
+			, user_name
+			, user_email
+			, user_date
+			, user_account
+			, user_rank 
+		FROM 
+			users
+		WHERE 1=1
+
+</select>
+
+<update id="userDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+	    UPDATE 
+	        users
+	    SET
+	    	user_rank = 'K'                      
+	    WHERE 
+	        user_id = #{userId} 
+	        AND user_name = #{userName}
+	</update>
+
+<update id="userDelDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+	    UPDATE 
+	        users
+	    SET
+	    	user_rank = 'N'                      
+	    WHERE 
+	        user_id = #{userId} 
+	        AND user_name = #{userName}
+	</update>
+	
+<select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO">
+
+				SELECT
+					a.faq_no,
+					a.user_id,
+					a.faq_title,
+					b.user_name,
+					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
+				FROM 
+					faqs a
+					, users b
+				WHERE 1=1
+					AND a.user_id = b.user_id
+					AND a.faq_del_yn = 'N'
+				
+				ORDER BY faq_no DESC
+			
+
+</select>
+
+
+</mapper>
