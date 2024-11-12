@@ -18,5 +18,17 @@ public class AdminService {
 		List<UserDTO> result = dao.getUserList();
 		return result;
 	}
+	
+	public int userDo(UserDTO user) {
+		int result = dao.userDo(user);
+		return result;
+	}
+	
+	public int userDelDo(UserDTO user) {
+		int result = dao.userDelDo(user);
+		return result;
+	}
+	
+
 
 }

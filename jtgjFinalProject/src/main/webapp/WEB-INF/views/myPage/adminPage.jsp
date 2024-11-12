@@ -88,10 +88,14 @@
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
+						<a class="nav-link" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
 						<a class="nav-link" href="${pageContext.request.contextPath }/editView""> 수정 </a> 
 						<a class="nav-link" href=""> 홍보 </a>
+						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+							<a class="nav-link" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+						</c:if>
 					</div>
 				</div>
 			</nav>
@@ -155,14 +159,44 @@
 								</thead>
 								<tbody>
 									
-									<c:forEach items="${userList}" var="admin">
+									<c:forEach items="${userList}" var="user">
 										<tr>
 											<td scope="row">${user.userId }</td>
 											<td>${user.userName }</td>
-											<td>${user.useEmail }</td>
+											<td>${user.userEmail }</td>
 											<td>${user.userDate }</td>
 											<td>${user.userAccount }</td>
-											<td>${user.userRank }</td>
+											<td>
+												<c:if test="${user.userRank == 'N'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+														<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormB">
+															<input type="hidden" name="userId" value="${user.userId}">
+															<input type="hidden" name="userName" value="${user.userName}">
+														    <c:if test="${sessionScope.login.userRank == 'Y' }">
+														    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit">일반회원</button>
+															</c:if>
+															<c:if test="${sessionScope.login.userRank == 'K' }">
+															    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">일반회원</button>
+															</c:if>
+														</form>
+													</c:if>
+												</c:if>
+												<c:if test="${user.userRank == 'K'}">
+													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														<c:if test="${sessionScope.login.userRank == 'Y' }">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">관리자</button>
+														</c:if>
+														<c:if test="${sessionScope.login.userRank == 'K' }">
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														</c:if>
+													</form>
+												</c:if>
+												<c:if test="${user.userRank == 'Y'}">
+													<button class="btn btn-primary btn-xl" disabled="disabled">총괄 관리자</button>
+												</c:if>
+											</td>
 										</tr>
 									</c:forEach>
 									
@@ -185,20 +219,15 @@
 								</thead>
 								<tbody>
 									<c:forEach items="${faqList}" var="faq">
-										<tr>
-											<td scope="row">${faq.faqNo }</td>
-											<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
-											<td>${faq.userName }</td>
-											<td>${faq.faqDate }</td>
-										</tr>
+										<c:if test="${faq.userId == sessionScope.login.userId }">
+											<tr>
+												<td scope="row">${faq.faqNo }</td>
+												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+												<td>${faq.userName }</td>
+												<td>${faq.faqDate }</td>
+											</tr>
+										</c:if>
 									</c:forEach>
-									<tr>
-										<td>1</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">젠장</a></td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
 									
 								</tbody>
 							</table>
@@ -220,18 +249,10 @@
 								</thead>
 
 								<tbody>
-									<c:forEach items="${faqList}" var="faq">
-										<tr>
-											<td scope="row">${faq.faqNo }</td>
-											<td>${faq.faqTitle }</td>
-											<td>${faq.userId }</td>
-											<td>${faq.faqDate }</td>
-										</tr>
-									</c:forEach>
+									
 									<tr>
 										<td>1</td>
-										<td><a
-											href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}" />">젠장</a></td>
+										<td>젠장</td>
 										<td>티치</td>
 										<td>인도네시아</td>
 									</tr>
@@ -299,5 +320,30 @@
         });
     };
 </script>
+
+<script type="text/javascript">
+			
+			// 권한 강등 버튼
+		    const btnsA = document.querySelectorAll("#checkBtnA");
+		    btnsA.forEach((btn, index) => {
+		        btn.addEventListener("click", () => {
+		            if (confirm('정말로 권한을 강등 시키겠습니까?')) {
+		                document.querySelectorAll("#checkFormA")[index].submit();
+		            }
+		        });
+		    });
+	
+		    // 권한 승급 버튼
+		    const btnsB = document.querySelectorAll("#checkBtnB");
+		    btnsB.forEach((btn, index) => {
+		        btn.addEventListener("click", () => {
+		            if (confirm('정말로 권한을 승급 시키겠습니까?')) {
+		                document.querySelectorAll("#checkFormB")[index].submit();
+		            }
+		        });
+		    });
+		
+		</script>
+
 </body>
 </html>
