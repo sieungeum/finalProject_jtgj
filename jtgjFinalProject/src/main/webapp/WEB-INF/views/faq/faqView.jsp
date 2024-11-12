@@ -14,6 +14,14 @@
 	
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" integrity="sha512-10/jx2EXwxxWqCLX/hHth/vu2KY3jCF70dCQB8TSgNjbCVAC/8vai53GfMDrO2Emgwccf2pJqxct9ehpzG+MTw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
+	<style type="text/css">
+		.no-pointer{
+			pointer-events: none;
+			opacity: 0.5; 
+		}
+	</style>
+	
 </head>
 <body>
 
@@ -48,7 +56,19 @@
 					<c:forEach items="${faqList }" var="faq">
 						<tr>
 							<td scope="row">${faq.faqNo }</td>
-							<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+							<td>
+                                <c:choose>
+                                    <c:when test="${faq.faqSicYn == 'N'}">
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }</a>
+                                    </c:when>
+                                    <c:when test="${faq.faqSicYn == 'S' && (faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'Y')}">
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span></a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span>비밀글 입니다.</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
 							<td>${faq.userName }</td>
 							<td>${faq.faqDate }</td>
 						</tr>
@@ -68,7 +88,22 @@
 				<ul class="pagination">
 
 					<!-- 이전 페이지 -->
-					<li class="page-item ${pageSearch.firstPage == 1 ? 'disabled' : '' }">
+					
+					<li class="page-item ${pageSearch.firstPage == 1 ? 'disabled no-pointer' : '' }" >
+						<c:if test="${searchWord == null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=1&rowSizePerPage=${pageSearch.rowSizePerPage}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+						</c:if> <c:if test="${searchWord != null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=1&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a>
+						</c:if>
+					</li>
+					
+					<li class="page-item ${pageSearch.firstPage == 1 ? 'disabled no-pointer' : '' }" >
 						<c:if test="${searchWord == null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.firstPage - 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
@@ -98,7 +133,7 @@
 
 					<!-- 다음 페이지 -->
 					<!-- 마지막 페이지 도달 시 disabled 추가 -->
-					<li class="page-item ${pageSearch.lastPage == pageSearch.totalPageCount ? 'disabled' : '' }">
+					<li class="page-item ${pageSearch.lastPage == pageSearch.totalPageCount ? 'disabled no-pointer' : '' }">
 						<c:if test="${pageSearch.searchWord == null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.lastPage + 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
@@ -112,6 +147,22 @@
 							</a>
 						</c:if>
 					</li>
+					
+					<li class="page-item ${pageSearch.lastPage == pageSearch.totalPageCount ? 'disabled no-pointer' : '' }">
+						<c:if test="${pageSearch.searchWord == null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.totalPageCount }&rowSizePerPage=${pageSearch.rowSizePerPage}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+						</c:if> 
+						<c:if test="${pageSearch.searchWord != null }">
+							<a class="page-link"
+								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.totalPageCount }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+						</c:if>
+					</li>
+					
 				</ul>
 			</nav>
 		</div>

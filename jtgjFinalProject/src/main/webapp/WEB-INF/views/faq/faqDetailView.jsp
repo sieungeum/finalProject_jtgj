@@ -81,6 +81,47 @@
 			                </c:if>
 	            		</div>
 	            	</div>
+	            	
+	            	<!-- 댓글 목록 -->
+	            	<div class="row justify-content-center">
+	            		<div class="col-lg-8 col-xl-7">
+	            			<table class="table">
+	            				<tbody id="comBody">
+	            					<c:forEach items="${comList }" var="com">
+	            						<tr id="${com.comNo }">
+	            							<td>${com.comContent }</td>
+	            							<td>${com.userName }</td>
+	            							<td>${com.comDate }</td>
+	            							<c:if test="${com.userId == sessionScope.login.userId }">
+	            								<td><a onclick="f_del(this)">X</a></td>
+	            							</c:if>
+	            						</tr>
+	            					</c:forEach>
+	            				</tbody>
+	            			</table>
+	            		</div>
+	            	</div>
+	            	
+	            	<!-- 댓글 작성 영역 -->
+	            	<div class="row justify-content-center">
+	            		<div class="col-lg-8 col-xl-7">
+	            			<form class="row" id="comForm" action="<c:url value="/writeComDo" />" method="POST">
+	            				<div class="col-lg-9">
+		            				<input class="form-control" type="text" id="comInput" name="comContent">
+		            				<input type="hidden" name="userId" value="${sessionScope.login.userId }">
+		            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
+		            				<div class="form-check">
+							            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
+							            <label class="form-check-label" for="comSicYn">중요 여부</label>
+							        </div>
+	            				</div>
+	            				<div class="col-lg-3">
+	            					<button class="btn btn-warning me-2" type="button" id="comBtn">등록</button>
+	            				</div>
+	            			</form>
+	            		</div>
+	            	</div>
+	            	
 	            </div>
             </section>
             
@@ -100,7 +141,82 @@
 			}
 		});
 		
+		const v_comBtn = document.getElementById("comBtn");
+		const v_comForm = document.getElementById("comForm");
+		
+		v_comBtn.addEventListener("click", ()=>{
+			let v_comForm = $('#comForm');
+			let v_url = v_comForm.attr('action');
+			let v_formData = v_comForm.serialize();
+			
+			$.ajax({
+				type: 'POST',
+				url: v_url,
+				data: v_formData,
+				success: function(data){
+					console.log(data);
+					
+					let v_tr = document.createElement("tr");
+					v_tr.id  = data.comNo;
+					
+					let tdContent = document.createElement("td");
+					tdContent.innerHTML = data.comContent;
+					v_tr.appendChild(tdContent);
+					
+					let tdUserName = document.createElement("td");
+					tdUserName.innerHTML = data.userName;
+					v_tr.appendChild(tdUserName);
+					
+					let tdDate = document.createElement("td");
+					tdDate.innerHTML = data.comDate;
+					v_tr.appendChild(tdDate);
+					
+					let tdDel = document.createElement("td");
+					tdDel.innerHTML = "<a onclick='f_del(this)'>X</a>";
+					v_tr.appendChild(tdDel);
+					
+					document.getElementById("comBody").prepend(v_tr);
+					document.getElementById("comInput").value = "";
+					
+				}
+			});
+		});
+		
+		function f_del(p_this) {
+			if(!confirm("댓글을 삭제하시겠습니까?")){
+				return;
+			}
+			
+			let v_td = p_this.parentElement;
+			let v_tr = v_td.parentElement;
+			let v_comNo = v_tr.id;
+			
+			const v_ajax = new XMLHttpRequest();
+			
+			v_ajax.open('POST', '<c:url value="/delComDo" />');
+			
+			v_ajax.setRequestHeader("Content-Type", "application/json");
+			
+			const v_data = {
+					'comNo' : v_comNo
+			};
+			
+			v_ajax.onload = () => {
+				if(v_ajax.status == 200) {
+					console.log(v_ajax.response);
+					
+					if(v_ajax.response == 'success'){
+						document.getElementById(v_comNo).remove();
+					}
+				}
+			};
+			
+			v_ajax.send(JSON.stringify(v_data));
+			
+		}
+		
 	</script>
+		
 	
 </body>
 </html>

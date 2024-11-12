@@ -59,8 +59,8 @@ public class FaqService {
 		return result;
 	}
 	
-	public List<CommentDTO> getCommentList(int comNo) {
-		List<CommentDTO> result = dao.getCommentList(comNo);
+	public List<CommentDTO> getCommentList(int faqNo) {
+		List<CommentDTO> result = dao.getCommentList(faqNo);
 		return result;
 	}
 	

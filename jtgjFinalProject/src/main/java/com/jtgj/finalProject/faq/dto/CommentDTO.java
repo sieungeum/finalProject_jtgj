@@ -8,13 +8,14 @@ public class CommentDTO {
 	private String comContent;
 	private String comDate;
 	private String comDelYn;
+	private String comSicYn;
 	
 	public CommentDTO() {
 		super();
 	}
 
 	public CommentDTO(String comNo, int faqNo, String userId, String userName, String comContent, String comDate,
-			String comDelYn) {
+			String comDelYn, String comSicYn) {
 		super();
 		this.comNo = comNo;
 		this.faqNo = faqNo;
@@ -23,6 +24,7 @@ public class CommentDTO {
 		this.comContent = comContent;
 		this.comDate = comDate;
 		this.comDelYn = comDelYn;
+		this.comSicYn = comSicYn;
 	}
 
 	public String getComNo() {
@@ -81,10 +83,19 @@ public class CommentDTO {
 		this.comDelYn = comDelYn;
 	}
 
+	public String getComSicYn() {
+		return comSicYn;
+	}
+
+	public void setComSicYn(String comSicYn) {
+		this.comSicYn = comSicYn;
+	}
+
 	@Override
 	public String toString() {
 		return "CommentDTO [comNo=" + comNo + ", faqNo=" + faqNo + ", userId=" + userId + ", userName=" + userName
-				+ ", comContent=" + comContent + ", comDate=" + comDate + ", comDelYn=" + comDelYn + "]";
+				+ ", comContent=" + comContent + ", comDate=" + comDate + ", comDelYn=" + comDelYn + ", comSicYn="
+				+ comSicYn + "]";
 	}
 	
 }

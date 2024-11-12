@@ -59,6 +59,12 @@
 	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
 	                    	<button class="btn btn-primary" type="submit">등록</button>
+	                    	<div class="check-box d-flex align-items-center ms-2">
+							    <input type="checkbox" id="checkYn" name="faqSicYn" value="S" class="me-1"/>
+							    <label for="checkYn">비밀글 여부?</label>
+							    <input type="hidden" id="faqSicYnHidden" name="faqSicYn" value="N"/>
+							</div>
+	                    	
 	                    </div>
                 	</form>
          
@@ -66,6 +72,16 @@
             </div>
         </div>
     </section>
+    
+    <script>
+	    document.getElementById('checkYn').addEventListener('change', function() {
+	        if (this.checked) {
+	            document.getElementById('faqSicYnHidden').disabled = true; // 체크박스가 체크되면 히든 필드 비활성화
+	        } else {
+	            document.getElementById('faqSicYnHidden').disabled = false; // 체크박스가 체크 해제되면 히든 필드 활성화
+	        }
+	    });
+	</script>
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
