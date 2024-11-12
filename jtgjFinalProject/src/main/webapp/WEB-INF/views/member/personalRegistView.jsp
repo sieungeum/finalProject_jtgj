@@ -278,7 +278,7 @@
 				let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
 				
 				$.ajax({
-					url: '${pageContext.request.contextPath}/ReConfirmEmail',
+					url: '${pageContext.request.contextPath}/findIdConfirmEmail',
 					data: { number: v_inputAuthEmail },
 					type: 'POST',
 					dataType: 'json',
