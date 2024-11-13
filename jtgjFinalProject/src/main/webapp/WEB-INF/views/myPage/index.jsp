@@ -68,12 +68,14 @@
 .custom-table a:hover {
 	text-decoration: underline;
 }
+
+
 </style>
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" href="home">저탄고집</a>
+		<a class="navbar-brand ps-3" style="font-size: 40px; font-weight: bold;" href="home">저탄고집</a>
 		<!-- Sidebar Toggle-->
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
@@ -87,14 +89,14 @@
 				class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
-					<div class="nav">
-						<a class="nav-link" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
-						<a class="nav-link" href=""> 홍보 </a>
+					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href=""> 홍보 </a>
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-							<a class="nav-link" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
 					</div>
 				</div>
@@ -185,7 +187,7 @@
 					<div class="card mb-4">
 						<div class="card-header">내 견적</div>
 						<div class="card-body">
-							<table class="custom-table">
+							<table id="datatablesEarnings"  style="width:100%">
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
@@ -221,7 +223,16 @@
 		</div>
 	</div>
 
-	
+	<script>
+    // Datatable 초기화
+    document.addEventListener('DOMContentLoaded', function() {
+        new simpleDatatables.DataTable("#datatablesEarnings", {
+            perPage: 5,
+            searchable: true,
+            sortable: true,
+        });
+    });
+</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

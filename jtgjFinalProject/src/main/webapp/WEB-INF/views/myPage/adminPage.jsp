@@ -18,6 +18,9 @@
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
 <style>
 .profile-div {
 	border-radius: 100px;
@@ -65,15 +68,14 @@
 	text-decoration: none;
 }
 
-.custom-table a:hover {
-	text-decoration: underline;
-}
+
+
 </style>
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" href="home">저탄고집</a>
+		<a class="navbar-brand ps-3" style="font-size: 40px; font-weight: bold;" href="home">저탄고집</a>
 		<!-- Sidebar Toggle-->
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
@@ -87,14 +89,14 @@
 				class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
 				id="sidenavAccordion">
 				<div class="sb-sidenav-menu">
-					<div class="nav">
-						<a class="nav-link" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" href="${pageContext.request.contextPath }/editView""> 수정 </a> 
-						<a class="nav-link" href=""> 홍보 </a>
+					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href=""> 홍보 </a>
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-							<a class="nav-link" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
 					</div>
 				</div>
@@ -206,39 +208,37 @@
 					</div>
 					
 					<div class="card mb-4">
-						<div class="card-header">건의사항</div>
-						<div class="card-body">
-							<table class="custom-table">
-								<thead>
-									<tr>
-										<th>글번호</th>
-										<th>글제목</th>
-										<th>작성자</th>
-										<th>작성일</th>
-									</tr>
-								</thead>
-								<tbody>
+					    <div class="card-header">건의사항 게시판</div>
+					    <div class="card-body">
+					        <table id="datatablesEarnings" style="width:100%;">
+					            <thead>
+					                <tr>
+					                    <th>글번호</th>
+					                    <th>글제목</th>
+					                    <th>작성자</th>
+					                    <th>작성일</th>
+					                </tr>
+					            </thead>
+					            <tbody>
 									<c:forEach items="${faqList}" var="faq">
-										<c:if test="${faq.userId == sessionScope.login.userId }">
 											<tr>
 												<td scope="row">${faq.faqNo }</td>
 												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
 											</tr>
-										</c:if>
 									</c:forEach>
 									
 								</tbody>
-							</table>
-						</div>
+					        </table>
+					    </div>
 					</div>
 					
 					
 					<div class="card mb-4">
 						<div class="card-header"> 견적</div>
 						<div class="card-body">
-							<table class="custom-table">
+							<table id="datatablesOrders" style="width:100%; background-color: inherit;">
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
@@ -273,8 +273,23 @@
 			</footer>
 		</div>
 	</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 기존 견적 목록 (myEarnings)
+        new simpleDatatables.DataTable("#datatablesEarnings", {
+            perPage: 5,
+            searchable: true,
+            sortable: true,
+        });
 
-	
+        // 새로운 주문 목록 (myOrders)
+        new simpleDatatables.DataTable("#datatablesOrders", {
+            perPage: 5,
+            searchable: true,
+            sortable: true,
+        });
+    });
+</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -323,27 +338,49 @@
 
 <script type="text/javascript">
 			
-			// 권한 강등 버튼
-		    const btnsA = document.querySelectorAll("#checkBtnA");
-		    btnsA.forEach((btn, index) => {
-		        btn.addEventListener("click", () => {
-		            if (confirm('정말로 권한을 강등 시키겠습니까?')) {
-		                document.querySelectorAll("#checkFormA")[index].submit();
-		            }
-		        });
-		    });
-	
-		    // 권한 승급 버튼
-		    const btnsB = document.querySelectorAll("#checkBtnB");
-		    btnsB.forEach((btn, index) => {
-		        btn.addEventListener("click", () => {
-		            if (confirm('정말로 권한을 승급 시키겠습니까?')) {
-		                document.querySelectorAll("#checkFormB")[index].submit();
-		            }
-		        });
-		    });
-		
-		</script>
+const btnsA = document.querySelectorAll("#checkBtnA");
+btnsA.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+        // 모달 내용 업데이트
+        const modalBody = document.querySelector('#confirmModal .modal-body');
+        modalBody.textContent = '정말로 이 사용자의 권한을 강등하시겠습니까?';
+        
+        // 확인 버튼에 강등 폼 제출 처리
+        const confirmBtn = document.getElementById('confirmBtn');
+        confirmBtn.onclick = function() {
+            document.querySelectorAll("#checkFormA")[index].submit();
+            // 모달 닫기
+            $('#confirmModal').modal('hide');
+        };
+
+        // 모달 띄우기
+        $('#confirmModal').modal('show');
+    });
+});
+
+// 권한 승급 버튼
+const btnsB = document.querySelectorAll("#checkBtnB");
+btnsB.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+        // 모달 내용 업데이트
+        const modalBody = document.querySelector('#confirmModal .modal-body');
+        modalBody.textContent = '정말로 이 사용자의 권한을 승급하시겠습니까?';
+        
+        // 확인 버튼에 승급 폼 제출 처리
+        const confirmBtn = document.getElementById('confirmBtn');
+        confirmBtn.onclick = function() {
+            document.querySelectorAll("#checkFormB")[index].submit();
+            // 모달 닫기
+            $('#confirmModal').modal('hide');
+        };
+
+        // 모달 띄우기
+        $('#confirmModal').modal('show');
+    });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>
