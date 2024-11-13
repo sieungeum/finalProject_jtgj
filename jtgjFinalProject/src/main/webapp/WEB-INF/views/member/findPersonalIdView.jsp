@@ -136,6 +136,8 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
+	
+		// 기업 인증
 		$(document).ready(function() {
 			let v_emailAuthBtn = document.getElementById('emailAuthBtn');
 			let v_checkIdAuthBtn = document.getElementById('checkIdAuthBtn');
@@ -219,7 +221,6 @@
 		    });
 		    
 		});
-		
 		
 	
 	</script>
