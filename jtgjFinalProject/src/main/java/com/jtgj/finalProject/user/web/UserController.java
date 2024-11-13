@@ -280,7 +280,7 @@ public class UserController {
 		int dice = r.nextInt(4589362) + 493111; // 이메일로 받는 인증코드 부분(난수)
 
 		// 인증코드 세션에 저장
-		request.getSession().setAttribute("dice", dice);
+		request.getSession().setAttribute("dice_" + email, dice);
 		
 		String setfrom = "jjjjkuul@gmail.com";
 		String tomail = request.getParameter("email"); // 받는 사람 이메일
@@ -325,17 +325,17 @@ public class UserController {
 	// 인증번호가 일치하면 true 반환, 일치하지 않으면 false 반환
 	@ResponseBody
 	@RequestMapping(value = "/ReConfirmEmail", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> ReConfirmEmail(HttpServletRequest request, int number) throws IOException {
+	public ResponseEntity<Boolean> ReConfirmEmail(HttpServletRequest request, int number, String email) throws IOException {
 		System.out.println("인증실행");
 		
 		boolean result = true;
 		
-		int storedDice = (int) request.getSession().getAttribute("dice"); 
+		int storedDice = (int) request.getSession().getAttribute("dice_" + email); 
 
 		if(storedDice == number) {
 			System.out.println("인증번호 일치");
 			
-			request.getSession().removeAttribute("dice");
+			request.getSession().removeAttribute("dice_" + email);
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {

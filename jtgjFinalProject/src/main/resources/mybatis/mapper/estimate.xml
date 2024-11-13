@@ -36,5 +36,48 @@
 			AND mater_category = #{materCategory}
 			AND mater_classify = 'N'
 	</select>
+	
+	<!-- ajax로 가져온 자제들의 대체자제들 전부 가져오기 -->
+	<select id="getMaterToSub" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO"  resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO" >
+		SELECT
+		    a.mater_no,
+		    a.mater_category,
+		    a.mater_name,
+		    a.mater_gas_kg,
+		    a.mater_img,
+		    a.mater_price,
+		    a.mater_durability,
+		    a.mater_info,
+		    a.mater_classify
+		FROM building_materials a INNER JOIN (
+		    SELECT
+		        b.sub_name
+		    FROM building_materials a INNER JOIN mater_matching b
+		    ON a.mater_no = b.mater_no
+		    WHERE a.mater_name = #{materName}
+		    AND a.mater_category = #{materCategory}
+		) b
+		ON a.mater_name = b.sub_name
+		WHERE 1=1
+		    AND a.mater_category = #{materCategory}
+	</select>
+	
+	<!-- 선정된 대체 자제들 정보 단일 가져오기 -->
+	<select id="getSubMaterInfo" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO"  resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO" >
+		SELECT
+		    mater_no,
+		    mater_category,
+		    mater_name,
+		    mater_gas_kg,
+		    mater_img,
+		    mater_price,
+		    mater_durability,
+		    mater_info,
+		    mater_classify
+		FROM building_materials
+		WHERE 1=1
+			AND mater_category = #{materCategory}
+			AND mater_name = #{materName}
+	</select>
 
 </mapper>

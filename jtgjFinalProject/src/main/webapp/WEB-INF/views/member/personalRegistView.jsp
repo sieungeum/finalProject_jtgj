@@ -276,10 +276,14 @@
 			// 인증번호 확인 함수
 			function checkEmailAuth() {
 				let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
+				let email = document.getElementById('inputEmail').value;
 				
 				$.ajax({
-					url: '${pageContext.request.contextPath}/findIdConfirmEmail',
-					data: { number: v_inputAuthEmail },
+					url: '${pageContext.request.contextPath}/ReConfirmEmail',
+					data: { 
+						number: v_inputAuthEmail, 
+						email: email
+					},
 					type: 'POST',
 					dataType: 'json',
 					success: function(result) {

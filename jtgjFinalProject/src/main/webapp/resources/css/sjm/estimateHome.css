@@ -2,10 +2,10 @@ div{
 	font-size: 20px;
 }
 
-.input-burget{
+.input-budget{
 	font-size: 25px;
 }
-.input-burget::placeholder{
+.input-budget::placeholder{
 	font-size: 25px;
 }
 
@@ -17,11 +17,11 @@ div{
 	font-size: 50px;
 }
 
-.burget-input-box{
+.budget-input-box{
 	width: 20%;
 }
 
-.burget-btn-box{
+.budget-btn-box{
 	margin-top: 20px;
 	
 	text-align: end;

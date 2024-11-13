@@ -27,4 +27,18 @@ public class EstimateService {
 		
 		return result;
 	}
+	
+	// ajax로 가져온 자제들의 대체자제들 전부 가져오기
+	public List<EstimateDTO> getMaterToSub(EstimateDTO estimate) {
+		List<EstimateDTO> result =  dao.getMaterToSub(estimate);
+		
+		return result;
+	}
+	
+	// 선정된 대체 자제들 정보 단일 가져오기
+	public EstimateDTO getSubMaterInfo(EstimateDTO estimate) {
+		EstimateDTO result = dao.getSubMaterInfo(estimate);
+		
+		return result;
+	}
 }
