@@ -45,16 +45,16 @@
 		</div>
 	</div>
 
-	<!-- burget input -->
+	<!-- budget input -->
 	<div class="container">
 		<div class="main-title">
 			<div class="header-font">STEP 1) 예산을, 예산을 입력해라.</div>
-			<div class="burget-input-box">
-				<input class="input-burget" type="text" placeholder="단위 : 원"
-					id="burget">
+			<div class="budget-input-box">
+				<input class="input-budget" type="text" placeholder="단위 : 원"
+					id="budget">
 			</div>
-			<div class="burget-btn-box">
-				<div class="sjm-btn sjm-btn-success" >다음</div>
+			<div class="budget-btn-box">
+				<div id="budgetBtn" class="sjm-btn sjm-btn-success" >다음</div>
 			</div>
 
 		</div>
@@ -276,11 +276,42 @@
 		let v_modalBox = document.querySelector(".sjm_mocdal-box");
 		
 		/* 예산 입력 정규식 */
-		document.getElementById('burget').addEventListener('keyup', function(event) {
+		let v_budget = document.getElementById("budget");
+		
+		v_budget.addEventListener('keyup', function(event) {
 			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지        
 			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
 			this.value = insertComma(this.value.replace(/[,]/g, ''));
 		});
+		
+		/* 예산 입력 후 다음단계 */
+		let v_container = document.querySelectorAll(".container");
+		
+		// 예산 입력 전까지 숨기기
+		v_container[2].style.display = "none";
+		v_container[3].style.display = "none";
+		
+		// 다음 버튼 클릭 시
+		document.getElementById("budgetBtn").addEventListener("click", ()=>{
+			while(true){
+				if (!v_budget.value){
+					alert("0원 이상 입력해라 뒤지기 싫으면");
+					break;
+				} else {
+					let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
+					console.log(v_intBudget);
+					if (v_intBudget < 10000000){
+						alert("건물이 몇백이면 뚝딱하고 지어짐? 진짜 모름");
+						break;
+					}
+					alert("good boy");
+					v_container[2].style.display = "block";
+					v_container[3].style.display = "block";
+					break;
+				}
+			}
+		});
+		
 		
 		/* 자제 선택 클릭 이벤트 */
 		for (let i = 0; i < v_btnModal.length; i++) { 
@@ -573,33 +604,41 @@
 	
 	<script type="text/javascript">
 		
+		/* 최종 결과 도출 */
 		// 계산 버튼
 		let v_resultBtn = document.getElementById("resultBtn");
 		
-		let v_sendMaterials = {};
+		let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+		
+		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
 			
-			// 선택한 자제들
-			let v_calCarbons = document.getElementById("calCarbon");
+			// 선택한 자제들의 탄소배출량
+			let v_calCarbons = document.getElementById("calCarbon"); 
 			let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+			
+			// 선택한 자제들의 가격
 			let v_calPrices = document.getElementById("calPrice");
 			let v_sendPrices = v_calPrices.querySelectorAll("div");
 			
 			for (let i = 0; i < v_sendCarbons.length; i++){
-				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1];
-				let v_matName = v_sendCarbons[i].textContent.split(",")[0];
-				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0];
+				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
 				
-				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0];
-				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1];
+				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
 				
+				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
 				v_sendMaterials[i] = {'matCategory': v_matCategory
 						, 'matName' : v_matName
 						, 'matKg': v_matKg}
 			}
 			
+			// JSONString으로 변환
 			v_sendMaterials = JSON.stringify(v_sendMaterials);
 			
+			// ajax 통신 함수
 			f_ajaxJsonStrin("sendMaterials=" + v_sendMaterials);
 		});
 		
@@ -608,9 +647,7 @@
 		function f_ajaxJsonStrin(v_sendMaterials){
 			
 			const v_ajax = new XMLHttpRequest();
-			
 			v_ajax.open("POST", "${pageContext.request.contextPath}/calMaterial", false);
-			
 			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			
 			v_ajax.onload = () =>{
