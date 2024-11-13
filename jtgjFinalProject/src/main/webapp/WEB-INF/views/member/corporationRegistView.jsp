@@ -257,7 +257,7 @@
 				formData.append("file", v_file);
 				
 				// Python 서버로 파일을 전송하는 AJAX 요청
-				fetch("http://localhost:5000/ocr", {
+				fetch("http://192.168.0.143:5000/ocr", {
 					method: "POST",
 					body: formData
 				})
