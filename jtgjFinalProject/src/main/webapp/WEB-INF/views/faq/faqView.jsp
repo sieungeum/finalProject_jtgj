@@ -59,13 +59,13 @@
 							<td>
                                 <c:choose>
                                     <c:when test="${faq.faqSicYn == 'N'}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }</a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }[${faq.faqCount }]</a>
                                     </c:when>
                                     <c:when test="${faq.faqSicYn == 'S' && (faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'Y')}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span></a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span>[${faq.faqCount }]</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>비밀글 입니다.</span>
+                                        <span>비밀글 입니다.[${faq.faqCount }]</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>

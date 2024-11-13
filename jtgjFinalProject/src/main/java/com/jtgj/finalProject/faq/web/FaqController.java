@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.jtgj.finalProject.attach.service.AttachService;
 import com.jtgj.finalProject.common.dto.SearchDTO;
+import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
@@ -27,6 +31,12 @@ public class FaqController {
 	
 	@Autowired
 	FaqService faqService;
+	
+	@Autowired
+	AttachService attachService;
+	
+	@Autowired
+	FileUploadUtils fileUploadUtils;
 	
 	@RequestMapping("/faqView")
 	public String FaqView(Model model, PageSearchVO pageSearch) {
@@ -57,7 +67,7 @@ public class FaqController {
 	}
 	
 	@PostMapping("faqWriteDo")
-	public String faqWriteDo(FaqDTO faq, HttpSession session) {
+	public String faqWriteDo(FaqDTO faq, HttpSession session, MultipartFile[] faqFile) {
 		System.out.println(faq);
 		
 		UserDTO login = (UserDTO)session.getAttribute("login");
@@ -99,6 +109,12 @@ public class FaqController {
 	
 	@PostMapping("faqEditDo")
 	public String faqEditDo(FaqDTO faq) {
+		
+		// 체크박스가 체크되지 않은 경우 'N'으로 설정
+	    if (faq.getFaqSicYn() == null || faq.getFaqSicYn().isEmpty()) {
+	        faq.setFaqSicYn("N");
+	    }
+		
 		faqService.editFaq(faq);
 		return "redirect:/faqView";
 	}

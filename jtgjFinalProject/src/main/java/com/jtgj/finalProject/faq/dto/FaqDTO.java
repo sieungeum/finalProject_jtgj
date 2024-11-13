@@ -10,13 +10,14 @@ public class FaqDTO {
 	private String faqDate;
 	private String faqDelYn;
 	private String faqSicYn;
+	private int faqCount;
 	
 	public FaqDTO() {
 		super();
 	}
 
 	public FaqDTO(String userId, String userName, int faqNo, String faqTitle, String faqContent, String faqDate,
-			String faqDelYn, String faqSicYn) {
+			String faqDelYn, String faqSicYn, int faqCount) {
 		super();
 		this.userId = userId;
 		this.userName = userName;
@@ -26,6 +27,7 @@ public class FaqDTO {
 		this.faqDate = faqDate;
 		this.faqDelYn = faqDelYn;
 		this.faqSicYn = faqSicYn;
+		this.faqCount = faqCount;
 	}
 
 	public String getUserId() {
@@ -92,11 +94,19 @@ public class FaqDTO {
 		this.faqSicYn = faqSicYn;
 	}
 
+	public int getFaqCount() {
+		return faqCount;
+	}
+
+	public void setFaqCount(int faqCount) {
+		this.faqCount = faqCount;
+	}
+
 	@Override
 	public String toString() {
 		return "FaqDTO [userId=" + userId + ", userName=" + userName + ", faqNo=" + faqNo + ", faqTitle=" + faqTitle
 				+ ", faqContent=" + faqContent + ", faqDate=" + faqDate + ", faqDelYn=" + faqDelYn + ", faqSicYn="
-				+ faqSicYn + "]";
+				+ faqSicYn + ", faqCount=" + faqCount + "]";
 	}
 	
 }

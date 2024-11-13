@@ -89,7 +89,27 @@
 	            				<tbody id="comBody">
 	            					<c:forEach items="${comList }" var="com">
 	            						<tr id="${com.comNo }">
-	            							<td>${com.comContent }</td>
+	            							<td>
+	            								<c:choose>
+					                                <%-- 비밀 댓글 ('S') 처리 --%>
+					                                <c:when test="${com.comSicYn == 'S'}">
+					                                    <c:choose>
+					                                        <%-- 작성자 본인 또는 관리자('Y', 'K')만 볼 수 있음 --%>
+					                                        <c:when test="${com.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+					                                            ${com.comContent} <span class="text-muted">(비밀 댓글입니다.)</span>
+					                                        </c:when>
+					                                        <%-- 그 외의 사용자에게는 비밀 댓글 메시지만 표시 --%>
+					                                        <c:otherwise>
+					                                            비밀 댓글입니다.
+					                                        </c:otherwise>
+					                                    </c:choose>
+					                                </c:when>
+					                                <%-- 공개 댓글 ('Y') --%>
+					                                <c:otherwise>
+					                                    ${com.comContent}
+					                                </c:otherwise>
+					                            </c:choose>
+	            							</td>
 	            							<td>${com.userName }</td>
 	            							<td>${com.comDate }</td>
 	            							<c:if test="${com.userId == sessionScope.login.userId }">
@@ -112,8 +132,9 @@
 		            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
 		            				<div class="form-check">
 							            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
-							            <label class="form-check-label" for="comSicYn">중요 여부</label>
+							            <label class="form-check-label" for="comSicYn">비밀 댓글</label>
 							        </div>
+							        <input type="hidden" id="isUserLoggedIn" value="${sessionScope.login != null ? 'true' : 'false'}">
 	            				</div>
 	            				<div class="col-lg-3">
 	            					<button class="btn btn-warning me-2" type="button" id="comBtn">등록</button>
@@ -135,16 +156,27 @@
 		const v_btn = document.getElementById("deleteBtn");
 		const v_form = document.getElementById("deleteForm");
 		
-		v_btn.addEventListener("click", ()=>{
-			if(confirm('정말로 삭제하시겠습니까?')){
-				v_form.submit();
-			}
-		});
-		
 		const v_comBtn = document.getElementById("comBtn");
 		const v_comForm = document.getElementById("comForm");
 		
+		if(v_btn && v_form) {
+			v_btn.addEventListener("click", ()=>{
+				if(confirm('정말로 삭제하시겠습니까?')){
+					v_form.submit();
+				}
+			});
+		}
+		
+		
 		v_comBtn.addEventListener("click", ()=>{
+			
+			// 로그인 여부 확인
+		    const isUserLoggedIn = document.getElementById("isUserLoggedIn").value;
+		    if (isUserLoggedIn === 'false') {
+		        alert("댓글을 등록하려면 로그인이 필요합니다.");
+		        return;
+		    }
+			
 			let v_comForm = $('#comForm');
 			let v_url = v_comForm.attr('action');
 			let v_formData = v_comForm.serialize();
@@ -160,8 +192,14 @@
 					v_tr.id  = data.comNo;
 					
 					let tdContent = document.createElement("td");
-					tdContent.innerHTML = data.comContent;
-					v_tr.appendChild(tdContent);
+
+		            // 비밀 댓글 여부에 따라 내용 표시
+		            if (data.comSicYn == 'S') {
+		                tdContent.innerHTML = data.comContent + "(비밀 댓글입니다.)";
+		            } else {
+		                tdContent.innerHTML = data.comContent;
+		            }
+		            v_tr.appendChild(tdContent);
 					
 					let tdUserName = document.createElement("td");
 					tdUserName.innerHTML = data.userName;

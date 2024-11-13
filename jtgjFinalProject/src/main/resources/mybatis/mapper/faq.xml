@@ -6,34 +6,47 @@
 		SELECT * FROM (
 			SELECT 
 				a.*
-				, ROWNUM AS RNUM
+				, (
+					SELECT
+						COUNT(*)
+					FROM comments
+					WHERE faq_no = a.faq_no
+						AND com_del_yn = 'N'
+				) AS faq_count
 			FROM(
-				SELECT
-					a.faq_no,
-					a.faq_title,
-					b.user_id,
-					b.user_name,
-					b.user_rank,
-					a.faq_content,
-					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
-					a.faq_sic_yn
-				FROM 
-					faqs a
-					, users b
-				WHERE 1=1
-					AND a.user_id = b.user_id
-					AND a.faq_del_yn = 'N'
-				<if test="searchWord != null">
-					<choose>
-						<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
-						<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
-						<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
-					</choose>
-				</if>
-				ORDER BY faq_no DESC
+				SELECT * FROM (
+					SELECT
+						a.*,
+						ROWNUM AS RNUM
+					FROM(
+						SELECT
+							a.faq_no,
+							a.faq_title,
+							b.user_id,
+							b.user_name,
+							b.user_rank,
+							a.faq_content,
+							TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
+							a.faq_sic_yn
+						FROM 
+							faqs a
+							, users b
+						WHERE 1=1
+							AND a.user_id = b.user_id
+							AND a.faq_del_yn = 'N'
+						<if test="searchWord != null">
+							<choose>
+								<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
+								<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
+								<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
+							</choose>
+						</if>
+						ORDER BY faq_no DESC
+					)a
+				)
+				WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
 			)a
 		)
-		WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
 	</select>
 	
 	<select id="getFaqCount" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO" resultType="int">
@@ -83,7 +96,8 @@
 			b.user_id,
 			b.user_name,
 			a.faq_content,
-			TO_CHAR(a.faq_date, 'yyyy.MM.dd hh24:mm') AS faq_date
+			TO_CHAR(a.faq_date, 'yyyy.MM.dd hh24:mm') AS faq_date,
+			a.faq_sic_yn
 		FROM 
 			faqs a,
 			users b
@@ -98,7 +112,8 @@
 			faqs
 		SET
 			faq_title = #{faqTitle},
-			faq_content = #{faqContent}
+			faq_content = #{faqContent},
+			faq_sic_yn = #{faqSicYn}
 		WHERE 1=1
 			AND faq_no = #{faqNo}
 	</update>

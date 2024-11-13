@@ -63,6 +63,10 @@
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
 	                    	<button class="btn btn-primary" type="submit">등록</button>
 	                    </div>
+	                    <div class="form-check mb-3">
+						    <input class="form-check-input" type="checkbox" id="faqSicYn" name="faqSicYn" value="S" <c:if test="${faq.faqSicYn == 'S'}">checked</c:if>>
+						    <label class="form-check-label" for="faqSicYn">비밀글로 설정</label>
+						</div>
                 	</form>
          
                 </div>

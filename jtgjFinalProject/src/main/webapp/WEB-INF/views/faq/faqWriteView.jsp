@@ -45,7 +45,7 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                	<form action="${pageContext.request.contextPath }/faqWriteDo" method="POST">
+                	<form action="${pageContext.request.contextPath }/faqWriteDo" method="POST" enctype="multipart/form-data">
 	             		<div class="mb-3">
 	             			<label for="inputTitle">제목</label>
 	                    	<input class="form-control" type="text" name="faqTitle" placeholder="제목을 입력해주세요" />
@@ -53,6 +53,12 @@
 	                    
 	                    <div class="mb-3">
 	                         <textarea class="form-control" rows="10" name="faqContent"></textarea>
+	                    </div>
+	                    
+	                    <!-- file input -->
+	                    <div class="mb-3">
+	                    	<label for="formFileMultiple" class="form-label">파일첨부</label>
+	                    	<input class="form-control" name="faqFile" type="file" id="formFileMultiple" multiple>
 	                    </div>               
 	                    
 	                    <div class ="d-flex justify-content-end">
