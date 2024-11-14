@@ -25,6 +25,8 @@ public class AdminController {
 	@RequestMapping("/adminPage")
 	public String adminPage(Model model) {
 		System.out.println("- adminPage - ");
+		
+	
 		List<UserDTO> userList = adminService.getUserList();
 		
 		model.addAttribute("userList", userList);
@@ -32,6 +34,9 @@ public class AdminController {
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
 		
 		model.addAttribute("faqList", faqList);
+		
+		
+	
 		
 		return "myPage/adminPage";
 	}
@@ -41,6 +46,16 @@ public class AdminController {
 		System.out.println(user);
 		
 		adminService.userDo(user);
+		
+		return "redirect:/adminPage";
+		
+	}
+	
+	@PostMapping("/userProDo")
+	public String userProDo(UserDTO user) {
+		System.out.println(user);
+		
+		adminService.userProDo(user);
 		
 		return "redirect:/adminPage";
 		
@@ -69,5 +84,14 @@ public class AdminController {
 		return "myPage/index";
 	}
 	
+	@RequestMapping("/promotion")
+	public String promotion(Model model) {
+		System.out.println("- promotion - ");
+		List<FaqDTO> faqList = adminfaqService.getFaqList();
+		
+		model.addAttribute("faqList", faqList);
+		
+		return "myPage/promotion";
+	}
 	
 }
