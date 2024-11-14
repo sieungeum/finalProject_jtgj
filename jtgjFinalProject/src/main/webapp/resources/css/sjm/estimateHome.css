@@ -199,5 +199,54 @@ div{
 	text-align: end;
 }
 
+/* 계산 후 모달 */
+
+.modal-box_sort{
+	display: flex;
+}
+
+.modal-box__cal{
+	display: none;
+	position: fixed;
+	overflow-x: hidden;
+	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	width: 70%;
+	height: 80%;
+	
+	background-color: #fff;
+}
+
+.mat-box{
+	margin-right: 10px;
+	
+	border: 1px solid black;
+}
+
+.select-mat{
+	margin: 5px 5px 5px 5px;
+	
+	border: 1px solid black;
+}
+
+.cal-before{
+	
+}
+
+.cal-after{
+	
+}
+
+
+
+
+
+
+
+
+
 
 

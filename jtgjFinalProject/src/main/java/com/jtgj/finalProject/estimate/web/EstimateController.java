@@ -1,5 +1,7 @@
 package com.jtgj.finalProject.estimate.web;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,19 +28,18 @@ public class EstimateController {
 	@Autowired
 	SubMatchService subMatchService;
 
+	// 처음 들어올 때 기본자제들 정보 model로 가져오기
 	@RequestMapping("/estimateHome")
 	public String estimateHome(Model model) {
 		System.out.println(" - estimateHome - ");
 
 		List<EstimateDTO> basicMatter = estimateService.basic_mater();
-
-		System.out.println(basicMatter);
-
 		model.addAttribute("basicMatter", basicMatter);
 
 		return "estimate/estimateHome";
 	}
 
+	// "자제 추가하기" 버튼 클릭 시
 	@ResponseBody
 	@PostMapping("/getMaterials")
 	public List<EstimateDTO> getMaterials(String materCategory) {
@@ -74,41 +75,52 @@ public class EstimateController {
 		}
 		
 		/* 최적의 대체 자제 구하기 */
-		List<EstimateDTO> subMaterList = new ArrayList<EstimateDTO>();
-		
+		List<EstimateDTO> subMaterList = new ArrayList<EstimateDTO>(); // 최종적으로 보낼 List
 		for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
 			// 카테고리, 자제명만 추가
 			Map<String, String> materDict = (Map<String, String>) entry.getValue();
 			
+			// MyBatis에서 사용할 EstimateDTO 객체
 			EstimateDTO estimate = new EstimateDTO();
-			estimate.setMaterCategory(materDict.get("matCategory"));
-			estimate.setMaterName(materDict.get("matName"));
+			estimate.setMaterCategory(materDict.get("matCategory")); // 카테고리
+			estimate.setMaterName(materDict.get("matName")); // 자제명
 			
 			// 해당 자제의 대체 자제 정보
 			List<EstimateDTO> subMaterInfo = estimateService.getMaterToSub(estimate);
 
+			/* 최적의 대체 자제가 저장될 map 객체 */
 			Map<String, String> optimalMater = new HashMap<>();
 			optimalMater.put("materCategory", "");
 			optimalMater.put("materName", "");
-			double optimalNormal = 999999999.0;
+			double optimalNormal = 99999999999999999999999.0; // min 수치(작을수록 최적의 수치임)
+			
+			/* 최적 대체 자제 알고리즘 */
 			for (EstimateDTO mater : subMaterInfo) {
-				int matPrice = mater.getMaterPrice();
-				double matCarbon = mater.getMaterGasKg();
+				int matPrice = mater.getMaterPrice(); // 자제 가격
+				double matCarbon = mater.getMaterGasKg(); // 자제 탄소배출량
 				
+				// 가격, 탄소배출량 수치로 정규화? 이걸 정규화라 하는게 맞나? 흠냐륑
 				double normalize = Math.pow(matPrice / 1000 * Integer.parseInt(materDict.get("matKg")), 2)
 						+ Math.pow((matCarbon + 10.0) * Integer.parseInt(materDict.get("matKg")), 2);
-
-				System.out.println(mater.getMaterName());
-				System.out.println(normalize);
-				System.out.println(matPrice);
-				System.out.println(matCarbon);
 				
+				normalize = Math.round(normalize * 100.0) / 100.0; // 가끔 수치가 크면 double을 넘어서 소수점 둘째짜리까지 표기
+
+				// 그냥 눈으로 보려고 만듬
+				System.out.println("자제명 : " + materDict.get("matName"));
+				System.out.println("대체 자제명 : " + mater.getMaterName());
+				System.out.println("정규화 수치 : " + normalize);
+				System.out.println("가격" + matPrice);
+				System.out.println("탄소배출량" + matCarbon);
+				
+				// 정규화 수치가 기존보다 작을 경우(최적)
 				if (normalize < optimalNormal) {
-					System.out.println(normalize);
-					System.out.println("------------");
+					System.out.println("------ 0 ------");
+					System.out.println("수치 : " + normalize);
 					optimalMater.put("materCategory", mater.getMaterCategory());
 					optimalMater.put("materName", mater.getMaterName());
-					optimalNormal = normalize;
+					System.out.println("------ 0 ------");
+					
+					optimalNormal = normalize; // 최적 정규화 수치 정상화
 				}
 			}
 			
@@ -116,13 +128,17 @@ public class EstimateController {
 			addEstimate.setMaterCategory(optimalMater.get("materCategory"));
 			addEstimate.setMaterName(optimalMater.get("materName"));
 			
+			// 최적의 대체 자제
+			System.out.println("최종 당선");
 			System.out.println(addEstimate);
+			System.out.println("");
+			System.out.println("");
 			
+			// 최종 return List에 저장
 			subMaterList.add(estimateService.getSubMaterInfo(addEstimate));
-			
 		}
 		
-		System.out.println(subMaterList);
+		System.out.println(subMaterList.size());
 		
 		return subMaterList;
 	}

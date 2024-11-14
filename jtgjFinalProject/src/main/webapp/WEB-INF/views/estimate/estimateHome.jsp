@@ -179,7 +179,7 @@
 					<div class="cal-subtitle" style="letter-spacing: 1px;">탄소배출량</div>
 					<div class="calculate-sort">
 						<div id="calCarbon" class="cal-result-style" >
-							<span class="cal-mr" >0</span>
+							<span id="carbonSum" class="cal-mr" >0</span>
 							<!-- 여기부터 자제 선택 시 hidden으로 탄소배출량, kg 저장 -->
 						</div>
 						<span class="cal-ml" >KG</span>
@@ -191,7 +191,7 @@
 					<div class="cal-subtitle" style="letter-spacing: 16px;">자제비</div>
 					<div class="calculate-sort">
 						<div id="calPrice" class="cal-result-style" >
-							<span class="cal-mr" >0</span>
+							<span id="priceSum" class="cal-mr" >0</span>
 							<!-- 여기부터 자제 선택 시 hidden으로 가격, kg 저장 -->
 						</div>
 						<span class="cal-ml" >(원)</span>
@@ -207,12 +207,12 @@
 		</div>
 	</div>
 	
-	<!-- Modal -->
+	<!-- Material Modal -->
 	<div class="sjm_mocdal-box">
 		<!--   	이건 일단 삭제 ㄴㄴ
 		<div class="modal-box__top">
 			<img class="modal-top__img" src="">
-		</div>
+		</div>z
 		<div class="modal-box__bottom">
 			<div class="modal-botton__material"></div>
 			<div class="modal-botton__rating">
@@ -243,6 +243,96 @@
 		</div> -->
 		<div class="add-modal">
 			<!-- ajax로 가져옴 -->
+		</div>
+	</div>
+	
+	<!-- Finally Calculate Modal -->
+	<div class="modal-box__cal" >
+		<div class="modal-box_sort">
+			<div class="mat-box" >
+				<div class="select-mat" >
+					외장재
+					<br>
+				</div>
+				<div class="select-mat" >
+					지붕재
+					<br>
+				</div>
+				<div class="select-mat" >
+					창호재
+					<br>
+				</div>
+				<div class="select-mat" >
+					주방
+					<br>
+				</div>
+				<div class="select-mat" >
+					욕실
+					<br>
+				</div>
+				<div class="select-mat" >
+					거실
+					<br>
+				</div>
+				<div class="select-mat" >
+					방
+					<br>
+				</div>
+			</div>
+			<div class="mat-box" >
+				<div class="select-mat" >
+					외장재
+					<br>
+				</div>
+				<div class="select-mat" >
+					지붕재
+					<br>
+				</div>
+				<div class="select-mat" >
+					창호재
+					<br>
+				</div>
+				<div class="select-mat" >
+					주방
+					<br>
+				</div>
+				<div class="select-mat" >
+					욕실
+					<br>
+				</div>
+				<div class="select-mat" >
+					거실
+					<br>
+				</div>
+				<div class="select-mat" >
+					방
+					<br>
+				</div>
+			</div>
+			<div class="compare-percent-box">
+				<div class="compare-percent__carbon">
+					<div>탄소배출량</div>
+					<div class="modal-box_sort">
+						<div class="cal-before">
+							
+						</div>
+						<div class="cal-after">
+							
+						</div>
+					</div>
+				</div>
+				<div class="compare-percent__price">
+					<div>가격</div>
+					<div class="modal-box_sort">
+						<div class="cal-before">
+							
+						</div>
+						<div class="cal-after">
+							
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -608,10 +698,10 @@
 		// 계산 버튼
 		let v_resultBtn = document.getElementById("resultBtn");
 		
-		let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
-		
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
+			
+			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
 			
 			// 선택한 자제들의 탄소배출량
 			let v_calCarbons = document.getElementById("calCarbon"); 
@@ -632,20 +722,34 @@
 				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
 				v_sendMaterials[i] = {'matCategory': v_matCategory
 						, 'matName' : v_matName
+						, 'matCarbon' : v_matCarbon
+						, 'matPrice' : v_matPrice
 						, 'matKg': v_matKg}
 			}
 			
-			// JSONString으로 변환
-			v_sendMaterials = JSON.stringify(v_sendMaterials);
-			
 			// ajax 통신 함수
-			f_ajaxJsonStrin("sendMaterials=" + v_sendMaterials);
+			f_ajaxJsonString(v_sendMaterials);
+			
+			
+			
+			
 		});
 		
-		
-		
-		function f_ajaxJsonStrin(v_sendMaterials){
+		/* 최종 결과 출력 */
+		function f_ajaxJsonString(v_sendMaterials){
+			// 선택한 자제들 ajax로 보내기 전에 원본 유지
+			let v_basicMatDict = v_sendMaterials;
 			
+			// JSONString으로 변환 및 ajax로 보내기 위한 변형
+			v_sendMaterials = JSON.stringify(v_sendMaterials);
+			v_sendMaterials = "sendMaterials=" + v_sendMaterials;
+			
+			// result modal css
+			let v_modalBoxCal = document.querySelector(".modal-box__cal"); // 전체 모달창
+			let v_matBox = document.querySelectorAll(".mat-box"); // 자제들 나올 box
+			let v_selectMat = document.querySelectorAll(".select-mat"); // 자제들 html
+			
+			// ajax 요청
 			const v_ajax = new XMLHttpRequest();
 			v_ajax.open("POST", "${pageContext.request.contextPath}/calMaterial", false);
 			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -653,13 +757,70 @@
 			v_ajax.onload = () =>{
 				// 통신 성공 시
 				if (v_ajax.status == 200){
-					let v_data = v_ajax.response;
-					// v_data = JSON.parse(v_data);
 					
-					console.log(v_data);
+					// 받은 데이터 JSON으로 변형
+					let v_subMat = v_ajax.response; 
+					v_subMat = JSON.parse(v_subMat);
+					
+					/* dict to arr */
+					let v_basicMat = []; // arr
+					for (let key in Object.keys(v_basicMatDict)){
+						v_basicMat.push(v_basicMatDict[key]);
+					}
+
+					/* 기본자제, 대체자제 모달창에 추가 */
+					let v_change = false; // false : 기본자제, true : 대체자제
+					let v_subCarbonSum = 0;
+					let v_subPriceSum = 0;
+					for (let k = 0; k < v_matBox.length; k++){
+						for (let i = 0; i < v_matBox[k].children.length; i++){
+							// category 공백제거
+							let v_category = v_matBox[k].children[i].textContent.trim();
+							
+							// 자제 정보 html에 추가
+							if (!v_change){ // 기본 자제
+								for (let data of v_basicMat){
+									if (data['matCategory'] == v_category){
+										v_matBox[k].children[i].innerHTML += data["matName"];
+										v_matBox[k].children[i].innerHTML += '<input type="hidden" value='+ data["matKg"] +'>';
+									}
+								}
+							} else { // 대체 자제
+								for (let data of v_subMat){
+									if (data['materCategory'] == v_category){
+										v_matBox[k].children[i].innerHTML += data["materName"] + "<br>";
+										console.log(v_matBox[0].children[i].children[1]);
+										console.log(v_matBox[0].children[i].children[1].value);
+										let v_num = v_matBox[0].children[i].children[1].value;
+										v_subCarbonSum += data['materGasKg'] * v_num;
+										v_subPriceSum += data['materPrice'] * v_num;
+									}
+								}
+							}
+						}
+						
+						// 대체 자제
+						v_change = true;
+					}
+					
+					let v_carbonSum = document.getElementById("carbonSum").innerHTML;
+					let v_priceSum = document.getElementById("priceSum").innerHTML;
+
+					let v_calBefore = document.querySelectorAll(".cal-before");
+					v_calBefore[0].innerHTML = v_carbonSum
+					v_calBefore[1].innerHTML = v_priceSum
+					
+					let v_calAfter = document.querySelectorAll(".cal-after");
+					v_calAfter[0].innerHTML = v_subCarbonSum;
+					v_calAfter[1].innerHTML = v_subPriceSum;
+					
+					
+					// 모달창 출력
+					v_modalBoxCal.style.display = "block";
 				}
 			}
 			
+			// 데이터 요청
 			v_ajax.send(v_sendMaterials);
 		}
 		
