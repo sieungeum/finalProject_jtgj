@@ -57,8 +57,21 @@
 			                     <h6>${faq.faqDate }</h6>
 			                </div>
 			                
-			                <div class="mb-3">
-			                	<pre>${faq.faqContent }</pre>
+			                <!-- 첨부파일 목록 -->
+			                <div class="mb-3 d-flex">
+			                	<c:forEach items="${attachList }" var="attach">
+			                		<div>
+			                			<!-- 파일 이름 클릭시 다운로드 -->
+			                			<a href="${pageContext.request.contextPath}/filedownload?fileName=${attach.atchFileName}&fileOriName=${attach.atchOriginalName}">
+										    첨부파일 ${attach.atchOriginalName} (${attach.atchFancySize})
+										</a>
+			                		</div>
+			                	</c:forEach>
+			                </div>
+			                
+			                <div class="faq-body">
+			                	<!-- <pre>${faq.faqContent }</pre> -->
+			                	${faq.faqContent} 
 			                </div>               
 			                
 			                <div class ="d-flex justify-content-end">
@@ -95,7 +108,7 @@
 					                                <c:when test="${com.comSicYn == 'S'}">
 					                                    <c:choose>
 					                                        <%-- 작성자 본인 또는 관리자('Y', 'K')만 볼 수 있음 --%>
-					                                        <c:when test="${com.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+					                                        <c:when test="${com.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || faq.userId == sessionScope.login.userId}">
 					                                            ${com.comContent} <span class="text-muted">(비밀 댓글입니다.)</span>
 					                                        </c:when>
 					                                        <%-- 그 외의 사용자에게는 비밀 댓글 메시지만 표시 --%>
@@ -123,25 +136,27 @@
 	            	</div>
 	            	
 	            	<!-- 댓글 작성 영역 -->
-	            	<div class="row justify-content-center">
-	            		<div class="col-lg-8 col-xl-7">
-	            			<form class="row" id="comForm" action="<c:url value="/writeComDo" />" method="POST">
-	            				<div class="col-lg-9">
-		            				<input class="form-control" type="text" id="comInput" name="comContent">
-		            				<input type="hidden" name="userId" value="${sessionScope.login.userId }">
-		            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
-		            				<div class="form-check">
-							            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
-							            <label class="form-check-label" for="comSicYn">비밀 댓글</label>
-							        </div>
-							        <input type="hidden" id="isUserLoggedIn" value="${sessionScope.login != null ? 'true' : 'false'}">
-	            				</div>
-	            				<div class="col-lg-3">
-	            					<button class="btn btn-warning me-2" type="button" id="comBtn">등록</button>
-	            				</div>
-	            			</form>
-	            		</div>
-	            	</div>
+	            	<c:if test="${faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+		            	<div class="row justify-content-center">
+		            		<div class="col-lg-8 col-xl-7">
+		            			<form class="row" id="comForm" action="<c:url value="/writeComDo" />" method="POST">
+		            				<div class="col-lg-9">
+			            				<input class="form-control" type="text" id="comInput" name="comContent">
+			            				<input type="hidden" name="userId" value="${sessionScope.login.userId }">
+			            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
+			            				<div class="form-check">
+								            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
+								            <label class="form-check-label" for="comSicYn">비밀 댓글</label>
+								        </div>
+								        <input type="hidden" id="isUserLoggedIn" value="${sessionScope.login != null ? 'true' : 'false'}">
+		            				</div>
+		            				<div class="col-lg-3">
+		            					<button class="btn btn-warning me-2" type="button" id="comBtn">등록</button>
+		            				</div>
+		            			</form>
+		            		</div>
+		            	</div>
+	            	</c:if>
 	            	
 	            </div>
             </section>
@@ -167,58 +182,60 @@
 			});
 		}
 		
-		
-		v_comBtn.addEventListener("click", ()=>{
+		if (v_comBtn && v_comForm){
 			
-			// 로그인 여부 확인
-		    const isUserLoggedIn = document.getElementById("isUserLoggedIn").value;
-		    if (isUserLoggedIn === 'false') {
-		        alert("댓글을 등록하려면 로그인이 필요합니다.");
-		        return;
-		    }
-			
-			let v_comForm = $('#comForm');
-			let v_url = v_comForm.attr('action');
-			let v_formData = v_comForm.serialize();
-			
-			$.ajax({
-				type: 'POST',
-				url: v_url,
-				data: v_formData,
-				success: function(data){
-					console.log(data);
-					
-					let v_tr = document.createElement("tr");
-					v_tr.id  = data.comNo;
-					
-					let tdContent = document.createElement("td");
-
-		            // 비밀 댓글 여부에 따라 내용 표시
-		            if (data.comSicYn == 'S') {
-		                tdContent.innerHTML = data.comContent + "(비밀 댓글입니다.)";
-		            } else {
-		                tdContent.innerHTML = data.comContent;
-		            }
-		            v_tr.appendChild(tdContent);
-					
-					let tdUserName = document.createElement("td");
-					tdUserName.innerHTML = data.userName;
-					v_tr.appendChild(tdUserName);
-					
-					let tdDate = document.createElement("td");
-					tdDate.innerHTML = data.comDate;
-					v_tr.appendChild(tdDate);
-					
-					let tdDel = document.createElement("td");
-					tdDel.innerHTML = "<a onclick='f_del(this)'>X</a>";
-					v_tr.appendChild(tdDel);
-					
-					document.getElementById("comBody").prepend(v_tr);
-					document.getElementById("comInput").value = "";
-					
-				}
+			v_comBtn.addEventListener("click", ()=>{
+				
+				// 로그인 여부 확인
+			    const isUserLoggedIn = document.getElementById("isUserLoggedIn").value;
+			    if (isUserLoggedIn === 'false') {
+			        alert("댓글을 등록하려면 로그인이 필요합니다.");
+			        return;
+			    }
+				
+				let v_comForm = $('#comForm');
+				let v_url = v_comForm.attr('action');
+				let v_formData = v_comForm.serialize();
+				
+				$.ajax({
+					type: 'POST',
+					url: v_url,
+					data: v_formData,
+					success: function(data){
+						console.log(data);
+						
+						let v_tr = document.createElement("tr");
+						v_tr.id  = data.comNo;
+						
+						let tdContent = document.createElement("td");
+	
+			            // 비밀 댓글 여부에 따라 내용 표시
+			            if (data.comSicYn == 'S') {
+			                tdContent.innerHTML = data.comContent + "(비밀 댓글입니다.)";
+			            } else {
+			                tdContent.innerHTML = data.comContent;
+			            }
+			            v_tr.appendChild(tdContent);
+						
+						let tdUserName = document.createElement("td");
+						tdUserName.innerHTML = data.userName;
+						v_tr.appendChild(tdUserName);
+						
+						let tdDate = document.createElement("td");
+						tdDate.innerHTML = data.comDate;
+						v_tr.appendChild(tdDate);
+						
+						let tdDel = document.createElement("td");
+						tdDel.innerHTML = "<a onclick='f_del(this)'>X</a>";
+						v_tr.appendChild(tdDel);
+						
+						document.getElementById("comBody").prepend(v_tr);
+						document.getElementById("comInput").value = "";
+						
+					}
+				});
 			});
-		});
+		}
 		
 		function f_del(p_this) {
 			if(!confirm("댓글을 삭제하시겠습니까?")){

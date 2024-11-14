@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Mapper
@@ -17,6 +18,10 @@ public interface IUserDAO {
 	
 	// 개인회원가입 구현
 	Integer registPersonalUser(UserDTO user);
+	
+	// 기업회원가입 구현
+	Integer registC(UserDTO user);
+	Integer registCMore(CompanyDTO company);
 	
 	// 아이디 중복확인
 	boolean confirmId(String id);

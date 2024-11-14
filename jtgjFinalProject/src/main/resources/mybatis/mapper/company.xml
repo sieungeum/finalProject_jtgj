@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.user.dao.IUserDAO">
+	<!-- 기업회원 가입 실행 -->
+	<select id="registC" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+		INSERT INTO users(
+			user_id
+			, user_name
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+			, user_prof_img
+		) VALUES (
+			#{userId}
+			, #{userName}
+			, #{userPw}
+			, #{userEmail}
+			, SYSDATE
+			, #{userPhone}
+			, 'C'
+			, 'N'
+			, 'N'
+		)
+	</select>
+	
+	<select id="registCMore" parameterType="com.jtgj.finalProject.user.dto.CompanyDTO">
+		INSERT INTO company_info(
+			user_id
+			, cp_regi_num
+			, cp_ceo_name
+			, cp_address
+			, cp_open_date
+		) VALUES (
+			#{userId}
+			, #{cpRegiNum}
+			, #{cpCeoName}
+			, #{cpAddress}
+			, #{cpOpenDate}
+		)
+	</select>
+</mapper>
