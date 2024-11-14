@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jtgj.finalProject.user.dao.IUserDAO;
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -33,7 +34,18 @@ public class UserService {
 	public Integer registPersonalUser(UserDTO user) {
 		Integer result = dao.registPersonalUser(user);
 		
-		System.out.println(result);
+		return result;
+	}
+	
+	// 기업 회원가입 구현
+	public Integer registC(UserDTO user) {
+		Integer result = dao.registC(user);
+		
+		return result;
+	}
+	
+	public Integer registCMore(CompanyDTO company) {
+		Integer result = dao.registCMore(company);
 		
 		return result;
 	}
