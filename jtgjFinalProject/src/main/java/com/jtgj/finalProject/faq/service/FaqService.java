@@ -47,6 +47,11 @@ public class FaqService {
 		return result;
 	}
 	
+	public int getFaqNo() {
+		int result = dao.getFaqNo();
+		return result;
+	}
+	
 	// 여기서 부터 댓글 관련 서비스
 	
 	public int writeComment(CommentDTO com) {

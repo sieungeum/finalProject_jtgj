@@ -2,12 +2,11 @@ package com.jtgj.finalProject.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
-import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.mail.MessagingException;
@@ -17,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +23,16 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 import com.jtgj.finalProject.user.service.UserService;
 
@@ -114,7 +112,7 @@ public class UserController {
 			}
 
 			PrintWriter out = response.getWriter();
-			if (fromUrl.contains("Do") || fromUrl.contains("find")) {
+			if (fromUrl.contains("Do") || fromUrl.contains("find") || fromUrl.contains("Regist")) {
 				out.println("<script>alert('환영합니다!'); location.href='" + request.getContextPath() + "/';</script>");
 				out.close();
 			}
@@ -132,6 +130,14 @@ public class UserController {
 		session.invalidate();
 
 		return "redirect:/";
+	}
+	
+	// 회원가입 선택창 실행
+	@RequestMapping("/selectSignUpView")
+	public String selectSignUpView() {
+		System.out.println(" - Regist Page - ");
+		
+		return "member/selectSignUpView";
 	}
 
 	// 개인회원 가입 화면 실행
@@ -182,6 +188,47 @@ public class UserController {
 		System.out.println(" - Corporation Regist Page - ");
 
 		return "member/corporationRegistView";
+	}
+	
+	// 기업회원 가입 실행
+	@ResponseBody
+	@PostMapping("/corporationRegistDo")
+	public ResponseEntity<Boolean> corporationRegistDo(@RequestBody Map<String, Object> requestData) {
+		System.out.println(" - Corporation Regist Do - ");
+		
+		boolean result = false;
+		
+		System.out.println(requestData);
+		
+		// UserDTO 매핑
+		UserDTO user = new UserDTO();
+		user.setUserId((String) requestData.get("userId"));
+		user.setUserName((String) requestData.get("userName"));
+		user.setUserPw((String) requestData.get("userPw"));
+		user.setUserPhone((String) requestData.get("userPhone"));
+		user.setUserEmail((String) requestData.get("userEmail"));
+
+		// CompanyDTO 매핑
+		CompanyDTO company = new CompanyDTO();
+		company.setUserId((String) requestData.get("userId"));
+		company.setCpRegiNum((String) requestData.get("cpRegiNum"));
+		company.setCpOpenDate((String) requestData.get("cpOpenDate"));
+		company.setCpAddress((String) requestData.get("cpAddress"));
+		company.setCpCeoName((String) requestData.get("cpCeoName"));
+		
+		// 데이터 베이스에 insert
+		if(user != null && company != null) {
+			userService.registC(user);
+			userService.registCMore(company);
+
+			result = true;
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+
 	}
 
 	// 아이디 중복 여부 체크
@@ -370,6 +417,22 @@ public class UserController {
 		return "member/findPersonalPwView";
 	}
 	
+	// 기업 계정 ID 찾기 페이지
+	@RequestMapping("/findCorporationIdView")
+	public String findCorporationIdView() {
+		System.out.println(" - Find Corporation ID Page");
+		
+		return "member/findCorporationIdView";
+	}
+	
+	// 기업 계정 PW 찾기 페이지
+	@RequestMapping("/findCorporationPwView")
+	public String findCorporationPwView() {
+		System.out.println(" - Find Corporation PW Page");
+		
+		return "member/findCorporationPwView";
+	}
+	
 	// 계정찾기 이메일 인증번호 보내기
 	@ResponseBody
 	@RequestMapping(value = "/findAccountConfirmEmail", method = RequestMethod.POST)
@@ -426,8 +489,37 @@ public class UserController {
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
-		
 	}	
+	
+	@PostMapping("/sendLostId")
+	public ResponseEntity<Void> sendLostId(String id, String email, HttpServletRequest request, 
+	                                       HttpServletResponse response_email) throws IOException, MessagingException {
+	    System.out.println("분실 아이디 메일 보내기 실행");
+	    
+	    String setfrom = "jjjjkuul@gmail.com";
+	    String tomail = request.getParameter("email"); // 받는 사람 이메일
+	    String title = "<저탄고집 웹사이트> 분실하신 아이디 입니다."; // 제목
+	    String content = 
+	            
+	            System.getProperty("line.separator") +
+	            System.getProperty("line.separator") +
+	            "안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다." +
+	            System.getProperty("line.separator") +
+	            System.getProperty("line.separator") +
+	            "회원님의 아이디는 「" + request.getParameter("id") + "」 입니다!"; // 내용
+	    
+	    MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+	    messageHelper.setFrom(setfrom);
+	    messageHelper.setTo(tomail);
+	    messageHelper.setSubject(title);
+	    messageHelper.setText(content);
+	    
+	    mailSender.send(message);
+	    System.out.println("메일 성공적으로 보내짐!");
+	    
+	    return ResponseEntity.ok().build(); // 빈 응답 전송 (200 OK)
+	}
 	
 	// 계정 찾기 인증 메소드(ID)
 	@ResponseBody

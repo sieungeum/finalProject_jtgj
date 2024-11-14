@@ -14,7 +14,7 @@
 		FROM 
 			users
 		WHERE 1=1
-
+ 
 </select>
 
 <update id="userDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
@@ -22,6 +22,16 @@
 	        users
 	    SET
 	    	user_rank = 'K'                      
+	    WHERE 
+	        user_id = #{userId} 
+	        AND user_name = #{userName}
+	</update>
+	
+<update id="userProDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+	    UPDATE 
+	        users
+	    SET
+	    	user_rank = 'M'                      
 	    WHERE 
 	        user_id = #{userId} 
 	        AND user_name = #{userName}
@@ -37,12 +47,15 @@
 	        AND user_name = #{userName}
 	</update>
 	
+
+	
 <select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO">
 
 				SELECT
 					a.faq_no,
 					a.user_id,
 					a.faq_title,
+					a.faq_count,
 					b.user_name,
 					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
 				FROM 

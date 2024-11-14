@@ -57,7 +57,7 @@
 			display: none;
 			position: absolute;
 			top: 50%;
-			right: -7%;
+			right: -5%;
 		}
 
     </style>
@@ -82,9 +82,11 @@
     
     <div class="custom-container">
     	<div class="container-box">
-	        <div class="mb-4" style="text-align:center;"><h4>저탄고집 기업회원 가입</h4></div>
+	        <div class="mb-4" style="text-align:center;">
+	        	<h4>저탄고집 기업회원 가입</h4>
+	        </div>
 	
-	        <div class="mb-3">
+			<div class="mb-3">
 	            <div class="input-group">
 	                <label for="inputFile" class="form-label" style="font-weight:bolder;">기업 인증(사업자등록증명원을 첨부해주세요!)</label>
 	                <div class="input-group">
@@ -97,7 +99,7 @@
 	                </div>
 	            </div>
 	        </div>
-	
+	        
 			<div id="moreInfoBox">
 		        <div class="mb-3">
 		            <label for="inputCorName" class="form-label" style="font-weight:bolder;">기업명</label>
@@ -184,8 +186,7 @@
 		        <div class="mt-3 mb-5">
 		            <button class="btn btn-primary btn-lg w-100" type="button" id="signUpBtn">가입하기</button>
 		        </div>  		
-			</div>
-  	
+			</div>	        
     	</div>
 
     </div>
@@ -193,6 +194,16 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript">
+		let v_userName;
+		let v_cpCeoName;
+		let v_cpAddress;
+		let v_cpOpenDate;
+		let v_userId;
+		let v_userPw;
+		let v_userPhone;
+		let v_userEmail;
+		let v_cpRegiNum;
+	
 		function verifyBusinessNumber(regiNum){
 			console.log(regiNum);
 			
@@ -264,9 +275,9 @@
 				.then(response => response.json())
 				.then(data => {
 					if(data.business_registration_number){
-						console.log(data.business_registration_number);
 						let regiNum = data.business_registration_number.replace(/-/g, '');
-						console.log(regiNum);
+						v_cpRegiFile = 
+						v_cpRegiNum = regiNum;
 						verifyBusinessNumber(regiNum);
 					} else{
 						$("#submitFile").css("display", "block");
@@ -293,9 +304,9 @@
 		
 		// 기업명
 		function checkCorName(){
-			let corName = $('#inputCorName').val();
+			v_userName = $('#inputCorName').val();
 			
-			if(corName){
+			if(v_userName){
 				corNameOn = true;
 				toggleSignUpButton();
 			}else{
@@ -306,9 +317,9 @@
 		
 		// 대표자명
 		function checkCeoName(){
-			let ceoName = $('#inputCEO').val();
+			v_cpCeoName = $('#inputCEO').val();
 			
-			if(ceoName){
+			if(v_cpCeoName){
 				ceoOn = true;
 				toggleSignUpButton();
 			}else{
@@ -366,7 +377,9 @@
 			let v_address = $("#inputAddress").val();
 			let v_detailAddress = $("#detailAddress").val();
 			let v_zipCode = $("#zipCode").val();
-			let v_extraAdress = $("#extraAddress").val();
+			let v_extraAddress = $("#extraAddress").val();
+			
+			v_cpAddress = v_zipCode + "/" + v_address + "/" + v_detailAddress + "/" + v_extraAddress;
 			
 			if(v_address && v_detailAddress && v_zipCode){
 				addressOn = true;
@@ -380,9 +393,9 @@
 		
 		// 개업일
 		function checkDate(){
-			let openDate = $('#inputDate').val();
+			v_cpOpenDate = $('#inputDate').val();
 			
-			if(openDate){
+			if(v_cpOpenDate){
 				dateOn = true;
 				toggleSignUpButton();
 			} else{
@@ -414,6 +427,7 @@
 					if(result == true){
 						idOn = true;
 						$("#label1").css("color", "green").css("font-size", "13px").text("사용 가능한 ID 입니다.");
+						v_userId = id;
 					} else{
 						idOn = false;
 						$("#label1").css("color", "red").css("font-size", "13px").text("사용 불가능한 ID 입니다.");
@@ -433,6 +447,7 @@
 				if(pw === rePw){
 					pwOn = true;
 					$('#label2').text('비밀번호가 일치합니다.').css("color", "green").css("font-size", "13px");
+					v_userPw = pw;
 				} else{
 					pwOn = false;
 					$('#label2').text('비밀번호가 일치하지 않습니다.').css('color', 'red').css("font-size", "13px");
@@ -482,6 +497,11 @@
 			let v_inputAuthEmail = document.getElementById('inputAuthEmail').value;
 			let email = document.getElementById('inputEmail').value;
 			
+			if(v_inputAuthEmail == "" || v_inputAuthEmail.length == 0){
+				alert("인증번호를 입력해주세요!");
+				return;
+			}
+			
 			$.ajax({
 				url: '${pageContext.request.contextPath}/ReConfirmEmail',
 				data: {
@@ -499,6 +519,8 @@
 						let v_emailAuthBtn = document.getElementById('emailAuthBtn');
 						v_authBox.innerHTML = "<p style='color:green; font-size:13px;'>이메일 인증이 완료됐습니다!</p>";
 						v_emailAuthBtn.disabled = "true";
+						
+						v_userEmail = email;
 						
 						toggleSignUpButton(); // 가입 버튼 상태 업데이트
 					} else {
@@ -552,6 +574,44 @@
 		$('#detailAddress, #inputAddress').on("focusout", checkAddress); // 회사주소 focusout 이벤트
 		
 		toggleSignUpButton();
+		
+		document.getElementById('signUpBtn').addEventListener("click", () => {
+			if(confirm("위의 정보로 가입하시겠습니까?")){
+				v_userPhone = document.getElementById('inputPhone').value;
+				
+				let requestData = {
+					    userName: v_userName,
+					    cpCeoName: v_cpCeoName,
+					    cpAddress: v_cpAddress,
+					    cpOpenDate: v_cpOpenDate,
+					    userId: v_userId,
+					    userPw: v_userPw,
+					    userPhone: v_userPhone,
+					    userEmail: v_userEmail,
+					    cpRegiNum: v_cpRegiNum
+					};
+
+				console.log(requestData);
+				
+ 				$.ajax({
+					type: 'POST',
+					url: "${pageContext.request.contextPath}/corporationRegistDo",
+					data: JSON.stringify(requestData),
+					contentType: "application/json",
+					success: function(result){
+						if(result === true){
+							alert('회원가입이 성공적으로 이루어졌습니다!');
+							location.href = "${pageContext.request.contextPath}/loginView";
+						} else{
+							alert('회원가입에 실패했습니다. 고객센터에 문의해주세요.');
+						}
+					},
+					error: function(error){
+						console.error("Error occured:", error);
+					}
+				}); 
+			}
+		});
 
 	</script>
 </body>

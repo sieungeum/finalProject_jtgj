@@ -94,7 +94,9 @@
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href=""> 홍보 </a>
+						<c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
+						</c:if>
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
@@ -156,6 +158,7 @@
 										<th>이메일</th>
 										<th>가입일</th>
 										<th>기업여부</th>
+										<th>인증</th>
 										<th>관리자권한</th>
 									</tr>
 								</thead>
@@ -169,7 +172,34 @@
 											<td>${user.userDate }</td>
 											<td>${user.userAccount }</td>
 											<td>
-												<c:if test="${user.userRank == 'N'}">
+											<c:if test="${user.userRank == 'N'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+														<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
+															<input type="hidden" name="userId" value="${user.userId}">
+															<input type="hidden" name="userName" value="${user.userName}">
+														    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit">미인증기업</button>
+															
+														</form>
+													</c:if>
+												</c:if>
+												<c:if test="${user.userRank == 'K' || user.userRank == 'M'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">인증기업</button>
+														
+													</form>
+													</c:if>
+												</c:if>
+												<c:if test="${user.userRank == 'Y'}">
+													<button class="btn btn-primary btn-xl" disabled="disabled">총괄 관리자</button>
+												</c:if>
+											</td>
+											
+											
+											<td>
+												<c:if test="${user.userRank == 'N' || user.userRank == 'M'}">
 													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 														<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormB">
 															<input type="hidden" name="userId" value="${user.userId}">
@@ -217,15 +247,24 @@
 					                    <th>글제목</th>
 					                    <th>작성자</th>
 					                    <th>작성일</th>
+					                    <th>답변 여부</th>
 					                </tr>
 					            </thead>
 					            <tbody>
 									<c:forEach items="${faqList}" var="faq">
 											<tr>
 												<td scope="row">${faq.faqNo }</td>
-												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }[${faq.faqCount }]</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
+												<td>${faq.faqCount}
+												<c:if test="${faq.faqCount == 0}">
+													미답변
+												</c:if>
+												<c:if test="${faq.faqCount >= 1}">
+													답변완료
+												</c:if>
+												</td>
 											</tr>
 									</c:forEach>
 									

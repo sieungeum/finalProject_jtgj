@@ -24,6 +24,11 @@ public class AdminService {
 		return result;
 	}
 	
+	public int userProDo(UserDTO user) {
+		int result = dao.userProDo(user);
+		return result;
+	}
+	
 	public int userDelDo(UserDTO user) {
 		int result = dao.userDelDo(user);
 		return result;

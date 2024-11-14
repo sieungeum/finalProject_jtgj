@@ -111,9 +111,6 @@
 				<button class="btn btn-primary btn-lg" style="width:20%;" type="button" id="checkIdAuthBtn">인증확인</button>
 			</div>
 			
-			<div class="w-100" id="idInfoBox" style="font-size:14px;color:black;display:none;">
-				
-			</div>
 		</div>        
  
 
@@ -121,9 +118,8 @@
 		<div style="display:flex;flex-direction:column;background-color:#EEEEEE;padding-top:3%;padding-bottom:3%;padding-left:3%;">
 			<div class="d-flex">
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/loginView">로그인</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findPersonalPwView">비밀번호 찾기</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/personalRegistView">개인 회원가입</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/corporationRegistView">기업 회원가입</a>
+				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findPersonalPwView">개인회원 비밀번호 찾기</a>
+				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findAccountView">회원가입</a>
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/faqView">건의사항</a>
 			</div>
 				
@@ -143,7 +139,6 @@
 			let v_checkIdAuthBtn = document.getElementById('checkIdAuthBtn');
 			
 		    v_emailAuthBtn.addEventListener("click", () => {
-		    	$("#idInfoBox").css("display", "none");
 
 		        let v_email = document.getElementById('inputEmail').value;
 		    	
@@ -184,6 +179,32 @@
 		        }
 		    });
 		    
+		    // 분실 아이디 메일 보내는 함수
+		    function sendLostId(id, email){
+		    	console.log('아이디 메일로 보내기');
+		    	$("#emailSpinner").css("display", "block");
+		    	
+		    	$.ajax({
+		    	    url: '${pageContext.request.contextPath}/sendLostId',
+		    	    data: {
+		    	        id: id,
+		    	        email: email
+		    	    },
+		    	    type: "POST",
+		    	    success: function() {
+		    	        console.log('성공적인 전송');
+		    	        $("#emailSpinner").css("display", "none");
+		    	        alert('성공적으로 아이디가 전송됐습니다! 메일을 확인해주세요!');
+		    	        location.href = "${pageContext.request.contextPath}/loginView";
+		    	    },
+		    	    error: function(xhr, status, error) {
+		    	        console.error("AJAX 에러 발생:", error);
+		    	        alert('인증 요청 중 오류가 발생했습니다.');
+		    	    }
+		    	});
+		    }
+		    
+		    
 		    v_checkIdAuthBtn.addEventListener('click', () => {
 		    	let v_inputAuthNumber = document.getElementById('inputAuthNumber').value;
 		        let v_email = document.getElementById('inputEmail').value;
@@ -205,10 +226,11 @@
 	                success: function(result) {
 	                    console.log(result);
 	                    if (result.success) {
-	                        alert('인증을 성공하셨습니다.');
-	                        $("#idInfoBox").css("display", "block");
-	                        document.getElementById('idInfoBox').innerHTML = "회원님의 아이디는 " + result.userId + " 입니다!";
+	                        alert('인증됐습니다! 아이디를 메일로 보내겠습니다..');
 	                        $('#checkIdAuthBtn').prop('disabled', true);
+	                        
+	                        // 메일 보내는 함수 작성
+	                        sendLostId(result.userId, v_email);
 	                    } else {
 	                        alert(result.warning);
 	                    }
