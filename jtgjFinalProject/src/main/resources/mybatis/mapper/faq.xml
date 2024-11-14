@@ -127,6 +127,14 @@
 			AND faq_no = #{faqNo}
 	</update>
 	
+	<!--첨부 파일을 포함한 게시글 저장시 생성될 게시글의 faqNo확인 -->
+	<select id="getFaqNo" resultType="int">
+		SELECT 
+			COUNT(*) + 1
+		FROM 
+			faqs
+	</select>
+	
 	<!-- 여기서 부터틑 댓글 관련 -->
 	
 	<select id="getCommentList" parameterType="int" resultType="com.jtgj.finalProject.faq.dto.CommentDTO">
@@ -137,13 +145,14 @@
 			b.user_name,
 			a.com_content,
 			TO_CHAR(a.com_date, 'MM/dd' ) AS com_date,
-			a.com_sic_yn
+			a.com_sic_yn,
+			b.user_rank
 		FROM comments a, users b
 		WHERE 1=1
 			AND a.user_id = b.user_id
 			AND a.faq_no = #{faqNo}
 			AND a.com_del_yn = 'N'
-		ORDER BY com_no DESC
+		ORDER BY com_no
 	</select>
 	
 	<select id="getComment" parameterType="String" resultType="com.jtgj.finalProject.faq.dto.CommentDTO">
@@ -154,7 +163,8 @@
 			b.user_name,
 			a.com_content,
 			TO_CHAR(a.com_date, 'MM/dd' ) AS com_date,
-			a.com_sic_yn
+			a.com_sic_yn,
+			b.user_rank
 		FROM comments a, users b
 		WHERE 1=1
 			AND a.user_id = b.user_id

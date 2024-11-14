@@ -19,6 +19,7 @@ public interface IFaqDAO {
 	FaqDTO getFaq(int faqNo);
 	int editFaq(FaqDTO faq);
 	int deleteFaq(int faqNo);
+	int getFaqNo();
 	
 	// 건의사항 댓글 관련
 	int writeComment(CommentDTO com);
