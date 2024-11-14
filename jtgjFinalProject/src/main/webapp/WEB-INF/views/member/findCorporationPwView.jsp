@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>저탄고집 개인회원 비밀번호 찾기 페이지</title>
+    <title>저탄고집 기업회원 비밀번호 찾기 페이지</title>
     <%@ include file="/WEB-INF/inc/header.jsp" %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
@@ -74,7 +74,7 @@
 	</div>
     
     <div class="custom-container">
-        <div class="w-100" style="padding-bottom:3%;"><h1>개인회원 비밀번호 찾기</h3></div>
+        <div class="w-100" style="padding-bottom:3%;"><h1>기업회원 비밀번호 찾기</h3></div>
         
         <!-- 이메일 인증 on -->
 		<div style="border:1px solid black;padding-top:10%;padding-bottom:5%;padding-left:8%;padding-right:8%;margin-bottom:5%;">
@@ -141,7 +141,7 @@
 		<div style="display:flex;flex-direction:column;background-color:#EEEEEE;padding-top:3%;padding-bottom:3%;padding-left:3%;">
 			<div class="d-flex">
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/loginView">로그인</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findPersonalIdView">개인회원 아이디 찾기</a>
+				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findCorporationIdView">기업회원 아이디 찾기</a>
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/findAccountView">회원가입</a>
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/faqView">건의사항</a>
 			</div>

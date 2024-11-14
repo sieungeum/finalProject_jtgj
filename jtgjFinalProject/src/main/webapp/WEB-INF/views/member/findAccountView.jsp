@@ -100,8 +100,12 @@
 					<p style="font-size:20px;padding-top:10%;padding-bottom:7%;font-weight:500">기업회원</p>
 				</div>
 				<div class="d-flex" style="border-top:1px solid #CCCCCC;">
-					<div class="w-50 find-id-btn" style="text-align:center;font-size:15px;padding-top:3%;padding-bottom:3%;border-right:1px solid #CCCCCC">아이디 찾기</div>
-					<div class="w-50 find-pw-btn" style="text-align:center;font-size:15px;padding-top:3%;padding-bottom:3%;">비밀번호 찾기</div>
+					<div class="w-50 find-id-btn" style="text-align:center;font-size:15px;padding-top:3%;padding-bottom:3%;border-right:1px solid #CCCCCC">
+						<a style="color:black;" href="${pageContext.request.contextPath }/findCorporationIdView">아이디 찾기</a>
+					</div>
+					<div class="w-50 find-pw-btn" style="text-align:center;font-size:15px;padding-top:3%;padding-bottom:3%;">
+						<a style="color:black;" href="${pageContext.request.contextPath }/findCorporationPwView">비밀번호 찾기</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -109,8 +113,7 @@
 		<div style="display:flex;flex-direction:column;background-color:#EEEEEE;margin-top:3%;padding-top:3%;padding-bottom:3%;padding-left:3%;">
 			<div class="d-flex">
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/loginView">로그인</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/personalRegistView">개인 회원가입</a>
-				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/corporationRegistView">기업 회원가입</a>
+				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
 				<a class="btn btn-light me-3" href="${pageContext.request.contextPath }/faqView">건의사항</a>
 			</div>
 				

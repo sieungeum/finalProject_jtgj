@@ -55,9 +55,9 @@
 
         #carouselExampleFade{
         	width: 80%;
-        	height: 50%;
+        	height: 53%;
         	position: absolute;
-			top: 45%;
+			top: 48%;
 			left: 50%;
     		transform: translate(-50%, -50%);
         }
@@ -115,34 +115,6 @@
             margin-bottom: 20px;
         }
 
-        .individual-member{
-            width: 50%;
-            text-align: center;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .individual-member:hover{
-            color: grey;
-            opacity: 80%;
-        }
-
-        .corporate-member{
-            width: 50%;
-            text-align: center;
-            font-size: 20px;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .corporate-member:hover{
-            color: grey;
-            opacity: 80%;
-        }
-
         .id-box{
             margin-bottom: 20px;
         }
@@ -162,9 +134,9 @@
             margin-bottom: 20px;
         }
 
-        .find-member{
+        .find-create-member{
+        	width: 100%;
             display: flex;
-            font-size: 10px;
         }
     </style>
     
@@ -233,25 +205,10 @@
 	                <span class="visually-hidden">Next</span>
 	            </button>
 	        </div> 
-	
-			<!-- 회원가입 버튼 -->
-	        <div class="sign-in-btn-box">
-	        	<a href="${pageContext.request.contextPath }/personalRegistView" class="btn btn-success btn-lg" id="sign-in-btn" style="width:80%;">개인회원가입</a>
-	        </div>
         </div>
 
         <div class="login-box">
             <div class="login-mini-box">
-                <div class="login-div">
-                    <div class="individual-member">
-                        개인회원
-                        <hr style="width: 100%; margin:0; height:3px; background-color:#4876EF;">
-                    </div>
-                    <div class="corporate-member">
-                        기업회원
-                        <hr style="visibility:hidden; width:100%; margin:0; height:3px; background-color:#4876EF;">
-                    </div>
-                </div>
 
 				<form action="${pageContext.request.contextPath }/loginDo" method="POST">
 			       	<input type="hidden" value="${fromUrl }" name="fromUrl">
@@ -276,8 +233,11 @@
 				</form>
                 
 
-                <div class="find-member">
-                    <div style="margin-right: 10px;"><a style="text-decoration:none;color:black;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a></div>
+                <div class="find-create-member">
+                    <div style="width:100%;display:flex;flex-direction:column;font-size:13px;">
+                        <a class="btn btn-info mb-3" style="text-decoration:none;color:white;" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
+                    	<a class="btn btn-info" style="text-decoration:none;color:white;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -285,42 +245,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script>
-        let individualMember = document.getElementsByClassName('individual-member')[0];
-        let corporateMember = document.getElementsByClassName('corporate-member')[0];
-        let signInBtn = document.getElementById('sign-in-btn');
-        let signInBtnBox = document.getElementsByClassName('sign-in-btn-box')[0];
-        let checkBox = document.getElementsByClassName('check-box')[0]; 
-
-        // 개인 멤버 클릭시
-        individualMember.addEventListener('click', () => {
-            individualMember.children[0]['style']['visibility'] = "visible";
-            signInBtnBox.children[0]['attributes'][0]['nodeValue'] = "/finalProject/personalRegistView"
-            signInBtn.innerHTML = "개인회원가입";
-            checkBox.innerHTML = [
-                '<input class="form-check-input me-1" type="checkbox" id="remember-login" name="remeberId" ${cookie.rememberId.value == null ? "" : "checked"}>' +
-                '<label class="form-check-label" for="remember-login">' +
-                '아이디 기억하기' +
-                '</label>'
-            ]
-            corporateMember.children[0]['style']['visibility'] = "hidden";
-        })
-
-        // 기업 멤버 클릭시
-        corporateMember.addEventListener('click', () => {
-            corporateMember.children[0]['style']['visibility'] = "visible";
-            signInBtnBox.children[0]['attributes'][0]['nodeValue'] = "/finalProject/corporationRegistView"
-            signInBtn.innerHTML = "기업회원가입";
-            checkBox.innerHTML = [
-                '<input class="form-check-input me-1" type="checkbox" value="" id="remember-login">' +
-                '<label class="form-check-label" for="remember-login">' +
-                '아이디 기억하기' +
-                '</label>'
-            ]
-            individualMember.children[0]['style']['visibility'] = "hidden";
-        })       
-		
-    </script>
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>
