@@ -69,16 +69,24 @@
 		WHERE user_email = #{email}
 	</select>
 	
-	<!-- 이메일을 통한 아이디 값 받아오기 -->
-	<select id="getIdUsedEmail" parameterType="String" resultType="String">
+	<!-- 이메일을 통한 아이디 값, 유저 정보 받아오기 -->
+	<select id="getUserUsedEmail" parameterType="String" resultType="com.jtgj.finalProject.user.dto.UserDTO">
 		SELECT
 			user_id
+			, user_name
+			, user_pw
+			, user_email
+			, user_date
+			, user_phone
+			, user_account
+			, user_rank
+			, user_prof_img
 		FROM users
 		WHERE 1=1
 		  AND user_email = #{userEmail}		
 	</select>
 	
-	<!-- 기존에 사용한 비밀번호 불러오기 -->
+	<!-- 기존에 사용한 비밀번호 불러오기 -> 위 매퍼 대처 -->
 	<select id="getPwUsedEmail" parameterType="String" resultType="String">
 		SELECT
 			user_pw

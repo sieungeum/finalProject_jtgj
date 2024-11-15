@@ -41,4 +41,16 @@
 			, #{cpOpenDate}
 		)
 	</select>
+	
+	<select id="getCompanyUsedRegiNum" resultType="com.jtgj.finalProject.user.dto.CompanyDTO">
+		SELECT
+			user_id
+			, cp_regi_num
+			, cp_ceo_name
+			, cp_address
+			, cp_open_date
+		FROM company_info
+        WHERE 1=1
+          AND cp_regi_num = #{regiNum}
+	</select>
 </mapper>

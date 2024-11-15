@@ -69,10 +69,6 @@
 
     	<div class="header">
 		<div class="container">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath }/"> <img src="img/logo.png" alt="Logo">
-				</a>
-			</div>
 
 			<!-- nav -->
 			<%@ include file="/WEB-INF/inc/nav.jsp" %>
@@ -204,6 +200,36 @@
 		let v_userEmail;
 		let v_cpRegiNum;
 	
+		function regiNumDuplicateCheck(regiNum, callback){			
+			console.log(regiNum);
+			
+			$.ajax({
+				url: '${pageContext.request.contextPath}/regiNumDuplicateCheck',
+				type: "POST",
+				data: {
+					regiNum: regiNum
+				},
+				dataType: 'json',
+				accept: "application/json",
+				success: function(result){
+					console.log(result);
+					if(result === false){
+						console.log('중복회원');
+						alert('이미 가입된 회원입니다.');
+						
+						callback(false);
+					} else{
+						callback(true);
+					}
+				},
+				error: function(xhr, status, error){
+					console.error('AJAX 에러 발생:', error);
+					alert('인증 요청 중 오류가 발생했습니다.');
+					callback(false);
+				}
+			});
+		}
+		
 		function verifyBusinessNumber(regiNum){
 			console.log(regiNum);
 			
@@ -237,13 +263,9 @@
 						alert('사업자 등록이 확인됐습니다!');
 					}
 				},
-				error: function(result){
-					console.log(result.responseText);
-					
-					$("#submitFile").css("display", "block");
-					$("#loadingBtn").css("display", "none");
-					
-					alert("등록된 사업자가 아닙니다!");
+				error: function(xhr, status, error){
+					console.error('AJAX 에러 발생:', error);
+					alert('인증 요청 중 오류가 발생했습니다.');
 				}
 			});
 		}
@@ -276,9 +298,23 @@
 				.then(data => {
 					if(data.business_registration_number){
 						let regiNum = data.business_registration_number.replace(/-/g, '');
-						v_cpRegiFile = 
-						v_cpRegiNum = regiNum;
-						verifyBusinessNumber(regiNum);
+						v_cpRegiNum = regiNum;		
+						console.log(regiNum);
+						
+						// 사업자 등록번호 중복 체크
+						regiNumDuplicateCheck(regiNum, function(isUnique){
+							if(!isUnique){
+								console.log('중복된 회원');
+								
+								$("#submitFile").css("display", "block");
+								$("#loadingBtn").css("display", "none");
+								return;
+							}
+		
+							// ajax 검증
+							verifyBusinessNumber(regiNum);
+						});
+
 					} else{
 						$("#submitFile").css("display", "block");
 						$("#loadingBtn").css("display", "none");
@@ -289,7 +325,8 @@
 				.catch(error => {
 					console.error("Error", error);
 					alert('올바른 형식의 파일이 아닙니다. 다른 파일을 업로드해주십시오.');
-					location.reload();
+					$("#submitFile").css("display", "block");
+					$("#loadingBtn").css("display", "none");
 				});
 			}
 		}
