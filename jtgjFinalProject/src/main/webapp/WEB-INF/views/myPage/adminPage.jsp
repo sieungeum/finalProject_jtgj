@@ -68,7 +68,32 @@
 	text-decoration: none;
 }
 
+.modal {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* 반투명 검정 배경 */
+}
 
+/* 모달 콘텐츠 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+/* 입력 필드 스타일 */
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 10px;
+}
 
 </style>
 </head>
@@ -97,7 +122,7 @@
 						<c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
 						</c:if>
-						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
 					</div>
@@ -182,9 +207,32 @@
 														</form>
 													</c:if>
 												</c:if>
-												<c:if test="${user.userRank == 'K' || user.userRank == 'M'}">
+												
+												<c:if test="${user.userRank == 'M'}">
 													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">인증기업</button>
+														
+													</form>
+													</c:if>
+												</c:if>
+												
+												<c:if test="${user.userRank == 'L'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+													<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">미인증기업</button>
+														
+													</form>
+													</c:if>
+												</c:if>
+												
+												<c:if test="${user.userRank == 'K'}">
+													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+													<form action="${pageContext.request.contextPath }/userLDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
 														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">인증기업</button>
@@ -199,9 +247,9 @@
 											
 											
 											<td>
-												<c:if test="${user.userRank == 'N' || user.userRank == 'M'}">
+												<c:if test="${user.userRank == 'N'}">
 													<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-														<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormB">
+														<form action="${pageContext.request.contextPath }/userLDo" method="POST" id="checkFormB">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
 														    <c:if test="${sessionScope.login.userRank == 'Y' }">
@@ -213,7 +261,8 @@
 														</form>
 													</c:if>
 												</c:if>
-												<c:if test="${user.userRank == 'K'}">
+												
+												<c:if test="${user.userRank == 'L'}">
 													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
@@ -222,6 +271,32 @@
 														</c:if>
 														<c:if test="${sessionScope.login.userRank == 'K' }">
 														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														</c:if>
+													</form>
+												</c:if>
+												
+												<c:if test="${user.userRank == 'K'}">
+													<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														<c:if test="${sessionScope.login.userRank == 'Y' }">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">관리자</button>
+														</c:if>
+														<c:if test="${sessionScope.login.userRank == 'K' }">
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														</c:if>
+													</form>
+												</c:if>
+												
+												<c:if test="${user.userRank == 'M'}">
+													<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
+														<input type="hidden" name="userId" value="${user.userId}">
+														<input type="hidden" name="userName" value="${user.userName}">
+														<c:if test="${sessionScope.login.userRank == 'Y' }">
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">일반회원</button>
+														</c:if>
+														<c:if test="${sessionScope.login.userRank == 'K' }">
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">일반회원</button>
 														</c:if>
 													</form>
 												</c:if>
@@ -257,14 +332,7 @@
 												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }[${faq.faqCount }]</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
-												<td>${faq.faqCount}
-												<c:if test="${faq.faqCount == 0}">
-													미답변
-												</c:if>
-												<c:if test="${faq.faqCount >= 1}">
-													답변완료
-												</c:if>
-												</td>
+												<td>${faq.faqCount}</td>
 											</tr>
 									</c:forEach>
 									
@@ -275,29 +343,63 @@
 					
 					
 					<div class="card mb-4">
-						<div class="card-header"> 견적</div>
+						<div class="card-header">자재정보</div>
 						<div class="card-body">
 							<table id="datatablesOrders" style="width:100%; background-color: inherit;">
-								<thead>
-									<tr>
-										<th scope="col">번호</th>
-										<th scope="col">견적</th>
-										<th scope="col">작성자</th>
-										<th scope="col">작성일</th>
-									</tr>
-								</thead>
+    <thead>
+        <tr>
+            <th>번호</th>
+            <th>종류</th>
+            <th>이름</th>
+            <th>탄소배출량</th>
+            <th>가격</th>
+            <th>강도</th>
+            <th>설명</th>
+        </tr>
+    </thead>
+    <tbody>
+        <c:forEach items="${basicMatter}" var="mater">
+            <tr>
+                <td scope="row">${mater.materNo}</td>
+                <td>${mater.materCategory}</td>
+                <td><a href="javascript:void(0);" onclick="openModal(${mater.materNo})">${mater.materName}</a></td>
+                <td>${mater.materGasKg}</td>
+                <td>${mater.materPrice}</td>
+                <td>${mater.materDurability}</td>
+                <td>${mater.materInfo}</td>
+            </tr>
+        </c:forEach>
+    </tbody>
+</table>
+<div id="materModal" class="modal">
+    <div class="modal-content">
+        <h4>자재 정보 수정</h4>
+        <form id="materForm" action="/updateMater" method="post">
+            <input type="hidden" id="materNo" name="materNo" value="">
 
-								<tbody>
-									
-									<tr>
-										<td>1</td>
-										<td>젠장</td>
-										<td>티치</td>
-										<td>인도네시아</td>
-									</tr>
-									
-								</tbody>
-							</table>
+            <label for="materName">이름:</label>
+            <input type="text" id="materName" name="materName" required><br><br>
+
+            <label for="materGasKg">탄소배출량 (Kg):</label>
+            <input type="number" id="materGasKg" name="materGasKg" step="0.1" required><br><br>
+
+            <label for="materPrice">가격:</label>
+            <input type="number" id="materPrice" name="materPrice" required><br><br>
+
+            <label for="materDurability">강도:</label>
+            <input type="text" id="materDurability" name="materDurability" required><br><br>
+
+            <label for="materInfo">설명:</label>
+            <textarea id="materInfo" name="materInfo" required></textarea><br><br>
+
+            <label for="materClassify">분류:</label>
+            <input type="text" id="materClassify" name="materClassify" required><br><br>
+
+            <button type="submit">수정</button>
+            <button type="button" onclick="closeModal()">닫기</button>
+        </form>
+    </div>
+</div>
 						</div>
 					</div>
 				</div>
@@ -312,6 +414,35 @@
 			</footer>
 		</div>
 	</div>
+	
+	<script type="text/javascript">
+	function openModal(materNo) {
+		console.log("모달 열기 시도1:", materNo);
+	    // AJAX로 자재 정보를 가져오기
+	    fetch('/getMaterByNo/' + materNo)
+	        .then(response => response.json())
+	        .then(data => {
+	            // 자재 정보로 모달 필드 채우기
+	            document.getElementById('materNo').value = data.materNo;
+	            document.getElementById('materName').value = data.materName;
+	            document.getElementById('materGasKg').value = data.materGasKg;
+	            document.getElementById('materPrice').value = data.materPrice;
+	            document.getElementById('materDurability').value = data.materDurability;
+	            document.getElementById('materInfo').value = data.materInfo;
+	            document.getElementById('materClassify').value = data.materClassify;
+	            console.log("모달 열기 시도2:", materNo);
+	            // 모달 표시
+	            document.getElementById('materModal').style.display = 'block';
+	            console.log("모달 열기 시도3:", materNo);
+	        });
+	}
+
+	// 모달 닫기
+	function closeModal() {
+	    document.getElementById('materModal').style.display = 'none';
+	}
+	</script>
+	
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // 기존 견적 목록 (myEarnings)

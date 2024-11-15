@@ -5,11 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.jtgj.finalProject.admin.service.AdminFaqService;
 import com.jtgj.finalProject.admin.service.AdminService;
+import com.jtgj.finalProject.estimate.dto.EstimateDTO;
+import com.jtgj.finalProject.estimate.service.EstimateService;
+import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
@@ -22,21 +29,23 @@ public class AdminController {
 	@Autowired
 	AdminFaqService adminfaqService;
 	
+	@Autowired
+	EstimateService estimateService;
+	
 	@RequestMapping("/adminPage")
 	public String adminPage(Model model) {
 		System.out.println("- adminPage - ");
 		
-	
-		List<UserDTO> userList = adminService.getUserList();
+
 		
+		List<UserDTO> userList = adminService.getUserList();
 		model.addAttribute("userList", userList);
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
-		
 		model.addAttribute("faqList", faqList);
 		
-		
-	
+		List<EstimateDTO> basicMatter = estimateService.basic_mater();
+		model.addAttribute("basicMatter", basicMatter);
 		
 		return "myPage/adminPage";
 	}
@@ -56,6 +65,16 @@ public class AdminController {
 		System.out.println(user);
 		
 		adminService.userProDo(user);
+		
+		return "redirect:/adminPage";
+		
+	}
+	
+	@PostMapping("/userLDo")
+	public String userLDo(UserDTO user) {
+		System.out.println(user);
+		
+		adminService.userLDo(user);
 		
 		return "redirect:/adminPage";
 		
@@ -93,5 +112,19 @@ public class AdminController {
 		
 		return "myPage/promotion";
 	}
+	
+
+	  
+
+	    @GetMapping("/getMaterByNo/{materNo}")
+	    public EstimateDTO getMaterByNo(@PathVariable int materNo) {
+	        return adminService.getMaterByNo(materNo);
+	    }
+	    @PostMapping("/updateMater")
+	    public void updateMater(@RequestBody EstimateDTO estimateDTO) {
+	        adminService.updateMater(estimateDTO);
+	    }
+	
+	
 	
 }

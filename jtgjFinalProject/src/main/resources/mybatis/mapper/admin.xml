@@ -36,6 +36,16 @@
 	        user_id = #{userId} 
 	        AND user_name = #{userName}
 	</update>
+	
+<update id="userLDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+	    UPDATE 
+	        users
+	    SET   
+	    	user_rank = 'L'                      
+	    WHERE 
+	        user_id = #{userId} 
+	        AND user_name = #{userName}
+	</update>
 
 <update id="userDelDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
 	    UPDATE 

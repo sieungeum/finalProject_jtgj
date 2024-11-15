@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
+import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 
 @Service
@@ -29,4 +30,5 @@ public class AdminFaqService {
 		return result;
 	}
 	
+
 }
