@@ -3,17 +3,30 @@ package com.jtgj.finalProject.attach.web;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.jtgj.finalProject.attach.dto.AttachDTO;
+import com.jtgj.finalProject.common.util.FileUploadUtils;
 
 @Controller
 public class AttachController {
+	
+	@Autowired
+	FileUploadUtils fileUploadUtils;
 	
 	@Value("#{util['file.upload.path']}")
 	private String uploadPath;
@@ -43,5 +56,27 @@ public class AttachController {
 	    response.getOutputStream().flush();
 	    response.getOutputStream().close();
 	}
+	
+	// 이미지 업로드
+		@ResponseBody
+		@PostMapping(value="/uploadImg")
+		public String uploadImg(HttpSession session, MultipartFile file) {
+			Map<String, Object> result = new HashMap<>();
+			
+			String uuid = "";
+			
+			
+			try {
+				AttachDTO uploadImg = fileUploadUtils.getAttachByMultipart(file);
+				System.out.println(uploadImg);
+				// 저장된 이미지 파일명을 꺼냄
+				uuid = uploadImg.getAtchFileName();
+			}  catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("이미지 저장 실패");
+			}
+			
+			return uuid;
+		}
 
 }
