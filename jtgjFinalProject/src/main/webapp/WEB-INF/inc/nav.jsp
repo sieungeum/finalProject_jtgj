@@ -3,6 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
+<div class="logo">
+	<a href="home.html"> <img src="img/logo.png" alt="Logo">
+	</a>
+</div>
 
 <!-- Menu Hamburger (Default) -->
 <button class="main-menu-indicator" id="open-button">
@@ -44,7 +48,7 @@
 							
 								<li><a href="${pageContext.request.contextPath }/myPage">마이페이지</a></li>
 								
-								<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+								<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L' }">
 									<li><a href="${pageContext.request.contextPath }/adminPage">관리자페이지</a></li>
 								</c:if>
 								

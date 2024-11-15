@@ -72,8 +72,8 @@ public class UserService {
 	}
 	
 	// 이메일을 통해 아이디 받아오기
-	public String getIdUsedEmail(String email) {
-		String result = dao.getIdUsedEmail(email);
+	public UserDTO getUserUsedEmail(String email) {
+		UserDTO result = dao.getUserUsedEmail(email);
 		
 		return result;
 	}
@@ -88,6 +88,13 @@ public class UserService {
 	// 이메일을 통해 이전 패스워드 변경
 	public int updateNewPw(String password, String email) {
 		int result = dao.updateNewPw(password, email);
+		
+		return result;
+	}
+	
+	// 사업자등록번호를 통해 기업회원의 정보 가져오기
+	public CompanyDTO getCompanyUsedRegiNum(String regiNum) {
+		CompanyDTO result = dao.getCompanyUsedRegiNum(regiNum);
 		
 		return result;
 	}

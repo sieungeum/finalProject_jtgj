@@ -3,7 +3,9 @@
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.mail.Multipart;
 import javax.servlet.http.HttpSession;
@@ -27,6 +29,7 @@ import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
+import com.jtgj.finalProject.user.service.UserService;
 
 @Controller
 public class FaqController {

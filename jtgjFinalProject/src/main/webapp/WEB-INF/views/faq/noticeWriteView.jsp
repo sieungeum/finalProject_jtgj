@@ -47,14 +47,14 @@
                 	
                 	<input type="file" id="inputImg" accept="image/*" hidden="hidden" onchange="f_sendImg()">
                 	
-                	<form id="faqWriteForm" action="${pageContext.request.contextPath }/faqWriteDo" method="POST" enctype="multipart/form-data">
+                	<form id="noticeWriteForm" action="${pageContext.request.contextPath }/noticeWriteDo" method="POST" enctype="multipart/form-data">
 	             		<div class="mb-3">
 	             			<label for="inputTitle">제목</label>
-	                    	<input class="form-control" type="text" name="faqTitle" placeholder="제목을 입력해주세요" />
+	                    	<input class="form-control" type="text" name="noticeitle" placeholder="제목을 입력해주세요" />
 	                    </div>
 	                    
 	                    <div class="mb-3">
-	                         <textarea id="smartEditor" class="form-control" rows="10" name="faqContent"></textarea>
+	                         <textarea id="smartEditor" class="form-control" rows="10" name="noticeContent"></textarea>
 	                    </div>
 	                    
 	                    <!-- file input -->
@@ -67,11 +67,6 @@
 	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
 	                    	<button id="writeBtn" class="btn btn-primary" type="button">등록</button>
-	                    	<div class="check-box d-flex align-items-center ms-2">
-							    <input type="checkbox" id="checkYn" name="faqSicYn" value="S" class="me-1"/>
-							    <label for="checkYn">비밀글 여부?</label>
-							    <input type="hidden" id="faqSicYnHidden" name="faqSicYn" value="N"/>
-							</div>
 	                    	
 	                    </div>
                 	</form>
@@ -81,15 +76,6 @@
         </div>
     </section>
     
-    <script>
-	    document.getElementById('checkYn').addEventListener('change', function() {
-	        if (this.checked) {
-	            document.getElementById('faqSicYnHidden').disabled = true; // 체크박스가 체크되면 히든 필드 비활성화
-	        } else {
-	            document.getElementById('faqSicYnHidden').disabled = false; // 체크박스가 체크 해제되면 히든 필드 활성화
-	        }
-	    });
-	</script>
 	
 	<script type="text/javascript">
 		var oEditors = [];
@@ -107,7 +93,7 @@
 			oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
 			
 			// form 태그의 submit 실행
-			document.getElementById('faqWriteForm').submit();
+			document.getElementById('noticeWriteForm').submit();
 		});
 		
 		// 이미지 첨부 받을 input 태그 객체 불러오기
@@ -116,7 +102,7 @@
 		// 스마트에디터가 로드된 후 이미지 첨부 버튼에 클릭 이벤트 추가
 		window.onload = function(){
 			// 스마트에디터가 그려진 iframe 가져오기
-			const v_iframe = document.querySelector('#faqWriteForm > div:nth-child(2) > iframe');
+			const v_iframe = document.querySelector('#noticeWriteForm > div:nth-child(2) > iframe');
 			console.log(v_iframe)
 			// iframe 내 document에 접근
 			const v_iframeDocument = v_iframe.contentWindow.document;

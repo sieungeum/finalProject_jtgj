@@ -304,9 +304,50 @@ public class UserController {
 
 		return result;
 	}
+	
+	// 계정 찾기 페이지
+	@RequestMapping("/findAccountView")
+	public String findPersonalId() {
+		System.out.println(" - Find Account Page - ");
 
+		return "member/findAccountView";
+	}
+
+	// 개인 계정 ID 찾기 페이지
+	@RequestMapping("/findPersonalIdView")
+	public String findPersonalIdView() {
+		System.out.println(" - Find Personal ID Page - ");
+
+		return "member/findPersonalIdView";
+	}
+	
+	// 개인 계정 PW 찾기 페이지
+	@RequestMapping("/findPersonalPwView")
+	public String findPersonalPwView() {
+		System.out.println(" - Find Personal PW Page - ");
+
+		return "member/findPersonalPwView";
+	}
+	
+	// 기업 계정 ID 찾기 페이지
+	@RequestMapping("/findCorporationIdView")
+	public String findCorporationIdView() {
+		System.out.println(" - Find Corporation ID Page");
+		
+		return "member/findCorporationIdView";
+	}
+	
+	// 기업 계정 PW 찾기 페이지
+	@RequestMapping("/findCorporationPwView")
+	public String findCorporationPwView() {
+		System.out.println(" - Find Corporation PW Page");
+		
+		return "member/findCorporationPwView";
+	}
+	
 	// mailSending 코드
 	// 인증번호를 보낸다!
+	// 이메일 인증(회원가입시) -> 이후에 이메일로 인증하는 모든 페이지에 통합할 수 있도록 만들고 싶은데
 	@ResponseBody
 	@RequestMapping(value = "/ConfirmEmail", method = RequestMethod.POST)
 	public ResponseEntity<Boolean> ConfirmEmail(HttpServletRequest request, String email,
@@ -391,66 +432,59 @@ public class UserController {
 			result = false;
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
-	}
-	
-	// 계정 찾기 페이지
-	@RequestMapping("/findAccountView")
-	public String findPersonalId() {
-		System.out.println(" - Find Account Page - ");
-
-		return "member/findAccountView";
-	}
-
-	// 개인 계정 ID 찾기 페이지
-	@RequestMapping("/findPersonalIdView")
-	public String findPersonalIdView() {
-		System.out.println(" - Find Personal ID Page - ");
-
-		return "member/findPersonalIdView";
-	}
-	
-	// 개인 계정 PW 찾기 페이지
-	@RequestMapping("/findPersonalPwView")
-	public String findPersonalPwView() {
-		System.out.println(" - Find Personal PW Page - ");
-
-		return "member/findPersonalPwView";
-	}
-	
-	// 기업 계정 ID 찾기 페이지
-	@RequestMapping("/findCorporationIdView")
-	public String findCorporationIdView() {
-		System.out.println(" - Find Corporation ID Page");
-		
-		return "member/findCorporationIdView";
-	}
-	
-	// 기업 계정 PW 찾기 페이지
-	@RequestMapping("/findCorporationPwView")
-	public String findCorporationPwView() {
-		System.out.println(" - Find Corporation PW Page");
-		
-		return "member/findCorporationPwView";
-	}
+	}	
 	
 	// 계정찾기 이메일 인증번호 보내기
 	@ResponseBody
 	@RequestMapping(value = "/findAccountConfirmEmail", method = RequestMethod.POST)
-	public ResponseEntity<Boolean> findIdConfirmEmail(HttpServletRequest request, String email,
-			HttpServletResponse response_email) throws IOException, MessagingException {
-		
+	public ResponseEntity<Map<String, Object>> findAccountConfirmEmail(HttpServletRequest request, String email, String account,
+			HttpServletResponse response_email, HttpServletResponse response) throws IOException, MessagingException {
+		Map<String, Object> responseMap = new HashMap<>();
+
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
 		request.getSession().removeAttribute("findAccountDice_" + email);
 		
-		// result == true -> 가입된 이메일
+		// js로 보낼 데이터들
 		boolean result = false;
+		String warning;
+		String type;
+		UserDTO userAccount = userService.getUserUsedEmail(email);
 		
-		if(!userService.confirmEmail(email)) {
+		if(userAccount == null) { // 이메일 가입 여부 확인
 			System.out.println("가입되지 않은 이메일");
 			
 			result = false;
+			type = "a";
 			
-			return new ResponseEntity<>(result, HttpStatus.OK);
+			warning = "가입되지 않은 이메일 입니다.";
+			
+			responseMap.put("success", result);
+	        responseMap.put("warning", warning);
+	        responseMap.put("type", type);
+	        
+	        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		} else if(!account.equals(userAccount.getUserAccount())){ // 이메일이 존재하나 userAccount가 일치하지 않으면?
+			System.out.println("이메일이 존재하나 userAccount 불일치");
+			
+			result = false;
+			type = "b";
+			responseMap.put("success", result);
+			responseMap.put("type", type);
+			
+			if(account.equals("P")) {
+				warning = "기업회원으로 가입된 이메일입니다.";
+		        responseMap.put("warning", warning);
+		        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+			} else {
+				warning = "개인회원으로 가입된 이메일입니다.";
+		        responseMap.put("warning", warning);
+		        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+			}
 		} else {
+			result = true;
+			type = "c";
+			
 			Random r = new Random();
 			int findAccountDice = r.nextInt(4589362) + 493111; // 이메일로 받는 인증코드 부분(난수)
 			
@@ -484,47 +518,19 @@ public class UserController {
 	
 			mailSender.send(message);
 			System.out.println("메일 성공적으로 보내짐!");
-	
-			result = true;
 			
-			return new ResponseEntity<>(result, HttpStatus.OK);
+			responseMap.put("success", result);
+	        responseMap.put("warning", null);
+	        responseMap.put("type", type);
+			
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
 		}
 	}	
 	
-	@PostMapping("/sendLostId")
-	public ResponseEntity<Void> sendLostId(String id, String email, HttpServletRequest request, 
-	                                       HttpServletResponse response_email) throws IOException, MessagingException {
-	    System.out.println("분실 아이디 메일 보내기 실행");
-	    
-	    String setfrom = "jjjjkuul@gmail.com";
-	    String tomail = request.getParameter("email"); // 받는 사람 이메일
-	    String title = "<저탄고집 웹사이트> 분실하신 아이디 입니다."; // 제목
-	    String content = 
-	            
-	            System.getProperty("line.separator") +
-	            System.getProperty("line.separator") +
-	            "안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다." +
-	            System.getProperty("line.separator") +
-	            System.getProperty("line.separator") +
-	            "회원님의 아이디는 「" + request.getParameter("id") + "」 입니다!"; // 내용
-	    
-	    MimeMessage message = mailSender.createMimeMessage();
-	    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
-	    messageHelper.setFrom(setfrom);
-	    messageHelper.setTo(tomail);
-	    messageHelper.setSubject(title);
-	    messageHelper.setText(content);
-	    
-	    mailSender.send(message);
-	    System.out.println("메일 성공적으로 보내짐!");
-	    
-	    return ResponseEntity.ok().build(); // 빈 응답 전송 (200 OK)
-	}
-	
 	// 계정 찾기 인증 메소드(ID)
 	@ResponseBody
-	@RequestMapping(value = "/findPersonalIdDo", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findPersonalIdDo(HttpServletRequest request, HttpServletResponse response, int authNumber, String email) throws IOException {		
+	@RequestMapping(value = "/findIdDo", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findIdDo(HttpServletRequest request, HttpServletResponse response, int authNumber, String email) throws IOException {		
 		Map<String, Object> responseMap = new HashMap<>();
 		
 		response.setCharacterEncoding("utf-8");
@@ -537,7 +543,7 @@ public class UserController {
 		if(storedDice == null) {
 	        System.out.println("세션에 findAccountDice가 없습니다. 인증 요청이 만료되었거나 잘못되었습니다.");
 
-	        String warning = "이메일 인증을 먼저 진행해주세요!";
+	        String warning = "이메일 인증을 진행해주세요!";
 	        
 	        result = false;
 	        
@@ -554,7 +560,7 @@ public class UserController {
 			request.getSession().removeAttribute("findAccountDice_" + email);
 			request.getSession().removeAttribute("userId");
 			
-			String userId = userService.getIdUsedEmail(email);
+			String userId = userService.getUserUsedEmail(email).getUserId();
 			
 			result = true;
 			
@@ -574,10 +580,10 @@ public class UserController {
 		}
 	}
 	
-	// 계정 찾기 인증 메소드(PW)
+	// 계정 찾기 인증 메소드(PW, Personal)
 	@ResponseBody
 	@RequestMapping(value = "/findPersonalPwDo", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> findPersonalPwDo(HttpServletRequest request, HttpServletResponse response, 
+	public ResponseEntity<Map<String, Object>> findPwDo(HttpServletRequest request, HttpServletResponse response, 
 				int authNumber, String id, String email) throws IOException {		
 		Map<String, Object> responseMap = new HashMap<>();
 		
@@ -598,12 +604,12 @@ public class UserController {
 			return new ResponseEntity<>(responseMap, HttpStatus.OK);
 		}
 		
-		boolean check = id.equals(userService.getIdUsedEmail(email));
+		UserDTO user = userService.getUserUsedEmail(email);
 		System.out.println(id);
 		System.out.println(email);
-		System.out.println(check);
+		System.out.println(user);
 		
-		if(!check) {
+		if(user == null) {
 			System.out.println("아이디와 이메일이 일치하지 않음");
 			
 			String warningReason = "입력하신 아이디와 이메일이 서로 연동되어있지 않습니다.";
@@ -633,6 +639,114 @@ public class UserController {
 			return new ResponseEntity<>(responseMap, HttpStatus.OK);
 		}
 	}
+	
+	// 계정 찾기 인증 메소드(PW, Company)
+	@ResponseBody
+	@RequestMapping(value = "/findCompanyPwDo", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> findCompanyPwDo(HttpServletRequest request, HttpServletResponse response, 
+				int authNumber, String id, String email, String regiNum) throws IOException {		
+		Map<String, Object> responseMap = new HashMap<>();
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+
+		boolean result = false;
+		Integer storedDice = (Integer) request.getSession().getAttribute("findAccountDice_" + email); 
+		
+		// 인증번호 체크
+		if(storedDice == null) {
+			System.out.println("세션에 인증번호가 존재하지 않음. 인증 요청이 만료됐거나 잘못됌");
+			String warningReason = "세션에 인증번호가 존재하지 않습니다. 인증 요청이 만료됐거나 잘못됐습니다.";
+			
+			result = false;
+			responseMap.put("success", result);
+			responseMap.put("warning", warningReason);
+			
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		}
+		
+		// 이메일로 UserDTO에 계정이 존재하는지(일치여부) 확인
+		UserDTO user = userService.getUserUsedEmail(email);
+		boolean userOn = user.getUserId().equals(id);
+
+		// 등록번호로 CompanyDTO에 계정이 존재하는지(일치여부) 확인
+		CompanyDTO company = userService.getCompanyUsedRegiNum(regiNum);
+		boolean companyOn = company.getUserId().equals(id);
+		
+		if(!userOn) {
+			System.out.println("아이디와 이메일이 일치하지 않음");
+			
+			String warningReason = "입력하신 아이디와 이메일이 서로 연동되어있지 않습니다.";
+			
+			result = false;
+			
+			responseMap.put("success", result);
+			responseMap.put("warning", warningReason);
+	
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		}
+		
+		if(!companyOn) {
+			System.out.println("사업자등록번호와 아이디가 일치하지 않음");
+			
+			String warningReason = "입력하신 아이디에 등록된 사업자등록번호와 첨부하신 파일의 사업자등록번호가 일치하지 않습니다.";
+			
+			result = false;
+			
+			responseMap.put("success", result);
+			responseMap.put("warning", warningReason);
+	
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		}
+		
+		if(storedDice == authNumber) {
+			request.getSession().removeAttribute("findAccountDice_" + email);
+			result = true;
+			responseMap.put("success", result);
+			responseMap.put("warning", null);
+			
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		} else {
+			String warningReason = "인증번호와 입력값이 일치하지 않습니다. 다시 한 번 확인해주세요.";
+			
+			result = false;
+			responseMap.put("success", result);
+			responseMap.put("warning", warningReason);
+			
+			return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		}
+	}
+	
+	// 분실한 아이디 이메일로 보내기
+	@PostMapping("/sendLostId")
+	public ResponseEntity<Void> sendLostId(String id, String email, HttpServletRequest request, 
+	                                       HttpServletResponse response_email) throws IOException, MessagingException {
+	    System.out.println("분실 아이디 메일 보내기 실행");
+	    
+	    String setfrom = "jjjjkuul@gmail.com";
+	    String tomail = request.getParameter("email"); // 받는 사람 이메일
+	    String title = "<저탄고집 웹사이트> 분실하신 아이디 입니다."; // 제목
+	    String content = 
+	            
+	            System.getProperty("line.separator") +
+	            System.getProperty("line.separator") +
+	            "안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다." +
+	            System.getProperty("line.separator") +
+	            System.getProperty("line.separator") +
+	            "회원님의 아이디는 「" + request.getParameter("id") + "」 입니다!"; // 내용
+	    
+	    MimeMessage message = mailSender.createMimeMessage();
+	    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
+	    messageHelper.setFrom(setfrom);
+	    messageHelper.setTo(tomail);
+	    messageHelper.setSubject(title);
+	    messageHelper.setText(content);
+	    
+	    mailSender.send(message);
+	    System.out.println("메일 성공적으로 보내짐!");
+	    
+	    return ResponseEntity.ok().build(); // 빈 응답 전송 (200 OK)
+	}	
 	
 	// 비밀번호 변경 메소드
 	@ResponseBody
@@ -664,5 +778,28 @@ public class UserController {
 		responseMap.put("warning", null);
 		
 		return new ResponseEntity<>(responseMap, HttpStatus.OK);
+	}
+	
+	// 사업자등록번호 중복체크 메서드
+	@ResponseBody
+	@RequestMapping(value = "/regiNumDuplicateCheck", method = RequestMethod.POST)
+	public ResponseEntity<Boolean> regiNumDuplicateCheck(String regiNum) {
+		Map<String, Object> responseMap = new HashMap<>();
+		
+		boolean result = false;
+		
+		System.out.println("사업자등록번호는 " + regiNum);
+		
+		CompanyDTO company = userService.getCompanyUsedRegiNum(regiNum);
+		
+		if(company == null) {
+			System.out.println("중복된 사업자등록번호 존재하지 않음");
+			
+			result = true;
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		System.out.println("중복된 사업자등록번호 존재");
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 }

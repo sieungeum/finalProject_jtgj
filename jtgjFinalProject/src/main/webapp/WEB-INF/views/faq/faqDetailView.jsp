@@ -21,10 +21,6 @@
 
 	<div class="header">
 		<div class="container">
-			<div class="logo">
-				<a href="index.html"> <img src="img/logo.png" alt="Logo">
-				</a>
-			</div>
 
 			<!-- nav -->
 			<%@ include file="/WEB-INF/inc/nav.jsp" %>

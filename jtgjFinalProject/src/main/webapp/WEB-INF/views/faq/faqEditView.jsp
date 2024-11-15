@@ -13,6 +13,9 @@
 		content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
 	
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
+	
+	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
+	
 </head>
 <body>
 
@@ -21,10 +24,6 @@
 
 	<div class="header">
 		<div class="container">
-			<div class="logo">
-				<a href="index.html"> <img src="img/logo.png" alt="Logo">
-				</a>
-			</div>
 
 			<!-- nav -->
 			<%@ include file="/WEB-INF/inc/nav.jsp" %>
@@ -45,7 +44,10 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                	<form action="${pageContext.request.contextPath }/faqEditDo" method="POST">
+                
+                	<input type="file" id="inputImg" accept="image/*" hidden="hidden" onchange="f_sendImg()">
+                	
+                	<form id="faqWriteForm" action="${pageContext.request.contextPath }/faqEditDo" method="POST">
                 		<!-- 사용자에게는 보이지 않고 submit 시 전송됨 -->
                 		<input type="hidden" name="faqNo" value="${faq.faqNo }">
                 		
@@ -55,13 +57,13 @@
 	                    </div>
 	                    
 	                    <div class="mb-3">
-	                         <textarea class="form-control" rows="10" name="faqContent" >${faq.faqContent }</textarea>
+	                         <textarea id="smartEditor" class="form-control" rows="10" name="faqContent" >${faq.faqContent }</textarea>
 	                    </div>               
 	                    
 	                    <div class ="d-flex justify-content-end">
 	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
-	                    	<button class="btn btn-primary" type="submit">등록</button>
+	                    	<button id="writeBtn" class="btn btn-primary" type="button">등록</button>
 	                    </div>
 	                    <div class="form-check mb-3">
 						    <input class="form-check-input" type="checkbox" id="faqSicYn" name="faqSicYn" value="S" <c:if test="${faq.faqSicYn == 'S'}">checked</c:if>>
@@ -76,5 +78,75 @@
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
+	
+	<script type="text/javascript">
+        // 스마트 에디터 초기화
+        var oEditors = [];
+
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "smartEditor",
+            sSkinURI: "${pageContext.request.contextPath}/nse/SmartEditor2Skin.html",
+            fOnAppLoad: function() {
+                console.log("스마트 에디터가 로드되었습니다.");
+                
+                // 0.5초 후에 iframe 접근 시도
+                setTimeout(() => {
+                    const v_iframe = document.querySelector('#faqWriteForm iframe');
+                    if (v_iframe && v_iframe.contentWindow) {
+                        const v_iframeDocument = v_iframe.contentWindow.document;
+                        console.log("iframe 접근 성공:", v_iframeDocument);
+
+                        const photoUploadBtn = v_iframeDocument.querySelector('#photoUploadBtn');
+                        if (photoUploadBtn) {
+                            photoUploadBtn.addEventListener('click', function() {
+                                document.getElementById('inputImg').click();
+                            });
+                        } else {
+                            console.warn("이미지 업로드 버튼을 찾지 못했습니다.");
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // 글 등록 버튼 클릭 시 스마트 에디터 내용 반영 후 폼 제출
+        document.getElementById('writeBtn').addEventListener('click', function() {
+            // 에디터 내용 업데이트
+            oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
+            
+            const content = document.getElementById("smartEditor").value;
+            console.log("에디터 내용:", content);
+
+            document.getElementById('faqWriteForm').submit();
+        });
+
+        // 이미지 업로드 함수
+        function f_sendImg(){
+			let v_formData = new FormData();
+			v_formData.append('file', event.target.files[0]);
+			
+			let v_url = '${pageContext.request.contextPath}/uploadImg';
+			
+			$.ajax({
+				type: 'POST',
+				url: v_url,
+				contentType: false,
+				processData:false,
+				enctype: 'multipart/form-data',
+				data: v_formData,
+				success: function(resp){
+					console.log(resp);
+					let imgTag = '<img style="witdh: 400px" src="';
+						imgTag += '${pageContext.request.contextPath}/displayImage?imgName=' + resp;
+						imgTag += '"/>';
+						
+					oEditors.getById['smartEditor'].exec("PASTE_HTML", [imgTag]);
+				}
+			});
+			
+        }
+    </script>
+	
 </body>
 </html>

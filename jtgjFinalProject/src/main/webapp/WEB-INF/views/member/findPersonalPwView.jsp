@@ -157,6 +157,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			let v_emailAuthBtn = document.getElementById('emailAuthBtn');
+			let v_userAccount = 'P';
 			
 			v_emailAuthBtn.addEventListener('click', () => {
 				let v_email = document.getElementById('inputEmail').value;
@@ -173,17 +174,20 @@
 					
 					$.ajax({
 						url: "${pageContext.request.contextPath}/findAccountConfirmEmail",
-						data: {email: v_email},
+						data: {
+							email: v_email
+							, account: v_userAccount
+						},
 						type: 'POST',
 						dataType: 'json',
 						success: function(result){
 							console.log(result);
-							if(result){
+							if(result.success == true){
 								alert('인증번호가 전송됐습니다. 이메일을 확인하세요.');
 								$("#emailSpinner").css("display", "none");
 							} else{
 								$("#emailSpinner").css("display", "none");
-								if(confirm('가입되지 않은 이메일입니다. 회원가입 페이지로 넘어가시겠습니까?')){
+								if(confirm(result.warning + ' 회원가입 페이지로 넘어가시겠습니까?')){
 									location.href = "${pageContext.request.contextPath}/personalRegistView";
 								}
 							}
@@ -195,7 +199,6 @@
 					});
 				}
 			});
-			
 			
 			let v_checkPwAuthBtn = document.getElementById('checkPwAuthBtn');
 			

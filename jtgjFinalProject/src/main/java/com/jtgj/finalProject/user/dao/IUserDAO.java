@@ -32,14 +32,19 @@ public interface IUserDAO {
 	// 이메일 중복확인
 	boolean confirmEmail(String email);
 	
-	// 이메일을 통한 아이디값 받아오기
-	String getIdUsedEmail(String email);
+	// 해당 이메일을 값으로 갖고있는 유저의 전체 정보 받아오기
+	UserDTO getUserUsedEmail(String email);
+	
+	// 기업회원 정보 가져오기
+	CompanyDTO getCompanyUsedRegiNum(String regiNum);
 	
 	// 이전 비밀번호 가져오기
 	String getPwUsedEmail(String email);
 	
 	// 새로운 비밀번호로 update
 	int updateNewPw(@Param("password") String password, @Param("email") String email);
+	
+
 	
 	// user_prof_img에 값 넣기
 	int editProfImg(UserDTO user);
