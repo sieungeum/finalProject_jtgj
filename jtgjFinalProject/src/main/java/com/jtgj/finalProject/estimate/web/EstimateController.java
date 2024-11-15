@@ -54,10 +54,11 @@ public class EstimateController {
 	// 최종적으로 계산 반환
 	@ResponseBody
 	@PostMapping("/calMaterial")
-	public List<EstimateDTO> calMaterial(String sendMaterials) {
+	public List<EstimateDTO> calMaterial(String sendMaterials, int calRange) {
 		System.out.println(" - calMaterial - ");
 		
 		System.out.println(sendMaterials);
+		System.out.println(calRange);
 		
 		// 테스트 데이터, 사용 안할 때 주석처리
 		// String sendMaterials = "{\"0\":{\"matCategory\":\"외장재\",\"matName\":\"가문비 나무 소나무 (클래딩)\",\"matKg\":\"12\"},\"1\":{\"matCategory\":\"외장재\",\"matName\":\"변형 목재(가열)\",\"matKg\":\"42\"},\"2\":{\"matCategory\":\"외장재\",\"matName\":\"개량된 목재(수분)\",\"matKg\":\"11\"},\"3\":{\"matCategory\":\"지붕재\",\"matName\":\"구리 시트\",\"matKg\":\"45\"},\"4\":{\"matCategory\":\"지붕재\",\"matName\":\"벽돌 지붕 타일\",\"matKg\":\"18\"},\"5\":{\"matCategory\":\"지붕재\",\"matName\":\"지붕 펠트 v60\",\"matKg\":\"22\"},\"6\":{\"matCategory\":\"창호재\",\"matName\":\"삼중 유리창\",\"matKg\":\"37\"},\"7\":{\"matCategory\":\"창호재\",\"matName\":\"나무 프레임 창\",\"matKg\":\"71\"},\"8\":{\"matCategory\":\"창호재\",\"matName\":\"목재 알루미늄 프레임 창\",\"matKg\":\"26\"},\"9\":{\"matCategory\":\"주방\",\"matName\":\"세라믹 타일\",\"matKg\":\"111\"},\"10\":{\"matCategory\":\"욕실\",\"matName\":\"PE 필름 (증기 차단)\",\"matKg\":\"22\"},\"11\":{\"matCategory\":\"욕실\",\"matName\":\"섬유 시멘트 보드\",\"matKg\":\"12\"},\"12\":{\"matCategory\":\"거실\",\"matName\":\"(세공된)참나무밤나무\",\"matKg\":\"44\"},\"13\":{\"matCategory\":\"거실\",\"matName\":\"확장된 코르크\",\"matKg\":\"32\"},\"14\":{\"matCategory\":\"거실\",\"matName\":\"(마모된)참나무밤나무\",\"matKg\":\"65\"},\"15\":{\"matCategory\":\"방\",\"matName\":\"벽토\",\"matKg\":\"12\"},\"16\":{\"matCategory\":\"방\",\"matName\":\"석고 보드\",\"matKg\":\"45\"}}\r\n" + "";
@@ -100,7 +101,7 @@ public class EstimateController {
 				double matCarbon = mater.getMaterGasKg(); // 자제 탄소배출량
 				
 				// 가격, 탄소배출량 수치로 정규화? 이걸 정규화라 하는게 맞나? 흠냐륑
-				double normalize = Math.pow(matPrice / 1000 * Integer.parseInt(materDict.get("matKg")), 2)
+				double normalize = Math.pow(matPrice / (20 * calRange) * Integer.parseInt(materDict.get("matKg")), 2)
 						+ Math.pow((matCarbon + 10.0) * Integer.parseInt(materDict.get("matKg")), 2);
 				
 				normalize = Math.round(normalize * 100.0) / 100.0; // 가끔 수치가 크면 double을 넘어서 소수점 둘째짜리까지 표기

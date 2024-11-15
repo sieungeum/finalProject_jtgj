@@ -19,7 +19,7 @@
 	rel="stylesheet"
 	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
 	crossorigin="anonymous">
-	
+
 <%@ include file="/WEB-INF/inc/header.jsp"%>
 
 
@@ -34,10 +34,6 @@
 
 	<div class="header">
 		<div class="container">
-			<div class="logo">
-				<a href="index.html"> <img src="img/logo.png" alt="Logo">
-				</a>
-			</div>
 
 			<!-- nav -->
 			<%@ include file="/WEB-INF/inc/nav.jsp"%>
@@ -54,7 +50,7 @@
 					id="budget">
 			</div>
 			<div class="budget-btn-box">
-				<div id="budgetBtn" class="sjm-btn sjm-btn-success" >다음</div>
+				<div id="budgetBtn" class="sjm-btn sjm-btn-success">다음</div>
 			</div>
 
 		</div>
@@ -71,7 +67,8 @@
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">외장재</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category1.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category1.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -80,12 +77,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 2. 지붕재 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">지붕재</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category2.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category2.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -94,12 +92,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 3. 창호재 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">창호재</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category3.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category3.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -108,12 +107,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 4. 주방 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">주방</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category4.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category4.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -122,12 +122,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 5. 욕실 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">욕실</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category5.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category5.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -136,12 +137,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 6. 거실 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">거실</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category6.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category6.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -150,12 +152,13 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- 7. 방 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">방</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category7.jpg">
+						<img
+							src="${pageContext.request.contextPath}/img/mat-category/mat_category7.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -164,7 +167,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
@@ -173,32 +176,32 @@
 	<div class="container">
 		<div class="main-title">
 			<div class="calculate-box">
-			
+
 				<!-- 탄소배출량 계산량(처음엔 0) -->
 				<div class="calculate-carbon calculate-sort">
 					<div class="cal-subtitle" style="letter-spacing: 1px;">탄소배출량</div>
 					<div class="calculate-sort">
-						<div id="calCarbon" class="cal-result-style" >
-							<span id="carbonSum" class="cal-mr" >0</span>
+						<div id="calCarbon" class="cal-result-style">
+							<span id="carbonSum" class="cal-mr">0</span>
 							<!-- 여기부터 자제 선택 시 hidden으로 탄소배출량, kg 저장 -->
 						</div>
-						<span class="cal-ml" >KG</span>
+						<span class="cal-ml">KG</span>
 					</div>
 				</div>
-				
+
 				<!-- 자제 가격 계산(처음엔 0) -->
 				<div class="calculate-cost calculate-sort">
 					<div class="cal-subtitle" style="letter-spacing: 16px;">자제비</div>
 					<div class="calculate-sort">
-						<div id="calPrice" class="cal-result-style" >
-							<span id="priceSum" class="cal-mr" >0</span>
+						<div id="calPrice" class="cal-result-style">
+							<span id="priceSum" class="cal-mr">0</span>
 							<!-- 여기부터 자제 선택 시 hidden으로 가격, kg 저장 -->
 						</div>
-						<span class="cal-ml" >(원)</span>
+						<span class="cal-ml">(원)</span>
 					</div>
 				</div>
 			</div>
-			
+
 			<!-- 계산버튼 -->
 			<div class="cal-btn-box">
 				<div id="resultBtn" class="sjm-btn sjm-btn-success">계산</div>
@@ -206,13 +209,20 @@
 
 		</div>
 	</div>
-	
+
 	<!-- Material Modal -->
 	<div class="sjm_mocdal-box">
+
+		<div class="modal-box__cancel">
+			<img
+				id="selectModalCancel" 
+				src="${pageContext.request.contextPath}/img/mat-category/cancel_modal.png"
+				width="25px">
+		</div>
 		<!--   	이건 일단 삭제 ㄴㄴ
 		<div class="modal-box__top">
 			<img class="modal-top__img" src="">
-		</div>z
+		</div>
 		<div class="modal-box__bottom">
 			<div class="modal-botton__material"></div>
 			<div class="modal-botton__rating">
@@ -245,100 +255,148 @@
 			<!-- ajax로 가져옴 -->
 		</div>
 	</div>
-	
+
 	<!-- Finally Calculate Modal -->
-	<div class="modal-box__cal" >
-		<div class="modal-box_sort">
-			<div class="mat-box" >
-				<div class="select-mat" >
-					외장재
-					<br>
-				</div>
-				<div class="select-mat" >
-					지붕재
-					<br>
-				</div>
-				<div class="select-mat" >
-					창호재
-					<br>
-				</div>
-				<div class="select-mat" >
-					주방
-					<br>
-				</div>
-				<div class="select-mat" >
-					욕실
-					<br>
-				</div>
-				<div class="select-mat" >
-					거실
-					<br>
-				</div>
-				<div class="select-mat" >
-					방
-					<br>
-				</div>
+	<div class="modal-box__cal">
+	
+		<!-- 닫기 버튼 -->
+		<div class="modal-box__cancel">
+			<img
+				id="calModalCancel"
+				src="${pageContext.request.contextPath}/img/mat-category/cancel_modal.png"
+				width="25px">
+		</div><!-- 닫기 버튼 -->
+
+		<!-- range Controler -->
+		<div class="modal-box__range">
+			<div class="range-header w-range">
+				<div>가격</div>
+				<div>기준</div>
+				<div>탄소</div>
 			</div>
-			<div class="mat-box" >
-				<div class="select-mat" >
-					외장재
-					<br>
-				</div>
-				<div class="select-mat" >
-					지붕재
-					<br>
-				</div>
-				<div class="select-mat" >
-					창호재
-					<br>
-				</div>
-				<div class="select-mat" >
-					주방
-					<br>
-				</div>
-				<div class="select-mat" >
-					욕실
-					<br>
-				</div>
-				<div class="select-mat" >
-					거실
-					<br>
-				</div>
-				<div class="select-mat" >
-					방
-					<br>
-				</div>
-			</div>
+			<input type="range" class="form-range w-range" min="1" max="100" id="calRange">
+		</div><!-- range Controler -->
+		
+		<!-- 선택한 자제, 대체 자제 -->
+		<div class="only-flex">
+			<div class="modal-box_sort">
+				<!-- 기본 자제 -->
+				<div class="mat-box">
+					<div class="select-mat">
+						<div>외장재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>지붕재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>창호재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>주방</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>욕실</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>거실</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>방</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+				</div> <!-- 기본 자제 -->
+	
+				<!-- 대체 자제 -->
+				<div class="mat-box">
+					<div class="select-mat">
+						<div>외장재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>지붕재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>창호재</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>주방</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>욕실</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>거실</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+					<div class="select-mat">
+						<div>방</div>
+						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+					</div>
+				</div> <!-- 대체 자제 -->
+				
+			</div> <!-- 선택한 자제, 대체 자제 -->
+	
+			<!-- 탄소, 가격 변경사항 -->
 			<div class="compare-percent-box">
+				
+				<!-- 탄소배출량 -->
 				<div class="compare-percent__carbon">
 					<div>탄소배출량</div>
 					<div class="modal-box_sort">
-						<div class="cal-before">
-							
-						</div>
-						<div class="cal-after">
-							
-						</div>
+						<!-- 기본 자제 총 탄소배출량 -->
+						<div class="cal-before"></div>
+						<!-- 대체 자제 총 탄소배출량 -->
+						<div class="cal-after"></div>
 					</div>
 				</div>
+				
+				<!-- 가격 -->
 				<div class="compare-percent__price">
 					<div>가격</div>
 					<div class="modal-box_sort">
-						<div class="cal-before">
-							
-						</div>
-						<div class="cal-after">
-							
-						</div>
+						<!-- 기본 자제 총 가격 -->
+						<div class="cal-before"></div>
+						<!-- 대체 자제 총 가격 -->
+						<div class="cal-after"></div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</div>
+				
+			</div> <!-- 탄소, 가격 변경사항 -->
+			
+		</div> <!-- 선택한 자제, 대체 자제 -->
+		
+		<!-- 초기화 버튼 -->
+		<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary">
+			초기화
+		</div> <!-- 초기화 버튼 -->
+		
+		<!-- 임시 저장 버튼 -->
+		<div id="tempSaveBtn" class="sjm-btn sjm-btn-primary">
+			임시 저장
+		</div> <!-- 임시 저장 버튼 -->
+		
+		<!-- 저장 버튼 -->
+		<div id="resultSaveBtn" class="sjm-btn sjm-btn-primary">
+			저장
+			
+			<!-- 비로그인 시 로그인 창으로 가야됨 -->
+		</div> <!-- 저장 버튼 -->
+		
+	</div> <!-- Finally Calculate Modal -->
 
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp"%>
-	
+
 	<!-- 부트스트랩 -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
@@ -369,7 +427,7 @@
 		let v_budget = document.getElementById("budget");
 		
 		v_budget.addEventListener('keyup', function(event) {
-			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지        
+			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지
 			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
 			this.value = insertComma(this.value.replace(/[,]/g, ''));
 		});
@@ -412,6 +470,13 @@
 				v_modalBox.style.display = "block"; // 모달창 활성화
 			});
 		}
+		
+		/* 닫기 클릭 */
+		let v_calModalCancel = document.getElementById("selectModalCancel");
+		
+		v_calModalCancel.addEventListener("click", () => {
+			v_modalBox.style.display = "none";
+		});
 		
 		// 바닐라 ajax
 		function sendCategory(v_category, cate_idx) {
@@ -471,7 +536,6 @@
 							v_query += '	</div>'
 							v_query += '	<div>'
 							v_query += '		<button class="sjm-btn sjm-btn-primary btn-select">선택</button>'
-							v_query += '		<button class="sjm-btn sjm-btn-danger btn-cancel">닫기</button>'
 							v_query += '	</div>'
 							v_query += '</div>'
 							
@@ -555,11 +619,6 @@
 								f_deleteValue(v_materDataDict);
 						    });
 						    
-						})
-						
-						// 클릭 시 모달 닫기
-						v_btnCancel[i].addEventListener("click", ()=>{
-							v_modalBox.style.display = "none";
 						})
 					}
 					
@@ -691,12 +750,14 @@
 		}
 		
 	</script>
-	
+
 	<script type="text/javascript">
 		
 		/* 최종 결과 도출 */
 		// 계산 버튼
 		let v_resultBtn = document.getElementById("resultBtn");
+		
+		let v_modalBoxCal = document.querySelector(".modal-box__cal"); // 전체 모달창
 		
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
@@ -728,24 +789,61 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials);
-			
-			
-			
+			f_ajaxJsonString(v_sendMaterials, -1);
 			
 		});
 		
+		const v_calRange = document.getElementById("calRange");
+		console.log(v_calRange.value);
+		
+ 		document.addEventListener("DOMContentLoaded", function() {
+			v_calRange.addEventListener("input", function() {
+				console.log(this.value); // 값을 업데이트
+				
+				let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+				
+				// 선택한 자제들의 탄소배출량
+				let v_calCarbons = document.getElementById("calCarbon"); 
+				let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+				
+				// 선택한 자제들의 가격
+				let v_calPrices = document.getElementById("calPrice");
+				let v_sendPrices = v_calPrices.querySelectorAll("div");
+				
+				for (let i = 0; i < v_sendCarbons.length; i++){
+					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+					let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+					let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+					
+					let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+					let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+					
+					// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+					v_sendMaterials[i] = {'matCategory': v_matCategory
+							, 'matName' : v_matName
+							, 'matCarbon' : v_matCarbon
+							, 'matPrice' : v_matPrice
+							, 'matKg': v_matKg}
+				}
+				
+				// ajax 통신 함수
+				f_ajaxJsonString(v_sendMaterials, this.value);
+			});
+		});
+		
+		
+		
 		/* 최종 결과 출력 */
-		function f_ajaxJsonString(v_sendMaterials){
+		function f_ajaxJsonString(v_sendMaterials, v_range){
 			// 선택한 자제들 ajax로 보내기 전에 원본 유지
 			let v_basicMatDict = v_sendMaterials;
 			
 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
 			v_sendMaterials = JSON.stringify(v_sendMaterials);
 			v_sendMaterials = "sendMaterials=" + v_sendMaterials;
+			v_sendMaterials += "&calRange=" + v_range;
 			
 			// result modal css
-			let v_modalBoxCal = document.querySelector(".modal-box__cal"); // 전체 모달창
 			let v_matBox = document.querySelectorAll(".mat-box"); // 자제들 나올 box
 			let v_selectMat = document.querySelectorAll(".select-mat"); // 자제들 html
 			
@@ -772,26 +870,35 @@
 					let v_change = false; // false : 기본자제, true : 대체자제
 					let v_subCarbonSum = 0;
 					let v_subPriceSum = 0;
+					
 					for (let k = 0; k < v_matBox.length; k++){
 						for (let i = 0; i < v_matBox[k].children.length; i++){
 							// category 공백제거
-							let v_category = v_matBox[k].children[i].textContent.trim();
+							let v_category = v_matBox[k].children[i].children[0].innerHTML.split("\n")[0].trim();
+							
+							let v_tempDiv = document.createElement("div");
+							
+							if (v_matBox[k].children[i].children.length == 1){
+								v_matBox[k].children[i].appendChild(v_tempDiv);
+							} else {
+								v_matBox[k].children[i].children[1].remove();
+								v_matBox[k].children[i].appendChild(v_tempDiv);
+							}
 							
 							// 자제 정보 html에 추가
 							if (!v_change){ // 기본 자제
 								for (let data of v_basicMat){
 									if (data['matCategory'] == v_category){
-										v_matBox[k].children[i].innerHTML += data["matName"];
-										v_matBox[k].children[i].innerHTML += '<input type="hidden" value='+ data["matKg"] +'>';
+										v_matBox[k].children[i].children[1].innerHTML +=  data["matName"] + "<br>";
+										v_matBox[k].children[i].children[1].innerHTML += '<input type="hidden" value='+ data["matKg"] +'>';
+
 									}
 								}
 							} else { // 대체 자제
 								for (let data of v_subMat){
 									if (data['materCategory'] == v_category){
-										v_matBox[k].children[i].innerHTML += data["materName"] + "<br>";
-										console.log(v_matBox[0].children[i].children[1]);
-										console.log(v_matBox[0].children[i].children[1].value);
-										let v_num = v_matBox[0].children[i].children[1].value;
+										v_matBox[k].children[i].children[1].innerHTML += data["materName"] + "<br>";
+										let v_num = v_matBox[0].children[i].children[1].children[1].value;
 										v_subCarbonSum += data['materGasKg'] * v_num;
 										v_subPriceSum += data['materPrice'] * v_num;
 									}
@@ -804,16 +911,15 @@
 					}
 					
 					let v_carbonSum = document.getElementById("carbonSum").innerHTML;
-					let v_priceSum = document.getElementById("priceSum").innerHTML;
+					let v_priceSum = document.getElementById("priceSum").innerHTML.replaceAll(",", "");
 
 					let v_calBefore = document.querySelectorAll(".cal-before");
-					v_calBefore[0].innerHTML = v_carbonSum
-					v_calBefore[1].innerHTML = v_priceSum
+					v_calBefore[0].innerHTML = v_carbonSum;
+					v_calBefore[1].innerHTML = insertComma(v_priceSum.toString());
 					
 					let v_calAfter = document.querySelectorAll(".cal-after");
-					v_calAfter[0].innerHTML = v_subCarbonSum;
-					v_calAfter[1].innerHTML = v_subPriceSum;
-					
+					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
+					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
 					
 					// 모달창 출력
 					v_modalBoxCal.style.display = "block";
@@ -824,6 +930,23 @@
 			v_ajax.send(v_sendMaterials);
 		}
 		
+		let v_calModalCancel = document.getElementById("calModalCancel");
+		
+		v_calModalCancel.addEventListener("click", () => {
+			v_modalBoxCal.style.display = "none";
+		});
+		
+		
+		
+		function openModal() {
+			// body 스크롤 고정
+			document.body.style.overflow = "hidden";
+		}
+
+		function closeModal() {
+			// body 스크롤 해제
+			document.body.style.overflow = "auto";
+		}
 	</script>
 </body>
 </html>
