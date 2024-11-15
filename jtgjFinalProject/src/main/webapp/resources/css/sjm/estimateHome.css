@@ -9,6 +9,10 @@ div{
 	font-size: 25px;
 }
 
+.only-flex{
+	display:flex;
+}
+
 /* 예산 작성 */
 .header-font{
 	margin-bottom: 20px;
@@ -114,6 +118,7 @@ div{
 .sjm_mocdal-box{
 	display: none;
 	position: fixed;
+	overflow: auto;
 	overflow-x: hidden;
 	
 	top: 50%;
@@ -123,11 +128,17 @@ div{
 	width: 70%;
 	height: 80%;
 	
+	border: 1px solid black;
+	border-radius: 8px;
+	
 	background-color: #fff;
 }
 
+.add-modal{
+}
+
 .modal-box__top{
-	width: 100%;
+	width: calc(100% / 3);
 	height: 60%;
 	
 	overflow: hidden;
@@ -201,8 +212,23 @@ div{
 
 /* 계산 후 모달 */
 
+.modal-box__cancel{
+	position: sticky;
+	
+	top: 10px;
+	
+	text-align: end;
+	
+	margin: 10px 10px 0px 0px;
+}
+
 .modal-box_sort{
 	display: flex;
+	
+	margin: 10px 0px 0px 10px;
+	
+	border: 1px solid black;
+	border-radius: 7px;
 }
 
 .modal-box__cal{
@@ -218,12 +244,13 @@ div{
 	height: 80%;
 	
 	background-color: #fff;
+	
+	border: 1px solid black;
+	border-radius: 7px;
 }
 
 .mat-box{
 	margin-right: 10px;
-	
-	border: 1px solid black;
 }
 
 .select-mat{
@@ -233,15 +260,31 @@ div{
 }
 
 .cal-before{
-	
+	margin-right: 15px;
 }
 
 .cal-after{
-	
+	color: red;
 }
 
+.modal-box__range{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
 
+.w-range{
+	width: 600px !important;
+}
 
+.range-header{
+	display:flex;
+	justify-content: space-between;
+}
+
+.form-range{
+}
 
 
 
