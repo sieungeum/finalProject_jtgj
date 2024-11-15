@@ -2,7 +2,6 @@ package com.jtgj.finalProject.user.dto;
 
 public class CompanyDTO {
 	private String userId;
-	private String cpRegiFile;
 	private String cpRegiNum;
 	private String cpCeoName;
 	private String cpAddress;
@@ -12,11 +11,9 @@ public class CompanyDTO {
 		super();
 	}
 
-	public CompanyDTO(String userId, String cpRegiFile, String cpRegiNum, String cpCeoName, String cpAddress,
-			String cpOpenDate) {
+	public CompanyDTO(String userId, String cpRegiNum, String cpCeoName, String cpAddress, String cpOpenDate) {
 		super();
 		this.userId = userId;
-		this.cpRegiFile = cpRegiFile;
 		this.cpRegiNum = cpRegiNum;
 		this.cpCeoName = cpCeoName;
 		this.cpAddress = cpAddress;
@@ -25,8 +22,8 @@ public class CompanyDTO {
 
 	@Override
 	public String toString() {
-		return "CompanyDTO [userId=" + userId + ", cpRegiFile=" + cpRegiFile + ", cpRegiNum=" + cpRegiNum
-				+ ", cpCeoName=" + cpCeoName + ", cpAddress=" + cpAddress + ", cpOpenDate=" + cpOpenDate + "]";
+		return "CompanyDTO [userId=" + userId + ", cpRegiNum=" + cpRegiNum + ", cpCeoName=" + cpCeoName + ", cpAddress="
+				+ cpAddress + ", cpOpenDate=" + cpOpenDate + "]";
 	}
 
 	public String getUserId() {
@@ -35,14 +32,6 @@ public class CompanyDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getCpRegiFile() {
-		return cpRegiFile;
-	}
-
-	public void setCpRegiFile(String cpRegiFile) {
-		this.cpRegiFile = cpRegiFile;
 	}
 
 	public String getCpRegiNum() {

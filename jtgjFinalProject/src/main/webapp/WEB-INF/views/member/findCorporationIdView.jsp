@@ -136,6 +136,7 @@
 		$(document).ready(function() {
 			let v_emailAuthBtn = document.getElementById('emailAuthBtn');
 			let v_checkIdAuthBtn = document.getElementById('checkIdAuthBtn');
+			let v_userAccount = "C";
 			
 		    v_emailAuthBtn.addEventListener("click", () => {
 
@@ -154,18 +155,21 @@
 		            
 		            $.ajax({
 		                url: '${pageContext.request.contextPath}/findAccountConfirmEmail',
-		                data: { email: v_email },
+		                data: { 
+		                	email: v_email 
+		                	, account: v_userAccount
+		                },
 		                type: 'POST',
 		                dataType: 'json',
 		                success: function(result) {
 		                    console.log(result);
-		                    if (result) {
+		                    if (result.success) {
 		                        alert('인증번호가 전송되었습니다. 이메일을 확인하세요.');
 		                        $("#emailSpinner").css("display", "none");
 		                    } else {
 		                    	$("#emailSpinner").css("display", "none");
 		                    	
-		                        if(confirm("가입되지 않은 이메일입니다. 회원가입 페이지로 넘어가시겠습니까?")){
+		                        if(confirm(result.warning + " 회원가입 페이지로 넘어가시겠습니까?")){
 		                        	location.href = "${pageContext.request.contextPath}/personalRegistView";
 		                        }
 		                    }
@@ -215,7 +219,7 @@
 				}
 		    	
 	            $.ajax({
-	                url: '${pageContext.request.contextPath}/findPersonalIdDo',
+	                url: '${pageContext.request.contextPath}/findIdDo',
 	                data: { 
 	                	authNumber: v_inputAuthNumber, 	
 						email: v_email                				
