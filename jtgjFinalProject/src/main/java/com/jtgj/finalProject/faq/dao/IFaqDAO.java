@@ -8,6 +8,7 @@ import com.jtgj.finalProject.common.dto.SearchDTO;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 
 @Mapper
 public interface IFaqDAO {
@@ -26,4 +27,13 @@ public interface IFaqDAO {
 	CommentDTO getComment(String comNo);
 	List<CommentDTO> getCommentList(int comNo);
 	int delComment(String comNo);
+	
+	// 공지사항 관련
+	List<NoticeDTO> getNoticeList();
+	int writeNotice(NoticeDTO notice);
+	int getNoticeNo();
+	NoticeDTO getNotice(int noticeNo);
+	int editNotice(NoticeDTO notice);
+	int deleteNotice(int noticeNo);
+	
 }

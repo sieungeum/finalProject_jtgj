@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
+import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
@@ -15,10 +16,21 @@ public class AdminService {
 	@Autowired
 	IAdminDAO dao;
 	
+	@Autowired
+	IEstimateDAO estimateDAO;
+	
 	public List<UserDTO> getUserList(){
 		List<UserDTO> result = dao.getUserList();
 		return result;
 	}
+	
+	public List<EstimateDTO> getEstimateList(){
+		List<EstimateDTO> result = estimateDAO.basic_mater();
+		
+		return result;
+	}
+	
+
 	
 	public int userDo(UserDTO user) {
 		int result = dao.userDo(user);
@@ -40,15 +52,8 @@ public class AdminService {
 		return result;
 	}
 	
-	
 
-	    // 자재 번호로 자재 정보 조회
-	    public EstimateDTO getMaterByNo(int materNo) {
-	        return dao.getMaterByNo(materNo);
-	    }
-	    
-	    public void updateMater(EstimateDTO estimateDTO) {
-	    	dao.updateMater(estimateDTO);
-	    }
+
+
 
 }

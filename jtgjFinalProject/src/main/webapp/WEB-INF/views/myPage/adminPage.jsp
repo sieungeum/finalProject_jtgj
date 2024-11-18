@@ -69,31 +69,26 @@
 }
 
 .modal {
-    display: none; /* 기본적으로 숨김 */
     position: fixed;
-    z-index: 1;
-    left: 0;
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); /* 반투명 검정 배경 */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    display: none; /* 기본적으로 숨겨짐 */
+    justify-content: center;
+    align-items: center;
 }
 
-/* 모달 콘텐츠 */
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: white;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border-radius: 5px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* 입력 필드 스타일 */
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0 10px;
-}
 
 </style>
 </head>
@@ -346,60 +341,36 @@ input, textarea {
 						<div class="card-header">자재정보</div>
 						<div class="card-body">
 							<table id="datatablesOrders" style="width:100%; background-color: inherit;">
-    <thead>
-        <tr>
-            <th>번호</th>
-            <th>종류</th>
-            <th>이름</th>
-            <th>탄소배출량</th>
-            <th>가격</th>
-            <th>강도</th>
-            <th>설명</th>
-        </tr>
-    </thead>
-    <tbody>
-        <c:forEach items="${basicMatter}" var="mater">
-            <tr>
-                <td scope="row">${mater.materNo}</td>
-                <td>${mater.materCategory}</td>
-                <td><a href="javascript:void(0);" onclick="openModal(${mater.materNo})">${mater.materName}</a></td>
-                <td>${mater.materGasKg}</td>
-                <td>${mater.materPrice}</td>
-                <td>${mater.materDurability}</td>
-                <td>${mater.materInfo}</td>
-            </tr>
-        </c:forEach>
-    </tbody>
-</table>
-<div id="materModal" class="modal">
-    <div class="modal-content">
-        <h4>자재 정보 수정</h4>
-        <form id="materForm" action="/updateMater" method="post">
-            <input type="hidden" id="materNo" name="materNo" value="">
-
-            <label for="materName">이름:</label>
-            <input type="text" id="materName" name="materName" required><br><br>
-
-            <label for="materGasKg">탄소배출량 (Kg):</label>
-            <input type="number" id="materGasKg" name="materGasKg" step="0.1" required><br><br>
-
-            <label for="materPrice">가격:</label>
-            <input type="number" id="materPrice" name="materPrice" required><br><br>
-
-            <label for="materDurability">강도:</label>
-            <input type="text" id="materDurability" name="materDurability" required><br><br>
-
-            <label for="materInfo">설명:</label>
-            <textarea id="materInfo" name="materInfo" required></textarea><br><br>
-
-            <label for="materClassify">분류:</label>
-            <input type="text" id="materClassify" name="materClassify" required><br><br>
-
-            <button type="submit">수정</button>
-            <button type="button" onclick="closeModal()">닫기</button>
-        </form>
-    </div>
-</div>
+							    <thead>
+							        <tr>
+							            <th>번호</th>
+							            <th>종류</th>
+							            <th>이름</th>
+							            <th>탄소배출량</th>
+							            <th>가격</th>
+							            <th>강도</th>
+							            <th>설명</th>
+							            
+							        </tr>
+							    </thead>
+							    <tbody>
+							        <c:forEach items="${basicMatter}" var="mater">
+							            <tr>
+							                <td scope="row">${mater.materNo}</td>
+							                <td>${mater.materCategory}</td>
+							                <td>
+							                <a href="${pageContext.request.contextPath}/adminMateEditView?materNo=${mater.materNo}">${mater.materName}</a>
+							                </td>
+							                <td>${mater.materGasKg}</td>
+							                <td>${mater.materPrice}</td>
+							                <td>${mater.materDurability}</td>
+							                <td>${mater.materInfo}</td>
+							                
+							            </tr>
+							        </c:forEach>
+							    </tbody>
+							</table>
+							
 						</div>
 					</div>
 				</div>
@@ -415,33 +386,7 @@ input, textarea {
 		</div>
 	</div>
 	
-	<script type="text/javascript">
-	function openModal(materNo) {
-		console.log("모달 열기 시도1:", materNo);
-	    // AJAX로 자재 정보를 가져오기
-	    fetch('/getMaterByNo/' + materNo)
-	        .then(response => response.json())
-	        .then(data => {
-	            // 자재 정보로 모달 필드 채우기
-	            document.getElementById('materNo').value = data.materNo;
-	            document.getElementById('materName').value = data.materName;
-	            document.getElementById('materGasKg').value = data.materGasKg;
-	            document.getElementById('materPrice').value = data.materPrice;
-	            document.getElementById('materDurability').value = data.materDurability;
-	            document.getElementById('materInfo').value = data.materInfo;
-	            document.getElementById('materClassify').value = data.materClassify;
-	            console.log("모달 열기 시도2:", materNo);
-	            // 모달 표시
-	            document.getElementById('materModal').style.display = 'block';
-	            console.log("모달 열기 시도3:", materNo);
-	        });
-	}
-
-	// 모달 닫기
-	function closeModal() {
-	    document.getElementById('materModal').style.display = 'none';
-	}
-	</script>
+	
 	
 <script>
     document.addEventListener('DOMContentLoaded', function() {
