@@ -3,6 +3,7 @@ package com.jtgj.finalProject.admin.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -24,10 +25,6 @@ public interface IAdminDAO {
 	List<FaqDTO> getUserId();
 	int getUserId(UserDTO userId);
 	
-	@Select("SELECT * FROM materials WHERE materNo = #{materNo}")
-    EstimateDTO getMaterByNo(int materNo);
-	
-	@Update("UPDATE materials SET materName = #{materName}, materGasKg = #{materGasKg}, materPrice = #{materPrice}, materDurability = #{materDurability}, materInfo = #{materInfo}, materClassify = #{materClassify} WHERE materNo = #{materNo}")
-	void updateMater(EstimateDTO estimateDTO);
-
+	List<EstimateDTO> basic_mater();
+	int getMaterName(EstimateDTO materName);
 }
