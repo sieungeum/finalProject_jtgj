@@ -10,6 +10,7 @@ import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 
 @Service
 public class FaqService {
@@ -73,6 +74,35 @@ public class FaqService {
 		int result = dao.delComment(comNo);
 		return result;
 	}
-	// 여기 부터 교안 250페이지 이어서 하기
 	
+	// 공지사항 서비스
+	public List<NoticeDTO> getNoticeList(){
+		List<NoticeDTO> result = dao.getNoticeList();
+		return result;
+	}
+	
+	public int writeNotice(NoticeDTO notice) {
+		int result = dao.writeNotice(notice);
+		return result;
+	}
+	
+	public int getNoticeNo() {
+		int result = dao.getNoticeNo();
+		return result;
+	}
+	
+	public NoticeDTO getNotice(int noticeNo) {
+		NoticeDTO result = dao.getNotice(noticeNo);
+		return result;
+	}
+	
+	public int editNotice(NoticeDTO notice) {
+		int result = dao.editNotice(notice);
+		return result;
+	}
+	
+	public int deleteNotice(int noticeNo) {
+		int result  = dao.deleteNotice(noticeNo);
+		return result;
+	}
 }
