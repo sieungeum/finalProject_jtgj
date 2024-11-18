@@ -27,6 +27,7 @@ import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
 import com.jtgj.finalProject.user.service.UserService;
@@ -54,9 +55,11 @@ public class FaqController {
 		pageSearch.pageSetting();
 		
 		List<FaqDTO> faqList = faqService.getFaqList(pageSearch);
+		List<NoticeDTO> noticeList = faqService.getNoticeList();
 		
 		model.addAttribute("faqList", faqList);
 		model.addAttribute("pageSearch", pageSearch);
+		model.addAttribute("noticeList", noticeList);
 		
 		return "faq/faqView";
 	}
@@ -203,6 +206,100 @@ public class FaqController {
 		}
 		
 		return result;
+		
+	}
+	
+	// 공지사항
+	
+	@RequestMapping("/noticeWriteView")
+	public String noticeWriteView(HttpSession session) {
+		
+		if(session.getAttribute("login") == null) {
+			return "redirect:/loginView";
+		}
+		
+		return "faq/noticeWriteView";
+		
+	}
+	
+	@PostMapping("/noticeWriteDo")
+	public String faqWriteDo(NoticeDTO notice, HttpSession session, MultipartFile[] boFile) {
+		System.out.println(notice);
+		
+		UserDTO login = (UserDTO)session.getAttribute("login");
+	    if (login != null) {
+	        String userId = login.getUserId();
+	        notice.setUserId(userId);  // FaqDTO에 userId를 설정
+	        String userName = login.getUserName();
+	        notice.setUserName(userName);
+	    } else {
+	        return "redirect:/loginView";  // 로그인 정보가 없으면 로그인 페이지로 리다이렉트
+	    }
+	    
+	    // 글번호 가져오기
+	    int atchParentNo = faqService.getNoticeNo();
+	    
+	    // 첨부된 파일 존재할시 로컬에 저장후 db에 전
+	    if(boFile != null && boFile.length > 0 && !boFile[0].isEmpty()) {
+	    	System.out.println("파일 개수: " + boFile.length);
+	    	try {
+	    		List<AttachDTO> attachList = fileUploadUtils.getAttachListByMultiparts(boFile);
+	    		if(!attachList.isEmpty()) {
+	    			for(AttachDTO attach : attachList) {
+	    				attach.setAtchParentNo(atchParentNo);
+	    				attachService.insertAttach(attach);
+	    			}
+	    			
+	    		}
+	    	} catch (IOException e) {
+	    		e.printStackTrace();
+	    		System.out.println("첨부 파일 업로드중 오류 발생");
+	    		return "error/errorPath500";
+	    	}
+	    }
+		
+		faqService.writeNotice(notice);
+		
+		return "redirect:/faqView";
+		
+	}
+	
+	@RequestMapping("/noticeDetailView")
+	public String noticeDetailView(int noticeNo, Model model) {
+		System.out.println("클릭한 게시글의 글번호: " + noticeNo);
+		
+		NoticeDTO notice = faqService.getNotice(noticeNo);
+		
+		// 해당 게시글의 첨부 파일
+		List<AttachDTO> attachList = attachService.getAttachList(noticeNo);
+		
+		model.addAttribute("notice", notice);
+		model.addAttribute("attachList", attachList);
+		
+		return "faq/noticeDetailView";
+	}
+	
+	@RequestMapping(value = "/noticeEditView", method=RequestMethod.POST)
+	public String noticeEditView(int noticeNo, Model model) {
+		NoticeDTO notice = faqService.getNotice(noticeNo);
+		model.addAttribute("notice", notice);
+		return "faq/noticeEditView";
+	}
+	
+	@PostMapping("noticeEditDo")
+	public String noticeEditDo(NoticeDTO notice) {
+		
+		faqService.editNotice(notice);
+		
+		return "redirect:/faqView";
+	}
+	
+	@PostMapping("/noticeDeleteDo")
+	public String noticeDeleteDo(int noticeNo) {
+		
+		faqService.deleteNotice(noticeNo);
+		
+		return "redirect:/faqView";
 		
 	}
 	

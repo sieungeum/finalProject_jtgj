@@ -198,4 +198,89 @@
 			AND com_no = #{comNo}
 	</update>
 	
+	<!-- 여기부터는 공지사항 -->
+	
+	<select id="getNoticeList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO">
+		SELECT *
+	    FROM (
+	        SELECT
+	            a.notice_no,
+	            a.notice_title,
+	            b.user_id,
+	            b.user_name,
+	            a.notice_content,
+	            TO_CHAR(a.notice_date, 'MM.dd') AS notice_date
+	        FROM 
+	            notices a, users b
+	        WHERE 1=1
+	            AND a.user_id = b.user_id
+	            AND a.notice_del_yn = 'N'
+	        ORDER BY a.notice_no DESC
+	    )
+	    WHERE ROWNUM <![CDATA[<=]]> 3
+	</select>
+	
+	<insert id="writeNotice" parameterType="com.jtgj.finalProject.faq.dto.NoticeDTO">
+		INSERT INTO notices(
+			notice_no,
+			user_id,
+			user_name,
+			notice_title,
+			notice_content,
+			notice_date,
+			notice_del_yn
+		) VALUES (
+			(SELECT COUNT(*)+1 FROM notices),
+			#{userId},
+			#{userName},
+			#{noticeTitle},
+			#{noticeContent},
+			SYSDATE,
+			'N'
+		)
+	</insert>
+	
+	<select id="getNoticeNo" resultType="int">
+		SELECT 
+			COUNT(*) + 1
+		FROM 
+			notices
+	</select>
+	
+	<select id="getNotice" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO" parameterType="int">
+		SELECT 
+			a.notice_no,
+			a.notice_title,
+			a.user_id,
+			b.user_name,
+			a.notice_content,
+			TO_CHAR(a.notice_date, 'MM.dd') AS notice_date
+		FROM 
+			notices a,
+			users b
+		WHERE 1=1
+			AND a.user_id = b.user_id
+			AND a.notice_no = #{noticeNo}
+			
+	</select>
+	
+	<update id="editNotice" parameterType="com.jtgj.finalProject.faq.dto.NoticeDTO">
+		UPDATE
+			notices
+		SET
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent}
+		WHERE 1=1
+			AND notice_no = #{noticeNo}
+	</update>
+	
+	<update id="deleteNotice">
+		UPDATE
+			notices
+		SET
+			notice_del_yn = 'Y'
+		WHERE 1=1
+			AND notice_no = #{noticeNo}
+	</update>
+	
 </mapper>

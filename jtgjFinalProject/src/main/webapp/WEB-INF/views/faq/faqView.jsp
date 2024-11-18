@@ -49,6 +49,16 @@
 					</tr>
 				</thead>
 				<tbody>
+					<c:forEach items="${noticeList }" var="notice">
+						<tr>
+							<td scope="row">${notice.noticeNo }</td>
+							<td><a href="${pageContext.request.contextPath }/noticeDetailView?noticeNo=${notice.noticeNo}">${notice.noticeTitle }</a></td>
+							<td>${notice.userName }</td>
+							<td>${notice.noticeDate }</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+				<tbody>
 					<c:forEach items="${faqList }" var="faq">
 						<tr>
 							<td scope="row">${faq.faqNo }</td>
@@ -76,6 +86,11 @@
 			<a href="${pageContext.request.contextPath }/faqWriteView">
 				<button class="button">글쓰기</button>
 			</a>
+			<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+				<a href="${pageContext.request.contextPath }/noticeWriteView">
+					<button class="button">공지사항 쓰기</button>
+				</a>
+			</c:if>
 		</div>
 		
 		<!-- Paging Bar -->
