@@ -148,10 +148,6 @@
 
     	<div class="header">
 		<div class="container">
-			<div class="logo">
-				<a href="${pageContext.request.contextPath }/"> <img src="img/logo.png" alt="Logo">
-				</a>
-			</div>
 
 			<!-- nav -->
 			<%@ include file="/WEB-INF/inc/nav.jsp" %>

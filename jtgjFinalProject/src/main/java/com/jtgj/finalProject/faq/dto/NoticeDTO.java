@@ -11,6 +11,7 @@ public class NoticeDTO {
 	private String noticeDelYn;
 	
 	public NoticeDTO() {
+		super();
 	}
 
 	public NoticeDTO(String userId, String userName, int noticeNo, String noticeTitle, String noticeContent,
@@ -87,4 +88,6 @@ public class NoticeDTO {
 				+ noticeDelYn + "]";
 	}
 
+	
+	
 }
