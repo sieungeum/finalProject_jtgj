@@ -51,7 +51,7 @@
 				<tbody>
 					<c:forEach items="${noticeList }" var="notice">
 						<tr>
-							<td scope="row">${notice.noticeNo }</td>
+							<td scope="row">공지사항</td>
 							<td><a href="${pageContext.request.contextPath }/noticeDetailView?noticeNo=${notice.noticeNo}">${notice.noticeTitle }</a></td>
 							<td>${notice.userName }</td>
 							<td>${notice.noticeDate }</td>
