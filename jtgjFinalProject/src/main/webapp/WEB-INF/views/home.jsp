@@ -6,7 +6,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>OAK - HTML Theme</title>
+	<title>저탄고집 홈 화면</title>
 	<meta name="description" content="">
 	<meta name="msapplication-tap-highlight" content="yes" />
 	<meta name="viewport"
@@ -23,71 +23,82 @@
 		<div class="container">
 
 			<!-- nav -->
-			<%@ include file="/WEB-INF/inc/nav.jsp" %>
+			<%@ include file="/WEB-INF/inc/nav.jsp" %>00
 
 		</div>
 	</div>
 
 	<div class="container">
 		<div class="slider-wrapper">
+			<!-- 사진 -->
+			<div id="slider-ef" class="slider-images-wrapper">
+				<img class="img-responsive" src="img/test/test1.jpg">
+				<img class="img-responsive" src="img/test/test2.jpg">
+				<img class="img-responsive" src="img/test/test3.jpg">
+				<img class="img-responsive" src="img/test/test6.jpg">
+				<img class="img-responsive" src="img/test/test7.jpg">
+				<img class="img-responsive" src="img/test/test8.jpg">
+				<img class="img-responsive" src="img/test/test9.jpg">
+				<img class="img-responsive" src="img/test/test10.jpg">
+				<img class="img-responsive" src="img/test/test11.jpg">
+			</div>
+		
 			<div class="slider-description">
 				<div class="slider-description-inner">
-					<h1>
-						Pure<span>Elegance</span>
+					<h1 style="color:white;">
+						<!-- span 태그를 붙이면 민트 바탕이 나타남 -->
+						Project<span style="color:black;font-weight:bolder;">JTGJ</span>
 					</h1>
 				</div>
+				
 				<div class="cd-intro">
-					<div class="cd-headline clip">
-						<span class="cd-words-wrapper"> <b class="is-visible">AWESOME
-								THEME</b> <b>MODERN COMBINATION</b> <b>CREATIVE SOLUTIONS</b>
+					<div class="cd-headline clip" style="color:white;">
+						<span class="cd-words-wrapper"> 
+							<b class="is-visible">Redefining Materials</b> 
+							<b>Innovating Construction</b> 
+							<b>Sustainable by Design</b>
 						</span>
 					</div>
 				</div>
 			</div>
-			<div id="slider-ef" class="slider-images-wrapper">
-				<img class="img-responsive" src="img/slider/image_1.jpg" alt="">
-				<img class="img-responsive" src="img/slider/image_2.jpg" alt="">
-				<img class="img-responsive" src="img/slider/image_3.jpg" alt="">
-			</div>
 		</div>
 	</div>
+	
 	<div class="container margin-top">
 		<div class="history-wrapper">
 			<div class="col-md-6 wow fadeInUp" data-wow-duration="0.6s"
 				data-wow-delay="0.5s">
 				<div class="row">
 					<article>
-						<h1>HISTORY OF AGENCY</h1>
+						<h1>Green Materials, Better Buildings</h1>
 						<hr>
-						<h4>WHO LOVES OR PURSUES OR DESIRES TO OBTAIN PAIN OF ITSELF,
-							BUT BECAUSE OCCASIONALLY CIRCUMSTANCES OCCUR AND PAIN CAN PROCURE
-							HIM SOME GREAT PLEASURE</h4>
+						<h4>
+						    프로젝트 저탄고집은 친환경 건축을 향한 여정을 시작하는</br>
+						    모든 이에게 실현 가능한 솔루션을 제공합니다.
+						</h4>
 						<p>
-							<br />Porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-							consectetur, adipisci velit, sed quia non numquam eius modi
-							tempora incidunt ut labore et dolore magnam aliquam quaerat
-							voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem
-							ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi
-							modi tempora incidunt ut labore.
+							<br />
+						    우리 웹사이트는 고객이 건축하고자 하는 프로젝트의 자재를 친환경 자재로 변환하여, 지속 가능한 미래를 위한 첫걸음을 돕습니다.  
+						    기업은 탄소를 줄이기 위해 효율적인 자재 변환 솔루션을 활용할 수 있으며,  
+						    개인은 꿈꾸던 건물의 자재를 설계하고, 친환경 건축을 실현할 수 있는 건설사와의 연결을 통해 상상을 현실로 만들 수 있습니다.  
+						    저탄고집은 기업과 개인 모두를 위한 플랫폼으로, 친환경 건축을 일상화하고 건축 산업의 변화를 이끌며,  
+						    지속 가능한 삶과 미래를 만들어가는 데 기여하고자 합니다.
 						</p>
 					</article>
 				</div>
 			</div>
 			<div class="col-md-5 col-md-offset-1 wow fadeInUp"
-				data-wow-duration="0.8s" data-wow-delay="0.3s">
-				<div class="row">
+				data-wow-duration="0.8s" data-wow-delay="0.3s" style="height:400px;">
+				<div class="row" style="height:100%;">
 					<div id="history-images" class="owl-carousel">
 						<div>
-							<img class="img-responsive center-block" src="img/about_img.jpg"
-								alt="About">
+							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:450px;overflow:hidden;">
 						</div>
 						<div>
-							<img class="img-responsive center-block" src="img/about_img2.jpg"
-								alt="About">
+							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:450px;overflow:hidden;">
 						</div>
 						<div>
-							<img class="img-responsive center-block" src="img/about_img3.jpg"
-								alt="About">
+							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:450px;overflow:hidden;">
 						</div>
 					</div>
 				</div>
@@ -98,48 +109,54 @@
 		<div class="main-title">
 			<h1>WHY CHOOSE US?</h1>
 			<hr>
-			<h6>Except to obtain some advantage from it</h6>
 		</div>
 		<div class="services-home-page">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="services-icon">
-						<span class="icon-tools"></span>
+						<span class="icon-global"></span>
 						<hr>
 					</div>
-					<h4>BRANDING</h4>
-					<p>Expound the actual teachings of the great explorer of the
-						truth, the master-builder of human happiness. No one rejects,
-						dislikes, or avoids pleasure itself, because procure him.</p>
+					<h4>SUSTAINABILITY</h4>
+					<p>
+						저탄고집은 플랫폼의 모든 요소에서 지속 가능성을 최우선으로 합니다.
+						친환경 건축 자재 추천부터 제로 에너지 빌딩을 지원하는 솔루션까지,
+						우리는 건축 산업에서 탄소 발자국을 줄이고자 노력합니다.
+					</p>
 				</div>
 				<div class="col-md-4">
 					<div class="services-icon">
 						<span class="icon-globe"></span>
 						<hr>
 					</div>
-					<h4>PLAN OF WORK</h4>
-					<p>Expound the actual teachings of the great explorer of the
-						truth, the master-builder of human happiness. No one rejects,
-						dislikes, or avoids pleasure itself, because procure him.</p>
+					<h4>INNOVATION</h4>
+					<p>
+						저탄고집은 친환경 건축 분야에서 혁신을 선도합니다.
+						자재 변환부터 설계까지 최첨단 솔루션을 제공하며,
+						기업과 개인 모두가 상상하던 지속 가능한 건축물을 실현할 수 있도록 돕습니다.
+						또한, 신뢰할 수 있는 건설사와의 연결을 통해 혁신적인 아이디어가 현실로 구현될 수 있도록 지원합니다.
+					</p>
 				</div>
 				<div class="col-md-4">
 					<div class="services-icon">
-						<span class="icon-paintbrush"></span>
+						<span class="icon-search"></span>
 						<hr>
 					</div>
-					<h4>ILUSTRATION</h4>
-					<p>Expound the actual teachings of the great explorer of the
-						truth, the master-builder of human happiness. No one rejects,
-						dislikes, or avoids pleasure itself, because procure him.</p>
+					<h4>ACCESSIBILITY</h4>
+					<p>
+						지속 가능한 건축은 누구에게나 열려 있어야 한다고 믿습니다.
+						저탄고집은 기업이든 개인이든, 누구나 간편하게 친환경 건축 자재와 서비스를 이용할 수 있도록 설계되었습니다.
+						기술적 전문 지식이 없어도 괜찮습니다.
+						사용자 친화적인 도구와 자원을 통해 아이디어와 실행의 간극을 좁혀드립니다.
+					</p>
 				</div>
 			</div>
 		</div>
 	</div>
 	<div class="container margin-top">
 		<div class="main-title">
-			<h1>OUR WORK</h1>
+			<h1>IDEAS</h1>
 			<hr>
-			<h6>Laborious to obtain some advantage from it</h6>
 		</div>
 		<div class="portfolio-wrapper">
 			<button class="nav">
