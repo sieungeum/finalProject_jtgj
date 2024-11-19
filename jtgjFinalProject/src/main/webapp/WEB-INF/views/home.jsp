@@ -33,7 +33,7 @@
 			<!-- 사진 -->
 			<div id="slider-ef" class="slider-images-wrapper">
 				<img class="img-responsive" src="img/test/test1.jpg">
-				<img class="img-responsive" src="img/test/test1.jpg">
+				<img class="img-responsive" src="img/test/test2.jpg">
 				<img class="img-responsive" src="img/test/test3.jpg">
 				<img class="img-responsive" src="img/test/test6.jpg">
 				<img class="img-responsive" src="img/test/test7.jpg">
@@ -92,13 +92,10 @@
 				<div class="row" style="height:100%;">
 					<div id="history-images" class="owl-carousel">
 						<div>
-							<img class="img-responsive center-block" src="img/test/test13.jpg" style="width:90%;height:450px;overflow:hidden;">
+							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:450px;overflow:hidden;">
 						</div>
 						<div>
 							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:450px;overflow:hidden;">
-						</div>
-						<div>
-							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:450px;overflow:hidden;">
 						</div>
 						<div>
 							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:450px;overflow:hidden;">
