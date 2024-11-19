@@ -21,9 +21,10 @@ public class AdminFaqService {
 		return result;
 	}
 	
-	public List<FaqDTO> getFaqCount() {
-        return dao.getFaqCount();
-    }
+	public int getFaqCount() {
+		int result = dao.getFaqCount();
+		return result;
+	}
 	
 	public List<FaqDTO> getUserId() {
 		List<FaqDTO> result = dao.getUserId();

@@ -21,7 +21,7 @@ public interface IAdminDAO {
 	int userLDo(UserDTO user);
 	int userDelDo(UserDTO user);
 	List<FaqDTO> getFaqList();
-	List<FaqDTO> getFaqCount();
+	int getFaqCount();
 	List<FaqDTO> getUserId();
 	int getUserId(UserDTO userId);
 	
@@ -29,5 +29,6 @@ public interface IAdminDAO {
 	EstimateDTO getMater(int materNo);
 	int editMater(EstimateDTO mater);
 	int writeMater(EstimateDTO mater);
+	int delMater(int materNo);
 	int getMaterNo();
 }

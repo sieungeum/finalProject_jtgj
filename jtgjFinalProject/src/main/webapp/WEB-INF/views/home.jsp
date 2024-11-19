@@ -13,6 +13,12 @@
 		content="width=device-width, user-scalable=no, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
 	
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
+	
+	<style type="text/css">
+		#slider-ef {
+	    	height: 100% !important;
+		}
+	</style>
 </head>
 <body>
 
@@ -23,15 +29,15 @@
 		<div class="container">
 
 			<!-- nav -->
-			<%@ include file="/WEB-INF/inc/nav.jsp" %>00
+			<%@ include file="/WEB-INF/inc/nav.jsp" %>
 
 		</div>
 	</div>
 
-	<div class="container">
-		<div class="slider-wrapper">
+	<div class="container" style="height:800px;">
+		<div class="slider-wrapper" style="height:100%;">
 			<!-- 사진 -->
-			<div id="slider-ef" class="slider-images-wrapper">
+			<div id="slider-ef" class="slider-images-wrapper"">
 				<img class="img-responsive" src="img/test/test1.jpg">
 				<img class="img-responsive" src="img/test/test2.jpg">
 				<img class="img-responsive" src="img/test/test3.jpg">
@@ -70,35 +76,31 @@
 				data-wow-delay="0.5s">
 				<div class="row">
 					<article>
-						<h1>Green Materials, Better Buildings</h1>
+						<h1 style="margin:0;padding-bottom:15px;">Green Materials, Better Buildings</h1>
 						<hr>
-						<h4>
-						    프로젝트 저탄고집은 친환경 건축을 향한 여정을 시작하는</br>
-						    모든 이에게 실현 가능한 솔루션을 제공합니다.
-						</h4>
-						<p>
-							<br />
-						    우리 웹사이트는 고객이 건축하고자 하는 프로젝트의 자재를 친환경 자재로 변환하여, 지속 가능한 미래를 위한 첫걸음을 돕습니다.  
-						    기업은 탄소를 줄이기 위해 효율적인 자재 변환 솔루션을 활용할 수 있으며,  
-						    개인은 꿈꾸던 건물의 자재를 설계하고, 친환경 건축을 실현할 수 있는 건설사와의 연결을 통해 상상을 현실로 만들 수 있습니다.  
-						    저탄고집은 기업과 개인 모두를 위한 플랫폼으로, 친환경 건축을 일상화하고 건축 산업의 변화를 이끌며,  
-						    지속 가능한 삶과 미래를 만들어가는 데 기여하고자 합니다.
-						</p>
+						<h4 style="margin-bottom:0;">프로젝트 저탄고집은 친환경 건축을 향한 여정을 시작하는</h4>
+						<h4 style="margin-top:0;margin-bottom:30px;">모든 이에게 실현 가능한 솔루션을 제공합니다.</h4>
+						<p style="font-weight:bolder;font-size:15px;list-style:none;padding-left:0;margin-bottom:10px;">저탄고집은..</p>
+						<ul style="padding-left:15px;padding-right:45px;">
+							<li style="margin-bottom:5px;padding-left:0;">고객이 건축하고자 하는 프로젝트의 자재를 친환경 자재로 변환하여, 지속 가능한 미래를 위한 첫걸음을 돕습니다.
+							<li style="margin-bottom:5px;padding-left:0;">기업이 탄소를 줄이기 위해 효율적인 자재 변환 솔루션을 활용하도록 돕고, 개인이 꿈꾸던 건물의 자재를 직접 설계할 수 있도록 지원하며, 나아가 친환경 건축을 실현할 수 있는 건설사와 연결합니다.
+							<li style="padding-left:0;">기업과 개인 모두를 위한 플랫폼으로, 친환경 건축을 일상화하고 건축 산업의 변화를 이끌며, 지속 가능한 삶과 미래를 만들어가는 데 기여하고자 합니다.
+						</ul> 
 					</article>
 				</div>
 			</div>
 			<div class="col-md-5 col-md-offset-1 wow fadeInUp"
 				data-wow-duration="0.8s" data-wow-delay="0.3s" style="height:400px;">
 				<div class="row" style="height:100%;">
-					<div id="history-images" class="owl-carousel">
+					<div id="history-images" class="owl-carousel" style="margin-right:0;">
 						<div>
-							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:450px;overflow:hidden;">
+							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:450px;overflow:hidden;margin-right:0;">
 						</div>
 						<div>
-							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:450px;overflow:hidden;">
+							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:450px;overflow:hidden;margin-right:0;">
 						</div>
 						<div>
-							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:450px;overflow:hidden;">
+							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:450px;overflow:hidden;margin-right:0;">
 						</div>
 					</div>
 				</div>
@@ -107,7 +109,7 @@
 	</div>
 	<div class="container margin-top">
 		<div class="main-title">
-			<h1>WHY CHOOSE US?</h1>
+			<h1 style="padding-bottom:15px;">WHY CHOOSE US?</h1>
 			<hr>
 		</div>
 		<div class="services-home-page">
@@ -155,7 +157,7 @@
 	</div>
 	<div class="container margin-top">
 		<div class="main-title">
-			<h1>IDEAS</h1>
+			<h1 style="">IDEAS</h1>
 			<hr>
 		</div>
 		<div class="portfolio-wrapper">
@@ -167,167 +169,14 @@
 			</button>
 			<div class="works-filter">
 				<a href="javascript:void(0)" class="filter active" data-filter="mix">All</a>
-				<a href="javascript:void(0)" class="filter" data-filter="branding">Branding</a>
-				<a href="javascript:void(0)" class="filter" data-filter="web">Web
-					Design</a> <a href="javascript:void(0)" class="filter"
-					data-filter="graphic">Graphic Design</a>
+				<a href="javascript:void(0)" class="filter" data-filter="Insights">Insights</a>
+				<a href="javascript:void(0)" class="filter" data-filter="Builders">Builders</a> 
 			</div>
 			<div class="js-masonry">
 				<div class="row" id="work-grid">
-					<!-- Begin of Thumbs Portfolio -->
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_1.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">250</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix web">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_2.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">60</span>
-								</a>
-								<div class="details">
-									<span class="title">WATCH-J</span> <span class="info">NEW
-										TREND FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix graphic">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_3.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">1060</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_4.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">900</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_5.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">979</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_6.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">1024</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_7.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">2048</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_8.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">256</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-						<div class="img home-portfolio-image">
-							<img src="img/home-portfolio/img_9.jpg" alt="Portfolio Item">
-							<div class="overlay-thumb">
-								<a href="javascript:void(0)" class="like-product"> <i
-									class="ion-ios-heart-outline"></i> <span class="like-product">Liked</span>
-									<span class="output">256</span>
-								</a>
-								<div class="details">
-									<span class="title">STYLE FASHION</span> <span class="info">NEW
-										BAG & STYLE FASHION</span>
-								</div>
-								<span class="btnBefore"></span> <span class="btnAfter"></span> <a
-									class="main-portfolio-link" href="single-project.html"></a>
-							</div>
-						</div>
-					</div>
+					<!-- Insights 혹은 Builders 실행 -->
+					
+
 				</div>
 			</div>
 			<div class="load-more">
@@ -368,5 +217,55 @@
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
+
+	<!-- JSON 데이터를 안전하게 전달 -->
+	<script id="jsonData" type="application/json">
+   		${jsonData}
+	</script>
+	<script>
+		let jsonData = JSON.parse(document.getElementById('jsonData').textContent);
+		console.log(jsonData);
+	
+		let v_workGrid = document.getElementById('work-grid');
+		
+		// 디폴트 건설사 10개
+		let buildersCount = 0;
+		for(let buildersCount = 0; buildersCount < 10; buildersCount++){
+			let v_input = [
+				'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders">' +
+					'<div class="img home-portfolio-image">' +
+				    	'<img src="' + jsonData[buildersCount].img + 'alt="Portfolio Item">' +
+				    	'<div class="overlay-thumb">' +
+				        	'<a href="javascript:void(0)" class="like-product">' + 
+					        	'<i class="ion-ios-heart-outline"></i>' + 
+					        	'<span class="like-product">Liked</span>' +
+					           	'<span class="output">250</span>' +
+				         	'</a>' +
+					        '<div class="details">' +
+					            '<span class="title">' + jsonData[buildersCount].title + '</span>' +
+					            '<span class="info">' + jsonData[buildersCount].subtitle[0] + '/' + jsonData[buildersCount].subtitle[1] + '/' + jsonData[buildersCount].subtitle[2] + '</span>' +
+					        '</div>' +
+					        '<span class="btnBefore"></span>' + 
+					        '<span class="btnAfter"></span>' + 
+					        '<a class="main-portfolio-link" href="single-project.html"></a>' +
+						'</div>' +
+					'</div>' +
+				'</div>'				
+			];
+			
+			v_workGrid.innerHTML += v_input;
+		}
+		
+		/*
+			<div class="load-more">
+				<a href="javascript:void(0)" id="load-more"><i
+					class="icon-refresh"></i></a>
+			</div>
+			
+			해당 버튼 클릭시 3개씩 추가!
+			
+			그냥 내가 만들자
+		*/
+	</script>
 </body>
 </html>

@@ -373,7 +373,7 @@
 							    </tbody>
 							</table>
 							<a href="${pageContext.request.contextPath }/materWriteView">
-								<button class="button">자재추가</button>
+								<button class="btn btn-primary btn-xl m-right">자재추가</button>
 							</a>
 						</div>
 					</div>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
+import com.jtgj.finalProject.faq.dao.IFaqDAO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -15,6 +16,8 @@ public class AdminService {
 	
 	@Autowired
 	IAdminDAO dao;
+	
+	
 	
 	@Autowired
 	IEstimateDAO estimateDAO;
@@ -64,6 +67,11 @@ public class AdminService {
 	
 	public int writeMater(EstimateDTO mater) {
 		int result = dao.writeMater(mater);
+		return result;
+	}
+	
+	public int delMater(int materNo) {
+		int result = dao.delMater(materNo);
 		return result;
 	}
 	
