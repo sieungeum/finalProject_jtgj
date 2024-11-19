@@ -22,7 +22,6 @@
 
 <%@ include file="/WEB-INF/inc/header.jsp"%>
 
-
 <link rel="stylesheet" href="css/sjm/estimateHome.css">
 <link rel="stylesheet" href="css/sjm/sjm-custom.css">
 
@@ -44,7 +43,7 @@
 	<!-- budget input -->
 	<div class="container">
 		<div class="main-title">
-			<div class="header-font">STEP 1) 예산을, 예산을 입력해라.</div>
+			<div class="header-font">생각하시는 예산을 입력해주세요.</div>
 			<div class="budget-input-box">
 				<input class="input-budget" type="text" placeholder="단위 : 원"
 					id="budget">
@@ -60,7 +59,7 @@
 	<div class="container">
 		<div class="main-title">
 			<!-- 글머리 -->
-			<div class="header-font">STEP 2) 견적을, 견적을 구성해라</div>
+			<div class="header-font">견적을 구성해주세요.</div>
 
 			<div class="card-wrapper">
 				<!-- 1. 외장재 -->
@@ -172,12 +171,21 @@
 		</div>
 	</div>
 
+	<!-- 임시 저장된 제자들 -->
+	<div class="container">
+		<div class="main-title">
+			<div id="tempSave" class="temp-save-box">
+				<!-- 여기에 임시저장 버튼 클릭마다 하나씩 추가됨 -->
+			</div>
+		</div>
+	</div>
+
 	<!-- 총 예산 및 총 탄소배출량 -->
 	<div class="container">
 		<div class="main-title">
 			<div class="calculate-box">
 
-				<!-- 탄소배출량 계산량(처음엔 0) -->
+				<!-- 총 탄소배출량 계산량(처음엔 0) -->
 				<div class="calculate-carbon calculate-sort">
 					<div class="cal-subtitle" style="letter-spacing: 1px;">탄소배출량</div>
 					<div class="calculate-sort">
@@ -189,7 +197,7 @@
 					</div>
 				</div>
 
-				<!-- 자제 가격 계산(처음엔 0) -->
+				<!-- 총 자제 가격 계산(처음엔 0) -->
 				<div class="calculate-cost calculate-sort">
 					<div class="cal-subtitle" style="letter-spacing: 16px;">자제비</div>
 					<div class="calculate-sort">
@@ -213,6 +221,7 @@
 	<!-- Material Modal -->
 	<div class="sjm_mocdal-box">
 
+		<!-- 자제 모달창 닫기 버튼 -->
 		<div class="modal-box__cancel">
 			<img
 				id="selectModalCancel" 
@@ -279,6 +288,7 @@
 		
 		<!-- 선택한 자제, 대체 자제 -->
 		<div class="only-flex">
+			<!-- 결과 모달창 -->
 			<div class="modal-box_sort">
 				<!-- 기본 자제 -->
 				<div class="mat-box">
@@ -413,19 +423,41 @@
 
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
-		/* card */
-		let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
-		let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
-		
-		let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
+
 	
-		/* modal */
-		let v_addModal = document.querySelector(".add-modal"); // 선택한 카테고리별 모달 생성
-		let v_modalBox = document.querySelector(".sjm_mocdal-box");
+/* 		
+		
+		
+		
+		 */
+
+		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
+		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
+		
+		let v_matInfoList = "${basicMatter}"; // model로 가져온 값들, estimateDTO 리스트를 string으로 가져오기 때문에 정제가 필요
+		
+		// 1. 모든 [ ,] 지우기
+		v_matInfoList = v_matInfoList.replaceAll("\[", "").replaceAll("\]", "");
+		
+		// 2. EstimateDTO 로 split
+		v_matInfoList = v_matInfoList.split("EstimateDTO");
+		
+		for (let i = 1; i < v_matInfoList.length; i++){// 3. 앞에 "" 이거 하나 생기는데 i = 1 로 무시
+			let v_mat = v_matInfoList[i].split(","); // 4. ,로 다시 split
+			v_matInfoDict[i-1] = {}; // 5. 숫자 키 지정
+			
+			// 6. = 으로 다시 split 후 dict으로 묶기
+			for (let j = 1; j < v_mat.length; j++){
+				v_matInfoDict[i-1][v_mat[j].trim().split("=")[0]] = v_mat[j].trim().split("=")[1]; // 딕셔너리 형태로 저장
+			}
+		}
+		
+		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
 		
 		/* 예산 입력 정규식 */
 		let v_budget = document.getElementById("budget");
 		
+		// 예산 입력 시 이벤트 발생
 		v_budget.addEventListener('keyup', function(event) {
 			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지
 			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
@@ -436,35 +468,47 @@
 		let v_container = document.querySelectorAll(".container");
 		
 		// 예산 입력 전까지 숨기기
-		v_container[2].style.display = "none";
-		v_container[3].style.display = "none";
+		v_container[2].style.display = "none"; // 견적 구성
+		v_container[3].style.display = "none"; // 임시 저장 리스트
+		v_container[4].style.display = "none"; // 총 탄소배출량, 가격
 		
 		// 다음 버튼 클릭 시
 		document.getElementById("budgetBtn").addEventListener("click", ()=>{
 			while(true){
 				if (!v_budget.value){
-					alert("0원 이상 입력해라 뒤지기 싫으면");
+					alert("예산 입력 후 눌러주세요");
 					break;
 				} else {
 					let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
 					console.log(v_intBudget);
 					if (v_intBudget < 10000000){
-						alert("건물이 몇백이면 뚝딱하고 지어짐? 진짜 모름");
+						alert("최소 천만원 이상 입력해주세요.");
 						break;
 					}
-					alert("good boy");
+					
+					// 알맞은 예산 입력 시 숨겨진 기능들 보이기
 					v_container[2].style.display = "block";
 					v_container[3].style.display = "block";
+					v_container[4].style.display = "block";
 					break;
 				}
 			}
 		});
+
+		/* card */
+		let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
+		let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
 		
+		let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
+	
+		/* modal */
+		let v_addModal = document.querySelector(".add-modal"); // 선택한 카테고리별 모달 생성
+		let v_modalBox = document.querySelector(".sjm_mocdal-box"); // 카테고리별 자제들 모달창 box(x 누를 경우 닫을 때 사용)
 		
 		/* 자제 선택 클릭 이벤트 */
 		for (let i = 0; i < v_btnModal.length; i++) { 
 			v_btnModal[i].addEventListener("click", () => {
-				let v_category = "materCategory=" + v_materCategory[i].innerHTML;
+				let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
 				sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
 
 				v_modalBox.style.display = "block"; // 모달창 활성화
@@ -472,9 +516,9 @@
 		}
 		
 		/* 닫기 클릭 */
-		let v_calModalCancel = document.getElementById("selectModalCancel");
+		let v_selectModalCancel = document.getElementById("selectModalCancel");
 		
-		v_calModalCancel.addEventListener("click", () => {
+		v_selectModalCancel.addEventListener("click", () => {
 			v_modalBox.style.display = "none";
 		});
 		
@@ -493,26 +537,27 @@
 			v_ajax.onload = () => {
 				// 통신 성공 시
 				if (v_ajax.status == 200){
-					let v_data = v_ajax.response;
+					let v_data = v_ajax.response; // 카테고리에 맞는 모든 자제들 정보
 					
 					// JSON 문자열을 자바스크립트 배열로 변환
 					v_data = JSON.parse(v_data);
-					
-					// 이미 선택된 것은 모달창에 추가 X
-					let v_calCarbon = document.querySelector("#calCarbon");
-					let v_calPrice = document.querySelector("#calPrice");
 					
 					/* 모달창 생성 */
 					v_addModal.innerHTML = "" // 카테고리 변경할 때마다 모달 초기화
 					for (let i = 0; i < v_data.length; i++){
 						
-						// 모달 html 태그
+						// 모달 html 태그 (나중에 이거 한데 모아놓은 div 추가해야 다지안 가능 고칠거 개 많을듯;;)
 						let v_query = ""
+							/* 자제 이미지 */
 							v_query += '<div class="modal-box__top">'
 							v_query += '	<img src="' + v_data[i]['materImg'] + '">'
 							v_query += '</div>'
+							
+							/* 자제 정보 */
 							v_query += '<div class="modal-box__bottom">'
 							v_query += '	<div class="modal-botton__material">' + v_data[i]['materName'] + '</div>'
+							
+							/* 자제 수치들(나중에 별점 5개로 시각화 필요) */
 							v_query += '	<div class="modal-botton__rating">'
 							v_query += '		<div>'
 							v_query += '			<div>배출량</div>'
@@ -531,22 +576,33 @@
 							v_query += '			</div>'
 							v_query += '		</div>'
 							v_query += '	</div>'
+							
+							/* 자제 설명 */
 							v_query += '	<div class="modal-botton__explain">'
 							v_query += '		' + v_data[i]['materInfo']
 							v_query += '	</div>'
+								
+							/* 선택 버튼 */
 							v_query += '	<div>'
 							v_query += '		<button class="sjm-btn sjm-btn-primary btn-select">선택</button>'
 							v_query += '	</div>'
 							v_query += '</div>'
 							
-						v_addModal.innerHTML += v_query;
+						v_addModal.innerHTML += v_query; // 태그 추가
 
 						// 이미 선택된 것은 모달창에 출력 안하기
-						if (v_calCarbon.children[1]){
+						// 총 탄소배출량이 나오는 span 태그(.children[0])
+						// 밑에 hidden input(.children[1])에 생성되어 있는 경우
+						let v_calCarbon = document.querySelector("#calCarbon");
+						let v_calPrice = document.querySelector("#calPrice");
+						
+						if (v_calCarbon.children[1]){ // 한번이라도 작동했을 경우 실행
 							for (let j = 0; j < v_calCarbon.children.length; j++){
+								// ex) 구조용 강철,외장재 이런 식으로 저장되어 있음.
 								let v_sameName = v_calCarbon.children[j].textContent.split(",")[0];
-								if (v_sameName == v_data[i]['materName']){
-									
+								let v_sameCategory = v_calCarbon.children[j].textContent.split(",")[1];
+								if (v_sameName == v_data[i]['materName'] && v_sameCategory == v_data[i]['materCategory']){
+									/* 이미 선택한 자제는 display:none를 줘서 안보이게 하기 */
 									let v_modalBoxTop = document.querySelectorAll(".modal-box__top")[i];
 									let v_modalBoxBottom = document.querySelectorAll(".modal-box__bottom")[i];
 									
@@ -573,6 +629,7 @@
 							
 							// 등록한 자제 html 태그
 							v_newMaterialDiv.innerHTML = v_data[i]['materName'] + '<br> <input type="number" oninput="f_inputValue()" value="0">kg';
+							// 닫기 이미지
 							v_newMaterialDiv.innerHTML += '<img width="18px" height="18px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
 							
 							// 숨겨진 input 요소 생성
@@ -586,8 +643,8 @@
 							
 							// 새로 생성한 요소들을 추가
 							v_materials[cate_idx].appendChild(v_newMaterialDiv);
-							v_materials[cate_idx].appendChild(v_price);
-							v_materials[cate_idx].appendChild(v_carbon);
+							v_newMaterialDiv.appendChild(v_price);
+							v_newMaterialDiv.appendChild(v_carbon);
 							
 							v_modalBox.style.display = "none"; // 모달창 닫기
 							
@@ -602,6 +659,8 @@
 							
 							// 자제 kg 입력 시 정규식 규정 및 계산
 						    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
+							
+							// 선택한 자제의 input 태그 입력 시 이벤트 발생
 						    inputElement.addEventListener("keyup", function (event) {
 						        if (!(this.value == 0)){ // 그냥 0일 경우 실행 X
 							        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
@@ -625,6 +684,7 @@
 				}
 			}
 			
+			/* parameter : 카테고리 */
 			v_ajax.send(v_category); // 서버에 요청
 		}
 		
@@ -644,6 +704,7 @@
 		}
 		
 		/* 계산식 */
+		// parameter : 자제 Kg(갯수) , 해당 자제 정보
 		function f_inputValue(inputNum, v_materDataDict){
 			
 			// 가끔 undefined로 값이 와서 추가
@@ -659,10 +720,12 @@
 			
 			/* 이미 같은 input 태그 생성 시 넘어가기 */
 			let v_existInput = false; // 존재 시 on
-			if (v_calCarbon.children){ // input태그가 있을 경우 실행(= 첫 실행일 경우 실행 X)
+			if (v_calCarbon.children[1]){ // input태그가 있을 경우 실행(= 첫 실행일 경우 실행 X)
 				for (let i = 1; i < v_calCarbon.children.length; i++){
+					// ex) 구조용 강철,외장재 이런 식으로 저장되어 있음.
 					let v_sameName = v_calCarbon.children[i].textContent.split(",")[0];
-					if (v_sameName == v_materDataDict['matName']){
+					let v_sameCategory = v_calCarbon.children[i].textContent.split(",")[1];
+					if (v_sameName == v_materDataDict['matName'] && v_sameCategory == v_materDataDict['matCategory']){
 						// 계산 대상과 그 갯수를 다음과 같이 저장 ex) 1.23,5
 						v_calCarbon.children[i].children[0].value = v_materDataDict['matCarbon'] + "," + inputNum;
 						v_calPrice.children[i].children[0].value = v_materDataDict['matPrice'] + "," + inputNum;
@@ -675,33 +738,36 @@
 			
 			// 첫 선택일 경우만 실행
 			if (!v_existInput) {
-				// 탄소배출량 input 태그 추가
-				let v_carbon = document.createElement("input");
-				v_carbon.type = "hidden";
-				// v_carbon.id = v_materDataDict['matName'] + "Carbon";
-				v_carbon.value = v_materDataDict['matCarbon'] + "," + inputNum;
-				
+				console.log("생성이 안된다고??")
+				/* 탄소배출량 태그 추가 */
 				let v_tempDiv = document.createElement("div");
 				v_tempDiv.style.display = "none";
 				v_tempDiv.innerHTML = v_materDataDict['matName'] + "," + v_materDataDict['matCategory'];
-				v_tempDiv.appendChild(v_carbon);
 				
+				// 탄소배출량 input 태그 추가
+				let v_carbon = document.createElement("input");
+				v_carbon.type = "hidden";
+				v_carbon.value = v_materDataDict['matCarbon'] + "," + inputNum; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 1.23,5
+				v_tempDiv.appendChild(v_carbon); // div 태그에 추가
+				
+				// 총 탄소배출량 밑에 추가
 				v_calCarbon.appendChild(v_tempDiv);
-				
-				// 가격 input 태그 추가
-				let v_price = document.createElement("input");
-				v_price.type = "hidden";
-				// v_price.id = v_materDataDict['matName'] + "Price";
-				v_price.value = v_materDataDict['matPrice'] + "," + inputNum;
-				
+
+				/* 가격 태그 추가 */
 				v_tempDiv = document.createElement("div");
 				v_tempDiv.style.display = "none";
 				v_tempDiv.innerHTML = v_materDataDict['matName'] + "," + v_materDataDict['matCategory'];
-				v_tempDiv.appendChild(v_price);
+
+				// 가격 input 태그 추가
+				let v_price = document.createElement("input");
+				v_price.type = "hidden";
+				v_price.value = v_materDataDict['matPrice'] + "," + inputNum; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 5000,5
+				v_tempDiv.appendChild(v_price); // div 태그에 추가
 				
+				// 총 가격 밑에 추가
 				v_calPrice.appendChild(v_tempDiv);
 	 			
-	 			v_existInput = false;
+	 			v_existInput = false; // 굳이 넣어야 되나?
 			}
 			
 			// 최종 계산 출력
@@ -715,8 +781,10 @@
 			let v_calPrice = document.querySelector("#calPrice");
 			
 			for (let i = 0; i < v_calCarbon.children.length; i++){
+				// ex) 구조용 강철,외장재 이런 식으로 저장되어 있음.
 				let v_sameName = v_calCarbon.children[i].textContent.split(",")[0];
-				if (v_sameName == v_materDataDict['matName']){
+				let v_sameCategory = v_calCarbon.children[i].textContent.split(",")[1];
+				if (v_sameName == v_materDataDict['matName'] && v_sameCategory == v_materDataDict['matCategory']){
 					v_calCarbon.children[i].remove();
 					v_calPrice.children[i].remove();
 					
@@ -728,20 +796,21 @@
 			f_finalCal(v_calCarbon, v_calPrice);
 		}
 		
+		/* 최종 계산 함수 */
+		// parameter : 총 탄소배출량 태그, 총 가격 태그
 		function f_finalCal(v_calCarbon, v_calPrice){
-
 			// 총 합 선언
 			let v_carbonCost = 0;
 			let v_priceCost = 0;
 			
  			for (let i = 1; i < v_calCarbon.children.length; i++){
  				// ex) 4000,6 형식으로 저장되어 있음
-				let v_splitCarbon = v_calCarbon.children[i].children[0].value.split(",");
-				let v_splitPrice = v_calPrice.children[i].children[0].value.split(",");
+				let v_splitCarbon = v_calCarbon.children[i].children[0].value.split(","); // div - div - input 태그
+				let v_splitPrice = v_calPrice.children[i].children[0].value.split(","); // div - div - input 태그
 
-				v_carbonCost += parseInt(v_splitCarbon[1]) * parseFloat(v_splitCarbon[0]);
+				v_carbonCost += parseInt(v_splitCarbon[1]) * parseFloat(v_splitCarbon[0]); // 자제의 Kg(갯수) * 탄소배출량
 				v_carbonCost = parseFloat(v_carbonCost.toFixed(2)); // 소수 둘째자리 까지 출력
-				v_priceCost += parseInt(v_splitPrice[1]) * parseFloat(v_splitPrice[0]);
+				v_priceCost += parseInt(v_splitPrice[1]) * parseFloat(v_splitPrice[0]); // 자제의 Kg(갯수) * 가격
 			}
 			
  			// 최종 합계 출력
@@ -752,12 +821,15 @@
 	</script>
 
 	<script type="text/javascript">
-		
 		/* 최종 결과 도출 */
-		// 계산 버튼
-		let v_resultBtn = document.getElementById("resultBtn");
-		
+		let v_resultBtn = document.getElementById("resultBtn"); // 계산 버튼
 		let v_modalBoxCal = document.querySelector(".modal-box__cal"); // 전체 모달창
+		
+		/* 자제 정보 */
+		let v_matInfoStack = []; // 불러오기 창에 추가될 것들 차곡차곡 쌓임
+		let v_matInfo = []; // 최종 결과에 임시저장할 자제들
+		let v_subMatInfo = null; // 최종 결과에 임시저장할 대체 자제들
+		let v_matNum = []; // 최종 결과에 임시저장할 자제들 갯수
 		
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
@@ -789,17 +861,14 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, -1);
+			f_ajaxJsonString(v_sendMaterials, 50);
 			
 		});
 		
-		const v_calRange = document.getElementById("calRange");
-		console.log(v_calRange.value);
-		
- 		document.addEventListener("DOMContentLoaded", function() {
-			v_calRange.addEventListener("input", function() {
-				console.log(this.value); // 값을 업데이트
-				
+		/* 범위 지정 */
+		const v_calRange = document.getElementById("calRange"); // 범위 input 태그
+ 		document.addEventListener("DOMContentLoaded", function() { // 이건 안넣으면 바뀔 때마다 적용이 안됨
+			v_calRange.addEventListener("input", function() { // input 태그 바뀔 시 이벤트 발생
 				let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
 				
 				// 선택한 자제들의 탄소배출량
@@ -834,6 +903,7 @@
 		
 		
 		/* 최종 결과 출력 */
+		// parameter : json 형식의 선택 자제들 데이터, 현재 범위 input의 this.value
 		function f_ajaxJsonString(v_sendMaterials, v_range){
 			// 선택한 자제들 ajax로 보내기 전에 원본 유지
 			let v_basicMatDict = v_sendMaterials;
@@ -841,11 +911,9 @@
 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
 			v_sendMaterials = JSON.stringify(v_sendMaterials);
 			v_sendMaterials = "sendMaterials=" + v_sendMaterials;
-			v_sendMaterials += "&calRange=" + v_range;
 			
-			// result modal css
-			let v_matBox = document.querySelectorAll(".mat-box"); // 자제들 나올 box
-			let v_selectMat = document.querySelectorAll(".select-mat"); // 자제들 html
+			// 범위 input value
+			v_sendMaterials += "&calRange=" + v_range;
 			
 			// ajax 요청
 			const v_ajax = new XMLHttpRequest();
@@ -855,7 +923,6 @@
 			v_ajax.onload = () =>{
 				// 통신 성공 시
 				if (v_ajax.status == 200){
-					
 					// 받은 데이터 JSON으로 변형
 					let v_subMat = v_ajax.response; 
 					v_subMat = JSON.parse(v_subMat);
@@ -866,15 +933,24 @@
 						v_basicMat.push(v_basicMatDict[key]);
 					}
 
+					console.log("선택된 자제들");
+					console.log(v_basicMat);
+					console.log(v_subMat);
+					console.log("선택된 자제들 - 완 - ");
+
 					/* 기본자제, 대체자제 모달창에 추가 */
 					let v_change = false; // false : 기본자제, true : 대체자제
-					let v_subCarbonSum = 0;
-					let v_subPriceSum = 0;
+					let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
+					let v_subPriceSum = 0; // 대체 자제 총 가격
 					
-					for (let k = 0; k < v_matBox.length; k++){
+					// 최종 자제들 모달
+					let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
+					let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
+					
+					for (let k = 0; k < v_matBox.length; k++){ // k = 0:기본자제, 1:대체자제
 						for (let i = 0; i < v_matBox[k].children.length; i++){
-							// category 공백제거
-							let v_category = v_matBox[k].children[i].children[0].innerHTML.split("\n")[0].trim();
+							// category 공백제거 div - div - div(카테고리명)
+							let v_category = v_matBox[k].children[i].children[0].innerHTML.trim();
 							
 							let v_tempDiv = document.createElement("div");
 							
@@ -895,34 +971,59 @@
 									}
 								}
 							} else { // 대체 자제
+								let cnt = 1; // 기본, 대체 자제는 순서가 똑같기 때문에 인덱스 값도 같음
 								for (let data of v_subMat){
 									if (data['materCategory'] == v_category){
 										v_matBox[k].children[i].children[1].innerHTML += data["materName"] + "<br>";
-										let v_num = v_matBox[0].children[i].children[1].children[1].value;
+										let v_num = v_matBox[0].children[i].children[1].children[cnt].value; 
+										
+										// 대체 자제들 총 탄소, 가격
 										v_subCarbonSum += data['materGasKg'] * v_num;
 										v_subPriceSum += data['materPrice'] * v_num;
+										cnt+=2; // 인덱스 증가
 									}
 								}
 							}
 						}
 						
-						// 대체 자제
+						// 대체 자제 계산
 						v_change = true;
 					}
 					
-					let v_carbonSum = document.getElementById("carbonSum").innerHTML;
-					let v_priceSum = document.getElementById("priceSum").innerHTML.replaceAll(",", "");
+					let v_carbonSum = document.getElementById("carbonSum").innerHTML; // 기본 자제들 총 탄소배출량
+					let v_priceSum = document.getElementById("priceSum").innerHTML.replaceAll(",", ""); // 기본 자제들 총 가격
 
+					/* 기본 자제들 총합 */
 					let v_calBefore = document.querySelectorAll(".cal-before");
 					v_calBefore[0].innerHTML = v_carbonSum;
 					v_calBefore[1].innerHTML = insertComma(v_priceSum.toString());
-					
+
+					/* 대체 자제들 총합 */
 					let v_calAfter = document.querySelectorAll(".cal-after");
 					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
 					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
 					
 					// 모달창 출력
 					v_modalBoxCal.style.display = "block";
+ 					
+ 					v_matInfo = []; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
+ 					v_matNum = []; // 선택한 기본 자제들 Kg(갯수), 계산마다 초기화 해줘야함
+ 					
+ 					// 모든 기본 자제들(v_matInfoDict) 에서 선택 자제들(v_basicMat)의 정보만 가져오기
+ 					for (let i = 0; i < Object.keys(v_matInfoDict).length; i++){
+ 						for (let j = 0; j < v_basicMat.length; j++){
+ 							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] &&
+ 									v_basicMat[j]['matCategory'] == v_matInfoDict[i]['materCategory']){
+
+ 								// 값 추가
+ 			 					v_matInfo.push(v_matInfoDict[i]);
+ 			 					v_matNum.push(v_basicMat[j]['matKg']);
+ 							}
+ 						}
+ 					}
+ 					
+ 					// 선택된 대체 자제들
+					v_subMatInfo = v_subMat;
 				}
 			}
 			
@@ -930,23 +1031,135 @@
 			v_ajax.send(v_sendMaterials);
 		}
 		
+		/* 최종 결과 모달창 닫기 */
 		let v_calModalCancel = document.getElementById("calModalCancel");
 		
 		v_calModalCancel.addEventListener("click", () => {
 			v_modalBoxCal.style.display = "none";
 		});
-		
-		
-		
-		function openModal() {
-			// body 스크롤 고정
-			document.body.style.overflow = "hidden";
-		}
 
-		function closeModal() {
-			// body 스크롤 해제
-			document.body.style.overflow = "auto";
-		}
+		/* 임시 저장 버튼 클릭 시 이벤트 발생 */
+		document.querySelector("#tempSaveBtn").addEventListener("click", () => {
+			/* 자제별 갯수 가져오고, 불러오기 창에 hidden으로 카테고리,이름으로 저장해놓기 */
+			v_matInfoStack.push(v_matInfo); // 짝수는 자제정보가
+			v_matInfoStack.push(v_matNum); // 홀수는 자제갯수가 저장됨.
+			
+			console.log(v_matInfoStack);
+			
+			// 임시저장 box
+			let v_tempSave = document.getElementById("tempSave");
+			
+			let v_query = "";
+			v_query += '<div class="temp-save__obj">';
+			v_query += '	<div class="sjm-btn sjm-btn-primary temp-save-btn">불러오기</div>';
+			v_query += '	<div>' + v_matInfo[0]['materName'] + ' 외 ' + (v_matInfo.length - 1)  + '개' + '</div>';
+			v_query += '	<input type="hidden" value="' + Object.keys(v_matInfoStack).length + '">'; // 이 값으로 불러오기 버튼 클릭 시 이벤트 구분
+			v_query += '</div>';
+			
+			v_tempSave.innerHTML += v_query;
+			let v_tempSaveBtn = document.querySelectorAll(".temp-save-btn");
+			
+			for (let idx = 0; idx < v_tempSave.children.length; idx++){
+				v_tempSaveBtn[idx].addEventListener("click", ()=>{
+					// hidden input의 value 값에 각 불러오기 별 key값을 넣어놔서 가져오는 절차(2, 4, 6... 이렇게 가져옴)
+					let v_stackKey = v_tempSaveBtn[idx].nextElementSibling.nextElementSibling.value;
+					console.log(v_stackKey);
+					
+					v_matInfo = v_matInfoStack[v_stackKey - 2]; // 자제 정보
+					v_matNum = v_matInfoStack[v_stackKey - 1]; // 자제 갯수
+					
+					let v_materCategorys = document.querySelectorAll(".mater-category"); // 카테고리
+					let v_materials = document.querySelectorAll(".materials"); // 선택 자제들 보이는 곳
+					
+					/* 총합에 저장되어있는 hidden 값들 초기화 */
+					// 탄소배출량
+					let v_calCarbons = document.getElementById("calCarbon");
+					if (v_calCarbons.querySelectorAll("div")){
+						let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+						for (let i = 0; i < v_sendCarbons.length; i++) {
+							  v_sendCarbons[i].remove();
+						}
+					}
+					
+					// 가격
+					let v_calPrices = document.getElementById("calPrice");
+					if (v_calPrices.querySelectorAll("div")){
+						let v_sendPrices = v_calCarbons.querySelectorAll("div");
+						for (let i = 0; i < v_sendPrices.length; i++) {
+							v_sendPrices[i].remove();
+						}
+					}
+					
+					for (let i = 0; i < v_materials.length; i++){
+						/* 불러오기 클릭 시 기존에 있던거 싹다 초기화 */
+						v_materials[i].innerHTML = "";
+						
+						for(let j = 0; j < v_matInfo.length; j++){
+							if (v_materCategorys[i].innerHTML == v_matInfo[j]['materCategory']){
+								console.log(v_materCategorys[i].innerHTML);
+								
+								console.log(v_matInfo);
+								// 새로운 자재 요소를 생성
+								let v_newMaterialDiv = document.createElement("div");
+								v_newMaterialDiv.classList.add("material-box__add");
+								
+								// 등록한 자제 html 태그
+								v_newMaterialDiv.innerHTML = v_matInfo[j]['materName'] + '<br> <input type="number" oninput="f_inputValue()" value=' + v_matNum[j] + '>kg';
+								v_newMaterialDiv.innerHTML += '<img width="18px" height="18px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
+								
+								// 숨겨진 input 요소 생성
+								let v_price = document.createElement("input");
+								v_price.type = "hidden";
+								v_price.value =  v_matInfo[j]['materPrice'];
+								
+								let v_carbon = document.createElement("input");
+								v_carbon.type = "hidden";
+								v_carbon.value =  v_matInfo[j]['materGasKg'];
+								
+								// 새로 생성한 요소들을 추가
+								v_materials[i].appendChild(v_newMaterialDiv);
+								v_newMaterialDiv.appendChild(v_price);
+								v_newMaterialDiv.appendChild(v_carbon);
+								
+								// 등록할 자제 정보 딕셔너리로 저장
+								let v_materDataDict = {'matName' : v_matInfo[j]['materName']
+									, 'matPrice' : v_matInfo[j]['materPrice']
+									, 'matCarbon' : v_matInfo[j]['materGasKg']
+									, 'matCategory' : v_matInfo[j]['materCategory']}
+								
+								console.log(v_materDataDict);
+								
+								// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
+								console.log("살려줘");
+								f_inputValue(v_matNum[j], v_materDataDict);
+								
+								// 자제 kg 입력 시 정규식 규정 및 계산
+							    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
+							    inputElement.addEventListener("keyup", function (event) {
+							        if (!(this.value == 0)){ // 그냥 0일 경우 실행 X
+								        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
+								        this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
+							        }
+							        
+							        // 계산 실행
+							        f_inputValue(this.value, v_materDataDict);
+							    });
+	
+							    // 선택 자제 삭제하기
+							    let imgElement = v_newMaterialDiv.querySelector("img");
+							    imgElement.addEventListener("click", () => {
+							    	v_newMaterialDiv.remove();
+									f_deleteValue(v_materDataDict);
+							    });
+							}
+						}
+					}
+				})
+			}
+			
+			// 모달창 닫기
+			v_modalBoxCal.style.display = "none";
+		});
 	</script>
 </body>
 </html>

@@ -44,30 +44,26 @@
             <!-- Contact Section Form-->
             <div class="row justify-content-center">
                 <div class="col-lg-8 col-xl-7">
-                	
+                
                 	<input type="file" id="inputImg" accept="image/*" hidden="hidden" onchange="f_sendImg()">
                 	
-                	<form id="noticeWriteForm" action="${pageContext.request.contextPath }/noticeWriteDo" method="POST" enctype="multipart/form-data">
+                	<form id="noticeWriteForm" action="${pageContext.request.contextPath }/noticeEditDo" method="POST">
+                		<!-- 사용자에게는 보이지 않고 submit 시 전송됨 -->
+                		<input type="hidden" name="noticeNo" value="${notice.noticeNo }">
+                		
 	             		<div class="mb-3">
 	             			<label for="inputTitle">제목</label>
-	                    	<input class="form-control" type="text" name="noticeTitle" placeholder="제목을 입력해주세요" />
+	                    	<input class="form-control" type="text" name="noticeTitle" value="${notice.noticeTitle }" />
 	                    </div>
 	                    
 	                    <div class="mb-3">
-	                         <textarea id="smartEditor" class="form-control" rows="10" name="noticeContent"></textarea>
-	                    </div>
-	                    
-	                    <!-- file input -->
-	                    <div class="mb-3">
-	                    	<label for="formFileMultiple" class="form-label">파일첨부</label>
-	                    	<input class="form-control" name="boFile" type="file" id="formFileMultiple" multiple>
+	                         <textarea id="smartEditor" class="form-control" rows="10" name="noticeContent" >${notice.noticeContent }</textarea>
 	                    </div>               
 	                    
 	                    <div class ="d-flex justify-content-end">
 	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
 	                    	<button id="writeBtn" class="btn btn-primary" type="button">등록</button>
-	                    	
 	                    </div>
                 	</form>
          
@@ -75,47 +71,54 @@
             </div>
         </div>
     </section>
-    
+	
+	<!-- footer -->
+	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
-		var oEditors = [];
-		
-		nhn.husky.EZCreator.createInIFrame({
-			oAppRef : oEditors,
-			elPlaceHolder : "smartEditor",
-			sSkinURI : "${pageContext.request.contextPath}/nse/SmartEditor2Skin.html"
-			
-		});
-		
-		// 글 등록 버튼 클릭
-		document.getElementById('writeBtn').addEventListener('click', ()=>{
-			// 에디터에 작성된 내용(html 태그 형태 )을 숨겨진textarea에 반영
-			oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
-			
-			// form 태그의 submit 실행
-			document.getElementById('noticeWriteForm').submit();
-		});
-		
-		// 이미지 첨부 받을 input 태그 객체 불러오기
-		const v_inputImg = document.getElementById('inputImg');
-		
-		// 스마트에디터가 로드된 후 이미지 첨부 버튼에 클릭 이벤트 추가
-		window.onload = function(){
-			// 스마트에디터가 그려진 iframe 가져오기
-			const v_iframe = document.querySelector('#noticeWriteForm > div:nth-child(2) > iframe');
-			console.log(v_iframe)
-			// iframe 내 document에 접근
-			const v_iframeDocument = v_iframe.contentWindow.document;
-			console.log(v_iframeDocument)
-			// iframe의 document 안에 있는 이미지 첨부 버튼 (id가 photoUploadBtn)에
-			// 클릭 이벤트 부여
-			v_iframeDocument.querySelector('#photoUploadBtn').addEventListener('click', () => {
-				// 에디터 내 이미지 첨부 버튼 클릭시 inputImg 클릭
-				v_inputImg.click();
-			});
-		}
-		
-		function f_sendImg(){
+        // 스마트 에디터 초기화
+        var oEditors = [];
+
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "smartEditor",
+            sSkinURI: "${pageContext.request.contextPath}/nse/SmartEditor2Skin.html",
+            fOnAppLoad: function() {
+                console.log("스마트 에디터가 로드되었습니다.");
+                
+                // 0.5초 후에 iframe 접근 시도
+                setTimeout(() => {
+                    const v_iframe = document.querySelector('#noticeWriteForm iframe');
+                    if (v_iframe && v_iframe.contentWindow) {
+                        const v_iframeDocument = v_iframe.contentWindow.document;
+                        console.log("iframe 접근 성공:", v_iframeDocument);
+
+                        const photoUploadBtn = v_iframeDocument.querySelector('#photoUploadBtn');
+                        if (photoUploadBtn) {
+                            photoUploadBtn.addEventListener('click', function() {
+                                document.getElementById('inputImg').click();
+                            });
+                        } else {
+                            console.warn("이미지 업로드 버튼을 찾지 못했습니다.");
+                        }
+                    }
+                }, 500);
+            }
+        });
+
+        // 글 등록 버튼 클릭 시 스마트 에디터 내용 반영 후 폼 제출
+        document.getElementById('writeBtn').addEventListener('click', function() {
+            // 에디터 내용 업데이트
+            oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
+            
+            const content = document.getElementById("smartEditor").value;
+            console.log("에디터 내용:", content);
+
+            document.getElementById('noticeWriteForm').submit();
+        });
+
+        // 이미지 업로드 함수
+        function f_sendImg(){
 			let v_formData = new FormData();
 			v_formData.append('file', event.target.files[0]);
 			
@@ -138,11 +141,8 @@
 				}
 			});
 			
-		}
-		
-	</script>
+        }
+    </script>
 	
-	<!-- footer -->
-	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 </body>
 </html>
