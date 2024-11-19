@@ -73,7 +73,6 @@
 					, users b
 				WHERE 1=1
 					AND a.user_id = b.user_id
-					AND a.faq_del_yn = 'N'
 				
 				ORDER BY faq_no DESC
 			
@@ -131,5 +130,15 @@ INSERT INTO building_materials(
 			COUNT(*) + 1
 		FROM
 			building_materials
-	</select>
+</select>
+	
+<update id="delMater">
+		UPDATE
+			building_materials
+		SET
+			mater_del_yn = 'Y'
+		WHERE 1=1
+			AND mater_no = #{materNo}
+	</update>
+
 </mapper>
