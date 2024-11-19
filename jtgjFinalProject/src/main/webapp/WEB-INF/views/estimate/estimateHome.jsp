@@ -423,6 +423,18 @@
 
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
+	
+		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
+		if ("${login.userId}" == ""){
+			if (window.confirm("비로그인 시 해당 견적을 저장해둘 수 없습니다. 로그인 하시겠습니까?")) {
+				  // 사용자가 "확인"을 클릭한 경우 실행할 코드
+					alert("로그인창으로 이동합니다.")
+					location.href = "${pageContext.request.contextPath}/loginView";
+				} else {
+				  // 사용자가 "취소"를 클릭한 경우 실행할 코드
+				}
+		}
+
 
 		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
 		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
@@ -444,8 +456,6 @@
 				v_matInfoDict[i-1][v_mat[j].trim().split("=")[0]] = v_mat[j].trim().split("=")[1]; // 딕셔너리 형태로 저장
 			}
 		}
-		
-		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
 		
 		/* 예산 입력 정규식 */
 		let v_budget = document.getElementById("budget");
@@ -1005,8 +1015,7 @@
  					// 모든 기본 자제들(v_matInfoDict) 에서 선택 자제들(v_basicMat)의 정보만 가져오기
  					for (let i = 0; i < Object.keys(v_matInfoDict).length; i++){
  						for (let j = 0; j < v_basicMat.length; j++){
- 							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] &&
- 									v_basicMat[j]['matCategory'] == v_matInfoDict[i]['materCategory']){
+ 							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] && v_basicMat[j]['matCategory'] == v_matInfoDict[i]['materCategory']){
 
  								// 값 추가
  			 					v_matInfo[Object.keys(v_matInfo).length] = v_matInfoDict[i];
@@ -1045,7 +1054,7 @@
 			let v_query = "";
 			v_query += '<div class="temp-save__obj">';
 			v_query += '	<div class="sjm-btn sjm-btn-primary temp-save-btn">불러오기</div>';
-			v_query += '	<div>' + v_matInfo[0]['materName'] + ' 외 ' + (v_matInfo.length - 1)  + '개' + '</div>';
+			v_query += '	<div>' + v_matInfo[0]['materName'] + ' 외 ' + (Object.keys(v_matInfo).length - 1)  + '개' + '</div>';
 			v_query += '	<input type="hidden" value="' + Object.keys(v_matInfoStack).length + '">'; // 이 값으로 불러오기 버튼 클릭 시 이벤트 구분
 			v_query += '</div>';
 			
@@ -1087,7 +1096,7 @@
 						/* 불러오기 클릭 시 기존에 있던거 싹다 초기화 */
 						v_materials[i].innerHTML = "";
 						
-						for(let j = 0; j < v_matInfo.length; j++){
+						for(let j = 0; j < Object.keys(v_matInfo).length; j++){
 							if (v_materCategorys[i].innerHTML == v_matInfo[j]['materCategory']){
 								console.log(v_materCategorys[i].innerHTML);
 								
@@ -1172,11 +1181,15 @@
 				basicMater[i]['materName'] = v_matInfo[i]['materName'];
 				basicMater[i]['materGasKg'] = v_matInfo[i]['materGasKg'];
 				basicMater[i]['materPrice'] = v_matInfo[i]['materPrice'];
+				basicMater[i]['materKg'] = v_matNum[i];
 			}
 			
 			
 			basicMater = JSON.stringify(basicMater);
+			console.log(basicMater);
 			basicMater = "basicMater=" + basicMater;
+			console.log("${login.userId}");
+			basicMater += "&userId=" + "${login.userId}";
 			
 			const v_ajax = XMLHttpRequest();
 			v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);

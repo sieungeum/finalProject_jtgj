@@ -1,34 +1,38 @@
 package com.jtgj.finalProject.userEstimate.dto;
 
 public class RoomDTO {
-	private int roomNo;
+	private int estiNo;
 	private String roomCategory;
 	private String roomName;
 	private int roomKg;
+	private double roomCarbon;
 	private int roomCost;
 	private String materClassify;
 	public RoomDTO() {
 		super();
 	}
-	public RoomDTO(int roomNo, String roomCategory, String roomName, int roomKg, int roomCost, String materClassify) {
+	public RoomDTO(int estiNo, String roomCategory, String roomName, int roomKg, double roomCarbon, int roomCost,
+			String materClassify) {
 		super();
-		this.roomNo = roomNo;
+		this.estiNo = estiNo;
 		this.roomCategory = roomCategory;
 		this.roomName = roomName;
 		this.roomKg = roomKg;
+		this.roomCarbon = roomCarbon;
 		this.roomCost = roomCost;
 		this.materClassify = materClassify;
 	}
 	@Override
 	public String toString() {
-		return "RoomDTO [roomNo=" + roomNo + ", roomCategory=" + roomCategory + ", roomName=" + roomName + ", roomKg="
-				+ roomKg + ", roomCost=" + roomCost + ", materClassify=" + materClassify + "]";
+		return "RoomDTO [estiNo=" + estiNo + ", roomCategory=" + roomCategory + ", roomName=" + roomName + ", roomKg="
+				+ roomKg + ", roomCarbon=" + roomCarbon + ", roomCost=" + roomCost + ", materClassify=" + materClassify
+				+ "]";
 	}
-	public int getRoomNo() {
-		return roomNo;
+	public int getEstiNo() {
+		return estiNo;
 	}
-	public void setRoomNo(int roomNo) {
-		this.roomNo = roomNo;
+	public void setEstiNo(int estiNo) {
+		this.estiNo = estiNo;
 	}
 	public String getRoomCategory() {
 		return roomCategory;
@@ -47,6 +51,12 @@ public class RoomDTO {
 	}
 	public void setRoomKg(int roomKg) {
 		this.roomKg = roomKg;
+	}
+	public double getRoomCarbon() {
+		return roomCarbon;
+	}
+	public void setRoomCarbon(double roomCarbon) {
+		this.roomCarbon = roomCarbon;
 	}
 	public int getRoomCost() {
 		return roomCost;

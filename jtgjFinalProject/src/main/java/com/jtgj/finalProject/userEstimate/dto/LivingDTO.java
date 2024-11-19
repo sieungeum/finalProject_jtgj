@@ -1,35 +1,38 @@
 package com.jtgj.finalProject.userEstimate.dto;
 
 public class LivingDTO {
-	private int livingNo;
+	private int estiNo;
 	private String livingCategory;
 	private String livingName;
 	private int livingKg;
+	private double livingCarbon;
 	private int livingCost;
 	private String materClassify;
 	public LivingDTO() {
 		super();
 	}
-	public LivingDTO(int livingNo, String livingCategory, String livingName, int livingKg, int livingCost,
-			String materClassify) {
+	public LivingDTO(int estiNo, String livingCategory, String livingName, int livingKg, double livingCarbon,
+			int livingCost, String materClassify) {
 		super();
-		this.livingNo = livingNo;
+		this.estiNo = estiNo;
 		this.livingCategory = livingCategory;
 		this.livingName = livingName;
 		this.livingKg = livingKg;
+		this.livingCarbon = livingCarbon;
 		this.livingCost = livingCost;
 		this.materClassify = materClassify;
 	}
 	@Override
 	public String toString() {
-		return "LivingDTO [livingNo=" + livingNo + ", livingCategory=" + livingCategory + ", livingName=" + livingName
-				+ ", livingKg=" + livingKg + ", livingCost=" + livingCost + ", materClassify=" + materClassify + "]";
+		return "LivingDTO [estiNo=" + estiNo + ", livingCategory=" + livingCategory + ", livingName=" + livingName
+				+ ", livingKg=" + livingKg + ", livingCarbon=" + livingCarbon + ", livingCost=" + livingCost
+				+ ", materClassify=" + materClassify + "]";
 	}
-	public int getLivingNo() {
-		return livingNo;
+	public int getEstiNo() {
+		return estiNo;
 	}
-	public void setLivingNo(int livingNo) {
-		this.livingNo = livingNo;
+	public void setEstiNo(int estiNo) {
+		this.estiNo = estiNo;
 	}
 	public String getLivingCategory() {
 		return livingCategory;
@@ -49,6 +52,12 @@ public class LivingDTO {
 	public void setLivingKg(int livingKg) {
 		this.livingKg = livingKg;
 	}
+	public double getLivingCarbon() {
+		return livingCarbon;
+	}
+	public void setLivingCarbon(double livingCarbon) {
+		this.livingCarbon = livingCarbon;
+	}
 	public int getLivingCost() {
 		return livingCost;
 	}
@@ -61,7 +70,6 @@ public class LivingDTO {
 	public void setMaterClassify(String materClassify) {
 		this.materClassify = materClassify;
 	}
-	
 	
 	
 }
