@@ -11,12 +11,10 @@ public class NoticeDTO {
 	private String noticeDelYn;
 	
 	public NoticeDTO() {
-		super();
 	}
 
 	public NoticeDTO(String userId, String userName, int noticeNo, String noticeTitle, String noticeContent,
 			String noticeDate, String noticeDelYn) {
-		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.noticeNo = noticeNo;
