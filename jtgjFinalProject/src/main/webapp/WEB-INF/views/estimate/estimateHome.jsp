@@ -424,13 +424,6 @@
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
 
-	
-/* 		
-		
-		
-		
-		 */
-
 		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
 		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
 		
@@ -447,7 +440,7 @@
 			v_matInfoDict[i-1] = {}; // 5. 숫자 키 지정
 			
 			// 6. = 으로 다시 split 후 dict으로 묶기
-			for (let j = 1; j < v_mat.length; j++){
+			for (let j = 0; j < v_mat.length; j++){
 				v_matInfoDict[i-1][v_mat[j].trim().split("=")[0]] = v_mat[j].trim().split("=")[1]; // 딕셔너리 형태로 저장
 			}
 		}
@@ -827,7 +820,7 @@
 		
 		/* 자제 정보 */
 		let v_matInfoStack = []; // 불러오기 창에 추가될 것들 차곡차곡 쌓임
-		let v_matInfo = []; // 최종 결과에 임시저장할 자제들
+		let v_matInfo = {}; // 최종 결과에 임시저장할 자제들
 		let v_subMatInfo = null; // 최종 결과에 임시저장할 대체 자제들
 		let v_matNum = []; // 최종 결과에 임시저장할 자제들 갯수
 		
@@ -1006,7 +999,7 @@
 					// 모달창 출력
 					v_modalBoxCal.style.display = "block";
  					
- 					v_matInfo = []; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
+ 					v_matInfo = {}; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
  					v_matNum = []; // 선택한 기본 자제들 Kg(갯수), 계산마다 초기화 해줘야함
  					
  					// 모든 기본 자제들(v_matInfoDict) 에서 선택 자제들(v_basicMat)의 정보만 가져오기
@@ -1016,7 +1009,7 @@
  									v_basicMat[j]['matCategory'] == v_matInfoDict[i]['materCategory']){
 
  								// 값 추가
- 			 					v_matInfo.push(v_matInfoDict[i]);
+ 			 					v_matInfo[Object.keys(v_matInfo).length] = v_matInfoDict[i];
  			 					v_matNum.push(v_basicMat[j]['matKg']);
  							}
  						}
@@ -1084,7 +1077,7 @@
 					// 가격
 					let v_calPrices = document.getElementById("calPrice");
 					if (v_calPrices.querySelectorAll("div")){
-						let v_sendPrices = v_calCarbons.querySelectorAll("div");
+						let v_sendPrices = v_calPrices.querySelectorAll("div");
 						for (let i = 0; i < v_sendPrices.length; i++) {
 							v_sendPrices[i].remove();
 						}
@@ -1130,7 +1123,6 @@
 								console.log(v_materDataDict);
 								
 								// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
-								console.log("살려줘");
 								f_inputValue(v_matNum[j], v_materDataDict);
 								
 								// 자제 kg 입력 시 정규식 규정 및 계산
@@ -1159,6 +1151,43 @@
 			
 			// 모달창 닫기
 			v_modalBoxCal.style.display = "none";
+		});
+		
+		/* 저장 버튼 클릭 시 값들 DB에 저장 */
+		let v_resultSaveBtn = document.getElementById("resultSaveBtn");
+		
+		v_resultSaveBtn.addEventListener("click", () => {
+			console.log("최종 저장");
+			console.log(v_matInfo);
+			console.log(v_subMatInfo);
+			console.log(v_matNum);
+			
+			// JSONString으로 변환 및 ajax로 보내기 위한 변형
+			let basicMater = {};
+			
+			for (let i = 0; i < Object.keys(v_matInfo).length; i++){
+				basicMater[i] = {};
+				basicMater[i]['materNo'] = v_matInfo[i]['materNo'];
+				basicMater[i]['materCategory'] = v_matInfo[i]['materCategory'];
+				basicMater[i]['materName'] = v_matInfo[i]['materName'];
+				basicMater[i]['materGasKg'] = v_matInfo[i]['materGasKg'];
+				basicMater[i]['materPrice'] = v_matInfo[i]['materPrice'];
+			}
+			
+			
+			basicMater = JSON.stringify(basicMater);
+			basicMater = "basicMater=" + basicMater;
+			
+			const v_ajax = XMLHttpRequest();
+			v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);
+			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			v_ajax.onload = () => {
+				if (v_ajax.status == 200){
+					console.log(v_ajax.response);
+				}
+			}
+			
+			v_ajax.send(basicMater);
 		});
 	</script>
 </body>
