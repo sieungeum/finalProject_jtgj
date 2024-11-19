@@ -26,5 +26,8 @@ public interface IAdminDAO {
 	int getUserId(UserDTO userId);
 	
 	List<EstimateDTO> basic_mater();
-	int getMaterName(EstimateDTO materName);
+	EstimateDTO getMater(int materNo);
+	int editMater(EstimateDTO mater);
+	int writeMater(EstimateDTO mater);
+	int getMaterNo();
 }

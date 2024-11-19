@@ -116,38 +116,37 @@
 					
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
-								<div class="card-header">자재정보 수정</div>
+								<div class="card-header">자재등록</div>
 								<div class="card-body">
-								<h2>자재 수정</h2>
-									<form action="${pageContext.request.contextPath}/editMater" method="POST">
-									    <input type="hidden" name="materNo" value="${mater.materNo}" >
+								<h2>자재등록</h2>
+									<form action="${pageContext.request.contextPath}/writeMater" method="POST">
+									    <input type="hidden" id="materNo" name="materNo">
 									    
 									    <label for="materImg">자재 이미지:</label>
-									    <img src="${mater.materImg}">
-									    <input type="text" id="materImg" name="materImg" value="${mater.materImg}" required /><br />
+									    <input type="text" id="materImg" name="materImg" /><br />
 									    
 									    <label for="materName">자재 이름:</label>
-									    <input type="text" id="materName" name="materName" value="${mater.materName}" required /><br />
+									    <input type="text" id="materName" name="materName"/><br />
 									
 									    <label for="materCategory">카테고리:</label>
-									    <input type="text" id="materCategory" name="materCategory" value="${mater.materCategory}" required /><br />
+									    <input type="text" id="materCategory" name="materCategory" /><br />
 									
 									    <label for="materGasKg">탄소 배출량:</label>
-									    <input type="number" id="materGasKg" name="materGasKg" value="${mater.materGasKg}" required /><br />
+									    <input type="number" id="materGasKg" name="materGasKg"/><br />
 									
 									    <label for="materPrice">가격:</label>
-									    <input type="number" id="materPrice" name="materPrice" value="${mater.materPrice}" required /><br />
+									    <input type="number" id="materPrice" name="materPrice" /><br />
 									
 									    <label for="materDurability">강도:</label>
-									    <input type="text" id="materDurability" name="materDurability" value="${mater.materDurability}" required /><br />
+									    <input type="text" id="materDurability" name="materDurability" /><br />
 									
 									    <label for="materInfo">정보:</label>
-									    <textarea id="materInfo" name="materInfo" required>${mater.materInfo}</textarea><br />
+									    <textarea id="materInfo" name="materInfo"></textarea><br />
 									    
 									    <label for="materClassify">대체자재여부:</label>
-									    <input type="text" id="materClassify" name="materClassify" value="${mater.materClassify}" required /><br />
+									    <input type="text" id="materClassify" name="materClassify"/><br />
 									
-									    <button type="submit">수정</button>
+									    <button type="submit">등록</button>
 									</form>
 								
 								

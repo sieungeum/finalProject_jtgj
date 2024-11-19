@@ -52,8 +52,24 @@ public class AdminService {
 		return result;
 	}
 	
-
-
-
+	public EstimateDTO getMater(int materNo) {
+		EstimateDTO result = dao.getMater(materNo);
+		return result;
+	}
+	
+	public int editMater(EstimateDTO mater) {
+		int result = dao.editMater(mater);
+		return result;
+	}
+	
+	public int writeMater(EstimateDTO mater) {
+		int result = dao.writeMater(mater);
+		return result;
+	}
+	
+	public int getMaterNo() {
+		int result = dao.getMaterNo();
+		return result;
+	}
 
 }

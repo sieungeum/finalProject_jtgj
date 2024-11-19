@@ -80,5 +80,56 @@
 
 </select>
  
+<select id="getMater" parameterType="int" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+    SELECT * 
+    FROM building_materials 
+    WHERE mater_no = #{materNo}
+    AND ROWNUM = 1
+</select>
 
+	<update id="editMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+		UPDATE
+			building_materials
+		SET
+			  mater_name = #{materName}
+			, mater_category = #{materCategory}
+			, mater_gas_kg = #{materGasKg}
+			, mater_price = #{materPrice}
+			, mater_durability = #{materDurability}
+			, mater_info = #{materInfo}
+			, mater_classify = #{materClassify}
+		WHERE 1=1
+			AND mater_no = #{materNo}
+	</update>
+
+<insert id="writeMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+INSERT INTO building_materials(
+	mater_no,
+	mater_category,
+	mater_name,
+	mater_gas_kg,
+	mater_img,
+	mater_price,
+	mater_durability,
+	mater_info,
+	mater_classify
+) VALUES(
+ 	  (SELECT COUNT(*)+1 FROM building_materials)
+	, #{materCategory}
+	, #{materName}
+	, #{materGasKg}
+	, #{materImg}
+	, #{materPrice}
+	, #{materDurability}
+	, #{materInfo}
+	, #{materClassify}
+)
+
+</insert>
+<select id="getMaterNo" resultType="int">
+		SELECT
+			COUNT(*) + 1
+		FROM
+			building_materials
+	</select>
 </mapper>

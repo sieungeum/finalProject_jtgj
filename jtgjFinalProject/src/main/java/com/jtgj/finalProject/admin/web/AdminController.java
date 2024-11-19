@@ -58,10 +58,33 @@ public class AdminController {
 	public String adminMateEditView(int materNo, Model model) {
 		System.out.println("- adminMateEditView - ");
 		
-		List<EstimateDTO> basicMatter = estimateService.basic_mater();
-		model.addAttribute("basicMatter", basicMatter);
+		EstimateDTO mater = adminService.getMater(materNo);
+		
+		model.addAttribute("mater", mater);
 		
 		return "myPage/adminMateEditView";
+	}
+	
+	@PostMapping("/editMater")
+	public String editMater(EstimateDTO mater) {
+		
+		adminService.editMater(mater);
+		
+		return "redirect:/adminPage";
+	}
+	
+	@RequestMapping("/materWriteView")
+	public String materWriteView() {
+		System.out.println("- materWriteView - ");
+		return "myPage/materWriteView";
+	}
+	
+	@PostMapping("/WriteMater")
+	public String WriteMater(EstimateDTO mater) {
+		System.out.println("- WriteMater - ");
+	    adminService.writeMater(mater);
+	    
+	    return "redirect:/adminPage";
 	}
 	
 	

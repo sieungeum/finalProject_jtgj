@@ -350,6 +350,7 @@
 							            <th>가격</th>
 							            <th>강도</th>
 							            <th>설명</th>
+							            <th>대체자재여부</th>
 							            
 							        </tr>
 							    </thead>
@@ -365,12 +366,15 @@
 							                <td>${mater.materPrice}</td>
 							                <td>${mater.materDurability}</td>
 							                <td>${mater.materInfo}</td>
+							                <td>${mater.materClassify}</td>
 							                
 							            </tr>
 							        </c:forEach>
 							    </tbody>
 							</table>
-							
+							<a href="${pageContext.request.contextPath }/materWriteView">
+								<button class="button">자재추가</button>
+							</a>
 						</div>
 					</div>
 				</div>
