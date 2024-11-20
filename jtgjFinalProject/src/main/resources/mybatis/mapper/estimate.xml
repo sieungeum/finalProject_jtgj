@@ -13,7 +13,8 @@
 			mater_price,
 			mater_durability,
 			mater_info,
-			mater_classify
+			mater_classify,
+			kg_per_pyeong
 		FROM building_materials
 		WHERE 1=1
 			AND mater_classify = 'N'
@@ -30,7 +31,8 @@
 			mater_price,
 			mater_durability,
 			mater_info,
-			mater_classify
+			mater_classify,
+			kg_per_pyeong
 		FROM building_materials
 		WHERE 1=1
 			AND mater_category = #{materCategory}
@@ -48,7 +50,8 @@
 		    a.mater_price,
 		    a.mater_durability,
 		    a.mater_info,
-		    a.mater_classify
+		    a.mater_classify,
+			kg_per_pyeong
 		FROM building_materials a INNER JOIN (
 		    SELECT
 		        b.sub_name
@@ -73,7 +76,8 @@
 		    mater_price,
 		    mater_durability,
 		    mater_info,
-		    mater_classify
+		    mater_classify,
+			kg_per_pyeong
 		FROM building_materials
 		WHERE 1=1
 			AND mater_category = #{materCategory}

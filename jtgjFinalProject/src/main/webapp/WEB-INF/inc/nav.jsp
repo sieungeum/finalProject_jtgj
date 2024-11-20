@@ -4,8 +4,7 @@
 
 
 <div class="logo">
-	<a href="home.html"> <img src="img/logo.png" alt="Logo">
-	</a>
+	<a href="home.html"> <img src="img/logo-1.png" alt="Logo" style="width:30%;"></a>
 </div>
 
 <!-- Menu Hamburger (Default) -->
