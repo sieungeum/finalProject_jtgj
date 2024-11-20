@@ -43,9 +43,9 @@
 	<!-- budget input -->
 	<div class="container">
 		<div class="main-title">
-			<div class="header-font">생각하시는 예산을 입력해주세요.</div>
+			<div class="header-font">원하시는 평수를 입력하세요</div>
 			<div class="budget-input-box">
-				<input class="input-budget" type="text" placeholder="단위 : 원"
+				<input class="input-budget" type="text" placeholder="단위 : ㎡"
 					id="budget">
 			</div>
 			<div class="budget-btn-box">
