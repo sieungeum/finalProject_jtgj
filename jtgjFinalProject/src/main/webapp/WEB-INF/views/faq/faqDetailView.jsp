@@ -225,7 +225,7 @@
 						tdDel.innerHTML = "<a onclick='f_del(this)'>X</a>";
 						v_tr.appendChild(tdDel);
 						
-						document.getElementById("comBody").prepend(v_tr);
+						document.getElementById("comBody").append(v_tr);
 						document.getElementById("comInput").value = "";
 						
 					}
