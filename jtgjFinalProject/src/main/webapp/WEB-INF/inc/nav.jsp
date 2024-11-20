@@ -33,7 +33,9 @@
 							<li><a href="portfolio-dribbble.html">-Portfolio
 									Dribbble</a></li>
 						</ul></li>
-					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/estimateHome">견적 작성</a>
+					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/estimateHome">견적작성</a>
+						
+					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/companyBoardView">기업홍보게시판</a>	
 						
 					<!-- 건의사항 페이지 추가 -->	
 					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath }/faqView">건의사항</a></li>

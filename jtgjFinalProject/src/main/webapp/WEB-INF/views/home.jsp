@@ -34,6 +34,24 @@
 			filter: opacity(25%);
 			transition-duration: 0.2s;
 		}
+		
+		.zoom-out {
+		    opacity: 0;
+		    transform: scale(0.5);
+		    transition: all 0.5s ease-out;
+		}
+		
+		.zoom-out.visible {
+		    opacity: 1;
+		    transform: scale(1);
+		}
+		
+		.c-img{
+			position:absolute;
+			width:100px;
+			bottom: 10px;
+			right: 10px;
+		}
 	</style>
 </head>
 <body>
@@ -186,11 +204,11 @@
 			<div class="works-filter">
 				<a href="javascript:void(0)" class="filter active" data-filter="mix">All</a>
 				<a href="javascript:void(0)" class="filter" data-filter="Insights">Insights</a>
-				<a href="javascript:void(0)" class="filter" data-filter="Builders">Builders</a> 
+				<a href="javascript:void(0)" class="filter" data-filter="Projects">Projects</a> 
 			</div>
 			<div class="js-masonry">
 				<div class="row" id="work-grid">
-					<!-- Insights 혹은 Builders 실행 -->
+					<!-- Insights 혹은 Projects 실행 -->			
 				</div>
 			</div>
 		</div>
@@ -204,35 +222,6 @@
 		</div>
 	</div>
 	
-	<div class="container margin-top">
-		<div class="newsletter">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="newsletter-left">
-						<div class="newsletter-left-inner">
-							<h1>
-								STAY INFORMED <br> WITH OUR <b>NEWSLETTER</b>
-							</h1>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="newsletter-right"
-						style="background: url(img/newsletter-bg.jpg)">
-						<div class="newsletter-right-inner">
-							<form>
-								<input type="text" name="newsletter"
-									placeholder="ENTER YOUR EMAIL"> <input type="submit"
-									value="SUBSCRIBE">
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
@@ -244,70 +233,52 @@
 	<script>
 		let jsonData = JSON.parse(document.getElementById('jsonData').textContent);
 		let v_workGrid = document.getElementById('work-grid');
+		let v_workGridPlut = document.getElementById('work-grid-plus');
 		
-		// 디폴트 건설사 9개
-		let buildersCount = 0;
-		for(buildersCount = 0; buildersCount < 9; buildersCount++){
-			let v_input = [
-				'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders" style="width:370px;height:400px; margin-bottom:15px;">' +
-					'<div class="img home-portfolio-image">' +
-				    	'<img src="' + jsonData[buildersCount].img + 'alt="Portfolio Item" style="height:100%;">' +
-				    	'<div class="overlay-thumb">' +
-				        	'<a href="javascript:void(0)" class="like-product">' + 
-					        	'<i class="ion-ios-heart-outline"></i>' + 
-					        	'<span class="like-product">Liked</span>' +
-					           	'<span class="output">250</span>' +
-				         	'</a>' +
-					        '<div class="details">' +
-					            '<span class="title">' + jsonData[buildersCount].title + '</span>' +
-					            '<span class="info">' + jsonData[buildersCount].subtitle[0] + '/' + jsonData[buildersCount].subtitle[1] + '/' + jsonData[buildersCount].subtitle[2] + '</span>' +
-					        '</div>' +
-					        '<span class="btnBefore"></span>' + 
-					        '<span class="btnAfter"></span>' + 
-					        '<a class="main-portfolio-link" href="single-project.html"></a>' +
-						'</div>' +
-					'</div>' +
-				'</div>'				
-			];
-			
-			v_workGrid.innerHTML += v_input;
-		}
-		console.log(v_workGrid);
+		console.log(jsonData);
 		
-		let count = buildersCount;
-		document.getElementById('loadCard').addEventListener('click', () => {
-			console.log(v_workGrid);
-			
-			for(let i = count; i < count + 3; i++){
-				let v_input = [
-					'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders" style="width:370px;height:400px; margin-bottom:15px;">' +
-						'<div class="img home-portfolio-image">' +
-					    	'<img src="' + jsonData[i].img + 'alt="Portfolio Item" style="height:100%;">' +
-					    	'<div class="overlay-thumb">' +
-					        	'<a href="javascript:void(0)" class="like-product">' + 
-						        	'<i class="ion-ios-heart-outline"></i>' + 
-						        	'<span class="like-product">Liked</span>' +
-						           	'<span class="output">250</span>' +
-					         	'</a>' +
-						        '<div class="details">' +
-						            '<span class="title">' + jsonData[i].title + '</span>' +
-						            '<span class="info">' + jsonData[i].subtitle[0] + '/' + jsonData[i].subtitle[1] + '/' + jsonData[i].subtitle[2] + '</span>' +
-						        '</div>' +
-						        '<span class="btnBefore"></span>' + 
-						        '<span class="btnAfter"></span>' + 
-						        '<a class="main-portfolio-link" href="single-project.html"></a>' +
-							'</div>' +
-						'</div>' +
-					'</div>'				
-				];
-				
-				v_workGrid.innerHTML += v_input;
+		let v_projects = [];
+		
+		for(let i = 0; i < jsonData.length; i++){
+			for(let j = 0; j < jsonData[i]['p_img'].length; j++){
+				v_projects.push({
+					project: jsonData[i]['p_img'][j],
+					title: jsonData[i]['title'],
+					c_img: jsonData[i]['img']
+				});
 			}
-			console.log(v_workGrid);
-			
-			count+=3;
-		});
+		}
+		console.log(v_projects);
+		
+		for(let i = 0; i < 9; i++){
+			v_workGrid.innerHTML += [
+				'<div class="col-md-4 col-sm-4 col-xs-12 mix Projects" style="width:380px;height:350px; margin-bottom:15px;">' +
+		        '<div class="img home-portfolio-image">' +
+			        '<img src="' + v_projects[i]['project'] + '" alt="Portfolio Item" style="height:100%;">' +
+			        '<img class="c-img" src="' + v_projects[i]['c_img'] + '">' +
+			        '<div class="overlay-thumb">' +
+				        '<a href="javascript:void(0)" class="like-product">' + 
+				        	'<i class="ion-ios-heart-outline"></i>' + 
+				        	'<span class="like-product">Liked</span>' +
+				           	'<span class="output">250</span>' +
+			         	'</a>' +
+			           '<div class="details">' +
+			              '<span class="title">' + v_projects[i]['title'] + '</span>' +
+			           '</div>' +
+			           '<span class="btnBefore"></span> <span class="btnAfter"></span> <a' +
+			              'class="main-portfolio-link" href="single-project.html"></a>' +
+			        '</div>' +
+			     '</div>' +
+			     '</div>'
+			];
+		}		
+		
+/* 		document.getElementById() */
+
+		
 		
 	</script>
+
+
 </body>
 </html>
