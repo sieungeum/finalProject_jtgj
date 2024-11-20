@@ -47,6 +47,7 @@ public class EstimateController {
 
 		// ajax 통신으로 현재 누른 카테고리에 맞는 데이터 보내기
 		List<EstimateDTO> categoryMater = estimateService.categoryMater(materCategory);
+		System.out.println(categoryMater);
 
 		return categoryMater;
 	}

@@ -51,7 +51,66 @@
 			<div class="budget-btn-box">
 				<div id="budgetBtn" class="sjm-btn sjm-btn-success">다음</div>
 			</div>
+		</div>
+	</div>
 
+	<!-- budget input -->
+	<div class="container">
+		<div class="main-title">
+			<div class="header-font">건물 구조를 정해주세요</div>
+			<div class="room-percent">
+				<div class="room-percent__room">
+					<div class="room-percent__cnt">
+						<div>+</div>
+						<div>
+							거실(35%) <span>1</span>
+						</div>
+						<div>-</div>
+					</div>
+					<div class="room-percent__input">
+						<input type="number" >
+					</div>
+				</div>
+				<div class="room-percent__room">
+					<div class="room-percent__cnt">
+						<div>+</div>
+						<div>
+							욕실(10%) <span>1</span>
+						</div>
+						<div>-</div>
+					</div>
+					<div class="room-percent__input">
+						<input type="number" >
+					</div>
+				</div>
+				<div class="room-percent__room">
+					<div class="room-percent__cnt">
+						<div>+</div>
+						<div>
+							주방(15%) <span>1</span>
+						</div>
+						<div>-</div>
+					</div>
+					<div class="room-percent__input">
+						<input type="number" >
+					</div>
+				</div>
+				<div class="room-percent__room">
+					<div class="room-percent__cnt">
+						<div>+</div>
+						<div>
+							방(40%) <span>1</span>
+						</div>
+						<div>-</div>
+					</div>
+					<div class="room-percent__input">
+						<input type="number" >
+					</div>
+				</div>
+			</div>
+			<div class="budget-btn-box">
+				<div id="budgetBtn" class="sjm-btn sjm-btn-success">다음</div>
+			</div>
 		</div>
 	</div>
 
@@ -425,7 +484,7 @@
 	<script type="text/javascript">
 	
 		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
-		if ("${login.userId}" == ""){
+		if ("${login.userId}" != ""){ // 로그인 안할 경우 실행 나중에 != 를 == 로 바꿔주기
 			if (window.confirm("비로그인 시 해당 견적을 저장해둘 수 없습니다. 로그인 하시겠습니까?")) {
 				  // 사용자가 "확인"을 클릭한 경우 실행할 코드
 					alert("로그인창으로 이동합니다.")
@@ -464,7 +523,7 @@
 		v_budget.addEventListener('keyup', function(event) {
 			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지
 			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
-			this.value = insertComma(this.value.replace(/[,]/g, ''));
+			// this.value = insertComma(this.value.replace(/[,]/g, ''));
 		});
 		
 		/* 예산 입력 후 다음단계 */
@@ -475,17 +534,22 @@
 		v_container[3].style.display = "none"; // 임시 저장 리스트
 		v_container[4].style.display = "none"; // 총 탄소배출량, 가격
 		
+		// 임시로 그냥 보이게 하기 나중에 지워주기
+		v_container[2].style.display = "block";
+		v_container[3].style.display = "block";
+		v_container[4].style.display = "block";
+		
 		// 다음 버튼 클릭 시
 		document.getElementById("budgetBtn").addEventListener("click", ()=>{
 			while(true){
 				if (!v_budget.value){
-					alert("예산 입력 후 눌러주세요");
+					alert("입력 후 눌러주세요");
 					break;
 				} else {
 					let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
 					console.log(v_intBudget);
-					if (v_intBudget < 10000000){
-						alert("최소 천만원 이상 입력해주세요.");
+					if (v_intBudget < 10){
+						alert("최소 10평 이상 입력해주세요.");
 						break;
 					}
 					
@@ -552,41 +616,43 @@
 						// 모달 html 태그 (나중에 이거 한데 모아놓은 div 추가해야 다지안 가능 고칠거 개 많을듯;;)
 						let v_query = ""
 							/* 자제 이미지 */
-							v_query += '<div class="modal-box__top">'
-							v_query += '	<img src="' + v_data[i]['materImg'] + '">'
-							v_query += '</div>'
-							
-							/* 자제 정보 */
-							v_query += '<div class="modal-box__bottom">'
-							v_query += '	<div class="modal-botton__material">' + v_data[i]['materName'] + '</div>'
-							
-							/* 자제 수치들(나중에 별점 5개로 시각화 필요) */
-							v_query += '	<div class="modal-botton__rating">'
-							v_query += '		<div>'
-							v_query += '			<div>배출량</div>'
-							v_query += '			<div>가격</div>'
-							v_query += '			<div>내구성</div>'
-							v_query += '		</div>'
-							v_query += '		<div>'
-							v_query += '			<div class="modal-botton__carbon">'
-							v_query += '				' + v_data[i]['materGasKg']
-							v_query += '			</div>'
-							v_query += '			<div class="modal-botton__price">'
-							v_query += '				' + v_data[i]['materPrice']
-							v_query += '			</div>'
-							v_query += '			<div class="modal-botton__durability">'
-							v_query += '				' + v_data[i]['materDurability']
-							v_query += '			</div>'
-							v_query += '		</div>'
+							v_query += '<div class="add-modal__box">'
+							v_query += '	<div class="modal-box__top modal-m">'
+							v_query += '		<img src="' + v_data[i]['materImg'] + '">'
 							v_query += '	</div>'
 							
+							/* 자제 정보 */
+							v_query += '	<div class="modal-box__bottom modal-m">'
+							v_query += '		<div class="modal-botton__material">' + v_data[i]['materName'] + '</div>'
+							
+							/* 자제 수치들(나중에 별점 5개로 시각화 필요) */
+							v_query += '		<div class="modal-botton__rating">'
+							v_query += '			<div>'
+							v_query += '				<div>배출량</div>'
+							v_query += '				<div>가격</div>'
+							v_query += '				<div>내구성</div>'
+							v_query += '			</div>'
+							v_query += '			<div>'
+							v_query += '				<div class="modal-botton__carbon">'
+							v_query += '					' + v_data[i]['materGasKg']
+							v_query += '				</div>'
+							v_query += '				<div class="modal-botton__price">'
+							v_query += '					' + v_data[i]['materPrice']
+							v_query += '				</div>'
+							v_query += '				<div class="modal-botton__durability">'
+							v_query += '					' + v_data[i]['materDurability']
+							v_query += '				</div>'
+							v_query += '			</div>'
+							v_query += '		</div>'
+							
 							/* 자제 설명 */
-							v_query += '	<div class="modal-botton__explain">'
-							v_query += '		' + v_data[i]['materInfo']
+							v_query += '	<div class="modal-botton__explain modal-m">'
+								v_query += '	<br>'
+							v_query += '		&nbsp;' + v_data[i]['materInfo']
 							v_query += '	</div>'
 								
 							/* 선택 버튼 */
-							v_query += '	<div>'
+							v_query += '	<div class="modal-m">'
 							v_query += '		<button class="sjm-btn sjm-btn-primary btn-select">선택</button>'
 							v_query += '	</div>'
 							v_query += '</div>'
@@ -655,16 +721,18 @@
 							let v_materDataDict = {'matName' : v_data[i]['materName']
 								, 'matPrice' : v_data[i]['materPrice']
 								, 'matCarbon' : v_data[i]['materGasKg']
-								, 'matCategory' : v_data[i]['materCategory']}
+								, 'matCategory' : v_data[i]['materCategory']
+								, 'kgPerPyeong': v_data[i]['kgPerPyeong']}
 							
 							// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
-							f_inputValue(0, v_materDataDict);
+							// 평수당 필요 kg을 보냄
+							f_inputValue(v_budget.value, v_materDataDict);
 							
 							// 자제 kg 입력 시 정규식 규정 및 계산
 						    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
 							
 							// 선택한 자제의 input 태그 입력 시 이벤트 발생
-						    inputElement.addEventListener("keyup", function (event) {
+/* 						    inputElement.addEventListener("keyup", function (event) {
 						        if (!(this.value == 0)){ // 그냥 0일 경우 실행 X
 							        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
 							        this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
@@ -672,7 +740,7 @@
 						        
 						        // 계산 실행
 						        f_inputValue(this.value, v_materDataDict);
-						    });
+						    }); */
 
 						    // 선택 자제 삭제하기
 						    let imgElement = v_newMaterialDiv.querySelector("img");
@@ -707,19 +775,23 @@
 		}
 		
 		/* 계산식 */
-		// parameter : 자제 Kg(갯수) , 해당 자제 정보
-		function f_inputValue(inputNum, v_materDataDict){
+		// parameter : 평수 , 해당 자제 정보
+		function f_inputValue(pyeong, v_materDataDict){
 			
 			// 가끔 undefined로 값이 와서 추가
-			if (inputNum == null){
+			if (pyeong == null){
 				return;
 			}
+			
+			console.log("dd");
+			console.log(pyeong);
+			console.log(v_materDataDict['kgPerPyeong']);
 			
 			let v_calCarbon = document.querySelector("#calCarbon"); // 총 탄수배출량
 			let v_calPrice = document.querySelector("#calPrice"); // 총 가격
 
 			// str to int
-			inputNum = parseInt(inputNum);
+			pyeong = parseInt(pyeong);
 			
 			/* 이미 같은 input 태그 생성 시 넘어가기 */
 			let v_existInput = false; // 존재 시 on
@@ -730,8 +802,8 @@
 					let v_sameCategory = v_calCarbon.children[i].textContent.split(",")[1];
 					if (v_sameName == v_materDataDict['matName'] && v_sameCategory == v_materDataDict['matCategory']){
 						// 계산 대상과 그 갯수를 다음과 같이 저장 ex) 1.23,5
-						v_calCarbon.children[i].children[0].value = v_materDataDict['matCarbon'] + "," + inputNum;
-						v_calPrice.children[i].children[0].value = v_materDataDict['matPrice'] + "," + inputNum;
+						v_calCarbon.children[i].children[0].value = v_materDataDict['matCarbon'] + "," + v_materDataDict['kgPerPyeong'] * pyeong;
+						v_calPrice.children[i].children[0].value = v_materDataDict['matPrice'] + "," + v_materDataDict['kgPerPyeong'] * pyeong;
 						
 						v_existInput = true;
 						break;
@@ -741,7 +813,6 @@
 			
 			// 첫 선택일 경우만 실행
 			if (!v_existInput) {
-				console.log("생성이 안된다고??")
 				/* 탄소배출량 태그 추가 */
 				let v_tempDiv = document.createElement("div");
 				v_tempDiv.style.display = "none";
@@ -750,7 +821,7 @@
 				// 탄소배출량 input 태그 추가
 				let v_carbon = document.createElement("input");
 				v_carbon.type = "hidden";
-				v_carbon.value = v_materDataDict['matCarbon'] + "," + inputNum; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 1.23,5
+				v_carbon.value = v_materDataDict['matCarbon'] + "," + v_materDataDict['kgPerPyeong'] * pyeong; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 1.23,5
 				v_tempDiv.appendChild(v_carbon); // div 태그에 추가
 				
 				// 총 탄소배출량 밑에 추가
@@ -764,7 +835,7 @@
 				// 가격 input 태그 추가
 				let v_price = document.createElement("input");
 				v_price.type = "hidden";
-				v_price.value = v_materDataDict['matPrice'] + "," + inputNum; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 5000,5
+				v_price.value = v_materDataDict['matPrice'] + "," + v_materDataDict['kgPerPyeong'] * pyeong; // 계산 대상과 그 갯수를 다음과 같이 저장 ex) 5000,5
 				v_tempDiv.appendChild(v_price); // div 태그에 추가
 				
 				// 총 가격 밑에 추가
