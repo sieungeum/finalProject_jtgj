@@ -18,6 +18,22 @@
 		#slider-ef {
 	    	height: 100% !important;
 		}
+		
+		.load-div{
+			display:flex;
+			justify-content:center;
+			align-items:center;
+		}
+		
+		.click-box{
+			width:50px;
+			height:50px;
+		}
+		
+		#loadCard > img:hover{
+			filter: opacity(25%);
+			transition-duration: 0.2s;
+		}
 	</style>
 </head>
 <body>
@@ -175,16 +191,19 @@
 			<div class="js-masonry">
 				<div class="row" id="work-grid">
 					<!-- Insights 혹은 Builders 실행 -->
-					
-
 				</div>
-			</div>
-			<div class="load-more">
-				<a href="javascript:void(0)" id="load-more"><i
-					class="icon-refresh"></i></a>
 			</div>
 		</div>
 	</div>
+	
+	<div class="load-div">
+		<div class="click-box">
+			<a href="javascript:void(0)" id="loadCard">
+				<img src="img/plus-square.svg" style="width:100%;">
+			</a>
+		</div>
+	</div>
+	
 	<div class="container margin-top">
 		<div class="newsletter">
 			<div class="col-md-6">
@@ -224,17 +243,15 @@
 	</script>
 	<script>
 		let jsonData = JSON.parse(document.getElementById('jsonData').textContent);
-		console.log(jsonData);
-	
 		let v_workGrid = document.getElementById('work-grid');
 		
-		// 디폴트 건설사 10개
+		// 디폴트 건설사 9개
 		let buildersCount = 0;
-		for(let buildersCount = 0; buildersCount < 10; buildersCount++){
+		for(buildersCount = 0; buildersCount < 9; buildersCount++){
 			let v_input = [
-				'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders">' +
+				'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders" style="width:370px;height:400px; margin-bottom:15px;">' +
 					'<div class="img home-portfolio-image">' +
-				    	'<img src="' + jsonData[buildersCount].img + 'alt="Portfolio Item">' +
+				    	'<img src="' + jsonData[buildersCount].img + 'alt="Portfolio Item" style="height:100%;">' +
 				    	'<div class="overlay-thumb">' +
 				        	'<a href="javascript:void(0)" class="like-product">' + 
 					        	'<i class="ion-ios-heart-outline"></i>' + 
@@ -255,17 +272,42 @@
 			
 			v_workGrid.innerHTML += v_input;
 		}
+		console.log(v_workGrid);
 		
-		/*
-			<div class="load-more">
-				<a href="javascript:void(0)" id="load-more"><i
-					class="icon-refresh"></i></a>
-			</div>
+		let count = buildersCount;
+		document.getElementById('loadCard').addEventListener('click', () => {
+			console.log(v_workGrid);
 			
-			해당 버튼 클릭시 3개씩 추가!
+			for(let i = count; i < count + 3; i++){
+				let v_input = [
+					'<div class="col-md-4 col-sm-4 col-xs-12 mix Builders" style="width:370px;height:400px; margin-bottom:15px;">' +
+						'<div class="img home-portfolio-image">' +
+					    	'<img src="' + jsonData[i].img + 'alt="Portfolio Item" style="height:100%;">' +
+					    	'<div class="overlay-thumb">' +
+					        	'<a href="javascript:void(0)" class="like-product">' + 
+						        	'<i class="ion-ios-heart-outline"></i>' + 
+						        	'<span class="like-product">Liked</span>' +
+						           	'<span class="output">250</span>' +
+					         	'</a>' +
+						        '<div class="details">' +
+						            '<span class="title">' + jsonData[i].title + '</span>' +
+						            '<span class="info">' + jsonData[i].subtitle[0] + '/' + jsonData[i].subtitle[1] + '/' + jsonData[i].subtitle[2] + '</span>' +
+						        '</div>' +
+						        '<span class="btnBefore"></span>' + 
+						        '<span class="btnAfter"></span>' + 
+						        '<a class="main-portfolio-link" href="single-project.html"></a>' +
+							'</div>' +
+						'</div>' +
+					'</div>'				
+				];
+				
+				v_workGrid.innerHTML += v_input;
+			}
+			console.log(v_workGrid);
 			
-			그냥 내가 만들자
-		*/
+			count+=3;
+		});
+		
 	</script>
 </body>
 </html>
