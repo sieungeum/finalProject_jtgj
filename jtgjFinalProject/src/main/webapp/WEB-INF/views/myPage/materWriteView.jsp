@@ -119,8 +119,7 @@
 								<div class="card-header">자재등록</div>
 								<div class="card-body">
 								<h2>자재등록</h2>
-									<form action="${pageContext.request.contextPath}/writeMater" method="POST">
-									    <input type="hidden" id="materNo" name="materNo">
+									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST">
 									    
 									    <label for="materImg">자재 이미지:</label>
 									    <input type="text" id="materImg" name="materImg" /><br />
@@ -146,7 +145,11 @@
 									    <label for="materClassify">대체자재여부:</label>
 									    <input type="text" id="materClassify" name="materClassify"/><br />
 									
-									    <button type="submit">등록</button>
+									    
+									    <div class="d-flex justify-content-end mar-buttom ">
+									   		<button class="btn btn-primary btn-xl m-right"  type="submit">등록</button>
+											<a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath }/adminPage">돌아가기</a>
+										</div>
 									</form>
 								
 								

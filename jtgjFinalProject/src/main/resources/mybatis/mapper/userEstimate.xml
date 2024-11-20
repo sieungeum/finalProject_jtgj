@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.userEstimate.dao.IUserEstimateDAO">
+	
+	<select id="getEstiNo" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM user_estimate
+	</select>
+	
+	<!-- bathroom -->
+	<insert id="insertBathroom" parameterType="com.jtgj.finalProject.userEstimate.dto.BathroomDTO">
+		INSERT INTO bathroom(
+			esti_no,
+			bathroom_category,
+			bathroom_name,
+			bathroom_kg,
+			bathroom_carbon,
+			bathroom_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{bathroomCategory},
+			#{bathroomName},
+			#{bathroomKg},
+			#{bathroomCarbon},
+			#{bathroomCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- exterior -->
+	<insert id="insertExterior" parameterType="com.jtgj.finalProject.userEstimate.dto.ExteriorDTO">
+		INSERT INTO exterior(
+			esti_no,
+			exterior_category,
+			exterior_name,
+			exterior_kg,
+			exterior_carbon,
+			exterior_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{exteriorCategory},
+			#{exteriorName},
+			#{exteriorKg},
+			#{exteriorCarbon},
+			#{exteriorCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- Kitchen -->
+	<insert id="insertKitchen" parameterType="com.jtgj.finalProject.userEstimate.dto.KitchenDTO">
+		INSERT INTO kitchen(
+			esti_no,
+			kitchen_category,
+			kitchen_name,
+			kitchen_kg,
+			kitchen_carbon,
+			kitchen_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{kitchenCategory},
+			#{kitchenName},
+			#{kitchenKg},
+			#{kitchenCarbon},
+			#{kitchenCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- Living -->
+	<insert id="insertLiving" parameterType="com.jtgj.finalProject.userEstimate.dto.LivingDTO">
+		INSERT INTO living(
+			esti_no,
+			living_category,
+			living_name,
+			living_kg,
+			living_carbon,
+			living_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{livingCategory},
+			#{livingName},
+			#{livingKg},
+			#{livingCarbon},
+			#{livingCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- Roofing -->
+	<insert id="insertRoofing" parameterType="com.jtgj.finalProject.userEstimate.dto.RoofingDTO">
+		INSERT INTO roofing(
+			esti_no,
+			roofing_category,
+			roofing_name,
+			roofing_kg,
+			roofing_carbon,
+			roofing_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{roofingCategory},
+			#{roofingName},
+			#{roofingKg},
+			#{roofingCarbon},
+			#{roofingCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- window -->
+	<insert id="insertWindow" parameterType="com.jtgj.finalProject.userEstimate.dto.WindowDTO">
+		INSERT INTO window(
+			esti_no,
+			window_category,
+			window_name,
+			window_kg,
+			window_carbon,
+			window_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{windowCategory},
+			#{windowName},
+			#{windowKg},
+			#{windowCarbon},
+			#{windowCost},
+			#{materClassify}
+		)
+	</insert>
+	
+	<!-- room -->
+	<insert id="insertRoom" parameterType="com.jtgj.finalProject.userEstimate.dto.RoomDTO">
+		INSERT INTO room(
+			esti_no,
+			room_category,
+			room_name,
+			room_kg,
+			room_carbon,
+			room_cost,
+			mater_classify
+		) VALUES (
+			#{estiNo},
+			#{roomCategory},
+			#{roomName},
+			#{roomKg},
+			#{roomCarbon},
+			#{roomCost},
+			#{materClassify}
+		)
+	</insert>
+</mapper>

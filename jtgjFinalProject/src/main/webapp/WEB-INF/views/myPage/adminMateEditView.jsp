@@ -123,7 +123,7 @@
 									    <input type="hidden" name="materNo" value="${mater.materNo}" >
 									    
 									    <label for="materImg">자재 이미지:</label>
-									    <img src="${mater.materImg}">
+									    <img style="width: 200px;" src="${mater.materImg}">
 									    <input type="text" id="materImg" name="materImg" value="${mater.materImg}" required /><br />
 									    
 									    <label for="materName">자재 이름:</label>
@@ -147,9 +147,20 @@
 									    <label for="materClassify">대체자재여부:</label>
 									    <input type="text" id="materClassify" name="materClassify" value="${mater.materClassify}" required /><br />
 									
-									    <button type="submit">수정</button>
+									    
+									    
+										
+									    <div class="d-flex justify-content-end mar-buttom ">
+									   		<button class="btn btn-primary btn-xl m-right"  type="submit">저장</button>
+											<a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath }/adminPage">돌아가기</a>
+										</div>
 									</form>
-								
+									<form action="${pageContext.request.contextPath }/delMater"
+											method="POST" id="deleteForm">
+											<input type="hidden" value="${mater.materNo }" name="materNo">
+											<button class="btn btn-primary btn-xl m-right" type="button"
+												id="deleteBtn">삭제</button>
+									</form>
 								
 								
 								</div>

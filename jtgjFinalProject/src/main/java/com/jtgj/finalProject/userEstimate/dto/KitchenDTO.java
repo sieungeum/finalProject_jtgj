@@ -1,36 +1,38 @@
 package com.jtgj.finalProject.userEstimate.dto;
 
 public class KitchenDTO {
-	private int kitchenNo;
+	private int estiNo;
 	private String kitchenCategory;
 	private String kitchenName;
 	private int kitchenKg;
+	private double kitchenCarbon;
 	private int kitchenCost;
 	private String materClassify;
 	public KitchenDTO() {
 		super();
 	}
-	public KitchenDTO(int kitchenNo, String kitchenCategory, String kitchenName, int kitchenKg, int kitchenCost,
-			String materClassify) {
+	public KitchenDTO(int estiNo, String kitchenCategory, String kitchenName, int kitchenKg, double kitchenCarbon,
+			int kitchenCost, String materClassify) {
 		super();
-		this.kitchenNo = kitchenNo;
+		this.estiNo = estiNo;
 		this.kitchenCategory = kitchenCategory;
 		this.kitchenName = kitchenName;
 		this.kitchenKg = kitchenKg;
+		this.kitchenCarbon = kitchenCarbon;
 		this.kitchenCost = kitchenCost;
 		this.materClassify = materClassify;
 	}
 	@Override
 	public String toString() {
-		return "KitchenDTO [kitchenNo=" + kitchenNo + ", kitchenCategory=" + kitchenCategory + ", kitchenName="
-				+ kitchenName + ", kitchenKg=" + kitchenKg + ", kitchenCost=" + kitchenCost + ", materClassify="
-				+ materClassify + "]";
+		return "KitchenDTO [estiNo=" + estiNo + ", kitchenCategory=" + kitchenCategory + ", kitchenName=" + kitchenName
+				+ ", kitchenKg=" + kitchenKg + ", kitchenCarbon=" + kitchenCarbon + ", kitchenCost=" + kitchenCost
+				+ ", materClassify=" + materClassify + "]";
 	}
-	public int getKitchenNo() {
-		return kitchenNo;
+	public int getEstiNo() {
+		return estiNo;
 	}
-	public void setKitchenNo(int kitchenNo) {
-		this.kitchenNo = kitchenNo;
+	public void setEstiNo(int estiNo) {
+		this.estiNo = estiNo;
 	}
 	public String getKitchenCategory() {
 		return kitchenCategory;
@@ -49,6 +51,12 @@ public class KitchenDTO {
 	}
 	public void setKitchenKg(int kitchenKg) {
 		this.kitchenKg = kitchenKg;
+	}
+	public double getKitchenCarbon() {
+		return kitchenCarbon;
+	}
+	public void setKitchenCarbon(double kitchenCarbon) {
+		this.kitchenCarbon = kitchenCarbon;
 	}
 	public int getKitchenCost() {
 		return kitchenCost;

@@ -22,6 +22,7 @@ import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Controller
@@ -29,6 +30,9 @@ public class AdminController {
 	
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	FaqService faqService;
 	
 	@Autowired
 	AdminFaqService adminfaqService;
@@ -40,7 +44,6 @@ public class AdminController {
 	public String adminPage(Model model) {
 		System.out.println("- adminPage - ");
 		
-
 		
 		List<UserDTO> userList = adminService.getUserList();
 		model.addAttribute("userList", userList);
@@ -79,15 +82,21 @@ public class AdminController {
 		return "myPage/materWriteView";
 	}
 	
-	@PostMapping("/WriteMater")
-	public String WriteMater(EstimateDTO mater) {
+	@PostMapping("/writeMater")
+	public String writeMater(EstimateDTO mater) {
 		System.out.println("- WriteMater - ");
+		
 	    adminService.writeMater(mater);
 	    
 	    return "redirect:/adminPage";
 	}
 	
-	
+	@PostMapping("/delMater")
+	public String delMater(int materNo) {
+		adminService.delMater(materNo);
+		
+		return "redirect:/adminPage";
+	}
 	
 	@PostMapping("/userDo")
 	public String userDo(UserDTO user) {

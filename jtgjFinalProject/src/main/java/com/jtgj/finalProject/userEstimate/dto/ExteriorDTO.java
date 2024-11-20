@@ -1,36 +1,38 @@
 package com.jtgj.finalProject.userEstimate.dto;
 
 public class ExteriorDTO {
-	private int esteriorNo;
+	private int estiNo;
 	private String exteriorCategory;
 	private String exteriorName;
 	private int exteriorKg;
+	private float exteriorCarbon;
 	private int exteriorCost;
 	private String materClassify;
 	public ExteriorDTO() {
 		super();
 	}
-	public ExteriorDTO(int esteriorNo, String exteriorCategory, String exteriorName, int exteriorKg, int exteriorCost,
-			String materClassify) {
+	public ExteriorDTO(int estiNo, String exteriorCategory, String exteriorName, int exteriorKg, float exteriorCarbon,
+			int exteriorCost, String materClassify) {
 		super();
-		this.esteriorNo = esteriorNo;
+		this.estiNo = estiNo;
 		this.exteriorCategory = exteriorCategory;
 		this.exteriorName = exteriorName;
 		this.exteriorKg = exteriorKg;
+		this.exteriorCarbon = exteriorCarbon;
 		this.exteriorCost = exteriorCost;
 		this.materClassify = materClassify;
 	}
 	@Override
 	public String toString() {
-		return "ExteriorDTO [esteriorNo=" + esteriorNo + ", exteriorCategory=" + exteriorCategory + ", exteriorName="
-				+ exteriorName + ", exteriorKg=" + exteriorKg + ", exteriorCost=" + exteriorCost + ", materClassify="
-				+ materClassify + "]";
+		return "ExteriorDTO [estiNo=" + estiNo + ", exteriorCategory=" + exteriorCategory + ", exteriorName="
+				+ exteriorName + ", exteriorKg=" + exteriorKg + ", exteriorCarbon=" + exteriorCarbon + ", exteriorCost="
+				+ exteriorCost + ", materClassify=" + materClassify + "]";
 	}
-	public int getEsteriorNo() {
-		return esteriorNo;
+	public int getEstiNo() {
+		return estiNo;
 	}
-	public void setEsteriorNo(int esteriorNo) {
-		this.esteriorNo = esteriorNo;
+	public void setEstiNo(int estiNo) {
+		this.estiNo = estiNo;
 	}
 	public String getExteriorCategory() {
 		return exteriorCategory;
@@ -50,6 +52,12 @@ public class ExteriorDTO {
 	public void setExteriorKg(int exteriorKg) {
 		this.exteriorKg = exteriorKg;
 	}
+	public float getExteriorCarbon() {
+		return exteriorCarbon;
+	}
+	public void setExteriorCarbon(float exteriorCarbon) {
+		this.exteriorCarbon = exteriorCarbon;
+	}
 	public int getExteriorCost() {
 		return exteriorCost;
 	}
@@ -62,7 +70,6 @@ public class ExteriorDTO {
 	public void setMaterClassify(String materClassify) {
 		this.materClassify = materClassify;
 	}
-	
 	
 	
 }
