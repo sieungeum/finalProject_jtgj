@@ -273,37 +273,34 @@ public class UserController {
 	}
 
 	// 프로필 이미지 업로드
-	@ResponseBody
-	@PostMapping(value = "/uploadProfile", produces = "application/json; charset=utf-8")
-	public Map<String, Object> uploadProfile(Model model, HttpSession session, MultipartFile file) {
-		// 첨부된 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴
-		Map<String, Object> result = new HashMap<>();
-
-		String profImgName = null;
-
-		if (file != null) {
-			try {
-				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file);
-				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("이미지 파일 저장 실패");
-			}
-		}
-
-		// 현재 로그인 중인 사용자의 정보 가져오기
-		UserDTO login = (UserDTO) session.getAttribute("login");
-
-		// 방금 로컬에 저장된 프로필 이미지의 파일명을 login 객체 내부에 저장
-		login.setUserProfImg(profImgName);
-
-		// DB에 회원정보 수정을 통해 프로필 이미지명 반영!
-		userService.editProfImg(login);
-
-		result.put("result", profImgName);
-
-		return result;
-	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping(value = "/uploadProfile", produces =
+	 * "application/json; charset=utf-8") public Map<String, Object>
+	 * uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된
+	 * 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 Map<String, Object> result = new
+	 * HashMap<>();
+	 * 
+	 * String profImgName = null;
+	 * 
+	 * if (file != null) { try { AttachDTO attach =
+	 * fileUploadUtils.getAttachByMultipart(file); profImgName =
+	 * attach.getAtchFileName(); // UUID 로 생성한 파일명 } catch (Exception e) {
+	 * e.printStackTrace(); System.out.println("이미지 파일 저장 실패"); } }
+	 * 
+	 * // 현재 로그인 중인 사용자의 정보 가져오기 UserDTO login = (UserDTO)
+	 * session.getAttribute("login");
+	 * 
+	 * // 방금 로컬에 저장된 프로필 이미지의 파일명을 login 객체 내부에 저장
+	 * login.setUserProfImg(profImgName);
+	 * 
+	 * // DB에 회원정보 수정을 통해 프로필 이미지명 반영! userService.editProfImg(login);
+	 * 
+	 * result.put("result", profImgName);
+	 * 
+	 * return result; }
+	 */
 	
 	// 계정 찾기 페이지
 	@RequestMapping("/findAccountView")
