@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.companyBoard.dao.ICompanyBoardDAO">
+	<select id="getCompanyBoardList" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+		SELECT 
+			a.cp_board_no,
+		    a.cp_board_title,
+		    b.user_id,
+		    b.cp_ceo_name,
+		    a.cp_board_area,
+		    a.cp_board_date,
+		    a.cp_board_del_yn
+		FROM 
+			company_board a, company_info b
+		WHERE 1=1
+			AND a.user_id = b.user_id
+	</select>
+</mapper>
