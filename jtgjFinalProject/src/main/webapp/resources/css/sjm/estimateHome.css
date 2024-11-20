@@ -13,7 +13,7 @@ div{
 	display:flex;
 }
 
-/* 예산 작성 */
+/* 평수 작성 */
 .header-font{
 	margin-bottom: 20px;
 	margin-left: 10px;
@@ -29,6 +29,33 @@ div{
 	margin-top: 20px;
 	
 	text-align: end;
+}
+
+/* 평수 조절 */
+.room-percent{
+	display: flex;
+	
+	width: 100%;
+}
+
+.room-percent__room{
+	width: calc(100% / 4);
+}
+
+.room-percent__cnt{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.room-percent__input{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.room-percent__input input{
+	width: 50%;
 }
 
 /* 자제 카테고리 */
@@ -115,6 +142,11 @@ div{
 
 
 /* Modal */
+.modal-m{
+	margin-left: 6px;
+	margin-bottom: 6px;
+}
+
 .sjm_mocdal-box{
 	display: none;
 	position: fixed;
@@ -128,23 +160,41 @@ div{
 	width: 70%;
 	height: 80%;
 	
-	border: 1px solid black;
+	border: 3px solid black;
 	border-radius: 8px;
 	
 	background-color: #fff;
 }
 
 .add-modal{
+	display:flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.add-modal__box{
+	display: flex;
+	flex-direction: column;
+	
+	width: 100%;
+	height: 80%;
+	
+	border: 1px solid black;
+	border-radius: 8px;
+	
+	margin: 5px 5px 5px 5px;
 }
 
 .modal-box__top{
-	width: calc(100% / 3);
-	height: 60%;
+	width: 100%;
+	height: 50%;
 	
 	overflow: hidden;
+	
+	text-align: center;
 }
 .modal-box__top img{
-	width: 100%;
+	width: 80%;
 	height: 100%;
 }
 

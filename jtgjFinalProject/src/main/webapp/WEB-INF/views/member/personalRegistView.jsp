@@ -236,12 +236,12 @@
 			
 
 			// 이메일 인증 함수
-			function sendEmailAuth() {
-				$('#emailSpinner').css('display', 'block');
-				
+			function sendEmailAuth() {				
 				let email = document.getElementById('inputEmail').value;
 				
 				if (confirm('인증번호를 보내시겠습니까?')) {
+					$('#emailSpinner').css('display', 'block');
+					
 					$.ajax({
 						url: '${pageContext.request.contextPath}/ConfirmEmail',
 						data: { email: email },
