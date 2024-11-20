@@ -58,7 +58,7 @@
 			                	<c:forEach items="${attachList }" var="attach">
 			                		<div>
 			                			<!-- 파일 이름 클릭시 다운로드 -->
-			                			<a href="${pageContext.request.contextPath}/filedownload?fileName=${attach.atchFileName}&fileOriName=${attach.atchOriginalName}">
+			                			<a href="${pageContext.request.contextPath}/filedownload?fileName=${attach.atchFileName}&fileOriName=${attach.atchOriginalName}&atchType=${attach.atchType}">
 										    첨부파일 ${attach.atchOriginalName} (${attach.atchFancySize})
 										</a>
 			                		</div>

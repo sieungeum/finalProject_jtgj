@@ -31,7 +31,8 @@ public class imageController {
 		InputStream inputStream = null;
 		ResponseEntity<byte[]> entity = null;
 	
-		String imgPath = uploadPath + File.separatorChar + imgName;
+//		String imgPath = uploadPath + File.separatorChar + imgName;
+		String imgPath = uploadPath + File.separator + "images" + File.separator + imgName;
 		
 		MediaType mediaType = MediaType.IMAGE_JPEG;
 		

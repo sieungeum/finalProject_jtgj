@@ -9,13 +9,14 @@ public class AttachDTO {
 	private String atchFancySize; // 사이즈를 KB, MB, GB로 변환
 	private String atchContentType; // 컨텐츠 타입(확장자)
 	private String atchPath; // 저장 경로
+	private String atchType; // 저장 장소의 타입(종류)
 	
 	public AttachDTO() {
 		super();
 	}
 
 	public AttachDTO(int atchNo, int atchParentNo, String atchFileName, String atchOriginalName, long atchFileSize,
-			String atchFancySize, String atchContentType, String atchPath) {
+			String atchFancySize, String atchContentType, String atchPath, String atchType) {
 		super();
 		this.atchNo = atchNo;
 		this.atchParentNo = atchParentNo;
@@ -25,13 +26,7 @@ public class AttachDTO {
 		this.atchFancySize = atchFancySize;
 		this.atchContentType = atchContentType;
 		this.atchPath = atchPath;
-	}
-
-	@Override
-	public String toString() {
-		return "AttachDTO [atchNo=" + atchNo + ", atchParentNo=" + atchParentNo + ", atchFileName=" + atchFileName
-				+ ", atchOriginalName=" + atchOriginalName + ", atchFileSize=" + atchFileSize + ", atchFancySize="
-				+ atchFancySize + ", atchContentType=" + atchContentType + ", atchPath=" + atchPath + "]";
+		this.atchType = atchType;
 	}
 
 	public int getAtchNo() {
@@ -97,6 +92,21 @@ public class AttachDTO {
 	public void setAtchPath(String atchPath) {
 		this.atchPath = atchPath;
 	}
-	
+
+	public String getAtchType() {
+		return atchType;
+	}
+
+	public void setAtchType(String atchType) {
+		this.atchType = atchType;
+	}
+
+	@Override
+	public String toString() {
+		return "AttachDTO [atchNo=" + atchNo + ", atchParentNo=" + atchParentNo + ", atchFileName=" + atchFileName
+				+ ", atchOriginalName=" + atchOriginalName + ", atchFileSize=" + atchFileSize + ", atchFancySize="
+				+ atchFancySize + ", atchContentType=" + atchContentType + ", atchPath=" + atchPath + ", atchType="
+				+ atchType + "]";
+	}
 	
 }

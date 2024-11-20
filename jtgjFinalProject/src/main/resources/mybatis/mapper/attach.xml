@@ -12,6 +12,7 @@
 			, atch_fancy_size
 			, atch_content_type
 			, atch_path
+			, atch_type
 		) VALUES (
 			seq_attach.nextval
 			, #{atchParentNo}
@@ -21,11 +22,12 @@
 			, #{atchFancySize}
 			, #{atchContentType}
 			, #{atchPath}
+			, #{atchType}
 		)
 			
 	</insert>
 	
-	<select id="getAttachList" parameterType="int" resultType="com.jtgj.finalProject.attach.dto.AttachDTO">
+	<select id="getAttachList" parameterType="map" resultType="com.jtgj.finalProject.attach.dto.AttachDTO">
 		SELECT
 			atch_no
 			, atch_parent_no
@@ -35,10 +37,12 @@
 			, atch_fancy_size
 			, atch_content_type
 			, atch_path
+			, atch_type
 		FROM
 			attach
 		WHERE 1 = 1
 		  AND atch_parent_no = #{faqNo}
+		  AND atch_type = #{atchType}
 	</select>
 
 </mapper>

@@ -1,4 +1,4 @@
-	package com.jtgj.finalProject.faq.web;
+package com.jtgj.finalProject.faq.web;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -95,7 +95,7 @@ public class FaqController {
 	    if(boFile != null && boFile.length > 0 && !boFile[0].isEmpty()) {
 	    	System.out.println("파일 개수: " + boFile.length);
 	    	try {
-	    		List<AttachDTO> attachList = fileUploadUtils.getAttachListByMultiparts(boFile);
+	    		List<AttachDTO> attachList = fileUploadUtils.getAttachListByMultiparts(boFile, "faq");
 	    		if(!attachList.isEmpty()) {
 	    			for(AttachDTO attach : attachList) {
 	    				attach.setAtchParentNo(atchParentNo);
@@ -126,7 +126,7 @@ public class FaqController {
 		List<CommentDTO> comList = faqService.getCommentList(faqNo);
 		
 		// 해당 게시글의 첨부 파일
-		List<AttachDTO> attachList = attachService.getAttachList(faqNo);
+		List<AttachDTO> attachList = attachService.getAttachList(faqNo, "faq");
 		
 		model.addAttribute("faq", faq);
 		model.addAttribute("comList", comList);
@@ -243,7 +243,7 @@ public class FaqController {
 	    if(boFile != null && boFile.length > 0 && !boFile[0].isEmpty()) {
 	    	System.out.println("파일 개수: " + boFile.length);
 	    	try {
-	    		List<AttachDTO> attachList = fileUploadUtils.getAttachListByMultiparts(boFile);
+	    		List<AttachDTO> attachList = fileUploadUtils.getAttachListByMultiparts(boFile, "notice");
 	    		if(!attachList.isEmpty()) {
 	    			for(AttachDTO attach : attachList) {
 	    				attach.setAtchParentNo(atchParentNo);
@@ -271,7 +271,7 @@ public class FaqController {
 		NoticeDTO notice = faqService.getNotice(noticeNo);
 		
 		// 해당 게시글의 첨부 파일
-		List<AttachDTO> attachList = attachService.getAttachList(noticeNo);
+		List<AttachDTO> attachList = attachService.getAttachList(noticeNo, "notice");
 		
 		model.addAttribute("notice", notice);
 		model.addAttribute("attachList", attachList);

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,9 +38,17 @@ public class AttachController {
 	    // 로컬에 저장된 파일 이름과 첨부 당시 원본 파일 이름을 받아옴
 	    String fileName = request.getParameter("fileName");
 	    String fileOriName = request.getParameter("fileOriName");
+	    String atchType = request.getParameter("atchType");
 
 	    // 로컬에 저장된 파일을 File 객체로 매칭시킴
-	    File downloadFile = new File(uploadPath + File.separatorChar + fileName);
+	    String filePath = uploadPath + File.separator + atchType + File.separator + fileName;
+	    File downloadFile = new File(filePath);
+	    
+	    if (!downloadFile.exists()) {
+	        System.out.println("File not found: " + filePath);
+	        response.setStatus(HttpServletResponse.SC_NOT_FOUND); // 파일이 없으면 404 반환
+	        return;
+	    }
 
 	    // 해당 파일의 데이터를 읽어서 바이트 배열로 리턴
 	    byte[] fileByte = FileUtils.readFileToByteArray(downloadFile);
@@ -57,26 +66,47 @@ public class AttachController {
 	    response.getOutputStream().close();
 	}
 	
-	// 이미지 업로드
-		@ResponseBody
-		@PostMapping(value="/uploadImg")
-		public String uploadImg(HttpSession session, MultipartFile file) {
-			Map<String, Object> result = new HashMap<>();
-			
-			String uuid = "";
-			
-			
-			try {
-				AttachDTO uploadImg = fileUploadUtils.getAttachByMultipart(file);
-				System.out.println(uploadImg);
-				// 저장된 이미지 파일명을 꺼냄
-				uuid = uploadImg.getAtchFileName();
-			}  catch (IOException e) {
-				e.printStackTrace();
-				System.out.println("이미지 저장 실패");
-			}
-			
-			return uuid;
-		}
+	// 네이버 에디터 이미지 업로드
+	@ResponseBody
+	@PostMapping(value = "/uploadImg")
+	public Map<String, Object> uploadImg(MultipartFile file) {
+	    Map<String, Object> result = new HashMap<>();
+	    
+	    // 업로드된 파일이 없는 경우 처리
+	    if (file == null || file.isEmpty()) {
+	        result.put("status", "error");
+	        result.put("message", "No file uploaded");
+	        return result;
+	    }
+
+	    try {
+	        // 저장할 파일 경로를 지정
+	        String uploadPath = "C:/upload/images"; // 실제 경로는 설정에서 가져올 수도 있음
+	        File uploadDir = new File(uploadPath);
+	        if (!uploadDir.exists()) {
+	            uploadDir.mkdirs(); // 폴더가 없으면 생성
+	        }
+
+	        // 고유 파일명 생성 (UUID 사용)
+	        String originalFileName = file.getOriginalFilename();
+	        String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
+
+	        // 파일 저장
+	        File saveFile = new File(uploadPath, fileName);
+	        file.transferTo(saveFile);
+
+	        // 결과 반환
+	        result.put("status", "success");
+	        result.put("fileName", fileName);
+	        result.put("originalFileName", originalFileName); // 원래 파일 이름
+	        result.put("filePath", "/images/" + fileName); // 실제 URL 경로
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        result.put("status", "error");
+	        result.put("message", "File upload failed: " + e.getMessage());
+	    }
+
+	    return result;
+	}
 
 }
