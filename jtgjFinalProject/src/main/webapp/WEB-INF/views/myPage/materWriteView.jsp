@@ -69,6 +69,18 @@
 .custom-table a:hover {
 	text-decoration: underline;
 }
+
+.profile-div{
+	height: 300px;
+	width: 300px;
+	overflow: hidden;
+}
+
+.profile-img{
+	height: 350px;
+	width: auto;
+}
+
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -122,8 +134,18 @@
 									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST">
 									    
 									    <label for="materImg">자재 이미지:</label>
-									    <input type="text" id="materImg" name="materImg" /><br />
-									    
+									    <div class="profile-div d-flex justify-content-center align-items-center">
+										    <div class="profile-div">
+										    <c:if test="${mater.materImg == null}">
+										    	<img src="resources/img/logo.png">
+										    </c:if>
+										    <c:if test="${mater.materImg != null}">
+										        <img id="preview" class="profile-img" src="#" alt="이미지 미리보기" style="display: none;" />
+										    </c:if>
+										    </div>
+										    <input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this);">
+									    </div>
+
 									    <label for="materName">자재 이름:</label>
 									    <input type="text" id="materName" name="materName"/><br />
 									
@@ -151,9 +173,6 @@
 											<a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath }/adminPage">돌아가기</a>
 										</div>
 									</form>
-								
-								
-								
 								</div>
 							</div>
 						</div>
@@ -173,7 +192,30 @@
 		</div>
 	</div>
 
-	
+<script type="text/javascript">
+	$(".profile_img").on("click", ()=>{
+		$("#inputImage").click();
+	});
+</script>
+
+	<script>
+    function previewImage(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "#";
+            preview.style.display = "none";
+        }
+    }
+</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

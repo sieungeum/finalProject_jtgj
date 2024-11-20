@@ -123,8 +123,14 @@
 									    <input type="hidden" name="materNo" value="${mater.materNo}" >
 									    
 									    <label for="materImg">자재 이미지:</label>
-									    <img style="width: 200px;" src="${mater.materImg}">
-									    <input type="text" id="materImg" name="materImg" value="${mater.materImg}" required /><br />
+									    <div class="profile-div">
+									        <img id="imagePreview" class="profile-img" 
+									             src="${mater.materImg}" 
+									             alt="자재 이미지가 없습니다." />
+									    </div>
+									    <input type="file" id="materImg" name="materImg" accept="image/*" onchange="previewImage(event)" /><br />
+
+
 									    
 									    <label for="materName">자재 이름:</label>
 									    <input type="text" id="materName" name="materName" value="${mater.materName}" required /><br />
@@ -182,7 +188,23 @@
 		</div>
 	</div>
 
-	
+	<script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById("imagePreview");
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            // 이미지 로드 후 미리보기 업데이트
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
