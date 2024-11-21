@@ -189,6 +189,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="container margin-top">
 		<div class="main-title">
 			<h1 style="">IDEAS</h1>
@@ -213,14 +214,25 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="load-div">
-		<div class="click-box">
-			<a href="javascript:void(0)" id="loadCard">
-				<img src="img/plus-square.svg" style="width:100%;">
-			</a>
-		</div>
-	</div>
+	    
+	<div class="container">
+        <ul class="pagination-ef wow animated fadeInUp" data-wow-delay="0.20s">
+            <li>
+                <a href="#">
+                    <i class="pe-7s-angle-left"></i>
+                </a>
+            </li>
+            <li class="current"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">...</a></li>
+            <li><a href="#">8</a></li>
+            <li>
+                <a href="#">
+                    <i class="pe-7s-angle-right"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
 	
 	
 	<!-- footer -->
@@ -232,8 +244,6 @@
 	</script>
 	<script>
 		let jsonData = JSON.parse(document.getElementById('jsonData').textContent);
-		let v_workGrid = document.getElementById('work-grid');
-		let v_workGridPlut = document.getElementById('work-grid-plus');
 		
 		console.log(jsonData);
 		
@@ -250,32 +260,45 @@
 		}
 		console.log(v_projects);
 		
-		for(let i = 0; i < 9; i++){
-			v_workGrid.innerHTML += [
-				'<div class="col-md-4 col-sm-4 col-xs-12 mix Projects" style="width:380px;height:350px; margin-bottom:15px;">' +
-		        '<div class="img home-portfolio-image">' +
-			        '<img src="' + v_projects[i]['project'] + '" alt="Portfolio Item" style="height:100%;">' +
-			        '<img class="c-img" src="' + v_projects[i]['c_img'] + '">' +
-			        '<div class="overlay-thumb">' +
-				        '<a href="javascript:void(0)" class="like-product">' + 
-				        	'<i class="ion-ios-heart-outline"></i>' + 
-				        	'<span class="like-product">Liked</span>' +
-				           	'<span class="output">250</span>' +
-			         	'</a>' +
-			           '<div class="details">' +
-			              '<span class="title">' + v_projects[i]['title'] + '</span>' +
-			           '</div>' +
-			           '<span class="btnBefore"></span> <span class="btnAfter"></span> <a' +
-			              'class="main-portfolio-link" href="single-project.html"></a>' +
-			        '</div>' +
-			     '</div>' +
-			     '</div>'
-			];
-		}		
-		
-/* 		document.getElementById() */
+		document.addEventListener("DOMContentLoaded", () => {
+			const workGrid = document.getElementById('work-grid');
+			let count = 0;
 
-		
+			function renderCards(start, end) {
+				for(let i = start; i < end; i++) {
+					if(i >= v_projects.length) break; // 데이터 범위를 초과하면 종료
+					const item = v_projects[i];
+					const card = [
+						'<div class="col-md-4 col-sm-4 col-xs-12 mix Projects" style="width:390px;height:350px; margin-bottom:15px;">' +
+				        '<div class="img home-portfolio-image">' +
+					        '<img src="' + item['project'] + '" alt="Portfolio Item" style="height:100%;">' +
+					        '<img class="c-img" src="' + item['c_img'] + '">' +
+					        '<div class="overlay-thumb">' +
+						        '<a href="javascript:void(0)" class="like-product">' + 
+						        	'<i class="ion-ios-heart-outline"></i>' + 
+						        	'<span class="like-product">Liked</span>' +
+						           	'<span class="output">250</span>' +
+					         	'</a>' +
+					           '<div class="details">' +
+					              '<span class="title">' +item['title'] + '</span>' +
+					           '</div>' +
+					           '<span class="btnBefore"></span> <span class="btnAfter"></span> <a' +
+					              'class="main-portfolio-link" href="single-project.html"></a>' +
+					        '</div>' +
+					     '</div>' +
+					     '</div>'						
+					];
+							
+					workGrid.insertAdjacentHTML("beforeend", card);
+				}
+			}
+			
+			// 초기 9개 카드 렌더링
+			renderCards(0, 9);
+			count = 9;
+			
+		});
+	
 		
 	</script>
 
