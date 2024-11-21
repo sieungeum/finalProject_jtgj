@@ -2,7 +2,11 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jtgj.finalProject.admin.service.AdminFaqService;
 import com.jtgj.finalProject.admin.service.AdminService;
+import com.jtgj.finalProject.attach.dto.AttachDTO;
+import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
@@ -42,6 +49,10 @@ public class AdminController {
 	
 	@Autowired
 	EstimateService estimateService;
+	
+	@Autowired
+	FileUploadUtils fileUploadUtils;
+	
 	
 	@RequestMapping("/adminPage")
 	public String adminPage(Model model) {
@@ -82,12 +93,15 @@ public class AdminController {
 	@RequestMapping("/materWriteView")
 	public String materWriteView() {
 		System.out.println("- materWriteView - ");
+		
 		return "myPage/materWriteView";
 	}
 	
 	@PostMapping("/writeMater")
 	public String writeMater(EstimateDTO mater) {
 		System.out.println("- WriteMater - ");
+		
+		
 		
 	    adminService.writeMater(mater);
 	    
@@ -164,7 +178,7 @@ public class AdminController {
 		return "myPage/promotion";
 	}
 	
-	 
+
 
 	  
 }

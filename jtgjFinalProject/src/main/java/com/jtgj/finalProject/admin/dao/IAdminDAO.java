@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
@@ -31,4 +32,8 @@ public interface IAdminDAO {
 	int writeMater(EstimateDTO mater);
 	int delMater(int materNo);
 	int getMaterNo();
+	
+	int insertAttach(AttachDTO materAttach);
+	List<AttachDTO> getMaterAttachList(int materNo);
+	
 }

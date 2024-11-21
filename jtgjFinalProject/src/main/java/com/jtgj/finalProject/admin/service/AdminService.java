@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
+import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
@@ -80,4 +81,14 @@ public class AdminService {
 		return result;
 	}
 
+	public int insertAttach(AttachDTO materAttach) {
+		int result = dao.insertAttach(materAttach);
+		return result;
+	}
+	
+	public List<AttachDTO> getMaterAttachList(int materNo){
+		List<AttachDTO> result = dao.getMaterAttachList(materNo);
+		return result;
+	}
+	
 }

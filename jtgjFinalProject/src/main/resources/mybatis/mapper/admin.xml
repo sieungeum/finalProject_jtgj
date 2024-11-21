@@ -93,6 +93,7 @@
 			  mater_name = #{materName}
 			, mater_category = #{materCategory}
 			, mater_gas_kg = #{materGasKg}
+			, mater_img = #{materImg}
 			, mater_price = #{materPrice}
 			, mater_durability = #{materDurability}
 			, mater_info = #{materInfo}
@@ -140,5 +141,7 @@ INSERT INTO building_materials(
 		WHERE 1=1
 			AND mater_no = #{materNo}
 	</update>
+
+
 
 </mapper>

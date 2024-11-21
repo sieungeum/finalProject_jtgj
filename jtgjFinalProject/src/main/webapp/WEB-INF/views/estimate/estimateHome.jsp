@@ -59,57 +59,43 @@
 		<div class="main-title">
 			<div class="header-font">건물 구조를 정해주세요</div>
 			<div class="room-percent">
+				<input class="room-percent__pyeng" type="hidden" >
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div>+</div>
+						<div class="plus-room">+</div>
 						<div>
-							거실(35%) <span>1</span>
+							<span>욕실</span>
+							<span class="cnt-room">1</span>
 						</div>
-						<div>-</div>
+						<div class="minus-room">-</div>
 					</div>
-					<div class="room-percent__input">
-						<input type="number" >
-					</div>
+					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div>+</div>
+						<div class="plus-room">+</div>
 						<div>
-							욕실(10%) <span>1</span>
+							<span>주방</span>
+							<span class="cnt-room">1</span>
 						</div>
-						<div>-</div>
+						<div class="minus-room">-</div>
 					</div>
-					<div class="room-percent__input">
-						<input type="number" >
-					</div>
+					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div>+</div>
+						<div class="plus-room">+</div>
 						<div>
-							주방(15%) <span>1</span>
+							<span>방</span>
+							<span class="cnt-room">1</span>
 						</div>
-						<div>-</div>
+						<div class="minus-room">-</div>
 					</div>
-					<div class="room-percent__input">
-						<input type="number" >
-					</div>
-				</div>
-				<div class="room-percent__room">
-					<div class="room-percent__cnt">
-						<div>+</div>
-						<div>
-							방(40%) <span>1</span>
-						</div>
-						<div>-</div>
-					</div>
-					<div class="room-percent__input">
-						<input type="number" >
-					</div>
+					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 			</div>
-			<div class="budget-btn-box">
-				<div id="budgetBtn" class="sjm-btn sjm-btn-success">다음</div>
+			<div class="room-percent-btn-box">
+				<div id="roomPercentBtn" class="sjm-btn sjm-btn-success">다음</div>
 			</div>
 		</div>
 	</div>
@@ -166,10 +152,10 @@
 					</div>
 				</div>
 
-				<!-- 4. 주방 -->
+				<!-- 4. 거실 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
-						<div class="mater-category">주방</div>
+						<div class="mater-category">거실</div>
 						<img
 							src="${pageContext.request.contextPath}/img/mat-category/mat_category4.jpg">
 					</div>
@@ -180,13 +166,12 @@
 						</div>
 					</div>
 				</div>
-
-				<!-- 5. 욕실 -->
+<%-- 
+				<!-- 5. 주방 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
-						<div class="mater-category">욕실</div>
-						<img
-							src="${pageContext.request.contextPath}/img/mat-category/mat_category5.jpg">
+						<div class="mater-category">주방</div>
+						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category5.jpg">
 					</div>
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
@@ -196,10 +181,10 @@
 					</div>
 				</div>
 
-				<!-- 6. 거실 -->
+				<!-- 6. 욕실 -->
 				<div class="card-box" style="height: 500px;">
 					<div class="card-box__top">
-						<div class="mater-category">거실</div>
+						<div class="mater-category">욕실</div>
 						<img
 							src="${pageContext.request.contextPath}/img/mat-category/mat_category6.jpg">
 					</div>
@@ -225,7 +210,7 @@
 						</div>
 					</div>
 				</div>
-
+ --%>
 			</div>
 		</div>
 	</div>
@@ -493,8 +478,9 @@
 				  // 사용자가 "취소"를 클릭한 경우 실행할 코드
 				}
 		}
-
-
+		
+		
+		
 		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
 		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
 		
@@ -561,33 +547,106 @@
 				}
 			}
 		});
-
-		/* card */
-		let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
-		let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
 		
-		let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
-	
-		/* modal */
-		let v_addModal = document.querySelector(".add-modal"); // 선택한 카테고리별 모달 생성
-		let v_modalBox = document.querySelector(".sjm_mocdal-box"); // 카테고리별 자제들 모달창 box(x 누를 경우 닫을 때 사용)
-		
-		/* 자제 선택 클릭 이벤트 */
-		for (let i = 0; i < v_btnModal.length; i++) { 
-			v_btnModal[i].addEventListener("click", () => {
-				let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
-				sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
 
-				v_modalBox.style.display = "block"; // 모달창 활성화
+		
+		// 평수 입력 시 욕실, 주방, 방 갯수 와 비율에 맞게 평수 분할
+		let v_plusRoom = document.querySelectorAll(".plus-room");
+		let v_minusRoom = document.querySelectorAll(".minus-room");
+		
+		for (let i = 0; i < v_plusRoom.length; i++){
+			// 방 추가하기
+			v_plusRoom[i].addEventListener("click", () => {
+				let v_cntRoom = document.querySelectorAll(".cnt-room");
+				v_cntRoom[i].innerHTML = parseInt(v_cntRoom[i].innerHTML) + 1;
+			});
+			
+			// 방 빼기
+			v_minusRoom[i].addEventListener("click", () => {
+				let v_cntRoom = document.querySelectorAll(".cnt-room");
+				if (v_cntRoom[i].innerHTML == "1"){
+					return;
+				} else {
+					v_cntRoom[i].innerHTML = parseInt(v_cntRoom[i].innerHTML) - 1;
+				}
+				
 			});
 		}
 		
-		/* 닫기 클릭 */
-		let v_selectModalCancel = document.getElementById("selectModalCancel");
+		let v_roomPercentBtn = document.getElementById("roomPercentBtn");
+		let v_cardWrapper = document.querySelector(".card-wrapper");
 		
-		v_selectModalCancel.addEventListener("click", () => {
-			v_modalBox.style.display = "none";
+		v_roomPercentBtn.addEventListener("click", () => {
+			let v_roomPercentPyeng = document.querySelectorAll(".room-percent__pyeng");
+			for (let i = 0; i < v_roomPercentPyeng.length; i++){
+				let v_cntRoom = document.querySelectorAll(".cnt-room");
+				
+				let v_value = 0.0;
+				// 거실 35%, 욕실 10%, 주방 15%, 방 40%
+				if (i == 0){
+					v_value = parseInt(v_budget.value) * 0.35;
+				} else if (i == 1){
+					v_value = parseInt(v_budget.value) * 0.1 / parseInt(v_cntRoom[i - 1].innerHTML);
+				} else if (i == 2){
+					v_value = parseInt(v_budget.value) * 0.15 / parseInt(v_cntRoom[i - 1].innerHTML);
+				} else if (i == 3){
+					v_value = parseInt(v_budget.value) * 0.4 / parseInt(v_cntRoom[i - 1].innerHTML);
+				}
+				
+				v_roomPercentPyeng[i].value = v_value.toFixed(1);
+				console.log(v_value);
+				
+				if (i > 0) {
+					for (let j = 0; j < parseInt(v_cntRoom[i - 1].innerHTML); j++){
+						let v_query = ""
+							v_query += '<div class="card-box" style="height: 500px;">'
+							v_query += '	<div class="card-box__top">'
+							v_query += '		<div class="mater-category">' + v_cntRoom[i - 1].previousElementSibling.innerHTML + (j+1) + '</div>'
+							v_query += '		<img src="${pageContext.request.contextPath}/img/mat-category/mat_category' + (i + 4) + '.jpg">'
+							v_query += '	</div>'
+							v_query += '	<div class="card-box__bottom">'
+							v_query += '	<div class="materials" style="height: 80%;"></div>'
+							v_query += '		<div class="btn-box" style="height: 20%;">'
+							v_query += '			<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>'
+							v_query += '		</div>'
+							v_query += '	</div>'
+							v_query += '</div>'
+							
+						v_cardWrapper.innerHTML += v_query;
+					}
+				}
+			}
+			
+			/* 자제 선택 클릭 이벤트 */
+			let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
+			
+			/* card */
+			let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
+			let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
+			
+			for (let i = 0; i < v_btnModal.length; i++) { 
+				v_btnModal[i].addEventListener("click", () => {
+					let v_category = "materCategory=" + v_materCategory[i].innerHTML.replace(/[0-9]/g, ''); // 카테고리 ajax로 보낼 형태로 저장
+					console.log(v_category);
+					sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
+
+					v_modalBox.style.display = "block"; // 모달창 활성화
+				});
+			}
+			
+			/* 닫기 클릭 */
+			let v_selectModalCancel = document.getElementById("selectModalCancel");
+			
+			v_selectModalCancel.addEventListener("click", () => {
+				v_modalBox.style.display = "none";
+			});
 		});
+		
+
+		
+		/* modal */
+		let v_addModal = document.querySelector(".add-modal"); // 선택한 카테고리별 모달 생성
+		let v_modalBox = document.querySelector(".sjm_mocdal-box"); // 카테고리별 자제들 모달창 box(x 누를 경우 닫을 때 사용)
 		
 		// 바닐라 ajax
 		function sendCategory(v_category, cate_idx) {
@@ -609,7 +668,18 @@
 					// JSON 문자열을 자바스크립트 배열로 변환
 					v_data = JSON.parse(v_data);
 					
-					/* 모달창 생성 */
+					/* 평수 변동있는 카테고리면 pyeong 값 변경 */
+					let v_cntRoom = document.querySelectorAll(".cnt-room");
+					let v_diffPyong = 0;
+					
+					for (let i = 0; i < v_cntRoom.length; i++){
+						
+						if (v_data[i]['materCategory'] == v_cntRoom[i].previousElementSibling.innerHTML){
+							v_diffPyong = v_cntRoom[i].innerHTML;
+							break;
+						}
+					}
+					
 					v_addModal.innerHTML = "" // 카테고리 변경할 때마다 모달 초기화
 					for (let i = 0; i < v_data.length; i++){
 						
@@ -711,6 +781,7 @@
 							v_carbon.value = v_data[i]['materGasKg'];
 							
 							// 새로 생성한 요소들을 추가
+							let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
 							v_materials[cate_idx].appendChild(v_newMaterialDiv);
 							v_newMaterialDiv.appendChild(v_price);
 							v_newMaterialDiv.appendChild(v_carbon);
@@ -726,7 +797,14 @@
 							
 							// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
 							// 평수당 필요 kg을 보냄
-							f_inputValue(v_budget.value, v_materDataDict);
+							
+							if (v_diffPyong == 0){
+								v_diffPyong = v_budget.value;
+							}
+							
+							console.log("끼얏호우");
+							console.log(v_diffPyong);
+							f_inputValue(v_diffPyong, v_materDataDict);
 							
 							// 자제 kg 입력 시 정규식 규정 및 계산
 						    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");

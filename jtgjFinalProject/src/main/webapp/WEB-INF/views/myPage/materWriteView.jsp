@@ -20,17 +20,7 @@
 	crossorigin="anonymous"></script>
 
 <style>
-.profile-div {
-	border-radius: 100px;
-	height: 200px;
-	width: 200px;
-	overflow: hidden;
-}
 
-.profile-img {
-	height: 200px;
-	width: 200px;
-}
 
 .custom-table {
 	width: 100%;
@@ -71,14 +61,14 @@
 }
 
 .profile-div{
-	height: 300px;
-	width: 300px;
+	height: 200px;
+	width: 200px;
 	overflow: hidden;
 }
 
 .profile-img{
-	height: 350px;
-	width: auto;
+	height: 200px;
+	width: 200px;
 }
 
 </style>
@@ -131,20 +121,15 @@
 								<div class="card-header">자재등록</div>
 								<div class="card-body">
 								<h2>자재등록</h2>
-									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST">
-									    
+									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST" enctype="multipart/form-data">
 									    <label for="materImg">자재 이미지:</label>
-									    <div class="profile-div d-flex justify-content-center align-items-center">
-										    <div class="profile-div">
-										    <c:if test="${mater.materImg == null}">
-										    	<img src="resources/img/logo.png">
-										    </c:if>
-										    <c:if test="${mater.materImg != null}">
-										        <img id="preview" class="profile-img" src="#" alt="이미지 미리보기" style="display: none;" />
-										    </c:if>
-										    </div>
-										    <input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this);">
+									    <div class="profile-div">
+									        <img id="imagePreview" class="profile-img" 
+									             src="${mater.materImg}" 
+									             alt="자재 이미지가 없습니다." />
 									    </div>
+										    <input class="form-control" name="boFile" type="file" id="formFileMultiple" multiple>
+										    
 
 									    <label for="materName">자재 이름:</label>
 									    <input type="text" id="materName" name="materName"/><br />
@@ -200,21 +185,59 @@
 
 	<script>
     function previewImage(event) {
-        const preview = document.getElementById('preview');
-        const file = event.target.files[0];
-        
-        if (file) {
+        const input = event.target;
+        const preview = document.getElementById("imagePreview");
+
+        if (input.files && input.files[0]) {
             const reader = new FileReader();
+            
+            // 이미지 로드 후 미리보기 업데이트
             reader.onload = function (e) {
                 preview.src = e.target.result;
-                preview.style.display = "block";
             };
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = "#";
-            preview.style.display = "none";
+            
+            reader.readAsDataURL(input.files[0]);
         }
     }
+</script>
+
+	<script>
+function readImage(p_this){
+	let v_file = p_this.files[0];
+	
+	let v_formData = new FormData();
+	v_formData.append('file', v_file);
+	
+	console.log(v_formData);
+	for(let [key, value] of v_formData.entries()){
+		console.log(key, ": ", value);
+	}
+	let v_url = '<c:url value="/uploadProfile" />';
+}
+	
+$.ajax({
+	type: 'POST',
+	url: v_url,
+	contentType: false;,
+	processData: false;,
+	enctype: 'multipart/form-data',
+	data: v_formData,
+	success: function(data){
+		console.log(data);
+		console.log(data.result)
+		
+		let v_filePath = data.result;
+		let v_imgReqUrl = '<c:url value="displyImage"/>';
+		
+		$(".profile-img").attr("src", v_imgReqUrl + "?imgName=" + v_filePath);
+	},
+	error: function(req, st, err){
+		console.log('request:', req);
+		console.log('status:', st);
+		console.log('error: ', err);
+	}
+});
+
 </script>
 
 	<script
