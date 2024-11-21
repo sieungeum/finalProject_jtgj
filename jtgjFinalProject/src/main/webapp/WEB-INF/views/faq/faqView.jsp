@@ -20,6 +20,56 @@
 			pointer-events: none;
 			opacity: 0.5; 
 		}
+		
+		.pagingBar{
+			display: flex;
+			justify-content: center;
+			
+		}
+		
+		.buttonBox{
+			display: flex;
+			justify-content: end;
+			margin-right: 13%;
+		}
+		
+		.leftM{
+			margin-left: 10%;
+		}
+		
+		.W30{
+			width: 30%
+		}
+		
+		.searchBox{
+			width: 50%;
+			height: 40px;
+			
+			display: flex;
+			justify-content: center;
+		}
+		
+		.center{
+			display: flex;
+			justify-content: center;
+		}
+		
+		.height100{
+			height: 100%;
+		}
+		
+		.height50{
+			height: 50px;
+		}
+		
+		.width60{
+			width: 25%;
+		}
+		
+		.marginT20{
+			margin-top: 10px;
+		}
+		
 	</style>
 	
 </head>
@@ -39,6 +89,7 @@
 	
 	<section class="page-section" >
 		<div class="container" style="margin-top: 100px;">
+			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">건의사항</h2>
 			<table class=" table table-hover">
 				<thead>
 					<tr>
@@ -65,10 +116,10 @@
 							<td>
                                 <c:choose>
                                     <c:when test="${faq.faqSicYn == 'N'}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }[${faq.faqCount }]</a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }[ <c:if test="${faq.faqAst == 'N' }">답변미완</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
                                     </c:when>
                                     <c:when test="${faq.faqSicYn == 'S' && (faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'Y')}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span>[${faq.faqCount }]</a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span>[ <c:if test="${faq.faqAst == 'N' }">답변미완</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
                                     </c:when>
                                     <c:otherwise>
                                         <span>비밀글 입니다.[${faq.faqCount }]</span>
@@ -82,20 +133,20 @@
 				</tbody>
 			</table>
 		</div>
-		<div>
+		<div class="buttonBox">
 			<a href="${pageContext.request.contextPath }/faqWriteView">
-				<button class="button">글쓰기</button>
+				<button class="button btn btn-success">글쓰기</button>
 			</a>
 			<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
 				<a href="${pageContext.request.contextPath }/noticeWriteView">
-					<button class="button">공지사항 쓰기</button>
+					<button class="leftM button btn btn-primary">공지사항 쓰기</button>
 				</a>
 			</c:if>
 		</div>
 		
 		<!-- Paging Bar -->
-		<div class="d-flex justify-content-center">
-			<nav aria-label="Page navigation example">
+		<div class="pagingBar">
+			
 				<ul class="pagination">
 
 					<!-- 이전 페이지 -->
@@ -175,19 +226,19 @@
 					</li>
 					
 				</ul>
-			</nav>
+			
 		</div>
 		
-		<div class="d-flex justify-content-center">
-			<form class="d-flex" action="<c:url value="/faqView"/>" method="GET">
-				<select class="form-select me-1" name="searchOption">
+		<div class="center marginT10">
+			<form class="searchBox width60" action="<c:url value="/faqView"/>" method="GET">
+				<select class="form-select me-1 height50"  name="searchOption">
 					<option value="title" selected>제목</option>
 					<option value="content">내용</option>
 					<option value="name">작성자</option>
 				</select>
-				<input class="form-control me-1" type="text" name="searchWord">
-				<button class="btn btn-primary" type="submit">
-					<i class="fa-solid fa-magnifying-glass fa-2xl" style="color: #63E6BE;"></i>
+				<input class="form-control" size=10 type="text" name="searchWord">
+				<button class="btn btn-success height50" type="submit">
+					<i class="fa-solid fa-magnifying-glass fa-2xl" style="color: #ffffff;"></i>
 				</button>
 			</form>
 		</div>

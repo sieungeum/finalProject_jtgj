@@ -2,6 +2,8 @@ package com.jtgj.finalProject.companyBoard.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,17 @@ public class CompanyBoardController {
 		model.addAttribute("companyBoardList", companyBoardList);
 		
 		return "companyBoard/companyBoardView";
+		
+	}
+	
+	@RequestMapping("/companyBoardWriteView")
+	public String companyBoardWriteView(HttpSession session) {
+		
+		if(session.getAttribute("login") == null) {
+			return "redirect:/loginView";
+		}
+		
+		return "companyBoard/companyBoardWriteView";
 		
 	}
 	

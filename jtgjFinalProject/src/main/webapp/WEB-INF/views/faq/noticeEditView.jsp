@@ -16,6 +16,37 @@
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
 	
+	<style type="text/css">
+	
+		.dFjcE{
+			display: flex;
+			justify-content: end;
+		}
+		
+		.dFjcC{
+			display: flex;
+			justify-content: center;
+		}
+		
+		.marR{
+			margin-right: 1%;
+		}
+		
+		.marTB{
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+		
+		.marT{
+			margin-top: 15px;
+		}
+		
+		.marT30{
+			margin_top: 100px;
+		}
+	
+	</style>
+	
 </head>
 <body>
 
@@ -34,7 +65,7 @@
     	<!-- 부트스트랩으로 padding-top 을 좀 주고자 한다. -->
         <div class="container pt-5">
             <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글쓰기</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">공지사항 수정</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -42,28 +73,28 @@
                 <div class="divider-custom-line"></div>
             </div>
             <!-- Contact Section Form-->
-            <div class="row justify-content-center">
+            <div class="dFjcC marT30">
                 <div class="col-lg-8 col-xl-7">
                 
-                	<input type="file" id="inputImg" accept="image/*" hidden="hidden" onchange="f_sendImg()">
+                	<input type="file" id="inputImg" accept="image/*" style="display: none;" onchange="f_sendImg()">
                 	
                 	<form id="noticeWriteForm" action="${pageContext.request.contextPath }/noticeEditDo" method="POST">
                 		<!-- 사용자에게는 보이지 않고 submit 시 전송됨 -->
                 		<input type="hidden" name="noticeNo" value="${notice.noticeNo }">
                 		
-	             		<div class="mb-3">
+	             		<div class="mb-5">
 	             			<label for="inputTitle">제목</label>
 	                    	<input class="form-control" type="text" name="noticeTitle" value="${notice.noticeTitle }" />
 	                    </div>
 	                    
-	                    <div class="mb-3">
-	                         <textarea id="smartEditor" class="form-control" rows="10" name="noticeContent" >${notice.noticeContent }</textarea>
+	                    <div class="mb-5">
+	                         <textarea id="smartEditor" class="form-control"  name="noticeContent" >${notice.noticeContent }</textarea>
 	                    </div>               
 	                    
-	                    <div class ="d-flex justify-content-end">
-	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
+	                    <div class ="dFjcE marTB">
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
-	                    	<button id="writeBtn" class="btn btn-primary" type="button">등록</button>
+	                    	<button id="writeBtn" class="btn btn-success marR" type="button">등록</button>
+	                    	<a class="btn btn-danger me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
 	                    </div>
                 	</form>
          
@@ -134,7 +165,7 @@
 				success: function(resp){
 					console.log(resp);
 					let imgTag = '<img style="witdh: 400px" src="';
-						imgTag += '${pageContext.request.contextPath}/displayImage?imgName=' + resp;
+						imgTag += '${pageContext.request.contextPath}/displayImage?imgName=' + resp..fileName;
 						imgTag += '"/>';
 						
 					oEditors.getById['smartEditor'].exec("PASTE_HTML", [imgTag]);

@@ -16,6 +16,33 @@
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
 	
+	<style type="text/css">
+	
+		.dFjcE{
+			display: flex;
+			justify-content: end;
+		}
+		
+		.dFjcC{
+			display: flex;
+			justify-content: center;
+		}
+		
+		.marR{
+			margin-right: 1%;
+		}
+		
+		.marTB{
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+		
+		.marT{
+			margin-top: 15px;
+		}
+	
+	</style>
+	
 </head>
 <body>
 
@@ -34,7 +61,7 @@
     	<!-- 부트스트랩으로 padding-top 을 좀 주고자 한다. -->
         <div class="container pt-5">
             <!-- Contact Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">글쓰기</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">건의사항 작성</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
                 <div class="divider-custom-line"></div>
@@ -42,37 +69,39 @@
                 <div class="divider-custom-line"></div>
             </div>
             <!-- Contact Section Form-->
-            <div class="row justify-content-center">
+            <div class="dFjcC">
                 <div class="col-lg-8 col-xl-7">
                 	
-                	<input type="file" id="inputImg" accept="image/*" hidden="hidden" onchange="f_sendImg()">
+                	<input type="file" id="inputImg" accept="image/*" style="display: none;" onchange="f_sendImg()">
                 	
                 	<form id="faqWriteForm" action="${pageContext.request.contextPath }/faqWriteDo" method="POST" enctype="multipart/form-data">
-	             		<div class="mb-3">
+	             		<div class="mb-7">
 	             			<label for="inputTitle">제목</label>
 	                    	<input class="form-control" type="text" name="faqTitle" placeholder="제목을 입력해주세요" />
 	                    </div>
 	                    
-	                    <div class="mb-3">
-	                         <textarea id="smartEditor" class="form-control" rows="10" name="faqContent"></textarea>
+	                    <div class="mb-5">
+	                        <textarea id="smartEditor" class="form-control" rows="10" name="faqContent"></textarea>
 	                    </div>
 	                    
 	                    <!-- file input -->
-	                    <div class="mb-3">
+	                    <div class="mb-5 marT">
 	                    	<label for="formFileMultiple" class="form-label">파일첨부</label>
 	                    	<input class="form-control" name="boFile" type="file" id="formFileMultiple" multiple>
 	                    </div>               
 	                    
-	                    <div class ="d-flex justify-content-end">
-	                    	<a class="btn btn-secondary me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
+	                    <div class ="dFjcE marTB">
 	                    	<!-- form 태그의 submit 역할을 함 -> type=submit 넣어주기 -->
-	                    	<button id="writeBtn" class="btn btn-primary" type="button">등록</button>
+	                    	<button id="writeBtn" class="btn btn-success marR" type="button">등록</button>
+	                    	<a class="btn btn-danger me-2" href ="${pageContext.request.contextPath}/faqView">취소</a>
+	                    	
+	                    </div>
+	                    <div class="dFjcE">
 	                    	<div class="check-box d-flex align-items-center ms-2">
 							    <input type="checkbox" id="checkYn" name="faqSicYn" value="S" class="me-1"/>
 							    <label for="checkYn">비밀글 여부?</label>
 							    <input type="hidden" id="faqSicYnHidden" name="faqSicYn" value="N"/>
 							</div>
-	                    	
 	                    </div>
                 	</form>
          

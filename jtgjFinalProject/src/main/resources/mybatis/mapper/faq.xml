@@ -27,7 +27,8 @@
 							b.user_rank,
 							a.faq_content,
 							TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
-							a.faq_sic_yn
+							a.faq_sic_yn,
+							a.faq_ast
 						FROM 
 							faqs a
 							, users b
@@ -75,7 +76,8 @@
 			faq_content,
 			faq_date,
 			faq_del_yn,
-			faq_sic_yn
+			faq_sic_yn,
+			faq_ast
 		) VALUES (
 			#{userId},
 			#{userName},
@@ -84,7 +86,8 @@
 			#{faqContent},
 			SYSDATE,
 			'N',
-			#{faqSicYn}
+			#{faqSicYn},
+			'N'
 		)
 		
 	</insert>
@@ -97,7 +100,8 @@
 			b.user_name,
 			a.faq_content,
 			TO_CHAR(a.faq_date, 'yyyy.MM.dd hh24:mm') AS faq_date,
-			a.faq_sic_yn
+			a.faq_sic_yn,
+			a.faq_ast
 		FROM 
 			faqs a,
 			users b
