@@ -199,6 +199,8 @@ public class UserController {
 		boolean result = false;
 		
 		System.out.println(requestData);
+
+		int cpCarbonEmissions = Integer.parseInt((String) requestData.get("cpCarbonEmissions"));
 		
 		// UserDTO 매핑
 		UserDTO user = new UserDTO();
@@ -215,6 +217,7 @@ public class UserController {
 		company.setCpOpenDate((String) requestData.get("cpOpenDate"));
 		company.setCpAddress((String) requestData.get("cpAddress"));
 		company.setCpCeoName((String) requestData.get("cpCeoName"));
+		company.setCpCarbonEmissions(cpCarbonEmissions);
 		
 		// 데이터 베이스에 insert
 		if(user != null && company != null) {
@@ -370,19 +373,51 @@ public class UserController {
 		String setfrom = "jjjjkuul@gmail.com";
 		String tomail = request.getParameter("email"); // 받는 사람 이메일
 		String title = "저탄고집 웹사이트 회원가입 인증 이메일 입니다."; // 제목
-		String content =
-
-				System.getProperty("line.separator") + // 한 줄씩 줄간격을 두기위해 작성
-
-						System.getProperty("line.separator") +
-
-						"안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다."
-
-						+ System.getProperty("line.separator")
-
-						+ System.getProperty("line.separator")
-
-						+ "인증번호는 " + dice + " 입니다!"; // 내용
+		String content = "<!DOCTYPE html>"
+		        + "<html>"
+		        + "<head><meta charset='UTF-8'><title>저탄고집 회원가입 인증 이메일</title></head>"
+		        + "<body style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+		        + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; padding: 20px 0;'>"
+		        + "<tr>"
+		        + "<td align='center'>"
+		        + "<table width='700' border='0' cellspacing='0' cellpadding='0' style='background-color: #ffffff; border: 3px solid #eeeeee; border-radius: 10px; padding: 20px;'>"
+		        + "<tr>"
+		        + "<td align='center' style='padding: 20px;'>"
+		        + "<h2 style='color: #4CAF50; margin: 0;'>Project JTGJ</h2>"
+		        + "</td>"
+		        + "</tr>"
+		        + "<tr>"
+		        + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+		        + "<p style='margin: 0;'>안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다.</p>"
+		        + "</td>"
+		        + "</tr>"
+		        + "<tr>"
+		        + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+		        + "<p style='margin: 0;'>아래 인증번호를 입력해 회원가입을 완료해주세요.</p>"
+		        + "</td>"
+		        + "</tr>"
+		        + "<tr>"
+		        + "<td align='center' style='padding: 15px;'>"
+		        + "<table border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px; width: 40%;'>"
+		        + "<tr>"
+		        + "<td align='center' style='font-size: 20px; font-weight: bold; color: #333;'>"
+		        + "인증번호: <span style='color: #4CAF50;'>" + dice + "</span>"
+		        + "</td>"
+		        + "</tr>"
+		        + "</table>"
+		        + "</td>"
+		        + "</tr>"
+		        + "<tr>"
+		        + "<td align='center' style='padding: 15px; font-size: 12px; color: #888;'>"
+		        + "본 이메일은 발신 전용이며, 회신은 처리되지 않습니다."
+		        + "</td>"
+		        + "</tr>"
+		        + "</table>"
+		        + "</td>"
+		        + "</tr>"
+		        + "</table>"
+		        + "</body>"
+		        + "</html>";
 
 		try {
 			MimeMessage message = mailSender.createMimeMessage();
@@ -390,8 +425,7 @@ public class UserController {
 			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동하지 않음
 			messageHelper.setTo(tomail); // 받는사람 이메일
 			messageHelper.setSubject(title); // 메일제목은 생략 가능!
-			messageHelper.setText(content); // 메일 내용
-
+			messageHelper.setText(content, true); // HTML 내용 설정
 			mailSender.send(message);
 			System.out.println("메일 성공적으로 보내짐!");
 
@@ -490,20 +524,53 @@ public class UserController {
 			
 			String setfrom = "jjjjkuul@gmail.com";
 			String tomail = request.getParameter("email"); // 받는 사람 이메일
-			String title = "저탄고집 웹사이트 아이디 찾기 인증 이메일 입니다."; // 제목
-			String content =
+			String title = "저탄고집 웹사이트 아이디/비밀번호 찾기 인증 이메일 입니다."; // 제목
+			String content = "<!DOCTYPE html>"
+			        + "<html>"
+			        + "<head><meta charset='UTF-8'><title>저탄고집 아이디/비밀번호 찾기 인증 이메일</title></head>"
+			        + "<body style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+			        + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; padding: 20px 0;'>"
+			        + "<tr>"
+			        + "<td align='center'>"
+			        + "<table width='700' border='0' cellspacing='0' cellpadding='0' style='background-color: #ffffff; border: 3px solid #eeeeee; border-radius: 10px; padding: 20px;'>"
+			        + "<tr>"
+			        + "<td align='center' style='padding: 20px;'>"
+			        + "<h2 style='color: #4CAF50; margin: 0;'>Project JTGJ</h2>"
+			        + "</td>"
+			        + "</tr>"
+			        + "<tr>"
+			        + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+			        + "<p style='margin: 0;'>안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다.</p>"
+			        + "</td>"
+			        + "</tr>"
+			        + "<tr>"
+			        + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+			        + "<p style='margin: 0;'>아래 인증번호를 입력해 아이디/비밀번호 찾기를 완료해주세요.</p>"
+			        + "</td>"
+			        + "</tr>"
+			        + "<tr>"
+			        + "<td align='center' style='padding: 15px;'>"
+			        + "<table border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px; width: 40%; text-align: center;'>"
+			        + "<tr>"
+			        + "<td style='font-size: 20px; font-weight: bold; color: #333;'>"
+			        + "인증번호: <span style='color: #4CAF50;'>" + findAccountDice + "</span>"
+			        + "</td>"
+			        + "</tr>"
+			        + "</table>"
+			        + "</td>"
+			        + "</tr>"
+			        + "<tr>"
+			        + "<td align='center' style='padding: 15px; font-size: 12px; color: #888;'>"
+			        + "본 이메일은 발신 전용이며, 회신은 처리되지 않습니다."
+			        + "</td>"
+			        + "</tr>"
+			        + "</table>"
+			        + "</td>"
+			        + "</tr>"
+			        + "</table>"
+			        + "</body>"
+			        + "</html>";
 
-					System.getProperty("line.separator") + // 한 줄씩 줄간격을 두기위해 작성
-
-							System.getProperty("line.separator") +
-
-							"안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다."
-
-							+ System.getProperty("line.separator")
-
-							+ System.getProperty("line.separator")
-
-							+ "인증번호는 " + findAccountDice + " 입니다!"; // 내용
 
 
 			MimeMessage message = mailSender.createMimeMessage();
@@ -511,7 +578,7 @@ public class UserController {
 			messageHelper.setFrom(setfrom); // 보내는사람 생략하면 정상작동하지 않음
 			messageHelper.setTo(tomail); // 받는사람 이메일
 			messageHelper.setSubject(title); // 메일제목은 생략 가능!
-			messageHelper.setText(content); // 메일 내용
+			messageHelper.setText(content, true); // 메일 내용
 	
 			mailSender.send(message);
 			System.out.println("메일 성공적으로 보내짐!");
@@ -606,7 +673,7 @@ public class UserController {
 		System.out.println(email);
 		System.out.println(user);
 		
-		if(user == null) {
+		if(!user.getUserId().equals(id)) {
 			System.out.println("아이디와 이메일이 일치하지 않음");
 			
 			String warningReason = "입력하신 아이디와 이메일이 서로 연동되어있지 않습니다.";
@@ -724,20 +791,59 @@ public class UserController {
 	    String tomail = request.getParameter("email"); // 받는 사람 이메일
 	    String title = "<저탄고집 웹사이트> 분실하신 아이디 입니다."; // 제목
 	    String content = 
-	            
-	            System.getProperty("line.separator") +
-	            System.getProperty("line.separator") +
-	            "안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다." +
-	            System.getProperty("line.separator") +
-	            System.getProperty("line.separator") +
-	            "회원님의 아이디는 「" + request.getParameter("id") + "」 입니다!"; // 내용
+	            "<!DOCTYPE html>"
+	            + "<html>"
+	            + "<head><meta charset='UTF-8'><title>분실 아이디</title></head>"
+	            + "<body style='margin: 0; padding: 0; font-family: Arial, sans-serif;'>"
+	            + "<table width='100%' border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; padding: 20px 0;'>"
+	            + "<tr>"
+	            + "<td align='center'>"
+	            + "<table width='700' border='0' cellspacing='0' cellpadding='0' style='background-color: #ffffff; border: 3px solid #eeeeee; border-radius: 10px; padding: 20px;'>"
+	            + "<tr>"
+	            + "<td align='center' style='padding: 20px;'>"
+	            + "<h2 style='color: #4CAF50; margin: 0;'>Project JTGJ</h2>"
+	            + "</td>"
+	            + "</tr>"
+	            + "<tr>"
+	            + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+	            + "<p style='margin: 0;'>안녕하세요 회원님! 저희 홈페이지를 찾아주셔서 감사합니다.</p>"
+	            + "</td>"
+	            + "</tr>"
+	            + "<tr>"
+	            + "<td align='center' style='padding: 15px; font-size: 16px; color: #333;'>"
+	            + "<p style='margin: 0;'>분실하신 아이디입니다! 확인이 됐으면 메일을 지워주세요!</p>"
+	            + "</td>"
+	            + "</tr>"
+	            + "<tr>"
+	            + "<td align='center' style='padding: 15px;'>"
+	            + "<table border='0' cellspacing='0' cellpadding='0' style='background-color: #f9f9f9; border: 1px solid #ddd; padding: 10px; width: 40%; text-align: center;'>"
+	            + "<tr>"
+	            + "<td style='font-size: 20px; font-weight: bold; color: #333;'>"
+	            + "아이디: <span style='color: #4CAF50;'>" + request.getParameter("id") + "</span>"
+	            + "</td>"
+	            + "</tr>"
+	            + "</table>"
+	            + "</td>"
+	            + "</tr>"
+	            + "<tr>"
+	            + "<td align='center' style='padding: 15px; font-size: 12px; color: #888;'>"
+	            + "본 이메일은 발신 전용이며, 회신은 처리되지 않습니다."
+	            + "</td>"
+	            + "</tr>"
+	            + "</table>"
+	            + "</td>"
+	            + "</tr>"
+	            + "</table>"
+	            + "</body>"
+	            + "</html>";
+
 	    
 	    MimeMessage message = mailSender.createMimeMessage();
 	    MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");
 	    messageHelper.setFrom(setfrom);
 	    messageHelper.setTo(tomail);
 	    messageHelper.setSubject(title);
-	    messageHelper.setText(content);
+	    messageHelper.setText(content, true);
 	    
 	    mailSender.send(message);
 	    System.out.println("메일 성공적으로 보내짐!");
