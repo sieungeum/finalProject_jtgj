@@ -324,10 +324,12 @@
 									<c:forEach items="${faqList}" var="faq">
 											<tr>
 												<td scope="row">${faq.faqNo }</td>
-												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }[${faq.faqCount }]</a></td>
+												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
-												<td>${faq.faqCount}</td>
+												<td> 답변여부
+												
+												</td>
 											</tr>
 									</c:forEach>
 									
@@ -455,49 +457,7 @@
     };
 </script>
 
-<script type="text/javascript">
-			
-const btnsA = document.querySelectorAll("#checkBtnA");
-btnsA.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-        // 모달 내용 업데이트
-        const modalBody = document.querySelector('#confirmModal .modal-body');
-        modalBody.textContent = '정말로 이 사용자의 권한을 강등하시겠습니까?';
-        
-        // 확인 버튼에 강등 폼 제출 처리
-        const confirmBtn = document.getElementById('confirmBtn');
-        confirmBtn.onclick = function() {
-            document.querySelectorAll("#checkFormA")[index].submit();
-            // 모달 닫기
-            $('#confirmModal').modal('hide');
-        };
 
-        // 모달 띄우기
-        $('#confirmModal').modal('show');
-    });
-});
-
-// 권한 승급 버튼
-const btnsB = document.querySelectorAll("#checkBtnB");
-btnsB.forEach((btn, index) => {
-    btn.addEventListener("click", () => {
-        // 모달 내용 업데이트
-        const modalBody = document.querySelector('#confirmModal .modal-body');
-        modalBody.textContent = '정말로 이 사용자의 권한을 승급하시겠습니까?';
-        
-        // 확인 버튼에 승급 폼 제출 처리
-        const confirmBtn = document.getElementById('confirmBtn');
-        confirmBtn.onclick = function() {
-            document.querySelectorAll("#checkFormB")[index].submit();
-            // 모달 닫기
-            $('#confirmModal').modal('hide');
-        };
-
-        // 모달 띄우기
-        $('#confirmModal').modal('show');
-    });
-});
-</script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
