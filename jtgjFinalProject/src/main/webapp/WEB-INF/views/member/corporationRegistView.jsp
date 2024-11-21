@@ -129,6 +129,13 @@
 		                <input type="date" class="form-control" id="inputDate">
 		            </div>
 		        </div>
+		        
+		        <div class="mb-3">
+		            <label for="inputCarbon" class="form-label" style="font-weight:bolder;">총 탄소배출량</label>
+		            <div class="input-group">
+		                <input type="input" class="form-control" id="inputCarbon" placeholder="귀하의 회사 총 탄소배출량을 기입해주십시오(단위 ton)">
+		            </div>
+		        </div>
 		
 		        <div class="mb-3">
 		            <label for="inputLogin" class="form-label" style="font-weight:bolder;">아이디</label>
@@ -615,6 +622,7 @@
 		document.getElementById('signUpBtn').addEventListener("click", () => {
 			if(confirm("위의 정보로 가입하시겠습니까?")){
 				v_userPhone = document.getElementById('inputPhone').value;
+				let v_inputCarbon = document.getElementById('inputCarbon').value;
 				
 				let requestData = {
 					    userName: v_userName,
@@ -625,7 +633,8 @@
 					    userPw: v_userPw,
 					    userPhone: v_userPhone,
 					    userEmail: v_userEmail,
-					    cpRegiNum: v_cpRegiNum
+					    cpRegiNum: v_cpRegiNum,
+					    cpCarbonEmissions: v_inputCarbon
 					};
 
 				console.log(requestData);

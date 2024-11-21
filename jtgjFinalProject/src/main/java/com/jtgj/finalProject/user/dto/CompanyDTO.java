@@ -6,24 +6,27 @@ public class CompanyDTO {
 	private String cpCeoName;
 	private String cpAddress;
 	private String cpOpenDate;
+	private int cpCarbonEmissions;
 	
 	public CompanyDTO() {
 		super();
 	}
 
-	public CompanyDTO(String userId, String cpRegiNum, String cpCeoName, String cpAddress, String cpOpenDate) {
+	public CompanyDTO(String userId, String cpRegiNum, String cpCeoName, String cpAddress, String cpOpenDate,
+			int cpCarbonEmissions) {
 		super();
 		this.userId = userId;
 		this.cpRegiNum = cpRegiNum;
 		this.cpCeoName = cpCeoName;
 		this.cpAddress = cpAddress;
 		this.cpOpenDate = cpOpenDate;
+		this.cpCarbonEmissions = cpCarbonEmissions;
 	}
 
 	@Override
 	public String toString() {
 		return "CompanyDTO [userId=" + userId + ", cpRegiNum=" + cpRegiNum + ", cpCeoName=" + cpCeoName + ", cpAddress="
-				+ cpAddress + ", cpOpenDate=" + cpOpenDate + "]";
+				+ cpAddress + ", cpOpenDate=" + cpOpenDate + ", cpCarbonEmissions=" + cpCarbonEmissions + "]";
 	}
 
 	public String getUserId() {
@@ -65,5 +68,15 @@ public class CompanyDTO {
 	public void setCpOpenDate(String cpOpenDate) {
 		this.cpOpenDate = cpOpenDate;
 	}
+
+	public int getCpCarbonEmissions() {
+		return cpCarbonEmissions;
+	}
+
+	public void setCpCarbonEmissions(int cpCarbonEmissions) {
+		this.cpCarbonEmissions = cpCarbonEmissions;
+	}
+
+	
 
 }
