@@ -212,6 +212,33 @@
 							</table>
 						</div>
 					</div>
+					
+					<c:if test="${sessionScope.login.userAccount == 'C' && sessionScope.login.userAccount != null}">
+					<div class="card mb-4">
+						<div class="card-header">기업 홍보</div>
+						<div class="card-body">
+							<table id=""  style="width:100%">
+								<thead>
+									<tr>
+										<th scope="col">포트폴리오</th>
+										
+									</tr>
+								</thead>
+
+								<tbody>
+									
+									<tr>
+										<td>어서와</td>
+										
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</c:if>
+					
+					
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

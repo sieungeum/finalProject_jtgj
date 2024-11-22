@@ -57,7 +57,36 @@
 	        AND user_name = #{userName}
 	</update>
 	
-
+<update id="faqAstDo" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
+	    UPDATE 
+	        faqs
+	    SET
+	    	faq_ast = 'Y'                      
+	    WHERE 
+	        faq_no = #{faqNo} 
+	</update>
+	
+	<update id="faqAstDelDo" parameterType="com.jtgj.finalProject.faq.dto.FaqDTO">
+	    UPDATE 
+	        faqs
+	    SET
+	    	faq_ast = 'N'                      
+	    WHERE 
+	        faq_no = #{faqNo} 
+	</update>
+	
+	<update id="personalEditDo" parameterType="com.jtgj.finalProject.user.dto.UserDTO">
+	    UPDATE 
+	        users
+	    SET
+	    	  user_pw = #{userPw}
+	    	, user_name = #{userName}                      
+	    	, user_email = #{userEmail}                      
+	    	, user_phone = #{userPhone}                      
+	    WHERE 
+	        user_id = #{userId} 
+	</update>
+	
 	
 <select id="getFaqList" resultType="com.jtgj.finalProject.faq.dto.FaqDTO">
 

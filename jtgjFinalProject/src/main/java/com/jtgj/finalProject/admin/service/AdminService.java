@@ -10,6 +10,7 @@ import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
+import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -34,7 +35,6 @@ public class AdminService {
 		return result;
 	}
 	
-
 	
 	public int userDo(UserDTO user) {
 		int result = dao.userDo(user);
@@ -53,6 +53,21 @@ public class AdminService {
 	
 	public int userDelDo(UserDTO user) {
 		int result = dao.userDelDo(user);
+		return result;
+	}
+	
+	public int faqAstDo(FaqDTO faqAst) {
+		int result = dao.faqAstDo(faqAst);
+		return result;
+	}
+	
+	public int faqAstDelDo(FaqDTO faqAst) {
+		int result = dao.faqAstDelDo(faqAst);
+		return result;
+	}
+	
+	public int personalEditDo(UserDTO user) {
+		int result = dao.personalEditDo(user);
 		return result;
 	}
 	

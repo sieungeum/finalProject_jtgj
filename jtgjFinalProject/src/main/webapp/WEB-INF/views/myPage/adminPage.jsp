@@ -327,8 +327,20 @@
 												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
-												<td> 답변여부
+												<td>
+													<c:if test="${faq.faqAst == 'N'}">
+														<form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
+															<input type="hidden" name="faqNo" value="${faq.faqNo}">
+														    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit">미답변</button>
+														</form>
+												</c:if>
 												
+												<c:if test="${faq.faqAst == 'Y'}">
+													<form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
+														<input type="hidden" name="faqNo" value="${faq.faqNo}">
+														    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">답변완료</button>
+													</form>
+												</c:if>
 												</td>
 											</tr>
 									</c:forEach>
