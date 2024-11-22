@@ -117,47 +117,42 @@
 					<div class="row">
 					
 						<div class="col-xl-4 col-lg-5">
-							<div class="card mb-4">
+							<div   class="card mb-4">
 								<div class="card-header">자재등록</div>
 								<div class="card-body">
 								<h2>자재등록</h2>
 									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST" enctype="multipart/form-data">
-									    <label for="materImg">자재 이미지:</label>
-									    <div class="profile-div">
-									        <img id="imagePreview" class="profile-img" 
-									             src="${mater.materImg}" 
-									             alt="자재 이미지가 없습니다." />
-									    </div>
-										    <input class="form-control" name="boFile" type="file" id="formFileMultiple" multiple>
-										    
+    <input type="hidden" name="materNo" id="materNo" value="${mater.materNo}">
+    <label for="materImg">자재 이미지:</label>
+    <input name="materImg" type="file" id="materImg" accept="image/*" onchange="readImage(this)"><br />
 
-									    <label for="materName">자재 이름:</label>
-									    <input type="text" id="materName" name="materName"/><br />
+    <label for="materName">자재 이름:</label>
+    <input type="text" id="materName" name="materName" required/><br />
+
+    <label for="materCategory">카테고리:</label>
+    <input type="text" id="materCategory" name="materCategory" /><br />
+
+    <label for="materGasKg">탄소 배출량:</label>
+    <input type="number" id="materGasKg" name="materGasKg" /><br />
+
+    <label for="materPrice">가격:</label>
+    <input type="number" id="materPrice" name="materPrice" /><br />
+
+    <label for="materDurability">강도:</label>
+    <input type="text" id="materDurability" name="materDurability" /><br />
+
+    <label for="materInfo">정보:</label>
+    <textarea id="materInfo" name="materInfo"></textarea><br />
+
+    <label for="materClassify">대체자재여부:</label>
+    <input type="text" id="materClassify" name="materClassify" /><br />
+
+    <div class="d-flex justify-content-end mar-buttom">
+        <button class="btn btn-primary btn-xl m-right" type="submit">등록</button>
+        <a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath}/adminPage">돌아가기</a>
+    </div>
+</form>
 									
-									    <label for="materCategory">카테고리:</label>
-									    <input type="text" id="materCategory" name="materCategory" /><br />
-									
-									    <label for="materGasKg">탄소 배출량:</label>
-									    <input type="number" id="materGasKg" name="materGasKg"/><br />
-									
-									    <label for="materPrice">가격:</label>
-									    <input type="number" id="materPrice" name="materPrice" /><br />
-									
-									    <label for="materDurability">강도:</label>
-									    <input type="text" id="materDurability" name="materDurability" /><br />
-									
-									    <label for="materInfo">정보:</label>
-									    <textarea id="materInfo" name="materInfo"></textarea><br />
-									    
-									    <label for="materClassify">대체자재여부:</label>
-									    <input type="text" id="materClassify" name="materClassify"/><br />
-									
-									    
-									    <div class="d-flex justify-content-end mar-buttom ">
-									   		<button class="btn btn-primary btn-xl m-right"  type="submit">등록</button>
-											<a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath }/adminPage">돌아가기</a>
-										</div>
-									</form>
 								</div>
 							</div>
 						</div>
@@ -177,68 +172,10 @@
 		</div>
 	</div>
 
-<script type="text/javascript">
-	$(".profile_img").on("click", ()=>{
-		$("#inputImage").click();
-	});
-</script>
 
-	<script>
-    function previewImage(event) {
-        const input = event.target;
-        const preview = document.getElementById("imagePreview");
 
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            
-            // 이미지 로드 후 미리보기 업데이트
-            reader.onload = function (e) {
-                preview.src = e.target.result;
-            };
-            
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
 
-	<script>
-function readImage(p_this){
-	let v_file = p_this.files[0];
-	
-	let v_formData = new FormData();
-	v_formData.append('file', v_file);
-	
-	console.log(v_formData);
-	for(let [key, value] of v_formData.entries()){
-		console.log(key, ": ", value);
-	}
-	let v_url = '<c:url value="/uploadProfile" />';
-}
-	
-$.ajax({
-	type: 'POST',
-	url: v_url,
-	contentType: false;,
-	processData: false;,
-	enctype: 'multipart/form-data',
-	data: v_formData,
-	success: function(data){
-		console.log(data);
-		console.log(data.result)
-		
-		let v_filePath = data.result;
-		let v_imgReqUrl = '<c:url value="displyImage"/>';
-		
-		$(".profile-img").attr("src", v_imgReqUrl + "?imgName=" + v_filePath);
-	},
-	error: function(req, st, err){
-		console.log('request:', req);
-		console.log('status:', st);
-		console.log('error: ', err);
-	}
-});
 
-</script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

@@ -86,7 +86,8 @@
 					a.faq_title,
 					a.faq_count,
 					b.user_name,
-					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date
+					TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
+					a.faq_ast
 				FROM 
 					faqs a
 					, users b
@@ -122,29 +123,30 @@
 	</update>
 
 <insert id="writeMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
-INSERT INTO building_materials(
-	mater_no,
-	mater_category,
-	mater_name,
-	mater_gas_kg,
-	mater_img,
-	mater_price,
-	mater_durability,
-	mater_info,
-	mater_classify
-) VALUES(
- 	  (SELECT COUNT(*)+1 FROM building_materials)
-	, #{materCategory}
-	, #{materName}
-	, #{materGasKg}
-	, #{materImg}
-	, #{materPrice}
-	, #{materDurability}
-	, #{materInfo}
-	, #{materClassify}
-)
-
+    INSERT INTO building_materials (
+        mater_no,
+        mater_name,
+        mater_category,
+        mater_gas_kg,
+        mater_img,
+        mater_price,
+        mater_durability,
+        mater_info,
+        mater_classify
+    ) VALUES (
+        (SELECT NVL(MAX(mater_no), 0) + 1 FROM building_materials),
+        #{materName},
+        #{materCategory},
+        #{materGasKg},
+        #{materImg, jdbcType=VARCHAR},
+        #{materPrice},
+        #{materDurability},
+        #{materInfo},
+        #{materClassify}
+    )
 </insert>
+
+
 <select id="getMaterNo" resultType="int">
 		SELECT
 			COUNT(*) + 1
@@ -152,14 +154,7 @@ INSERT INTO building_materials(
 			building_materials
 </select>
 	
-<update id="delMater">
-		UPDATE
-			building_materials
-		SET
-			mater_del_yn = 'Y'
-		WHERE 1=1
-			AND mater_no = #{materNo}
-	</update>
+
 
 
 
