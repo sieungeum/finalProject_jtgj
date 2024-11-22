@@ -67,6 +67,10 @@
 		.maxW{
 			max-width: 300px;
 		}
+		
+		.width100{
+			width: 100%;
+		}
 	
 	</style>
 	
@@ -111,7 +115,8 @@
 				                </div>
 	            			</div>
 			                
-			                
+			                <hr class="width100">
+	            			<br>
 			                
 			                <div class="faq-body minH">
 			                	<!-- <pre>${notice.noticeContent }</pre> -->

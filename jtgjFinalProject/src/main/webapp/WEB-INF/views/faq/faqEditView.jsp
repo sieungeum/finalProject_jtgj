@@ -169,7 +169,7 @@
 				success: function(resp){
 					console.log(resp);
 					let imgTag = '<img style="witdh: 400px" src="';
-						imgTag += '${pageContext.request.contextPath}/displayImage?imgName=' + resp..fileName;
+						imgTag += '${pageContext.request.contextPath}/displayImage?imgName=' + resp.fileName;
 						imgTag += '"/>';
 						
 					oEditors.getById['smartEditor'].exec("PASTE_HTML", [imgTag]);

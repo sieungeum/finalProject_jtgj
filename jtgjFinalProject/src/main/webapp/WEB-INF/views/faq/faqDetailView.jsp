@@ -67,6 +67,14 @@
 		.maxW{
 			max-width: 300px;
 		}
+		
+		.width100{
+			width: 100%
+		}
+		
+		.width730{
+			width: 730px;
+		}
 	
 	</style>
 	
@@ -110,6 +118,9 @@
 				                    <h6 class="dFjcE">${faq.faqDate }</h6>
 				                </div>
 	            			</div>
+	            			
+	            			<hr class="width100">
+	            			<br>
 			                
 			                <div class="faq-body minH">
 			                	<!-- <pre>${faq.faqContent }</pre> -->
@@ -191,28 +202,30 @@
 	            		</div>
 	            	</div>
 	            	
-	            	<!-- 댓글 작성 영역 -->
-	            	<c:if test="${faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-		            	<div class="dFjcC">
-		            		<div class="col-lg-9 ">
-		            			<form class="row" id="comForm" action="<c:url value="/writeComDo" />" method="POST">
-		            				<div class="col-lg-9">
-			            				<input class="form-control" type="text" id="comInput" name="comContent">
-			            				<input type="hidden" name="userId" value="${sessionScope.login.userId }">
-			            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
-			            				<div class="form-check">
-								            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
-								            <label class="form-check-label" for="comSicYn">비밀 댓글</label>
-								        </div>
-								        <input type="hidden" id="isUserLoggedIn" value="${sessionScope.login != null ? 'true' : 'false'}">
-		            				</div>
-		            				<div class="col-lg-1">
-		            					<button class="btn btn-primary me-2 height50" type="button" id="comBtn">등록</button>
-		            				</div>
-		            			</form>
-		            		</div>
-		            	</div>
-	            	</c:if>
+	            	<div class="cFjcC">
+		            	<!-- 댓글 작성 영역 -->
+		            	<c:if test="${faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+			            	<div class="dFjcC">
+			            		<div class="col-lg-8 ">
+			            			<form class="row" id="comForm" action="<c:url value="/writeComDo" />" method="POST">
+			            				<div class="col-lg-9">
+				            				<input class="form-control" type="text" id="comInput" name="comContent">
+				            				<input type="hidden" name="userId" value="${sessionScope.login.userId }">
+				            				<input type="hidden" name="faqNo" value="${faq.faqNo }">
+				            				<div class="form-check">
+									            <input class="form-check-input" type="checkbox" id="comSicYn" name="comSicYn" value="S">
+									            <label class="form-check-label" for="comSicYn">비밀 댓글</label>
+									        </div>
+									        <input type="hidden" id="isUserLoggedIn" value="${sessionScope.login != null ? 'true' : 'false'}">
+			            				</div>
+			            				<div class="col-lg-2">
+			            					<button class="btn btn-primary me-2 height50" type="button" id="comBtn">등록</button>
+			            				</div>
+			            			</form>
+			            		</div>
+			            	</div>
+		            	</c:if>
+	            	</div>
 	            	
 	            </div>
             </section>
