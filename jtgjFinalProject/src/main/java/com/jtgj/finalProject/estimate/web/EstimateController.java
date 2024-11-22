@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class EstimateController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		// JSONString map으로 변환
-		Map<String, Object> jsonMap = null;
+		Map<String, Object> jsonMap = new LinkedHashMap<>();
 		try {
 			// JSON 문자열을 Java 객체 map으로 변환
 			jsonMap = objectMapper.readValue(sendMaterials, Map.class);
@@ -80,7 +81,7 @@ public class EstimateController {
 		List<EstimateDTO> subMaterList = new ArrayList<EstimateDTO>(); // 최종적으로 보낼 List
 		for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
 			// 카테고리, 자제명만 추가
-			Map<String, String> materDict = (Map<String, String>) entry.getValue();
+			Map<String, String> materDict = (LinkedHashMap<String, String>) entry.getValue();
 			
 			// MyBatis에서 사용할 EstimateDTO 객체
 			EstimateDTO estimate = new EstimateDTO();

@@ -124,17 +124,17 @@
 										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
 									</c:if>
 									<c:if test="${sessionScope.login.userProfImg != 'N' }">
-										<img id="profileImagePreview" class="profile-img" src="${pageContext.request.contextPath }/displayImage?imgName=${sessionScope.login.memProfImg}">"
+										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
 									</c:if>
 								</div>
 								<input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this); uploadFile(this)">
-								<button class="btn btn-success mt-3 mb-3" style="width:10%;">사진 초기화</button>
+								<button class="btn btn-success mt-3 mb-3" style="width:10%;" onclick="resetImage()">사진 초기화</button>
 							</div>
 						</c:if>
 					
 						<!-- 개인정보 수정 -->
 						<div class="col-xl-4 col-lg-5">
-							<div class="card mb-4">
+							<div class="card mb-4" style="padding-bottom:26px;">
 								<div class="card-header">개인정보 수정</div>
 								<div class="card-body">
 							        <div class="mb-3">
@@ -163,16 +163,18 @@
 							            </div>  
 							        </div>
 							        
-							        <div class="mb-3">
-							            <label for="inputName" class="form-label" style="font-weight:bolder;">닉네임</label>
-							            <div class="input-group">
-							                <input type="text" class="form-control" id="inputName" value="${login.userName }" name="userName">
-							            </div>
-							            
-							            <div class="d-flex mt-2">
-							            	<label class="me-3" id="label3"></label>
-							            </div>  
-							        </div>
+							        <c:if test="${sessionScope.login.userAccount != 'C'}">
+								        <div class="mb-3">
+								            <label for="inputName" class="form-label" style="font-weight:bolder;">닉네임</label>
+								            <div class="input-group">
+								                <input type="text" class="form-control" id="inputName" value="${login.userName }" name="userName">
+								            </div>
+								            
+								            <div class="d-flex mt-2">
+								            	<label class="me-3" id="label3"></label>
+								            </div>  
+								        </div>
+							        </c:if>
 							
 							        <div class="mb-3">
 							            <label for="inputEmail" class="form-label" style="font-weight:bolder;">이메일</label>
@@ -196,31 +198,32 @@
 						            <button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="button" >수정하기</button>
 						            <p id="signUpWarning" style="font-size:20px;color:red;font-weight:bolder;text-align:center;margin-top:10px;">중복여부를 확인해주세요!</p>
 						        </div>		
-							</c:if>	
+							</c:if>
 						</div>
 						
 
 						<!-- 기업정보 수정 -->
+						<!-- loginDo 이후 CompanyDTO 정보 세션에 저장한 뒤 input value 로 실행 -->
 						<c:if test="${sessionScope.login.userAccount == 'C'}">
 							<div class="col-xl-4 col-lg-5">
 								<div class="card mb-4">
 									<div class="card-header">기업정보 수정</div>
-									<div class="card-body" style="padding-bottom:42px;">
-										<div class="mb-4">
+									<div class="card-body">
+										<div class="mb-3">
 								            <label for="inputCorName" class="form-label" style="font-weight:bolder;">기업명</label>
 								            <div class="input-group">
-								                <input type="text" class="form-control" id="inputCorName" placeholder="기업명 입력(사업자등록증명원 기업명)">
+								                <input type="text" class="form-control" id="inputCorName" placeholder="기업명 입력(사업자등록증명원 기업명)" value="${sessionScope.login.userName}">
 								            </div>
 							        	</div>
 							
-								        <div class="mb-4">
+								        <div class="mb-3">
 								            <label for="inputCEO" class="form-label" style="font-weight:bolder;">대표자</label>
 								            <div class="input-group">
 								                <input type="text" class="form-control" id="inputCEO" placeholder="예시) 이재완 외 1명 (사업자등록증명원 대표자명)">
 								            </div>
 								        </div>
 							
-								        <div class="mb-4">
+								        <div class="mb-3">
 								            <label for="inputAddress" class="form-label" style="font-weight:bolder;">회사 주소</label>
 								            <div class="input-group mb-1">
 								            	<input type="text" class="form-control d-block" id="inputAddress" placeholder="클릭하시면 주소검색 창이 뜹니다." onclick="DaumPostCode()">
@@ -232,14 +235,14 @@
 								            </div>
 								        </div>
 							
-								        <div class="mb-4">
+								        <div class="mb-3">
 								            <label for="inputDate" class="form-label" style="font-weight:bolder;">개업일</label>
 								            <div class="input-group">
 								                <input type="date" class="form-control" id="inputDate">
 								            </div>
 								        </div>
 							        
-								        <div class="mb-4">
+								        <div class="mb-3">
 								            <label for="inputCarbon" class="form-label" style="font-weight:bolder;">총 탄소배출량</label>
 								            <div class="input-group">
 								                <input type="input" class="form-control" id="inputCarbon" placeholder="귀하의 회사 총 탄소배출량을 기입해주십시오(단위 ton)">
@@ -282,11 +285,16 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 	
 	<script>
+		// 초기 이미지
+		let imgElement  = document.getElementById('profileImagePreview');
+		const initialImg = imgElement.src;
+		
 		// 프로필 이미지 클릭 시 숨겨놓은 input file 이 클릭됌
 		$(".profile-img").on("click", () => {
 			$("#inputImage").click();
 		});
 		
+		// 프로필 이미지 임시 변경(아직 수정 X)
 		function readImage(input){
 			if(input.files && input.files[0]){
 				const reader = new FileReader();
@@ -294,19 +302,37 @@
 				// 파일 읽기가 완료되면 실행되는 콜백
 				reader.onload = function (e) {
 					// 미리보기 이미지를 변경
-					$("#profileImagePreview").attr('src', e.target.result);
-				};
+					imgElement.src = e.target.result;
+	
+					input.value = "";
+				}
 				
 				// 파일 읽기 시작
 				reader.readAsDataURL(input.files[0]);
 			}
 		}
 		
+		// 프로필 이미지 초기화 함수
+		function resetImage(){
+			imgElement.src = initialImg;
+		}
+		
+		// input 값 변수
+		let v_userPw;
+		let v_userPhone;
+		let v_userName; // 기업명 혹은 개인회원이름
+		let v_cpCeoName;
+		let v_cpAddress;
+		let v_cpOpenDate;
+		let v_cpCarbonEmissions
+		
+		// 중복확인 boolean
+		
+		
+		// 서버로 사진을 보냄 -> 수정하기 버튼 클릭 후 실행될 파일
 		function uploadFile(p_this){
 			
 		}
-		
-		
 		
 	</script>
 </body>

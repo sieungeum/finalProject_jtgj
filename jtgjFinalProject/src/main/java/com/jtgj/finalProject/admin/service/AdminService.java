@@ -78,28 +78,16 @@ public class AdminService {
 	}
 	
 	public int writeMater(EstimateDTO mater) {
-		int result = dao.writeMater(mater);
-		return result;
+		return dao.writeMater(mater);
 	}
 	
-	public int delMater(int materNo) {
-		int result = dao.delMater(materNo);
-		return result;
-	}
+
 	
 	public int getMaterNo() {
 		int result = dao.getMaterNo();
 		return result;
 	}
 
-	public int insertAttach(AttachDTO materAttach) {
-		int result = dao.insertAttach(materAttach);
-		return result;
-	}
-	
-	public List<AttachDTO> getMaterAttachList(int materNo){
-		List<AttachDTO> result = dao.getMaterAttachList(materNo);
-		return result;
-	}
+
 	
 }

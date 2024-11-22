@@ -161,12 +161,7 @@
 											<a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath }/adminPage">돌아가기</a>
 										</div>
 									</form>
-									<form action="${pageContext.request.contextPath }/delMater"
-											method="POST" id="deleteForm">
-											<input type="hidden" value="${mater.materNo }" name="materNo">
-											<button class="btn btn-primary btn-xl m-right" type="button"
-												id="deleteBtn">삭제</button>
-									</form>
+									
 								
 								
 								</div>
