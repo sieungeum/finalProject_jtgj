@@ -66,10 +66,6 @@ public class AdminService {
 		return result;
 	}
 	
-	public int personalEditDo(UserDTO user) {
-		int result = dao.personalEditDo(user);
-		return result;
-	}
 	
 	public EstimateDTO getMater(int materNo) {
 		EstimateDTO result = dao.getMater(materNo);

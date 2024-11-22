@@ -175,15 +175,7 @@ public class AdminController {
 		
 	}
 	
-	@PostMapping("/personalEditDo")
-	public String personalEditDo(UserDTO user) {
-		System.out.println(user);
-		
-		adminService.personalEditDo(user);
-		
-		return "redirect:/editView";
-		
-	}
+
 	
 	
 	@RequestMapping("/myPage")

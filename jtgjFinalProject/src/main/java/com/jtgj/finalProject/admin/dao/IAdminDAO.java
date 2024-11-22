@@ -17,7 +17,6 @@ import com.jtgj.finalProject.user.dto.UserDTO;
 @Mapper
 public interface IAdminDAO {
 	List<UserDTO> getUserList();
-	int personalEditDo(UserDTO user);
 	int userDo(UserDTO user);
 	int userProDo(UserDTO user);
 	int userLDo(UserDTO user);
