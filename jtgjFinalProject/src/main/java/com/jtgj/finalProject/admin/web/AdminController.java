@@ -155,6 +155,28 @@ public class AdminController {
 		
 	}
 	
+	@PostMapping("/faqAstDo")
+	public String faqAstDo(FaqDTO faqAst) {
+		System.out.println(faqAst);
+		
+		adminService.faqAstDo(faqAst);
+		
+		return "redirect:/adminPage";
+		
+	}
+	
+	@PostMapping("/faqAstDelDo")
+	public String faqAstDelDo(FaqDTO faqAst) {
+		System.out.println(faqAst);
+		
+		adminService.faqAstDo(faqAst);
+		
+		return "redirect:/adminPage";
+		
+	}
+	
+
+	
 	
 	@RequestMapping("/myPage")
 	public String myPage(Model model) {

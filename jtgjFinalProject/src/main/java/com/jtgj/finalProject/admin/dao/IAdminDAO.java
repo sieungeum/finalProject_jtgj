@@ -22,6 +22,8 @@ public interface IAdminDAO {
 	int userLDo(UserDTO user);
 	int userDelDo(UserDTO user);
 	List<FaqDTO> getFaqList();
+	int faqAstDo(FaqDTO faqAst);
+	int faqAstDelDo(FaqDTO faqAst);
 	int getFaqCount();
 	List<FaqDTO> getUserId();
 	int getUserId(UserDTO userId);
