@@ -51,6 +51,9 @@ public class CompanyBoardController {
 		String userId = login.getUserId();
 		companyBoard.setUserId(userId);
 		
+		// CompanyDTO 가져오기
+		
+		
 		companyBoardService.writeCompanyBoard(companyBoard);
 		
 		return "redirect:/companyBoardView";
