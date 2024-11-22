@@ -10,6 +10,7 @@ import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
+import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -34,7 +35,6 @@ public class AdminService {
 		return result;
 	}
 	
-
 	
 	public int userDo(UserDTO user) {
 		int result = dao.userDo(user);
@@ -56,6 +56,17 @@ public class AdminService {
 		return result;
 	}
 	
+	public int faqAstDo(FaqDTO faqAst) {
+		int result = dao.faqAstDo(faqAst);
+		return result;
+	}
+	
+	public int faqAstDelDo(FaqDTO faqAst) {
+		int result = dao.faqAstDelDo(faqAst);
+		return result;
+	}
+	
+	
 	public EstimateDTO getMater(int materNo) {
 		EstimateDTO result = dao.getMater(materNo);
 		return result;
@@ -67,28 +78,16 @@ public class AdminService {
 	}
 	
 	public int writeMater(EstimateDTO mater) {
-		int result = dao.writeMater(mater);
-		return result;
+		return dao.writeMater(mater);
 	}
 	
-	public int delMater(int materNo) {
-		int result = dao.delMater(materNo);
-		return result;
-	}
+
 	
 	public int getMaterNo() {
 		int result = dao.getMaterNo();
 		return result;
 	}
 
-	public int insertAttach(AttachDTO materAttach) {
-		int result = dao.insertAttach(materAttach);
-		return result;
-	}
-	
-	public List<AttachDTO> getMaterAttachList(int materNo){
-		List<AttachDTO> result = dao.getMaterAttachList(materNo);
-		return result;
-	}
+
 	
 }

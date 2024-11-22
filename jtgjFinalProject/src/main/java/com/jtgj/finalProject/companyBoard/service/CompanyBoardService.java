@@ -19,4 +19,9 @@ public class CompanyBoardService {
 		return result;
 	}
 	
+	public int writeCompanyBoard(CompanyBoardDTO companyBoard) {
+		int result = dao.writeCompanyBoard(companyBoard);
+		return result;
+	}
+	
 }

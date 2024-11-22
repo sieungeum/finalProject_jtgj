@@ -168,6 +168,8 @@
 										<th>글제목</th>
 										<th>작성자</th>
 										<th>작성일</th>
+										<th>답변여부</th>
+										
 									</tr>
 								</thead>
 								<tbody>
@@ -178,6 +180,22 @@
 												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
 												<td>${faq.userName }</td>
 												<td>${faq.faqDate }</td>
+												<td>
+												<c:if test="${faq.faqAst == 'N'}">
+															<form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
+																<input type="hidden" name="faqNo" value="${faq.faqNo}">
+															    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit" disabled>미답변</button>
+															</form>
+													</c:if>
+													
+													<c:if test="${faq.faqAst == 'Y'}">
+														<form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
+															<input type="hidden" name="faqNo" value="${faq.faqNo}">
+															    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit" disabled>답변완료</button>
+														</form>
+													</c:if>
+												
+												</td>
 											</tr>
 										</c:if>
 									</c:forEach>
@@ -212,6 +230,33 @@
 							</table>
 						</div>
 					</div>
+					
+					<c:if test="${sessionScope.login.userAccount == 'C' && sessionScope.login.userAccount != null}">
+					<div class="card mb-4">
+						<div class="card-header">기업 홍보</div>
+						<div class="card-body">
+							<table id=""  style="width:100%">
+								<thead>
+									<tr>
+										<th scope="col">포트폴리오</th>
+										
+									</tr>
+								</thead>
+
+								<tbody>
+									
+									<tr>
+										<td>어서와</td>
+										
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+					</c:if>
+					
+					
 				</div>
 			</main>
 			<footer class="py-4 bg-light mt-auto">

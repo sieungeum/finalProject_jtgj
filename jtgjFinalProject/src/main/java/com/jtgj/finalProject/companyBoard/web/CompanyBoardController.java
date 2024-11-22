@@ -7,10 +7,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
 import com.jtgj.finalProject.companyBoard.service.CompanyBoardService;
+import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Controller
 public class CompanyBoardController {
@@ -37,6 +39,24 @@ public class CompanyBoardController {
 		}
 		
 		return "companyBoard/companyBoardWriteView";
+		
+	}
+	
+	@PostMapping("/companyBoardWriteDo")
+	public String  companyBoardWriteDo(CompanyBoardDTO companyBoard, HttpSession session) {
+		
+		System.out.println(companyBoard);
+		
+		UserDTO login = (UserDTO)session.getAttribute("login");
+		String userId = login.getUserId();
+		companyBoard.setUserId(userId);
+		
+		// CompanyDTO 가져오기
+		
+		
+		companyBoardService.writeCompanyBoard(companyBoard);
+		
+		return "redirect:/companyBoardView";
 		
 	}
 	

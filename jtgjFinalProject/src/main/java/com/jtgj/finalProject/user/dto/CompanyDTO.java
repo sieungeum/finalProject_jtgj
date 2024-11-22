@@ -6,14 +6,15 @@ public class CompanyDTO {
 	private String cpCeoName;
 	private String cpAddress;
 	private String cpOpenDate;
-	private int cpCarbonEmissions;
+	private int cpCarbonEmissions; // 탄소배출량
+	private String cpCertification; // 홍보 가능 회사 인증
 	
 	public CompanyDTO() {
 		super();
 	}
 
 	public CompanyDTO(String userId, String cpRegiNum, String cpCeoName, String cpAddress, String cpOpenDate,
-			int cpCarbonEmissions) {
+			int cpCarbonEmissions, String cpCertification) {
 		super();
 		this.userId = userId;
 		this.cpRegiNum = cpRegiNum;
@@ -21,12 +22,14 @@ public class CompanyDTO {
 		this.cpAddress = cpAddress;
 		this.cpOpenDate = cpOpenDate;
 		this.cpCarbonEmissions = cpCarbonEmissions;
+		this.cpCertification = cpCertification;
 	}
 
 	@Override
 	public String toString() {
 		return "CompanyDTO [userId=" + userId + ", cpRegiNum=" + cpRegiNum + ", cpCeoName=" + cpCeoName + ", cpAddress="
-				+ cpAddress + ", cpOpenDate=" + cpOpenDate + ", cpCarbonEmissions=" + cpCarbonEmissions + "]";
+				+ cpAddress + ", cpOpenDate=" + cpOpenDate + ", cpCarbonEmissions=" + cpCarbonEmissions
+				+ ", cpCertification=" + cpCertification + "]";
 	}
 
 	public String getUserId() {
@@ -77,6 +80,12 @@ public class CompanyDTO {
 		this.cpCarbonEmissions = cpCarbonEmissions;
 	}
 
-	
+	public String getCpCertification() {
+		return cpCertification;
+	}
 
+	public void setCpCertification(String cpCertification) {
+		this.cpCertification = cpCertification;
+	}
+	
 }
