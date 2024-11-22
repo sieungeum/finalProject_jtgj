@@ -16,6 +16,116 @@
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
 	
+	<style type="text/css">
+		
+		.dFjcB{
+			display: flex;
+			justify-content: space-between;
+		}
+		
+		.profileImg{
+			width: 120px;
+			height: 120px;
+			border-radius: 60px;
+		}
+		
+		.marB{
+			margin-bottom: 40px; 
+		}
+		
+		.dF{
+		 	display: flex;
+		}
+		
+		.marR{
+			margin-right: 30px;
+		}
+		
+		.dFDjcA{
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+		}
+		
+		.dFjcC{
+			display: flex;
+			justify-content: center;
+			height: 35px;
+			align-items: center;
+		}
+		
+		.marR15{
+			margin-right: 15px;
+		}
+		
+		.companyDetailCard{
+			width: 30%;
+			min-height: 300px;
+			border-radius:20px;
+			border: 2px solid black; 
+			display: flex;
+			flex-direction: column;
+			
+		}
+		
+		.width100{
+			width: 100%;
+		}
+		
+		.marB20{
+			margin-bottom: 20px;
+		}
+		
+		.proInput{
+			width: 65%;
+			min-height: 470px;
+		}
+		
+		.proText{
+			min-height: 430px;
+		}
+		
+		.DetailCardBox{
+			margin-top: 15px;
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+			justify-content:space-between;
+			align-items: flex-start;
+			height: 50px;
+		}
+		
+		.NextDetailCardBox{
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+			justify-content:space-between;
+			align-items: flex-start;
+			height: 50px;
+		}
+		
+		.lastDetailCardBox{
+			margin-left: 20px;
+			margin-right: 20px;
+			margin-bottom: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content:space-between;
+			align-items: flex-start;
+			height: 50px;
+		}
+		
+		.dFjcE{
+			display: flex;
+			justify-content: flex-end;
+		}
+		
+	</style>
+	
 </head>
 <body>
 
@@ -35,75 +145,214 @@
 		    <div class="header-page ef-parallax-bg" style="background-image:url(img/blog-header.jpg)">
 		        <div class="col-md-6 col-md-offset-6">
 		            <div class="row">
-		                <div class="inner-content">
-		                    <div class="header-content">
-		                        <input>
-		                        <hr>
-		                        <p>Everything created in simple way</p>
-		                    </div>
-		                </div>
+		                
 		            </div>
 		        </div>
 		    </div>
 		</div>    
-		
-		<div class="container margin-top">
-		    <div class="single-blog-wrapper">
-		        <div class="row">
-		            <div class="col-md-9">
-		                <h1>이곳은 기업 아이콘을 넣는 곳</h1>
-		                <button type="button" class="btn btn-success">팔로우하기</button>
-		                <button type="button" class="btn btn-primary">공유하기</button>
-		            </div>
-		        </div>
-		        <div class="blog-post">
-		            <div class="blog-front-image">
-		                <div class="row">
-		                    <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
-		                        <img src="img/blog/img_1.jpg" alt="Blog Image">
-		                    </div>
-		                    <div class="col-md-5 col-md-offset-1">
-		                        <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
-		                            <div class="blog-front-content-inner">
-		                               <span class="post-single-date">14 Jun - 2015</span>
-		                               <div class="share-buttons">
-		                                   <span class="info-title">Share:</span>   
-		                                   <ul>
-		                                       <li><a href="#"><i class="iconmoon-facebook"></i></a></li>
-		                                       <li><a href="#"><i class="iconmoon-twitter"></i></a></li>
-		                                       <li><a href="#"><i class="iconmoon-google-plus"></i></a></li>
-		                                       <li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
-		                                   </ul>
-		                               </div>                               
-		                               <div class="blog-tags">
-		                                   <span class="info-title">Tags:</span>   
-		                                   <ul>
-		                                       <li><a href="#">clean</a></li>
-		                                       <li><a href="#">modern</a></li>
-		                                       <li><a href="#">beauty</a></li>
-		                                       <li><a href="#">fashion</a></li>
-		                                   </ul>
-		                               </div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                </div>
-		
-		                <div class="full-blog-content">
-		                  <p>Desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it.who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain advantage.
-		                    The master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there.</p>
-		                    
-		                    <blockquote>Mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Expound the actual teachings of the great explorer of the truth, account of the system the master-builder of human happiness.</blockquote>
-		
-		                  <p><b>Avoids pleasure itself, because it is pleasure,</b> but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some.
-		                     Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia undertakes laborious physical exercise, except 
-		                     Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia.  great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that extremely.</p>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-		</div>
-    </section>
+		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyBoardWriteDo" method="POST">
+			<div class="container margin-top">
+			    <div class="single-blog-wrapper">
+			        <div class="row">
+			            <div class="dFjcB marB">
+			            	<div class="dF">
+			            		<img class="profileImg marR" alt="" src="img/proImg.jpg">
+				                <div class="dFDjcA">
+				                	<h6>${user.userName }</h6>
+				                	<input name="cpBoardIntro" placeholder="간단한 소개">
+				                </div>
+			            	</div>
+			            	<div class="dFjcC">
+				                <button type="button" class="btn btn-success marR15">팔로우하기</button>
+				                <button type="button" class="btn btn-primary">공유하기</button>
+			            	</div>
+			            </div>
+			        </div>
+			        <div class="blog-post">
+			            <div class="dFjcB">
+			                
+							<!-- 프로필 부분 -->
+			                <div class="proInput">
+			                	<label class="marB20" for="inputTitle">프로필</label>
+		                    	<textarea class="from-control proText" name="cpBoardContent" rows="" placeholder="기업의 소개를 해주세요."></textarea>
+			                </div>
+			                
+			                <!-- 여기가 카드부분 -->
+			                <div class="companyDetailCard">
+			                	<div class="DetailCardBox">
+			                    	<label>대표</label>
+			                    	<h6>${company.cpCeoName }</h6>  
+			                	</div>
+			                	<hr class="width100">
+			                	<div class="NextDetailCardBox">
+			                    	<label>경력</label>
+			                    	<h6>${company.cpOpenDate }</h6> 
+			                	</div>
+			                	<hr class="width100">
+			                	<div class="NextDetailCardBox">
+			                    	<label>업무영역</label>
+			                    	<input class="form-control" type="text" name="cpBoardArea" />  
+			                	</div>
+			                	<hr class="width100">
+			                	<div class="NextDetailCardBox">
+			                    	<label>연락처</label>
+			                    	<h6>${user.userPhone }</h6> 
+			                	</div>
+			                	<hr class="width100">
+			                	<div class="NextDetailCardBox">
+			                    	<label>이메일</label>
+			                    	<h6>${user.userEmail }</h6> 
+			                	</div>
+			                	<hr class="width100">
+			                	<div class="lastDetailCardBox">
+			                    	<label>주소</label>
+			                    	<h6>${company.cpAddress }</h6> 
+			                	</div>
+			                	
+			                </div>
+							
+			            </div>
+			        </div>
+			        
+			        <!-- 여기부터 프로젝트 -->
+			        <div class="projectArea">
+			        	<label>프로젝트</label>
+			        	<br>
+			        	<div class="js-masonry">
+			                <div class="row" id="work-grid">
+			                    <!-- Begin of Thumbs Portfolio -->
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_1.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">250</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">STYLE FASHION</span>
+			                                    <span class="info">NEW BAG & STYLE FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix web">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_2.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">60</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">WATCH-J</span>
+			                                    <span class="info">NEW TREND FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix graphic">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_3.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">1060</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">STYLE FASHION</span>
+			                                    <span class="info">NEW BAG & STYLE FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_4.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">900</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">STYLE FASHION</span>
+			                                    <span class="info">NEW BAG & STYLE FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_5.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">979</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">STYLE FASHION</span>
+			                                    <span class="info">NEW BAG & STYLE FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
+			                        <div class="img home-portfolio-image">
+			                            <img src="img/home-portfolio/img_6.jpg" alt="Portfolio Item">
+			                            <div class="overlay-thumb">
+			                                <a href="javascript:void(0)" class="like-product">
+			                                    <i class="ion-ios-heart-outline"></i>
+			                                    <span class="like-product">Liked</span>
+			                                    <span class="output">1024</span>
+			                                </a>
+			                                <div class="details">
+			                                    <span class="title">STYLE FASHION</span>
+			                                    <span class="info">NEW BAG & STYLE FASHION</span>
+			                                </div>
+			                                <span class="btnBefore"></span>
+			                                <span class="btnAfter"></span>
+			                                <a class="main-portfolio-link" href="single-project.html"></a>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    
+			                    
+			                </div>
+			            </div>
+			        </div>
+			        
+			        <div class="youtubeRink">
+			        	<label> 유튜브 </label>
+			        </div>
+			        
+			        <div class="dFjcE">
+				        <button type="button" class="btn btn-success" type="submit">홍보 등록</button>
+			        </div>
+			        
+			    </div>
+			</div>
+		</form>
+	</section>
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>

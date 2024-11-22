@@ -4,15 +4,39 @@
 	<select id="getCompanyBoardList" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
 		SELECT 
 			a.cp_board_no,
-		    a.cp_board_title,
+		    a.cp_board_intro,
 		    b.user_id,
 		    b.cp_ceo_name,
 		    a.cp_board_area,
 		    a.cp_board_date,
+		    a.cp_board_reper_img,
 		    a.cp_board_del_yn
 		FROM 
 			company_board a, company_info b
 		WHERE 1=1
 			AND a.user_id = b.user_id
 	</select>
+	
+	<insert id="writeCompanyBoard" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+		INSERT INTO company_board(
+			cp_board_no, 				
+		    cp_board_intro,		
+		    user_id VARCHAR2,				
+		    cp_board_content,		
+		    cp_board_area,			
+		    cp_board_date,				
+		    cp_board_reper_img,	
+		    cp_board_del_yn 		
+		) VALUES (
+			(SELECT COUNT(*)+1 FROM company_board),
+			#{cpBoardIntro},
+			#{userId},
+			#{cpBoardContent},
+			#{cpBoardArea},
+			SYSDATE,
+			#{cpBoardReperImg},
+			'N'
+		)
+	</insert>
+	
 </mapper>

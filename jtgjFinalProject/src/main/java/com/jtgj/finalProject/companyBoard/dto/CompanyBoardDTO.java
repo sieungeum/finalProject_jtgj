@@ -3,34 +3,29 @@ package com.jtgj.finalProject.companyBoard.dto;
 public class CompanyBoardDTO {
 	
 	private int cpBoardNo; 			// 기업홍보게시판 번호
-	private String cpBoardTitle;	// 게시판 제목
+	private String cpBoardIntro;	// 소개글
 	private String userId;			// 기업 아이디
-//	private String userEmail;		// 기업 이메일
-	private String cpCeoName;		// 사장님 성함
-	private String cpAddress;		// 기업 주소
-	private String cp_open_date;	// 기업 창설일
 	private String cpBoardContent;	// 게시판 내용
 	private String cpBoardArea;		// 기업 업무 영역
 	private String cpBoardDate;		// 홍보글 등록일
+	private String cpBoardReperImg;	// 글 대표 이미지
+//    private String cpBoardProfImg;	// 프로필 이미지
 	private String cpBoardDelYn;	// 삭제여부
 	
 	public CompanyBoardDTO() {
 		super();
 	}
 
-	public CompanyBoardDTO(int cpBoardNo, String cpBoardTitle, String userId, String userEmail, String cpCeoName,
-			String cpAddress, String cp_open_date, String cpBoardContent, String cpBoardArea, String cpBoardDate,
-			String cpBoardDelYn) {
+	public CompanyBoardDTO(int cpBoardNo, String cpBoardIntro, String userId, String cpBoardContent, String cpBoardArea,
+			String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn) {
 		super();
 		this.cpBoardNo = cpBoardNo;
-		this.cpBoardTitle = cpBoardTitle;
+		this.cpBoardIntro = cpBoardIntro;
 		this.userId = userId;
-		this.cpCeoName = cpCeoName;
-		this.cpAddress = cpAddress;
-		this.cp_open_date = cp_open_date;
 		this.cpBoardContent = cpBoardContent;
 		this.cpBoardArea = cpBoardArea;
 		this.cpBoardDate = cpBoardDate;
+		this.cpBoardReperImg = cpBoardReperImg;
 		this.cpBoardDelYn = cpBoardDelYn;
 	}
 
@@ -42,12 +37,12 @@ public class CompanyBoardDTO {
 		this.cpBoardNo = cpBoardNo;
 	}
 
-	public String getCpBoardTitle() {
-		return cpBoardTitle;
+	public String getCpBoardIntro() {
+		return cpBoardIntro;
 	}
 
-	public void setCpBoardTitle(String cpBoardTitle) {
-		this.cpBoardTitle = cpBoardTitle;
+	public void setCpBoardIntro(String cpBoardIntro) {
+		this.cpBoardIntro = cpBoardIntro;
 	}
 
 	public String getUserId() {
@@ -56,30 +51,6 @@ public class CompanyBoardDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getCpCeoName() {
-		return cpCeoName;
-	}
-
-	public void setCpCeoName(String cpCeoName) {
-		this.cpCeoName = cpCeoName;
-	}
-
-	public String getCpAddress() {
-		return cpAddress;
-	}
-
-	public void setCpAddress(String cpAddress) {
-		this.cpAddress = cpAddress;
-	}
-
-	public String getCp_open_date() {
-		return cp_open_date;
-	}
-
-	public void setCp_open_date(String cp_open_date) {
-		this.cp_open_date = cp_open_date;
 	}
 
 	public String getCpBoardContent() {
@@ -106,6 +77,14 @@ public class CompanyBoardDTO {
 		this.cpBoardDate = cpBoardDate;
 	}
 
+	public String getCpBoardReperImg() {
+		return cpBoardReperImg;
+	}
+
+	public void setCpBoardReperImg(String cpBoardReperImg) {
+		this.cpBoardReperImg = cpBoardReperImg;
+	}
+
 	public String getCpBoardDelYn() {
 		return cpBoardDelYn;
 	}
@@ -116,10 +95,9 @@ public class CompanyBoardDTO {
 
 	@Override
 	public String toString() {
-		return "CompanyBoardDTO [cpBoardNo=" + cpBoardNo + ", cpBoardTitle=" + cpBoardTitle + ", userId=" + userId
-				+ ", cpCeoName=" + cpCeoName + ", cpAddress=" + cpAddress
-				+ ", cp_open_date=" + cp_open_date + ", cpBoardContent=" + cpBoardContent + ", cpBoardArea="
-				+ cpBoardArea + ", cpBoardDate=" + cpBoardDate + ", cpBoardDelYn=" + cpBoardDelYn + "]";
+		return "CompanyBoardDTO [cpBoardNo=" + cpBoardNo + ", cpBoardIntro=" + cpBoardIntro + ", userId=" + userId
+				+ ", cpBoardContent=" + cpBoardContent + ", cpBoardArea=" + cpBoardArea + ", cpBoardDate=" + cpBoardDate
+				+ ", cpBoardReperImg=" + cpBoardReperImg + ", cpBoardDelYn=" + cpBoardDelYn + "]";
 	}
 	
 }

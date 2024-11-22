@@ -34,6 +34,7 @@
 			, cp_address
 			, cp_open_date
 			, cp_carbon_emissions
+			, cp_certification
 		) VALUES (
 			#{userId}
 			, #{cpRegiNum}
@@ -41,6 +42,7 @@
 			, #{cpAddress}
 			, #{cpOpenDate}
 			, #{cpCarbonEmissions}
+			, 'N'
 		)
 	</select>
 	
@@ -52,6 +54,7 @@
 			, cp_address
 			, cp_open_date
 			, cp_carbon_emissions
+			, cp_certification
 		FROM company_info
         WHERE 1=1
           AND cp_regi_num = #{regiNum}
