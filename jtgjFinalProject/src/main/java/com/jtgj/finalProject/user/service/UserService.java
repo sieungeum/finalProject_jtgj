@@ -104,4 +104,12 @@ public class UserService {
 		int result = dao.editProfImg(user);
 		return result;
 	}
+	
+	// CompanyBoard에서 사용
+	public UserDTO getUserById(String userId) {
+        return dao.getUserById(userId);
+    }
+	public CompanyDTO getCompanyByUserId(String userId) {
+        return dao.getCompanyByUserId(userId);
+    }
 }

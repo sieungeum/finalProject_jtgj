@@ -59,4 +59,11 @@
         WHERE 1=1
           AND cp_regi_num = #{regiNum}
 	</select>
+	
+	<select id="getCompanyByUserId" parameterType="String" resultType="com.jtgj.finalProject.user.dto.CompanyDTO">
+        SELECT *
+        FROM company_info
+        WHERE user_id = #{userId}
+    </select>
+	
 </mapper>

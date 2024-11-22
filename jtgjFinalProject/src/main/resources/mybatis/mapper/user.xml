@@ -112,4 +112,12 @@
 		WHERE
 			user_id = #{userId}
 	</update>
+	
+	<!-- CompanyBoard쪽에서 사용 -->
+	<select id="getUserById" parameterType="String" resultType="com.jtgj.finalProject.user.dto.UserDTO">
+        SELECT * 
+        FROM users 
+        WHERE user_id = #{userId}
+    </select>
+	
 </mapper>

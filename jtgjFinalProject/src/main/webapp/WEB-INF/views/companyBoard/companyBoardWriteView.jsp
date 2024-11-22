@@ -142,77 +142,84 @@
 	
 	<section class="page-section" id="contact">
     	<div class="container">
-		    <div class="header-page ef-parallax-bg" style="background-image:url(img/blog-header.jpg)">
-		        <div class="col-md-6 col-md-offset-6">
-		            <div class="row">
-		                
-		            </div>
-		        </div>
-		    </div>
+    		<img class="reperImg" alt="" src="img/blog-header.jpg">
 		</div>    
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyBoardWriteDo" method="POST">
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
-			        <div class="row">
-			            <div class="dFjcB marB">
-			            	<div class="dF">
-			            		<img class="profileImg marR" alt="" src="img/proImg.jpg">
-				                <div class="dFDjcA">
-				                	<h6>${user.userName }</h6>
-				                	<input name="cpBoardIntro" placeholder="간단한 소개">
-				                </div>
-			            	</div>
-			            	<div class="dFjcC">
-				                <button type="button" class="btn btn-success marR15">팔로우하기</button>
-				                <button type="button" class="btn btn-primary">공유하기</button>
-			            	</div>
-			            </div>
-			        </div>
-			        <div class="blog-post">
-			            <div class="dFjcB">
-			                
-							<!-- 프로필 부분 -->
-			                <div class="proInput">
-			                	<label class="marB20" for="inputTitle">프로필</label>
-		                    	<textarea class="from-control proText" name="cpBoardContent" rows="" placeholder="기업의 소개를 해주세요."></textarea>
-			                </div>
-			                
-			                <!-- 여기가 카드부분 -->
-			                <div class="companyDetailCard">
-			                	<div class="DetailCardBox">
-			                    	<label>대표</label>
-			                    	<h6>${company.cpCeoName }</h6>  
-			                	</div>
-			                	<hr class="width100">
-			                	<div class="NextDetailCardBox">
-			                    	<label>경력</label>
-			                    	<h6>${company.cpOpenDate }</h6> 
-			                	</div>
-			                	<hr class="width100">
-			                	<div class="NextDetailCardBox">
-			                    	<label>업무영역</label>
-			                    	<input class="form-control" type="text" name="cpBoardArea" />  
-			                	</div>
-			                	<hr class="width100">
-			                	<div class="NextDetailCardBox">
-			                    	<label>연락처</label>
-			                    	<h6>${user.userPhone }</h6> 
-			                	</div>
-			                	<hr class="width100">
-			                	<div class="NextDetailCardBox">
-			                    	<label>이메일</label>
-			                    	<h6>${user.userEmail }</h6> 
-			                	</div>
-			                	<hr class="width100">
-			                	<div class="lastDetailCardBox">
-			                    	<label>주소</label>
-			                    	<h6>${company.cpAddress }</h6> 
-			                	</div>
-			                	
-			                </div>
-							
-			            </div>
-			        </div>
+		            <div class="row">
+		                <div class="dFjcB marB">
+		                    <div class="dF">
+		                        <!-- 프로필 이미지 표시 -->
+		                        <img class="profileImg marR" alt="Profile Image" src="${user.userProfImg != null ? user.userProfImg : 'img/proImg.jpg'}">
+		                        <div class="dFDjcA">
+		                            <!-- 사용자 이름 표시 -->
+		                            <h6>${user.userName}</h6>
+		                            <!-- 소개글 입력 -->
+		                            <input type="text" name="cpBoardIntro" placeholder="간단한 소개">
+		                        </div>
+		                    </div>
+		                    <div class="dFjcC">
+		                        <button type="button" class="btn btn-success marR15">팔로우하기</button>
+		                        <button type="button" class="btn btn-primary">공유하기</button>
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="blog-post">
+		                <div class="dFjcB">
+		
+		                    <!-- 프로필 부분 -->
+		                    <div class="proInput">
+		                        <label class="marB20" for="inputTitle">프로필</label>
+		                        <!-- 기업 소개글 입력 -->
+		                        <textarea class="from-control proText" name="cpBoardContent" rows="6" placeholder="기업의 소개를 해주세요."></textarea>
+		                    </div>
+		
+		                    <!-- 여기가 카드부분 -->
+		                    <div class="companyDetailCard">
+		                        <!-- 대표 정보 -->
+		                        <div class="DetailCardBox">
+		                            <label>대표</label>
+		                            <h6>${company != null ? company.cpCeoName : ''}</h6>
+		                        </div>
+		                        <hr class="width100">
+		
+		                        <!-- 경력 정보 -->
+		                        <div class="NextDetailCardBox">
+		                            <label>경력</label>
+		                            <h6>${company != null ? company.cpOpenDate : ''}</h6>
+		                        </div>
+		                        <hr class="width100">
+		
+		                        <!-- 업무 영역 정보 -->
+		                        <div class="NextDetailCardBox">
+		                            <label>업무영역</label>
+		                            <input class="form-control" type="text" name="cpBoardArea" placeholder="업무 영역을 입력하세요." />
+		                        </div>
+		                        <hr class="width100">
+		
+		                        <!-- 연락처 정보 -->
+		                        <div class="NextDetailCardBox">
+		                            <label>연락처</label>
+		                            <h6>${user != null ? user.userPhone : ''}</h6>
+		                        </div>
+		                        <hr class="width100">
+		
+		                        <!-- 이메일 정보 -->
+		                        <div class="NextDetailCardBox">
+		                            <label>이메일</label>
+		                            <h6>${user != null ? user.userEmail : ''}</h6>
+		                        </div>
+		                        <hr class="width100">
+		
+		                        <!-- 주소 정보 -->
+		                        <div class="lastDetailCardBox">
+		                            <label>주소</label>
+		                            <h6>${company != null ? company.cpAddress : ''}</h6>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
 			        
 			        <!-- 여기부터 프로젝트 -->
 			        <div class="projectArea">
@@ -346,7 +353,7 @@
 			        </div>
 			        
 			        <div class="dFjcE">
-				        <button type="button" class="btn btn-success" type="submit">홍보 등록</button>
+				        <button class="btn btn-success" type="submit">홍보 등록</button>
 			        </div>
 			        
 			    </div>

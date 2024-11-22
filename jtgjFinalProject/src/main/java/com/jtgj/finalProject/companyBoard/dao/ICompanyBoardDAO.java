@@ -10,5 +10,4 @@ import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
 public interface ICompanyBoardDAO {
 	List<CompanyBoardDTO> getCompanyBoardList();
 	int writeCompanyBoard(CompanyBoardDTO companyBoard);
-	
 }
