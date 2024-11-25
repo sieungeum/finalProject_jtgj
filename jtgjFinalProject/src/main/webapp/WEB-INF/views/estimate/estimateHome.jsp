@@ -96,7 +96,7 @@
 							<img src="${pageContext.request.contextPath}/img/sjm/plus-icon.png" width="24px">
 						</div>
 						<div class="text-room">
-							<span>&nbsp;&nbsp;방&nbsp;</span>
+							<span>방</span>
 							<span class="cnt-room">1</span>
 						</div>
 						<div class="minus-room">
