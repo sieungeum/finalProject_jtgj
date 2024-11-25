@@ -44,14 +44,10 @@ public interface IUserDAO {
 	// 새로운 비밀번호로 update
 	int updateNewPw(@Param("password") String password, @Param("email") String email);
 	
-
-	
 	// user_prof_img에 값 넣기
 	int editProfImg(UserDTO user);
-	
 	
 	// sessionScope를 이용해서 userId를 대조해서 가지고오는 곳
 	UserDTO getUserById(String userId);
 	CompanyDTO getCompanyByUserId(String userId);
-	
 }
