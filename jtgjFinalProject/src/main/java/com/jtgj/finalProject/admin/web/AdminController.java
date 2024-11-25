@@ -77,6 +77,9 @@ public class AdminController {
 		
 		EstimateDTO mater = adminService.getMater(materNo);
 		
+		List<AttachDTO> attachMaterList = adminService.getAttachMater(materNo);
+		
+		model.addAttribute("attachMaterList", attachMaterList);
 		model.addAttribute("mater", mater);
 		
 		return "myPage/adminMateEditView";
@@ -99,27 +102,30 @@ public class AdminController {
 	
 	
 	@PostMapping("/writeMater")
-	public String writeMater(@RequestParam(value = "materImg", required = false) MultipartFile file, EstimateDTO mater) {
-	    System.out.println("- WriteMater - ");
-
-	    // 파일이 존재할 경우 처리
-	    if (file != null && !file.isEmpty()) {
-	        try {
-	            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-	            File uploadFile = new File("파일 저장 경로", fileName);
-	            file.transferTo(uploadFile);
-	            mater.setMaterImg(fileName); // 이미지 경로 저장
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            mater.setMaterImg(null); // 파일 업로드 실패 시 null 처리
-	        }
-	    } else {
-	        mater.setMaterImg(null); // 파일을 선택하지 않았을 경우 null 처리
-	    }
-
-	    // 서비스 호출
-	    adminService.writeMater(mater);
-	    return "redirect:/adminPage";
+	public String writeMater(EstimateDTO mater, MultipartFile[] materImg) {
+		System.out.println(mater);
+		
+		int atchParentNo = adminService.getMaterNo(); 
+		
+		if(materImg != null && materImg.length > 0 && !materImg[0].isEmpty()) {
+			System.out.println("파일: " + materImg.length);
+			try {
+				List<AttachDTO> attachMaterList = fileUploadUtils.getAttachListByMultiparts(materImg, "mater");
+				if(!attachMaterList.isEmpty()) {
+					for(AttachDTO attachMater : attachMaterList) {
+						attachMater.setAtchParentNo(atchParentNo);
+						adminService.insertAttachMater(attachMater);
+					}
+				}
+			}catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("파일문제발생");
+				return "err/errorPath500";
+			}
+		}
+		adminService.writeMater(mater);
+		
+		return "redirect:/adminPage";
 	}
 
 	
@@ -211,6 +217,7 @@ public class AdminController {
 	}
 	
 
+	
 
 	  
 }

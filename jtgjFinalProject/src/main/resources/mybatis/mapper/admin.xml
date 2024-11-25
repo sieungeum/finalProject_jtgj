@@ -138,7 +138,7 @@
         #{materName},
         #{materCategory},
         #{materGasKg},
-        #{materImg, jdbcType=VARCHAR},
+        #{materImg},
         #{materPrice},
         #{materDurability},
         #{materInfo},
@@ -154,7 +154,48 @@
 			building_materials
 </select>
 	
-
+<insert id="insertAttachMater" parameterType="com.jtgj.finalProject.attach.dto.AttachDTO">
+		INSERT INTO attach(
+			atch_no
+			, atch_parent_no
+			, atch_file_name
+			, atch_original_name
+			, atch_file_size
+			, atch_fancy_size
+			, atch_content_type
+			, atch_path
+			, atch_type
+		) VALUES (
+			seq_attach.nextval
+			, #{atchParentNo}
+			, #{atchFileName}
+			, #{atchOriginalName}
+			, #{atchFileSize}
+			, #{atchFancySize}
+			, #{atchContentType}
+			, #{atchPath}
+			, #{atchType}
+		)
+			
+	</insert>
+	
+	<select id="getAttachMaterList" parameterType="map" resultType="com.jtgj.finalProject.attach.dto.AttachDTO">
+		SELECT
+			atch_no
+			, atch_parent_no
+			, atch_file_name
+			, atch_original_name
+			, atch_file_size
+			, atch_fancy_size
+			, atch_content_type
+			, atch_path
+			, atch_type
+		FROM
+			attach
+		WHERE 1 = 1
+		  AND atch_parent_no = #{faqNo}
+		  AND atch_type = #{atchType}
+	</select>
 
 
 

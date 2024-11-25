@@ -105,24 +105,29 @@
 
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
-			<nav
-				class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
-				id="sidenavAccordion">
-				<div class="sb-sidenav-menu">
-					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
-						<c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
-						</c:if>
-						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
-						</c:if>
-					</div>
-				</div>
-			</nav>
+			 <nav
+            class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
+            id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+               <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
+                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
+                  </c:if>
+                  <c:if test="${sessionScope.login.userAccount != 'C'}">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
+                  </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
+                  </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
+                     <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+                  </c:if>
+               </div>
+            </div>
+         </nav>
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
