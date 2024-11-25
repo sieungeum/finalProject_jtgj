@@ -130,10 +130,10 @@
 									        <img id="imagePreview" class="profile-img" 
 									             src="${mater.materImg}" 
 									             alt="자재 이미지가 없습니다." />
-
+											<label for="materImg">자재 이미지: !${attach.atchOriginalName }</label>
 									    <c:forEach items="${attachMaterList }" var="attachMater">
 									    	<div class="profile-div">
-									   			<label for="materImg">자재 이미지: !${attachMater.atchOriginalName }</label>
+									   			<label for="materImg">자재 이미지: !${attach.atchOriginalName }</label>
 									    	</div>
 									    </c:forEach>
 									    <input type="file" id="materImg" name="materImg" accept="image/*" onchange="previewImage(event)" /><br />
