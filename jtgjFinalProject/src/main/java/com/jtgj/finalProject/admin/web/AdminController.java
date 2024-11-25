@@ -77,9 +77,6 @@ public class AdminController {
 		
 		EstimateDTO mater = adminService.getMater(materNo);
 		
-		List<AttachDTO> attachMaterList = adminService.getAttachMater(materNo);
-		
-		model.addAttribute("attachMaterList", attachMaterList);
 		model.addAttribute("mater", mater);
 		
 		return "myPage/adminMateEditView";
@@ -102,27 +99,8 @@ public class AdminController {
 	
 	
 	@PostMapping("/writeMater")
-	public String writeMater(EstimateDTO mater, MultipartFile[] materImg) {
-		System.out.println(mater);
+	public String writeMater(EstimateDTO mater) {
 		
-		int atchParentNo = adminService.getMaterNo(); 
-		
-		if(materImg != null && materImg.length > 0 && !materImg[0].isEmpty()) {
-			System.out.println("颇老: " + materImg.length);
-			try {
-				List<AttachDTO> attachMaterList = fileUploadUtils.getAttachListByMultiparts(materImg, "mater");
-				if(!attachMaterList.isEmpty()) {
-					for(AttachDTO attachMater : attachMaterList) {
-						attachMater.setAtchParentNo(atchParentNo);
-						adminService.insertAttachMater(attachMater);
-					}
-				}
-			}catch (IOException e) {
-				e.printStackTrace();
-				System.out.println("颇老巩力惯积");
-				return "err/errorPath500";
-			}
-		}
 		adminService.writeMater(mater);
 		
 		return "redirect:/adminPage";
