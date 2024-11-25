@@ -17,60 +17,6 @@ public interface IUserEstimateDAO {
 	// estiNo 구하기
 	int getEstiNo();
 	
-	// bathroom 채우기
-	int insertBathroom(BathroomDTO bathroom);
-	
-	
-	
-	
-	// exterior 채우기
-	int insertExterior(ExteriorDTO exterior);
-	
-	
-	
-	
-	// kitchen 채우기
-	int insertKitchen(KitchenDTO kitchen);
-	
-	
-	
-	
-	// living 채우기
-	int insertLiving(LivingDTO living);
-	
-	
-	
-	
-	// roofing 채우기
-	int insertRoofing(RoofingDTO roofing);
-	
-	
-	
-	
-	// window 채우기
-	int insertWindow(WindowDTO window);
-	
-	
-	
-	
-	// room 채우기
-	int insertRoom(RoomDTO room);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

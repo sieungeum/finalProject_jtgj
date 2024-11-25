@@ -25,52 +25,5 @@ public class UserEstimateService {
 		return result;
 	}
 	
-	// bathroom »ğÀÔ
-	public int insertBathroom(BathroomDTO bathroom) {
-		int result = dao.insertBathroom(bathroom);
-		
-		return result;
-	}
 	
-	// exterior »ğÀÔ
-	public int insertExterior(ExteriorDTO exterior) {
-		int result = dao.insertExterior(exterior);
-		
-		return result;
-	}
-	
-	// kitchen »ğÀÔ
-	public int insertKitchen(KitchenDTO kitchen) {
-		int result = dao.insertKitchen(kitchen);
-		
-		return result;
-	}
-	
-	// living »ğÀÔ
-	public int insertLiving(LivingDTO living) {
-		int result = dao.insertLiving(living);
-		
-		return result;
-	}
-	
-	// roofing »ğÀÔ
-	public int insertRoofing(RoofingDTO roofing) {
-		int result = dao.insertRoofing(roofing);
-		
-		return result;
-	}
-	
-	// window »ğÀÔ
-	public int insertWindow(WindowDTO window) {
-		int result = dao.insertWindow(window);
-		
-		return result;
-	}
-	
-	// room»ğÀÔ 
-	public int insertRoom(RoomDTO room) {
-		int result = dao.insertRoom(room);
-		
-		return result;
-	}
 }

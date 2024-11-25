@@ -320,15 +320,18 @@
 				width="25px">
 		</div><!-- 닫기 버튼 -->
 
-		<!-- range Controler -->
-		<div class="modal-box__range">
-			<div class="range-header w-range">
-				<div>가격</div>
-				<div>기준</div>
-				<div>탄소</div>
+		<!-- 최적, 가격, 탄소배출량으로 결과를 나눔 -->
+		<div class="result-type-box">
+			<div id="rtOptimum" class="result-type__optimum result-type-margin sjm-btn sjm-btn-dark">
+				최적 대체
 			</div>
-			<input type="range" class="form-range w-range" min="1" max="100" id="calRange">
-		</div><!-- range Controler -->
+			<div id="rtPrice" class="result-type__price result-type-margin sjm-btn sjm-btn-light">
+				가격 감소
+			</div>
+			<div id="rtCarbon" class="result-type__carbon result-type-margin sjm-btn sjm-btn-light">
+				탄소배출량 감소
+			</div>
+		</div>
 		
 		<!-- 선택한 자제, 대체 자제 -->
 		<div class="only-flex">
@@ -820,20 +823,6 @@
 							console.log("평수");
 							console.log(v_diffPyong);
 							f_inputValue(v_diffPyong, v_materDataDict);
-							
-							// 자제 kg 입력 시 정규식 규정 및 계산
-						    // let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
-							
-							// 선택한 자제의 input 태그 입력 시 이벤트 발생
-/* 						    inputElement.addEventListener("keyup", function (event) {
-						        if (!(this.value == 0)){ // 그냥 0일 경우 실행 X
-							        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
-							        this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
-						        }
-						        
-						        // 계산 실행
-						        f_inputValue(this.value, v_materDataDict);
-						    }); */
 
 						    // 선택 자제 삭제하기
 						    let imgElement = v_newMaterialDiv.querySelector("img");
@@ -991,6 +980,7 @@
 		/* 자제 정보 */
 		let v_matInfoStack = []; // 불러오기 창에 추가될 것들 차곡차곡 쌓임
 		let v_matInfo = {}; // 최종 결과에 임시저장할 자제들
+		console.log(v_matInfo);
 		let v_subMatInfo = null; // 최종 결과에 임시저장할 대체 자제들
 		let v_matNum = []; // 최종 결과에 임시저장할 자제들 갯수
 		
@@ -1028,42 +1018,152 @@
 			
 			// ajax 통신 함수
 			f_ajaxJsonString(v_sendMaterials, 50);
-			
+
+			document.getElementById("rtOptimum").style.pointerEvents = "none";
 		});
 		
-		/* 범위 지정 */
-		const v_calRange = document.getElementById("calRange"); // 범위 input 태그
- 		document.addEventListener("DOMContentLoaded", function() { // 이건 안넣으면 바뀔 때마다 적용이 안됨
-			v_calRange.addEventListener("input", function() { // input 태그 바뀔 시 이벤트 발생
-				let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+		/* 결과 선택 */
+			
+		const v_rtOptimum = document.getElementById("rtOptimum"); // 최적 대체
+		const v_rtPrice = document.getElementById("rtPrice"); // 가격 감소
+		const v_rtCarbon = document.getElementById("rtCarbon"); // 탄소배출량 감소
+		
+		// 최적 대체 (default)
+		v_rtOptimum.addEventListener("click", function() {
+			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+			
+			// 선택한 자제들의 탄소배출량
+			let v_calCarbons = document.getElementById("calCarbon"); 
+			let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+			
+			// 선택한 자제들의 가격
+			let v_calPrices = document.getElementById("calPrice");
+			let v_sendPrices = v_calPrices.querySelectorAll("div");
+			
+			for (let i = 0; i < v_sendCarbons.length; i++){
+				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
 				
-				// 선택한 자제들의 탄소배출량
-				let v_calCarbons = document.getElementById("calCarbon"); 
-				let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
 				
-				// 선택한 자제들의 가격
-				let v_calPrices = document.getElementById("calPrice");
-				let v_sendPrices = v_calPrices.querySelectorAll("div");
+				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+				v_sendMaterials[i] = {'matCategory': v_matCategory
+						, 'matName' : v_matName
+						, 'matCarbon' : v_matCarbon
+						, 'matPrice' : v_matPrice
+						, 'matKg': v_matKg}
+			}
+			
+			// ajax 통신 함수
+			f_ajaxJsonString(v_sendMaterials, 50);
+			
+			// 버튼 클릭 시 다른거 비활성화
+			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
+				v_rtOptimum.classList.remove("sjm-btn-light");
+				v_rtOptimum.classList.add("sjm-btn-dark");
+				v_rtPrice.classList.remove("sjm-btn-dark");
+				v_rtPrice.classList.add("sjm-btn-light");
+				v_rtCarbon.classList.remove("sjm-btn-dark");
+				v_rtCarbon.classList.add("sjm-btn-light");
+
+				v_rtOptimum.style.pointerEvents = "none";
+				v_rtPrice.style.pointerEvents = "auto";
+				v_rtCarbon.style.pointerEvents = "auto";
+			}
+		});
+
+		// 가격 감소
+		v_rtPrice.addEventListener("click", function() { // input 태그 바뀔 시 이벤트 발생
+			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+			
+			// 선택한 자제들의 탄소배출량
+			let v_calCarbons = document.getElementById("calCarbon"); 
+			let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+			
+			// 선택한 자제들의 가격
+			let v_calPrices = document.getElementById("calPrice");
+			let v_sendPrices = v_calPrices.querySelectorAll("div");
+			
+			for (let i = 0; i < v_sendCarbons.length; i++){
+				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
 				
-				for (let i = 0; i < v_sendCarbons.length; i++){
-					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
-					let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
-					let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
-					
-					let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
-					let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
-					
-					// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
-					v_sendMaterials[i] = {'matCategory': v_matCategory
-							, 'matName' : v_matName
-							, 'matCarbon' : v_matCarbon
-							, 'matPrice' : v_matPrice
-							, 'matKg': v_matKg}
-				}
+				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
 				
-				// ajax 통신 함수
-				f_ajaxJsonString(v_sendMaterials, this.value);
-			});
+				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+				v_sendMaterials[i] = {'matCategory': v_matCategory
+						, 'matName' : v_matName
+						, 'matCarbon' : v_matCarbon
+						, 'matPrice' : v_matPrice
+						, 'matKg': v_matKg}
+			}
+			
+			// ajax 통신 함수
+			f_ajaxJsonString(v_sendMaterials, 1);
+
+			// 버튼 클릭 시 다른거 비활성화
+			if (!v_rtPrice.classList.contains("sjm-btn-dark")){
+				v_rtPrice.classList.remove("sjm-btn-light");
+				v_rtPrice.classList.add("sjm-btn-dark");
+				v_rtOptimum.classList.remove("sjm-btn-dark");
+				v_rtOptimum.classList.add("sjm-btn-light");
+				v_rtCarbon.classList.remove("sjm-btn-dark");
+				v_rtCarbon.classList.add("sjm-btn-light");
+			}
+
+			v_rtPrice.style.pointerEvents = "none";
+			v_rtOptimum.style.pointerEvents = "auto";
+			v_rtCarbon.style.pointerEvents = "auto";
+		});
+		
+		// 탄소배출량 감소
+		v_rtCarbon.addEventListener("click", function() { // input 태그 바뀔 시 이벤트 발생
+			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
+			
+			// 선택한 자제들의 탄소배출량
+			let v_calCarbons = document.getElementById("calCarbon"); 
+			let v_sendCarbons = v_calCarbons.querySelectorAll("div");
+			
+			// 선택한 자제들의 가격
+			let v_calPrices = document.getElementById("calPrice");
+			let v_sendPrices = v_calPrices.querySelectorAll("div");
+			
+			for (let i = 0; i < v_sendCarbons.length; i++){
+				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+				
+				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+				
+				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+				v_sendMaterials[i] = {'matCategory': v_matCategory
+						, 'matName' : v_matName
+						, 'matCarbon' : v_matCarbon
+						, 'matPrice' : v_matPrice
+						, 'matKg': v_matKg}
+			}
+			
+			// ajax 통신 함수
+			f_ajaxJsonString(v_sendMaterials, 100);
+
+			// 버튼 클릭 시 다른거 비활성화
+			if (!v_rtCarbon.classList.contains("sjm-btn-dark")){
+				v_rtCarbon.classList.remove("sjm-btn-light");
+				v_rtCarbon.classList.add("sjm-btn-dark");
+				v_rtPrice.classList.remove("sjm-btn-dark");
+				v_rtPrice.classList.add("sjm-btn-light");
+				v_rtOptimum.classList.remove("sjm-btn-dark");
+				v_rtOptimum.classList.add("sjm-btn-light");
+			}
+
+			v_rtCarbon.style.pointerEvents = "none";
+			v_rtPrice.style.pointerEvents = "auto";
+			v_rtOptimum.style.pointerEvents = "auto";
 		});
 		
 		
@@ -1073,7 +1173,6 @@
 		function f_ajaxJsonString(v_sendMaterials, v_range){
 			// 선택한 자제들 ajax로 보내기 전에 원본 유지
 			let v_basicMatDict = JSON.parse(JSON.stringify(v_sendMaterials));
-			console.log(v_basicMatDict);
 			
 			// 주방1, 욕실2 같은거 있어서 서버에 보낼 때는 지워주기
 			for (let i = 0; i < Object.keys(v_sendMaterials).length; i++){
@@ -1111,7 +1210,6 @@
 					console.log("선택된 자제들 - 완 - ");
 
 					/* 기본자제, 대체자제 모달창에 추가 */
-					let v_change = false; // false : 기본자제, true : 대체자제
 					let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
 					let v_subPriceSum = 0; // 대체 자제 총 가격
 					
@@ -1151,45 +1249,22 @@
 						}
 						
 						// 자제 정보 html에 추가
-						if (!v_change){ // 기본 자제
-							for (let dataIdx = 0; dataIdx < v_basicMat.length; dataIdx++){
-								console.log("카테고리")
-								console.log(v_category);
-								console.log(v_basicMat[dataIdx]['matCategory']);
-								console.log("카테고리 -완-")
-								if (v_category == v_basicMatDict[dataIdx]['matCategory']){
-									// 기본 자제
-									v_matBox[0].children[i].children[1].innerHTML +=  v_basicMat[dataIdx]["matName"] + "<br>";
-									v_matBox[0].children[i].children[1].innerHTML += '<input type="hidden" value='+ v_basicMat[dataIdx]["matKg"] +'>';
-									
-									// 대체 자제
-									v_matBox[1].children[i].children[1].innerHTML += v_subMat[dataIdx]["materName"] + "<br>";
-									let v_num = v_basicMat[dataIdx]["matKg"]; 
-									
-									// 대체 자제들 총 탄소, 가격
-									v_subCarbonSum += v_subMat[dataIdx]['materGasKg'] * v_num;
-									v_subPriceSum += v_subMat[dataIdx]['materPrice'] * v_num;
+						for (let dataIdx = 0; dataIdx < v_basicMat.length; dataIdx++){
+							if (v_category == v_basicMatDict[dataIdx]['matCategory']){
+								// 기본 자제
+								v_matBox[0].children[i].children[1].innerHTML +=  v_basicMat[dataIdx]["matName"] + "<br>";
+								v_matBox[0].children[i].children[1].innerHTML += '<input type="hidden" value='+ v_basicMat[dataIdx]["matKg"] +'>';
+								
+								// 대체 자제
+								v_matBox[1].children[i].children[1].innerHTML += v_subMat[dataIdx]["materName"] + "<br>";
+								let v_num = v_basicMat[dataIdx]["matKg"]; 
+								
+								// 대체 자제들 총 탄소, 가격
+								v_subCarbonSum += v_subMat[dataIdx]['materGasKg'] * v_num;
+								v_subPriceSum += v_subMat[dataIdx]['materPrice'] * v_num;
 
-								}
-							}
-						} else { // 대체 자제
-							let cnt = 1; // 기본, 대체 자제는 순서가 똑같기 때문에 인덱스 값도 같음
-							for (let data of v_subMat){
-								if (data['materCategory'] == v_category){
-									v_matBox[k].children[i].children[1].innerHTML += data["materName"] + "<br>";
-									let v_num = v_matBox[0].children[i].children[1].children[cnt].value; 
-									
-									// 대체 자제들 총 탄소, 가격
-									v_subCarbonSum += data['materGasKg'] * v_num;
-									v_subPriceSum += data['materPrice'] * v_num;
-									cnt+=2; // 인덱스 증가
-								}
 							}
 						}
-						//}
-						
-						// 대체 자제 계산
-						// v_change = true;
 					}
 					
 					let v_carbonSum = document.getElementById("carbonSum").innerHTML; // 기본 자제들 총 탄소배출량
@@ -1210,20 +1285,17 @@
  					
  					v_matInfo = {}; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
  					v_matNum = []; // 선택한 기본 자제들 Kg(갯수), 계산마다 초기화 해줘야함
- 					
  					// 모든 기본 자제들(v_matInfoDict) 에서 선택 자제들(v_basicMat)의 정보만 가져오기
+ 					
  					for (let i = 0; i < Object.keys(v_matInfoDict).length; i++){
  						for (let j = 0; j < v_basicMat.length; j++){
- 							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] 
- 								&& v_basicMat[j]['matCategory'].replace(/[0-9]/g, '') == v_matInfoDict[i]['materCategory']){
+ 							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] && v_basicMat[j]['matCategory'].replace(new RegExp('[0-9]', 'g'), '') == v_matInfoDict[i]['materCategory']){
 
  								// 값 추가
- 			 					v_matInfo[Object.keys(v_matInfo).length] = v_matInfoDict[i];
+ 			 					v_matInfo[Object.keys(v_matInfo).length] = structuredClone(v_matInfoDict[i]);
  			 					v_matNum.push(v_basicMat[j]['matKg']);
  			 					
- 			 					if (v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "주방"
- 			 							|| v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "욕실"
- 			 							|| v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "방"){
+ 			 					if (v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "주방" || v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "욕실" || v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "방"){
  			 						
  			 						v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] = v_basicMat[j]['matCategory'];
  			 						console.log(v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"]);
@@ -1255,8 +1327,6 @@
 			v_matInfoStack.push(v_matInfo); // 짝수는 자제정보가
 			v_matInfoStack.push(v_matNum); // 홀수는 자제갯수가 저장됨.
 			
-			console.log(v_matInfoStack);
-			
 			// 임시저장 box
 			let v_tempSave = document.getElementById("tempSave");
 			
@@ -1274,7 +1344,6 @@
 				v_tempSaveBtn[idx].addEventListener("click", ()=>{
 					// hidden input의 value 값에 각 불러오기 별 key값을 넣어놔서 가져오는 절차(2, 4, 6... 이렇게 가져옴)
 					let v_stackKey = v_tempSaveBtn[idx].nextElementSibling.nextElementSibling.value;
-					console.log(v_stackKey);
 					
 					v_matInfo = v_matInfoStack[v_stackKey - 2]; // 자제 정보
 					v_matNum = v_matInfoStack[v_stackKey - 1]; // 자제 갯수
@@ -1374,18 +1443,6 @@
 								
 								// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
 								f_inputValue(v_diffPyong, v_materDataDict);
-								
-								// 자제 kg 입력 시 정규식 규정 및 계산
-/* 							    let inputElement = v_newMaterialDiv.querySelector("input[type='number']");
-							    inputElement.addEventListener("keyup", function (event) {
-							        if (!(this.value == 0)){ // 그냥 0일 경우 실행 X
-								        // 0으로 시작하면 0 지우기 / 숫자 외 문자 입력 방지
-								        this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
-							        }
-							        
-							        // 계산 실행
-							        f_inputValue(this.value, v_materDataDict);
-							    }); */
 	
 							    // 선택 자제 삭제하기
 							    let imgElement = v_newMaterialDiv.querySelector("img");
@@ -1403,7 +1460,7 @@
 			v_modalBoxCal.style.display = "none";
 		});
 		
-		/* 저장 버튼 클릭 시 값들 DB에 저장 */
+		/* 저장 버튼 클릭 시 값들 DB에 저장(로그인 시 가능) */
 		let v_resultSaveBtn = document.getElementById("resultSaveBtn");
 		
 		v_resultSaveBtn.addEventListener("click", () => {
@@ -1412,7 +1469,7 @@
 			console.log(v_subMatInfo);
 			console.log(v_matNum);
 			
-			// JSONString으로 변환 및 ajax로 보내기 위한 변형
+ 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
 			let basicMater = {};
 			
 			for (let i = 0; i < Object.keys(v_matInfo).length; i++){
@@ -1429,8 +1486,9 @@
 			basicMater = JSON.stringify(basicMater);
 			console.log(basicMater);
 			basicMater = "basicMater=" + basicMater;
-			console.log("${login.userId}");
-			basicMater += "&userId=" + "${login.userId}";
+			// console.log("${login.userId}");
+			// basicMater += "&userId=" + "${login.userId}"; 테스트 끝나면 주석 풀기
+			basicMater += "&userId=" + "gd";
 			
 			const v_ajax = XMLHttpRequest();
 			v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);

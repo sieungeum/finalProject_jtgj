@@ -327,15 +327,13 @@ div{
 	color: red;
 }
 
-.modal-box__range{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+.result-type-box{
+	display: flex;	
 }
 
-.w-range{
-	width: 600px !important;
+.result-type-margin{
+	
+	margin-left: 7px;
 }
 
 .range-header{
