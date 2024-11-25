@@ -137,9 +137,6 @@
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 	
 	<script type="text/javascript">
-
-		
-		
 		// 이메일 인증번호 확인
 		$(document).ready(function() {
 			let idOn = false; // 아이디 중복 체크 여부
