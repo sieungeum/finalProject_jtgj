@@ -421,9 +421,10 @@
 			let v_address = $("#inputAddress").val();
 			let v_detailAddress = $("#detailAddress").val();
 			let v_zipCode = $("#zipCode").val();
-			let v_extraAddress = $("#extraAddress").val();
+			let v_extraAddress = $("#extraAddress").val().trim();
 			
-			v_cpAddress = v_zipCode + "/" + v_address + "/" + v_detailAddress + "/" + v_extraAddress;
+			v_cpAddress = v_zipCode + "|" + v_address + "|" + v_detailAddress + "|" + v_extraAddress;
+			console.log(v_cpAddress)
 			
 			if(v_address && v_detailAddress && v_zipCode){
 				addressOn = true;
@@ -432,7 +433,6 @@
 				addressOn = false;
 				toggleSignUpButton();
 			}
-			console.log(addressOn);
 		}
 		
 		// 개업일
@@ -639,7 +639,7 @@
 
 				console.log(requestData);
 				
- 				$.ajax({
+  				$.ajax({
 					type: 'POST',
 					url: "${pageContext.request.contextPath}/corporationRegistDo",
 					data: JSON.stringify(requestData),
@@ -655,7 +655,7 @@
 					error: function(error){
 						console.error("Error occured:", error);
 					}
-				}); 
+				});  
 			}
 		});
 

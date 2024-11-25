@@ -2,7 +2,10 @@ package com.jtgj.finalProject.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.spi.FileSystemProvider;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
@@ -73,10 +74,10 @@ public class UserController {
 
 	// 로그인 실행
 	@PostMapping("/loginDo")
-	public String loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response,
+	public void loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response,
 			HttpServletRequest request, String fromUrl) throws IOException {
 		UserDTO login = userService.loginUser(user);
-
+		
 		System.out.println(fromUrl);
 		System.out.println(user);
 		System.out.println(login);
@@ -90,15 +91,36 @@ public class UserController {
 			out.println("history.go(-1);</script>");
 			out.close();
 
-			return null;
+			return;
 		} else if (!user.getUserPw().equals(login.getUserPw())) {
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('비밀번호가 일치하지 않습니다!');");
 			out.println("history.go(-1);</script>");
 			out.close();
 
-			return null;
+			return;
 		} else {
+			CompanyDTO company = userService.getCompanyByUserId(login.getUserId());
+			
+			if(company != null) {
+				// 시간 포맷 수정(시,분,초 삭제)
+				String v_companyDate = company.getCpOpenDate();
+				v_companyDate = v_companyDate.split(" ")[0];
+				company.setCpOpenDate(v_companyDate);
+				
+				// 주소 상세 저장
+				String address = company.getCpAddress();
+				String[] arr = address.split("\\|");
+				
+				List<String> addressDetails = new ArrayList<>();
+				for(int i = 0; i < arr.length; i++) {			
+					addressDetails.add(arr[i]);
+				}
+				
+				session.setAttribute("address", addressDetails);
+			}
+				
+			session.setAttribute("company", company);
 			session.setAttribute("login", login);
 			session.setMaxInactiveInterval(60 * 200);
 
@@ -119,7 +141,7 @@ public class UserController {
 			out.println("<script>alert('환영합니다!'); location.href='" + fromUrl + "';</script>");
 			out.close();
 
-			return null;
+			return;
 		}
 	}
 

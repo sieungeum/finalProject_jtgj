@@ -94,7 +94,12 @@
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
+						<c:if test="${sessionScope.login.userAccount == 'C'}">
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
+						</c:if>
+						<c:if test="${sessionScope.login.userAccount != 'C'}">
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
+						</c:if>
 						<c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
 						</c:if>
@@ -140,7 +145,7 @@
 							        <div class="mb-3">
 							            <label for="inputId" class="form-label" style="font-weight:bolder;">아이디</label>
 							            <div class="input-group d-flex">
-							                <input type="text" class="form-control" id="inputId" style="background-color: #dddddd" value="${login.userId }" name="userId" readonly>
+							                <input type="text" class="form-control" id="inputId" style="background-color: #dddddd" value="${login.userId }" readonly>
 							            </div>
 							            
 							            <div class="d-flex mt-2">
@@ -151,7 +156,7 @@
 							        <div class="mb-3">
 							            <label for="inputPassword" class="form-label" style="font-weight:bolder;">새로운 비밀번호</label>
 							            <div class="input-group mb-3">
-							                <input type="password" class="form-control" id="inputPassword" placeholder="새로운 비밀번호를 입력하세요" name="userPw">
+							                <input type="password" class="form-control" id="inputPassword" placeholder="새로운 비밀번호를 입력하세요">
 							            </div>
 							            <label for="checkPassword" class="form-label" style="font-weight:bolder;">비밀번호 확인</label>
 							            <div class="input-group">
@@ -167,7 +172,7 @@
 								        <div class="mb-3">
 								            <label for="inputName" class="form-label" style="font-weight:bolder;">닉네임</label>
 								            <div class="input-group">
-								                <input type="text" class="form-control" id="inputName" value="${login.userName }" name="userName">
+								                <input type="text" class="form-control" id="inputName" value="${login.userName }">
 								            </div>
 								            
 								            <div class="d-flex mt-2">
@@ -179,87 +184,24 @@
 							        <div class="mb-3">
 							            <label for="inputEmail" class="form-label" style="font-weight:bolder;">이메일</label>
 							            <div class="input-group mb-2">
-							                <input type="email" class="form-control me-2" id="inputEmail" value="${login.userEmail }" name="userEmail" disabled>
+							                <input type="email" class="form-control me-2" id="inputEmail" value="${login.userEmail }" disabled>
 							            </div>
 							        </div>
 							        
 							        <div class="mb-3">
 							            <label for="inputPhone" class="form-label" style="font-weight:bolder;">휴대폰</label>
 							            <div class="input-group">
-							                <input type="text" class="form-control" id="inputPhone" value="${login.userPhone }" name="userPhone">
+							                <input type="text" class="form-control" id="inputPhone" value="${login.userPhone }">
 							            </div>
 							        </div>												
 								</div>
 							</div>
 							
 							<!-- 개인회원 수정버튼 -->
-					        <c:if test="${sessionScope.login.userAccount != 'C'}">
-								<div class="mt-3">
-						            <button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="button" >수정하기</button>
-						            <p id="signUpWarning" style="font-size:20px;color:red;font-weight:bolder;text-align:center;margin-top:10px;">중복여부를 확인해주세요!</p>
-						        </div>		
-							</c:if>
+							<div class="mt-3">
+								<button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="button" >수정하기</button>
+						    </div>		
 						</div>
-						
-
-						<!-- 기업정보 수정 -->
-						<!-- loginDo 이후 CompanyDTO 정보 세션에 저장한 뒤 input value 로 실행 -->
-						<c:if test="${sessionScope.login.userAccount == 'C'}">
-							<div class="col-xl-4 col-lg-5">
-								<div class="card mb-4">
-									<div class="card-header">기업정보 수정</div>
-									<div class="card-body">
-										<div class="mb-3">
-								            <label for="inputCorName" class="form-label" style="font-weight:bolder;">기업명</label>
-								            <div class="input-group">
-								                <input type="text" class="form-control" id="inputCorName" placeholder="기업명 입력(사업자등록증명원 기업명)" value="${sessionScope.login.userName}">
-								            </div>
-							        	</div>
-							
-								        <div class="mb-3">
-								            <label for="inputCEO" class="form-label" style="font-weight:bolder;">대표자</label>
-								            <div class="input-group">
-								                <input type="text" class="form-control" id="inputCEO" placeholder="예시) 이재완 외 1명 (사업자등록증명원 대표자명)">
-								            </div>
-								        </div>
-							
-								        <div class="mb-3">
-								            <label for="inputAddress" class="form-label" style="font-weight:bolder;">회사 주소</label>
-								            <div class="input-group mb-1">
-								            	<input type="text" class="form-control d-block" id="inputAddress" placeholder="클릭하시면 주소검색 창이 뜹니다." onclick="DaumPostCode()">
-								            </div>
-								            <div class="input-group" id="addressBox">
-								            	<input type="text" class="form-control d-block me-2" style="width:18%;" id="zipCode" placeholder="우편번호" disabled>
-								                <input type="text" class="form-control me-2" style="width:48%;" id="detailAddress" placeholder="상세주소">
-								                <input type="text" class="form-control" style="width:30%;" id="extraAddress" placeholder="참고항목" disabled>
-								            </div>
-								        </div>
-							
-								        <div class="mb-3">
-								            <label for="inputDate" class="form-label" style="font-weight:bolder;">개업일</label>
-								            <div class="input-group">
-								                <input type="date" class="form-control" id="inputDate">
-								            </div>
-								        </div>
-							        
-								        <div class="mb-3">
-								            <label for="inputCarbon" class="form-label" style="font-weight:bolder;">총 탄소배출량</label>
-								            <div class="input-group">
-								                <input type="input" class="form-control" id="inputCarbon" placeholder="귀하의 회사 총 탄소배출량을 기입해주십시오(단위 ton)">
-								            </div>
-								        </div>							
-									</div>
-								</div>
-							</div>
-						</c:if>
-									
-						<!-- 기업회원 수정버튼 -->
-						<c:if test="${sessionScope.login.userAccount == 'C'}">
-							<div class="mt-2" style="width:66.5%;">
-					            <button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="submit" >수정하기</button>
-					            <p id="signUpWarning" style="font-size:20px;color:red;font-weight:bolder;text-align:center;margin-top:10px;">중복여부를 확인해주세요!</p>
-					        </div>		
-						</c:if>						
 					</div>
 				</div>
 			</main>
@@ -317,14 +259,18 @@
 			imgElement.src = initialImg;
 		}
 		
-		// input 값 변수
-		let v_userPw;
-		let v_userPhone;
-		let v_userName; // 기업명 혹은 개인회원이름
-		let v_cpCeoName;
-		let v_cpAddress;
-		let v_cpOpenDate;
-		let v_cpCarbonEmissions
+		
+		// 서버에 보낼 변수값들
+		let v_inputId = document.getElementById('inputId').value;
+		let v_inputEmail = document.getElementById('inputEmail').value;
+		
+		
+		/*
+			비밀번호 inputPassword, checkPassword
+			닉네임 inputName -> 유저명 or 기업명
+			휴대폰 inputPhone
+			기업명 UserName 으로
+		*/
 		
 		// 중복확인 boolean
 		
