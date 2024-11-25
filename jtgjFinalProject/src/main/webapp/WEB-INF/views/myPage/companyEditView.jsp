@@ -129,10 +129,10 @@
 										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
 									</c:if>
 									<c:if test="${sessionScope.login.userProfImg != 'N' }">
-										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
+										<img id="profileImagePreview" class="profile-img" src="${pageContext.request.contextPath }/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg}">
 									</c:if>
 								</div>
-								<input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this); uploadFile(this)">
+								<input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this);">
 								<button class="btn btn-success mt-3 mb-3" style="width:10%;" onclick="resetImage()">사진 초기화</button>
 							</div>
 						</c:if>
@@ -233,7 +233,7 @@
 						</div>
 									
 						<div class="mt-2" style="width:66.5%;">
-				            <button class="btn btn-primary btn-lg w-100 mb-2" id="signUpBtn" type="button" >수정하기</button>
+				            <button class="btn btn-primary btn-lg w-100 mb-2" id="editBtn" type="button" >수정하기</button>
 				        	<p id="signUpWarning" style="display:none;">비밀번호 일치, 불일치 혹은 다른 항목에 빈칸이 있는지 확인해주세요!</p>
 				        </div>							
 					</div>
@@ -264,57 +264,72 @@
 		// 초기 이미지
 		let imgElement  = document.getElementById('profileImagePreview');
 		const initialImg = imgElement.src;
+		const initialImgName = initialImg.split("=")[2];
+		console.log(initialImgName);
+		let selectedFile = null; // 전역 변수로 선택된 파일 저장
+		let inputImageElement = document.getElementById('inputImage');
 		
 		// 프로필 이미지 클릭 시 숨겨놓은 input file 이 클릭됌
 		$(".profile-img").on("click", () => {
 			$("#inputImage").click();
 		});
 		
+		$("#inputImage").on("change", function () {
+			if(this.files && this.files[0]){
+				// 파일이 선택된 경우 readImage 호출
+				selectedFile = this.files[0]; // 선택된 파일 저장
+				readImage(this); // 이미지 미리보기 없데이트
+			} else {
+				// 파일이 선택되지 않은 경우
+				console.log("파일 선택 취소됨, 기본 이미지 유지");
+			}
+		});
+		
 		// 프로필 이미지 임시 변경(아직 수정 X)
 		function readImage(input){
-			if(input.files && input.files[0]){
+			if(selectedFile){
 				const reader = new FileReader();
 				
 				// 파일 읽기가 완료되면 실행되는 콜백
 				reader.onload = function (e) {
 					// 미리보기 이미지를 변경
 					imgElement.src = e.target.result;
-	
-					input.value = "";
+
 				}
 				
 				// 파일 읽기 시작
-				reader.readAsDataURL(input.files[0]);
+				reader.readAsDataURL(selectedFile);
 			}
 		}
 		
 		// 프로필 이미지 초기화 함수
 		function resetImage(){
 			imgElement.src = initialImg;
+			selectedFile = null;
+			inputImageElement.value = "";
+			console.log("이미지가 초기화됐습니다.");
 		}
-		
-		
-		/*
-			1. 비밀번호가 불일치할 때 버튼을 비활성화한다.
-			2. 한 곳이라도 빈칸이 있다면 수정 토글 비활성화(전화번호 제외)
-		*/
 		
 		// 서버에 보낼 변수값들
 		let v_inputId = document.getElementById('inputId').value;
 		let v_inputEmail = document.getElementById('inputEmail').value;
-		let v_signUpBtn = $('#signUpBtn'); // 가입하기 버튼
-		let v_warning = $('#signUpWarning'); // 가입 조건 안내
 		let v_userName;
 		let v_cpCeoName;
 		let v_cpAddress;
 		let v_cpOpenDate;
+		let pw = $('#inputPassword');
+		let rePw = $('#checkPassword');
+		
+		let v_editBtn = $('#editBtn'); // 가입하기 버튼
+		let v_warning = $('#signUpWarning'); // 가입 조건 안내
+
 		
 		// 토글 활성화 boolean
 		let pwOn = true;
-		let corNameOn = false;
-		let ceoOn = false;
-		let addressOn = false;
-		let dateOn = false;
+		let corNameOn = true;
+		let ceoOn = true;
+		let addressOn = true;
+		let dateOn = true;
 		
 		// 기업명
 		function checkCorName(){
@@ -410,8 +425,7 @@
 		// 개업일
 		function checkDate(){
 			v_cpOpenDate = $('#inputDate').val();
-			console.log(v_cpOpenDate);
-			
+
 			if(v_cpOpenDate){
 				dateOn = true;
 				toggleSignUpButton();
@@ -423,8 +437,8 @@
 		
 		// 비밀번호 일치 여부 확인 함수
 		function checkPasswordMatch() {
-			let pw = $('#inputPassword').val();
-			let rePw = $('#checkPassword').val();
+			pw = $('#inputPassword').val();
+			rePw = $('#checkPassword').val();
 			
 			// 입력값이 모두 비어있으면
 		    if (!pw || !rePw) {
@@ -450,10 +464,10 @@
 		// 가입 버튼 활성화 상태 관리 함수
 		function toggleSignUpButton() {
 			if(pwOn && corNameOn && ceoOn && addressOn && dateOn){
-				v_signUpBtn.prop('disabled', false);
+				v_editBtn.prop('disabled', false);
 				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:none;"
 			} else {
-				v_signUpBtn.prop('disabled', true);
+				v_editBtn.prop('disabled', true);
 				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:'';"
 			}
 		}
@@ -465,10 +479,71 @@
 		$('#detailAddress, #inputAddress').on("focusout", checkAddress); // 회사주소 focusout 이벤트
 		
 		
-		// 서버로 사진을 보냄 -> 수정하기 버튼 클릭 후 실행될 파일
-		function uploadFile(p_this){
-			
-		}
+		// 수정 버튼 클릭
+		document.getElementById("editBtn").addEventListener("click", () => {
+			if(confirm("회원정보를 수정하시겠습니까?")){
+				
+				// 1. 이미지 수정 처리
+				if(selectedFile != null){
+					let v_formData = new FormData();
+					v_formData.append("file", selectedFile);
+					
+					for(let [key, value] of v_formData.entries()){
+						console.log(key, ": ", value);
+					}
+					
+					let v_url = "${pageContext.request.contextPath}/uploadProfile";	
+					
+					$.ajax({
+						type:"POST",
+						url:v_url,
+						contentType:false,
+						processData:false,
+						enctype:"multipart/form-data",
+						data:v_formData,
+						success:function(data){
+							console.log(data);
+							console.log(data.result);
+							
+							let filePath = data.result;
+							let reqSrcUrl = "${pageContext.request.contextPath}/displayProfImg";
+							let atchtype = "prof_img";
+							
+							$(".profile-img").attr("src", reqSrcUrl + "?atchtype=" + atchtype + "&imgName=" + filePath);
+						},
+						error : function(req, st, err) {
+							console.log('-------------------------------');
+							console.log("request", req);
+							console.log("status", st);
+							console.log("errors", err);
+							console.log('-------------------------------');
+						}
+					});
+				} else {
+					let reqSrcUrl = "${pageContext.request.contextPath}/displayProfImg";
+					let atchtype = "prof_img";
+					$(".profile-img").attr("src", reqSrcUrl + "?atchtype=" + atchtype + "&imgName=" + initialImgName);
+				}
+
+				
+				// 2. 개인, 기업정보
+				let v_phone = $("#inputPhone").val();
+				let v_emission = $("inputCarbon").val();
+				let v_pw = pw.val();
+				console.log(v_inputId);
+				console.log(v_inputEmail);
+				console.log(v_userName);
+				console.log(v_cpCeoName);
+				console.log(v_cpAddress);
+				console.log(v_cpOpenDate);
+				
+				// inputId 와 inputEmail의 값과 일치하는 user, company_info 테이블 정보 변경
+				// undefined 로 값이 매겨지는 것들은 기존 데이터 유지
+				
+			}
+		});
+		
+		
 	</script>
 </body>
 </html>

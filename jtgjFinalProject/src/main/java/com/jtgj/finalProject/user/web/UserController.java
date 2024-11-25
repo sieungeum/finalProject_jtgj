@@ -2,9 +2,6 @@ package com.jtgj.finalProject.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +28,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
@@ -296,36 +295,6 @@ public class UserController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-
-	// 프로필 이미지 업로드
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping(value = "/uploadProfile", produces =
-	 * "application/json; charset=utf-8") public Map<String, Object>
-	 * uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된
-	 * 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 Map<String, Object> result = new
-	 * HashMap<>();
-	 * 
-	 * String profImgName = null;
-	 * 
-	 * if (file != null) { try { AttachDTO attach =
-	 * fileUploadUtils.getAttachByMultipart(file); profImgName =
-	 * attach.getAtchFileName(); // UUID 로 생성한 파일명 } catch (Exception e) {
-	 * e.printStackTrace(); System.out.println("이미지 파일 저장 실패"); } }
-	 * 
-	 * // 현재 로그인 중인 사용자의 정보 가져오기 UserDTO login = (UserDTO)
-	 * session.getAttribute("login");
-	 * 
-	 * // 방금 로컬에 저장된 프로필 이미지의 파일명을 login 객체 내부에 저장
-	 * login.setUserProfImg(profImgName);
-	 * 
-	 * // DB에 회원정보 수정을 통해 프로필 이미지명 반영! userService.editProfImg(login);
-	 * 
-	 * result.put("result", profImgName);
-	 * 
-	 * return result; }
-	 */
 	
 	// 계정 찾기 페이지
 	@RequestMapping("/findAccountView")
@@ -926,5 +895,33 @@ public class UserController {
 		System.out.println("중복된 사업자등록번호 존재");
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	
+	// 프로필 이미지 업로드
+	@ResponseBody
+  
+	@PostMapping(value = "/uploadProfile", produces = "application/json; charset=utf-8") 
+	public Map<String, Object> uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 
+	  
+		Map<String, Object> result = new HashMap<>();
+  
+		String profImgName = null;
+		
+		if(file != null) {
+			try {
+				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file, "prof_img");
+				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
+			} catch(IOException e) {
+				e.printStackTrace();
+				System.out.println("이미지 파일 저장 실패");
+			}
+		}
+		
+		UserDTO login = (UserDTO)session.getAttribute("login");
+		login.setUserProfImg(profImgName);
+		userService.editProfImg(login);
+		result.put("result", profImgName);
+		return result;
 	}
 }
