@@ -6,19 +6,19 @@ public class UserEstimateDTO {
 	private int materNo;
 	private String materCategory;
 	private String materName;
-	private String materGasKg;
+	private double materGasKg;
 	private String materImg;
-	private String materPrice;
+	private int materPrice;
 	private String materDurability;
 	private String materInfo;
 	private String materClassify;
-	private String kgPerPyeong;
+	private int kgPerPyeong;
 	public UserEstimateDTO() {
 		super();
 	}
 	public UserEstimateDTO(String userId, int estiNo, int materNo, String materCategory, String materName,
-			String materGasKg, String materImg, String materPrice, String materDurability, String materInfo,
-			String materClassify, String kgPerPyeong) {
+			double materGasKg, String materImg, int materPrice, String materDurability, String materInfo,
+			String materClassify, int kgPerPyeong) {
 		super();
 		this.userId = userId;
 		this.estiNo = estiNo;
@@ -70,10 +70,10 @@ public class UserEstimateDTO {
 	public void setMaterName(String materName) {
 		this.materName = materName;
 	}
-	public String getMaterGasKg() {
+	public double getMaterGasKg() {
 		return materGasKg;
 	}
-	public void setMaterGasKg(String materGasKg) {
+	public void setMaterGasKg(double materGasKg) {
 		this.materGasKg = materGasKg;
 	}
 	public String getMaterImg() {
@@ -82,10 +82,10 @@ public class UserEstimateDTO {
 	public void setMaterImg(String materImg) {
 		this.materImg = materImg;
 	}
-	public String getMaterPrice() {
+	public int getMaterPrice() {
 		return materPrice;
 	}
-	public void setMaterPrice(String materPrice) {
+	public void setMaterPrice(int materPrice) {
 		this.materPrice = materPrice;
 	}
 	public String getMaterDurability() {
@@ -106,13 +106,12 @@ public class UserEstimateDTO {
 	public void setMaterClassify(String materClassify) {
 		this.materClassify = materClassify;
 	}
-	public String getKgPerPyeong() {
+	public int getKgPerPyeong() {
 		return kgPerPyeong;
 	}
-	public void setKgPerPyeong(String kgPerPyeong) {
+	public void setKgPerPyeong(int kgPerPyeong) {
 		this.kgPerPyeong = kgPerPyeong;
 	}
-	
 	
 	
 	

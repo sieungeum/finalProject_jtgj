@@ -49,7 +49,7 @@
 					id="budget">
 			</div>
 			<div class="budget-btn-box">
-				<div id="budgetBtn" class="sjm-btn sjm-btn-success">다음</div>
+				<div id="budgetBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
 			</div>
 		</div>
 	</div>
@@ -62,40 +62,52 @@
 				<input class="room-percent__pyeng" type="hidden" >
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div class="plus-room">+</div>
-						<div>
+						<div class="plus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/plus-icon.png" width="24px">
+						</div>
+						<div class="text-room">
 							<span>욕실</span>
 							<span class="cnt-room">1</span>
 						</div>
-						<div class="minus-room">-</div>
+						<div class="minus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/minus-icon.png" width="24px">
+						</div>
 					</div>
 					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div class="plus-room">+</div>
-						<div>
+						<div class="plus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/plus-icon.png" width="24px">
+						</div>
+						<div class="text-room">
 							<span>주방</span>
 							<span class="cnt-room">1</span>
 						</div>
-						<div class="minus-room">-</div>
+						<div class="minus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/minus-icon.png" width="24px">
+						</div>
 					</div>
 					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 				<div class="room-percent__room">
 					<div class="room-percent__cnt">
-						<div class="plus-room">+</div>
-						<div>
-							<span>방</span>
+						<div class="plus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/plus-icon.png" width="24px">
+						</div>
+						<div class="text-room">
+							<span>&nbsp;&nbsp;방&nbsp;</span>
 							<span class="cnt-room">1</span>
 						</div>
-						<div class="minus-room">-</div>
+						<div class="minus-room">
+							<img src="${pageContext.request.contextPath}/img/sjm/minus-icon.png" width="24px">
+						</div>
 					</div>
 					<input class="room-percent__pyeng" type="hidden" >
 				</div>
 			</div>
 			<div class="room-percent-btn-box">
-				<div id="roomPercentBtn" class="sjm-btn sjm-btn-success">다음</div>
+				<div id="roomPercentBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
 			</div>
 		</div>
 	</div>
@@ -108,7 +120,7 @@
 
 			<div class="card-wrapper">
 				<!-- 1. 외장재 -->
-				<div class="card-box" style="height: 500px;">
+				<div class="card-box card" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">외장재</div>
 						<img
@@ -123,7 +135,7 @@
 				</div>
 
 				<!-- 2. 지붕재 -->
-				<div class="card-box" style="height: 500px;">
+				<div class="card-box card" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">지붕재</div>
 						<img
@@ -138,7 +150,7 @@
 				</div>
 
 				<!-- 3. 창호재 -->
-				<div class="card-box" style="height: 500px;">
+				<div class="card-box card" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">창호재</div>
 						<img
@@ -153,7 +165,7 @@
 				</div>
 
 				<!-- 4. 거실 -->
-				<div class="card-box" style="height: 500px;">
+				<div class="card-box card" style="height: 500px;">
 					<div class="card-box__top">
 						<div class="mater-category">거실</div>
 						<img
@@ -604,7 +616,7 @@
 				if (i > 0) { // 거실은 왠만하면 1개여서 욕실, 주방, 방 카드만 추가됨.
 					for (let j = 0; j < parseInt(v_cntRoom[i - 1].innerHTML); j++){
 						let v_query = ""
-							v_query += '<div class="card-box" style="height: 500px;">'
+							v_query += '<div class="card-box card" style="height: 500px;">'
 							v_query += '	<div class="card-box__top">'
 							v_query += '		<div class="mater-category">' + v_cntRoom[i - 1].previousElementSibling.innerHTML + (j+1) + '</div>'
 							v_query += '		<img src="${pageContext.request.contextPath}/img/mat-category/mat_category' + (i + 4) + '.jpg">'
@@ -645,6 +657,59 @@
 			v_selectModalCancel.addEventListener("click", () => {
 				v_modalBox.style.display = "none";
 			});
+		});
+		
+		
+		/* card grapDrag */
+
+
+		const scrollContainer = document.querySelector('.card-wrapper');
+		
+		let isDown = false;
+		let startX;
+		let scrollLeft;
+		
+		scrollContainer.addEventListener('mousedown', (e) => {
+		    isDown = true;
+		    scrollContainer.classList.add('active');
+		    startX = e.pageX - scrollContainer.offsetLeft;
+		    scrollLeft = scrollContainer.scrollLeft;
+		});
+		
+		scrollContainer.addEventListener('mouseleave', () => {
+		    isDown = false;
+		    scrollContainer.classList.remove('active');
+		});
+		
+		scrollContainer.addEventListener('mouseup', () => {
+		    isDown = false;
+		    scrollContainer.classList.remove('active');
+		});
+		
+		scrollContainer.addEventListener('mousemove', (e) => {
+		    if (!isDown) return;
+		    e.preventDefault();
+		    const x = e.pageX - scrollContainer.offsetLeft;
+		    const walk = (x - startX) * 1;
+		    scrollContainer.scrollLeft = scrollLeft - walk;
+		});
+		
+		// 모바일 터치 지원
+		scrollContainer.addEventListener('touchstart', (e) => {
+		    isDown = true;
+		    startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+		    scrollLeft = scrollContainer.scrollLeft;
+		});
+		
+		scrollContainer.addEventListener('touchend', () => {
+		    isDown = false;
+		});
+		
+		scrollContainer.addEventListener('touchmove', (e) => {
+		    if (!isDown) return;
+		    const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+		    const walk = (x - startX) * 1;
+		    scrollContainer.scrollLeft = scrollLeft - walk;
 		});
 		
 
@@ -984,6 +1049,11 @@
 		let v_subMatInfo = null; // 최종 결과에 임시저장할 대체 자제들
 		let v_matNum = []; // 최종 결과에 임시저장할 자제들 갯수
 		
+		/* 결과 선택 */
+		const v_rtOptimum = document.getElementById("rtOptimum"); // 최적 대체
+		const v_rtPrice = document.getElementById("rtPrice"); // 가격 감소
+		const v_rtCarbon = document.getElementById("rtCarbon"); // 탄소배출량 감소
+		
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
 			
@@ -1018,15 +1088,23 @@
 			
 			// ajax 통신 함수
 			f_ajaxJsonString(v_sendMaterials, 50);
+			
+			// 버튼 클릭 시 다른거 비활성화
+			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
+				v_rtOptimum.classList.remove("sjm-btn-light");
+				v_rtOptimum.classList.add("sjm-btn-dark");
+				v_rtPrice.classList.remove("sjm-btn-dark");
+				v_rtPrice.classList.add("sjm-btn-light");
+				v_rtCarbon.classList.remove("sjm-btn-dark");
+				v_rtCarbon.classList.add("sjm-btn-light");
 
-			document.getElementById("rtOptimum").style.pointerEvents = "none";
+				v_rtOptimum.style.pointerEvents = "none";
+				v_rtPrice.style.pointerEvents = "auto";
+				v_rtCarbon.style.pointerEvents = "auto";
+			}
 		});
 		
 		/* 결과 선택 */
-			
-		const v_rtOptimum = document.getElementById("rtOptimum"); // 최적 대체
-		const v_rtPrice = document.getElementById("rtPrice"); // 가격 감소
-		const v_rtCarbon = document.getElementById("rtCarbon"); // 탄소배출량 감소
 		
 		// 최적 대체 (default)
 		v_rtOptimum.addEventListener("click", function() {
@@ -1202,6 +1280,10 @@
 					let v_basicMat = []; // arr
 					for (let key in Object.keys(v_basicMatDict)){
 						v_basicMat.push(v_basicMatDict[key]);
+					}
+					
+					for (let i = 0; i < v_basicMat.length; i++){
+						v_subMat[i]["materCategory"] = v_basicMat[i]["matCategory"]
 					}
 
 					console.log("선택된 자제들");
@@ -1482,10 +1564,27 @@
 				basicMater[i]['materKg'] = v_matNum[i];
 			}
 			
+			let subMatInfo = {};
+			
+			for (let i = 0; i < Object.keys(v_subMatInfo).length; i++){
+				subMatInfo[i] = {};
+				subMatInfo[i]['materNo'] = v_subMatInfo[i]['materNo'];
+				subMatInfo[i]['materCategory'] = v_subMatInfo[i]['materCategory'];
+				subMatInfo[i]['materName'] = v_subMatInfo[i]['materName'];
+				subMatInfo[i]['materGasKg'] = v_subMatInfo[i]['materGasKg'];
+				subMatInfo[i]['materPrice'] = v_subMatInfo[i]['materPrice'];
+				subMatInfo[i]['materKg'] = v_matNum[i];
+			}
+			
 			
 			basicMater = JSON.stringify(basicMater);
 			console.log(basicMater);
 			basicMater = "basicMater=" + basicMater;
+			
+			subMatInfo = JSON.stringify(subMatInfo);
+			console.log(subMatInfo);
+			basicMater += "&subMatInfo=" + subMatInfo;
+			
 			// console.log("${login.userId}");
 			// basicMater += "&userId=" + "${login.userId}"; 테스트 끝나면 주석 풀기
 			basicMater += "&userId=" + "gd";
