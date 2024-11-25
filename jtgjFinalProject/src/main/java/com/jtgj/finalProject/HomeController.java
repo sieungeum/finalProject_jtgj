@@ -52,6 +52,7 @@ public class HomeController {
 		response.setContentType("text/html; charset=utf-8");
 		
 		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
 		
 		if(login == null) {
 			return "redirect:/";
@@ -75,6 +76,7 @@ public class HomeController {
 		response.setContentType("text/html; charset=utf-8");
 		
 		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
 		
 		if(login == null) {
 			return "redirect:/";

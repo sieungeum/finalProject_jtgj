@@ -9,5 +9,35 @@
 		FROM user_estimate
 	</select>
 	
+	<!-- 최종 자제들 기본 자제랑 대체 자제 저장하기 (insert) -->
+	<insert id="setUserEstimate" parameterType="com.jtgj.finalProject.userEstimate.dto.UserEstimateDTO">
+		INSERT INTO user_estimate(
+			user_id,
+			esti_no,
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify,
+			kg_per_pyeong
+		) VALUES (
+			#{userId},
+			#{estiNo},
+			#{materNo},
+			#{materCategory},
+			#{materName},
+			#{materGasKg},
+			#{materImg},
+			#{materPrice},
+			#{materDurability},
+			#{materInfo},
+			#{materClassify},
+			#{kgPerPyeong}
+		)
+	</insert>
 	
 </mapper>
