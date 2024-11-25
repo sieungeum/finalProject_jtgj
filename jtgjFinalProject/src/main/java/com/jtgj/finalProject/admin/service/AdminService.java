@@ -88,6 +88,15 @@ public class AdminService {
 		return result;
 	}
 
-
+	public int insertAttachMater(AttachDTO attachMater) {
+		int result = dao.insertAttachMater(attachMater);
+		return result;
+	}
+	
+	public List<AttachDTO> getAttachMater(int materNo) {
+		List<AttachDTO> result = dao.getAttachMaterList(materNo);
+		return result;
+	}
+	
 	
 }

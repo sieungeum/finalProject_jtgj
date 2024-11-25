@@ -34,6 +34,8 @@ public interface IAdminDAO {
 	int writeMater(EstimateDTO mater);
 	int getMaterNo();
 	
+	int insertAttachMater(AttachDTO attachMater);
+	List<AttachDTO> getAttachMaterList(int materNo);
 
 	
 }
