@@ -296,6 +296,23 @@ public class UserController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	// 비밀번호 중복 여부 체크
+	@ResponseBody
+	@PostMapping("/ConfirmPassword")
+	public ResponseEntity<Boolean> ConfirmPassword(String email, String password) {
+		boolean result = true;
+		
+		String nowPw = userService.getPwUsedEmail(email);
+		
+		if(nowPw.equals(password)) {
+			result = false;
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	// 계정 찾기 페이지
 	@RequestMapping("/findAccountView")
 	public String findPersonalId() {
@@ -900,7 +917,6 @@ public class UserController {
 	
 	// 프로필 이미지 업로드
 	@ResponseBody
-  
 	@PostMapping(value = "/uploadProfile", produces = "application/json; charset=utf-8") 
 	public Map<String, Object> uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 
 	  
@@ -923,5 +939,162 @@ public class UserController {
 		userService.editProfImg(login);
 		result.put("result", profImgName);
 		return result;
+	}
+	
+	// 개인회원수정 페이지
+	@RequestMapping("/personalEditView")
+	public String personalEditView(HttpSession session, HttpServletResponse response) throws IOException {
+		System.out.println("- personalEditView - ");
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
+		
+		if(login == null) {
+			return "redirect:/";
+		}
+		
+		if (login.getUserAccount().equals("C")) {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('개인회원만 접근 가능합니다!');");
+			out.println("history.go(-1);</script>");
+			out.close();
+        } 
+		
+		return "myPage/personalEditView";
+	}
+	
+	// 기업회원수정 페이지
+	@RequestMapping("/companyEditView")
+	public String companyEditView(HttpSession session, HttpServletResponse response) throws IOException{
+		System.out.println("- companyEditView - ");
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
+		
+		if(login == null) {
+			return "redirect:/";
+		}
+		
+		if (login.getUserAccount().equals("P")) {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('기업회원만 접근 가능합니다!');");
+			out.println("history.go(-1);</script>");
+			out.close();
+        } 
+		
+		return "myPage/companyEditView";
+	}
+	
+	
+	// 개인회원 회원수정
+	@ResponseBody
+	@PostMapping("/personalEditDo")
+	public ResponseEntity<Boolean> personalEditDo(@RequestBody Map<String, Object> requestData, HttpSession session){
+		System.out.println(" - Personal Edit Do - ");
+		
+		boolean result = false;
+		
+		System.out.println(requestData);
+		
+		String email = (String)requestData.get("userEmail");
+		
+		// UserDTO 매핑
+		UserDTO user = new UserDTO();
+		user.setUserId((String) requestData.get("userId"));
+		user.setUserName((String) requestData.get("userName"));
+		if(!requestData.get("userPw").equals("")) {
+			user.setUserPw((String) requestData.get("userPw"));
+		} else {
+			user.setUserPw(userService.getPwUsedEmail(email));
+		}
+		user.setUserPhone((String) requestData.get("userPhone"));
+		user.setUserEmail((String) requestData.get("userEmail"));
+		
+		if(user != null) {
+			userService.updateC(user);
+			
+			result = true;
+			
+			UserDTO login = userService.getUserById(user.getUserId());
+			session.setAttribute("login", login);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	// 기업회원 회원수정
+	@ResponseBody
+	@PostMapping("/companyEditDo")
+	public ResponseEntity<Boolean> companyEditDo(@RequestBody Map<String, Object> requestData, HttpSession session) {
+		System.out.println(" - Company Edit Do - ");
+		
+		boolean result = false;
+		
+		System.out.println(requestData);
+		
+		int cpCarbonEmissions = Integer.parseInt((String) requestData.get("cpCarbonEmissions"));
+		String email = (String)requestData.get("userEmail");
+		
+		// UserDTO 매핑
+		UserDTO user = new UserDTO();
+		user.setUserId((String) requestData.get("userId"));
+		user.setUserName((String) requestData.get("userName"));
+		if(!requestData.get("userPw").equals("")) {
+			user.setUserPw((String) requestData.get("userPw"));
+		} else {
+			user.setUserPw(userService.getPwUsedEmail(email));
+		}
+		user.setUserPhone((String) requestData.get("userPhone"));
+		user.setUserEmail((String) requestData.get("userEmail"));
+
+		// CompanyDTO 매핑
+		CompanyDTO company = new CompanyDTO();
+		company.setUserId((String) requestData.get("userId"));
+		company.setCpOpenDate((String) requestData.get("cpOpenDate"));
+		company.setCpAddress((String) requestData.get("cpAddress"));
+		company.setCpCeoName((String) requestData.get("cpCeoName"));
+		company.setCpCarbonEmissions(cpCarbonEmissions);
+
+		// 데이터 베이스에 insert
+		if(user != null && company != null) {
+			userService.updateC(user);
+			userService.updateCMore(company);
+
+			result = true;
+			
+			// 세션 업데이트(user, company, address)
+			UserDTO login = userService.getUserById(user.getUserId());
+			CompanyDTO company_info = userService.getCompanyByUserId(company.getUserId());
+			
+			// 시간 포맷 수정(시,분,초 삭제)
+			String v_companyDate = company_info.getCpOpenDate();
+			v_companyDate = v_companyDate.split(" ")[0];
+			company_info.setCpOpenDate(v_companyDate);
+			
+			String address = company.getCpAddress();
+			String[] arr = address.split("\\|");
+			
+			List<String> addressDetails = new ArrayList<>();
+			for(int i = 0; i < arr.length; i++) {			
+				addressDetails.add(arr[i]);
+			}
+			
+			session.setAttribute("login", login);
+			session.setAttribute("company", company_info);
+			session.setAttribute("address", addressDetails);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
 	}
 }

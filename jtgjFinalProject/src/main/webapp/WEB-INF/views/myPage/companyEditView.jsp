@@ -187,7 +187,7 @@
 						
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
-								<div class="card-header">기업정보 수정</div>
+								<div class="card-header">기업정보 수정 (사업자 등록증명원의 내용과 일치해야 합니다!)</div>
 								<div class="card-body">
 									<div class="mb-3">
 							            <label for="inputCorName" class="form-label" style="font-weight:bolder;">기업명</label>
@@ -311,8 +311,7 @@
 		}
 		
 		// 서버에 보낼 변수값들
-		let v_inputId = document.getElementById('inputId').value;
-		let v_inputEmail = document.getElementById('inputEmail').value;
+		let email = document.getElementById('inputEmail').value;
 		let v_userName;
 		let v_cpCeoName;
 		let v_cpAddress;
@@ -330,6 +329,7 @@
 		let ceoOn = true;
 		let addressOn = true;
 		let dateOn = true;
+		let emissionOn = true;
 		
 		// 기업명
 		function checkCorName(){
@@ -435,6 +435,19 @@
 			}
 		}
 		
+		// 탄소배출량
+		function checkCarbon(){
+			let v_emission = $('#inputCarbon').val();
+
+			if(v_emission){
+				emissionOn = true;
+				toggleSignUpButton();
+			} else{
+				emissionOn = false;
+				toggleSignUpButton();
+			}
+		}
+		
 		// 비밀번호 일치 여부 확인 함수
 		function checkPasswordMatch() {
 			pw = $('#inputPassword').val();
@@ -449,9 +462,31 @@
 			        pwOn = false; // 비밀번호 확인 실패
 			        $('#label').text('비밀번호를 입력해주세요.').css("color", "red").css("font-size", "13px");
 		    	}
-		    } else if (pw === rePw) { // 비밀번호가 일치할 때
-		        pwOn = true; // 비밀번호 확인 성공
-		        $('#label').text('비밀번호가 일치합니다.').css("color", "green").css("font-size", "13px");
+		    } else if (pw === rePw) { // 비밀번호가 일치할 때		   
+		    	$.ajax({
+		    		url:"${pageContext.request.contextPath}/ConfirmPassword",
+		    		data: {
+		    			email: email,
+		    			password: pw
+		    		},
+		    		type:"POST",
+		    		dataType:'json',
+		    		success:function(result){
+		    			if(result){
+		    				pwOn = true;
+		    				$('#label').text('비밀번호가 일치합니다.').css("color", "green").css("font-size", "13px");
+		    			}else{
+		    				pwOn = false;
+		    				$('#label').text('이전 비밀번호와 동일합니다.').css("color", "red").css("font-size", "13px");
+		    			}
+		    			
+		    			toggleSignUpButton();
+		    		},
+					error: function(xhr, status, error){
+						console.error('AJAX 에러 발생:', error);
+						alert('인증 요청 중 오류가 발생했습니다.');
+					}
+		    	});   
 		    } else { // 비밀번호가 불일치할 때
 		        pwOn = false; // 비밀번호 확인 실패
 		        $('#label').text('비밀번호가 일치하지 않습니다.').css('color', 'red').css("font-size", "13px");
@@ -463,7 +498,7 @@
 		
 		// 가입 버튼 활성화 상태 관리 함수
 		function toggleSignUpButton() {
-			if(pwOn && corNameOn && ceoOn && addressOn && dateOn){
+			if(pwOn && corNameOn && ceoOn && addressOn && dateOn && emissionOn){
 				v_editBtn.prop('disabled', false);
 				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:none;"
 			} else {
@@ -475,7 +510,8 @@
 		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
 		$("#inputCorName").on("focusout", checkCorName); // 기업명 focusout 이벤트
 		$("#inputCEO").on("focusout", checkCeoName); // 대표자명 focusout 이벤트
-		$("#inputDate").on("change", checkDate); // 개업일 focusout 이벤트
+		$("#inputDate").on("change", checkDate); // 개업일 change 이벤트
+		$("#inputCarbon").on("focusout", checkCarbon); // 탄소배출량 focusout 이벤트
 		$('#detailAddress, #inputAddress').on("focusout", checkAddress); // 회사주소 focusout 이벤트
 		
 		
@@ -527,19 +563,49 @@
 
 				
 				// 2. 개인, 기업정보
-				let v_phone = $("#inputPhone").val();
-				let v_emission = $("inputCarbon").val();
-				let v_pw = pw.val();
-				console.log(v_inputId);
-				console.log(v_inputEmail);
-				console.log(v_userName);
-				console.log(v_cpCeoName);
-				console.log(v_cpAddress);
-				console.log(v_cpOpenDate);
+				let phone = $("#inputPhone").val();
+				let emission = $("#inputCarbon").val();
+				let v_pw = $("#inputPassword").val();
+				let id = $("#inputId").val();
+				let corName = $("#inputCorName").val();
+				let ceoName = $("#inputCEO").val();
+				let address = $("#zipCode").val() + "|" + $("#inputAddress").val() + "|" + $("#detailAddress").val() + "|" + $("#extraAddress").val();
+				let date = $("#inputDate").val();
 				
 				// inputId 와 inputEmail의 값과 일치하는 user, company_info 테이블 정보 변경
 				// undefined 로 값이 매겨지는 것들은 기존 데이터 유지
+				let requestData = {
+						userId: id,
+						userPw: v_pw,
+						userEmail: email,
+						userPhone: phone,
+						userName: corName,
+						cpCeoName: ceoName,
+						cpAddress: address,
+						cpOpenDate: date,
+						cpCarbonEmissions: emission
+				};
 				
+				console.log(requestData);
+				
+				$.ajax({
+					type:'POST',
+					url:"${pageContext.request.contextPath}/companyEditDo",
+					data:JSON.stringify(requestData),
+					contentType:"application/json",
+					success:function(result){
+						if(result === true){
+							alert("회원정보가 성공적으로 변경됐습니다!");
+							location.href = "${pageContext.request.contextPath}/myPage";
+						}else{
+							alert("회원수정에 실패했습니다. 고객센터에 문의해주세요.");
+						}
+					},
+					error: function(error){
+						alert("오류가 발생했습니다. 고객센터에 문의해주세요.\n오류내용: " + error);
+						console.log("Error occured:", error);
+					}
+				});
 			}
 		});
 		

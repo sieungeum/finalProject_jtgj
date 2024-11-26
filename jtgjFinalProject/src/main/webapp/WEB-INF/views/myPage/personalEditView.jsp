@@ -93,7 +93,7 @@
 					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
+						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
 						<c:if test="${sessionScope.login.userAccount == 'C'}">
 						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
 						</c:if>
@@ -129,10 +129,10 @@
 										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
 									</c:if>
 									<c:if test="${sessionScope.login.userProfImg != 'N' }">
-										<img id="profileImagePreview" class="profile-img" src="img/default_img.png">
+										<img id="profileImagePreview" class="profile-img" src="${pageContext.request.contextPath }/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg}">
 									</c:if>
 								</div>
-								<input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this); uploadFile(this)">
+								<input class="d-none" id="inputImage" type="file" accept="image/*" onchange="readImage(this);">
 								<button class="btn btn-success mt-3 mb-3" style="width:10%;" onclick="resetImage()">사진 초기화</button>
 							</div>
 						</c:if>
@@ -164,22 +164,16 @@
 							            </div>
 							            
 							            <div class="d-flex mt-2">
-							            	<label class="me-3" id="label2"></label>
+							            	<label class="me-3" id="label"></label>
 							            </div>  
 							        </div>
 							        
-							        <c:if test="${sessionScope.login.userAccount != 'C'}">
-								        <div class="mb-3">
-								            <label for="inputName" class="form-label" style="font-weight:bolder;">닉네임</label>
-								            <div class="input-group">
-								                <input type="text" class="form-control" id="inputName" value="${login.userName }">
-								            </div>
-								            
-								            <div class="d-flex mt-2">
-								            	<label class="me-3" id="label3"></label>
-								            </div>  
-								        </div>
-							        </c:if>
+							        <div class="mb-3">
+							            <label for="inputName" class="form-label" style="font-weight:bolder;">닉네임</label>
+							            <div class="input-group mb-2">
+							                <input type="text" class="form-control me-2" id="inputName" value="${login.userName }">
+							            </div>
+							        </div>
 							
 							        <div class="mb-3">
 							            <label for="inputEmail" class="form-label" style="font-weight:bolder;">이메일</label>
@@ -197,11 +191,11 @@
 								</div>
 							</div>
 							
-							<!-- 개인회원 수정버튼 -->
-							<div class="mt-3">
-								<button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="button" >수정하기</button>
-						    </div>		
-						</div>
+							<div class="mt-2">
+					            <button class="btn btn-primary btn-lg w-100 mb-2" id="editBtn" type="button" >수정하기</button>
+					        	<p id="signUpWarning" style="display:none;">비밀번호 일치, 불일치 혹은 다른 항목에 빈칸이 있는지 확인해주세요!</p>
+				        	</div>	
+						</div>						
 					</div>
 				</div>
 			</main>
@@ -225,60 +219,232 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-	
 	<script>
 		// 초기 이미지
 		let imgElement  = document.getElementById('profileImagePreview');
 		const initialImg = imgElement.src;
+		const initialImgName = initialImg.split("=")[2];
+		console.log(initialImgName);
+		let selectedFile = null; // 전역 변수로 선택된 파일 저장
+		let inputImageElement = document.getElementById('inputImage');
 		
 		// 프로필 이미지 클릭 시 숨겨놓은 input file 이 클릭됌
 		$(".profile-img").on("click", () => {
 			$("#inputImage").click();
 		});
 		
+		$("#inputImage").on("change", function () {
+			if(this.files && this.files[0]){
+				// 파일이 선택된 경우 readImage 호출
+				selectedFile = this.files[0]; // 선택된 파일 저장
+				readImage(this); // 이미지 미리보기 없데이트
+			} else {
+				// 파일이 선택되지 않은 경우
+				console.log("파일 선택 취소됨, 기본 이미지 유지");
+			}
+		});
+		
 		// 프로필 이미지 임시 변경(아직 수정 X)
 		function readImage(input){
-			if(input.files && input.files[0]){
+			if(selectedFile){
 				const reader = new FileReader();
 				
 				// 파일 읽기가 완료되면 실행되는 콜백
 				reader.onload = function (e) {
 					// 미리보기 이미지를 변경
 					imgElement.src = e.target.result;
-	
-					input.value = "";
+
 				}
 				
 				// 파일 읽기 시작
-				reader.readAsDataURL(input.files[0]);
+				reader.readAsDataURL(selectedFile);
 			}
 		}
 		
 		// 프로필 이미지 초기화 함수
 		function resetImage(){
 			imgElement.src = initialImg;
+			selectedFile = null;
+			inputImageElement.value = "";
+			console.log("이미지가 초기화됐습니다.");
 		}
-		
 		
 		// 서버에 보낼 변수값들
-		let v_inputId = document.getElementById('inputId').value;
-		let v_inputEmail = document.getElementById('inputEmail').value;
+		let email = document.getElementById('inputEmail').value;
+		let v_userName;
+		let pw = $('#inputPassword');
+		let rePw = $('#checkPassword');
 		
+		let v_editBtn = $('#editBtn'); // 가입하기 버튼
+		let v_warning = $('#signUpWarning'); // 가입 조건 안내
+
 		
-		/*
-			비밀번호 inputPassword, checkPassword
-			닉네임 inputName -> 유저명 or 기업명
-			휴대폰 inputPhone
-			기업명 UserName 으로
-		*/
+		// 토글 활성화 boolean
+		let pwOn = true;
+		let nameOn = true;
 		
-		// 중복확인 boolean
-		
-		
-		// 서버로 사진을 보냄 -> 수정하기 버튼 클릭 후 실행될 파일
-		function uploadFile(p_this){
+		// 기업명
+		function checkName(){
+			v_userName = $('#inputName').val();
+			console.log(v_userName);
 			
+			if(v_userName){
+				nameOn = true;
+				toggleSignUpButton();
+			}else{
+				nameOn = false;
+				toggleSignUpButton();
+			}
 		}
+		
+		// 비밀번호 일치 여부 확인 함수
+		function checkPasswordMatch() {
+			pw = $('#inputPassword').val();
+			rePw = $('#checkPassword').val();
+			
+			// 입력값이 모두 비어있으면
+		    if (!pw || !rePw) {
+		    	if(pw === rePw){
+		    		pwOn = true;
+		    		$('#label').text('');
+		    	} else{
+			        pwOn = false; // 비밀번호 확인 실패
+			        $('#label').text('비밀번호를 입력해주세요.').css("color", "red").css("font-size", "13px");
+		    	}
+		    } else if (pw === rePw) { // 비밀번호가 일치할 때		   
+		    	$.ajax({
+		    		url:"${pageContext.request.contextPath}/ConfirmPassword",
+		    		data: {
+		    			email: email,
+		    			password: pw
+		    		},
+		    		type:"POST",
+		    		dataType:'json',
+		    		success:function(result){
+		    			if(result){
+		    				pwOn = true;
+		    				$('#label').text('비밀번호가 일치합니다.').css("color", "green").css("font-size", "13px");
+		    			}else{
+		    				pwOn = false;
+		    				$('#label').text('이전 비밀번호와 동일합니다.').css("color", "red").css("font-size", "13px");
+		    			}
+		    			
+		    			toggleSignUpButton();
+		    		},
+					error: function(xhr, status, error){
+						console.error('AJAX 에러 발생:', error);
+						alert('인증 요청 중 오류가 발생했습니다.');
+					}
+		    	});   
+		    } else { // 비밀번호가 불일치할 때
+		        pwOn = false; // 비밀번호 확인 실패
+		        $('#label').text('비밀번호가 일치하지 않습니다.').css('color', 'red').css("font-size", "13px");
+		    }
+			
+			toggleSignUpButton();
+		}
+		
+		
+		// 가입 버튼 활성화 상태 관리 함수
+		function toggleSignUpButton() {
+			if(pwOn && nameOn){
+				v_editBtn.prop('disabled', false);
+				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:none;"
+			} else {
+				v_editBtn.prop('disabled', true);
+				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:'';"
+			}
+		}
+		
+		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
+		$("#inputName").on("focusout", checkName); // 유저이름 focusout 이벤트
+		
+		// 수정 버튼 클릭
+		document.getElementById("editBtn").addEventListener("click", () => {
+			if(confirm("회원정보를 수정하시겠습니까?")){
+				
+				// 1. 이미지 수정 처리
+				if(selectedFile != null){
+					let v_formData = new FormData();
+					v_formData.append("file", selectedFile);
+					
+					for(let [key, value] of v_formData.entries()){
+						console.log(key, ": ", value);
+					}
+					
+					let v_url = "${pageContext.request.contextPath}/uploadProfile";	
+					
+					$.ajax({
+						type:"POST",
+						url:v_url,
+						contentType:false,
+						processData:false,
+						enctype:"multipart/form-data",
+						data:v_formData,
+						success:function(data){
+							console.log(data);
+							console.log(data.result);
+							
+							let filePath = data.result;
+							let reqSrcUrl = "${pageContext.request.contextPath}/displayProfImg";
+							let atchtype = "prof_img";
+							
+							$(".profile-img").attr("src", reqSrcUrl + "?atchtype=" + atchtype + "&imgName=" + filePath);
+						},
+						error : function(req, st, err) {
+							console.log('-------------------------------');
+							console.log("request", req);
+							console.log("status", st);
+							console.log("errors", err);
+							console.log('-------------------------------');
+						}
+					});
+				} else {
+					let reqSrcUrl = "${pageContext.request.contextPath}/displayProfImg";
+					let atchtype = "prof_img";
+					$(".profile-img").attr("src", reqSrcUrl + "?atchtype=" + atchtype + "&imgName=" + initialImgName);
+				}
+
+				
+				// 2. 개인, 기업정보
+				let phone = $("#inputPhone").val();
+				let v_pw = $("#inputPassword").val();
+				let id = $("#inputId").val();
+				let name = $("#inputName").val();
+				
+				// inputId 와 inputEmail의 값과 일치하는 user, company_info 테이블 정보 변경
+				// undefined 로 값이 매겨지는 것들은 기존 데이터 유지
+				let requestData = {
+						userId: id,
+						userPw: v_pw,
+						userEmail: email,
+						userPhone: phone,
+						userName: name,
+				};
+				
+				console.log(requestData);
+ 				
+				$.ajax({
+					type:'POST',
+					url:"${pageContext.request.contextPath}/personalEditDo",
+					data:JSON.stringify(requestData),
+					contentType:"application/json",
+					success:function(result){
+						if(result === true){
+							alert("회원정보가 성공적으로 변경됐습니다!");
+							location.href = "${pageContext.request.contextPath}/myPage";
+						}else{
+							alert("회원수정에 실패했습니다. 고객센터에 문의해주세요.");
+						}
+					},
+					error: function(error){
+						alert("오류가 발생했습니다. 고객센터에 문의해주세요.\n오류내용: " + error);
+						console.log("Error occured:", error);
+					}
+				}); 
+			}
+		});
+		
 		
 	</script>
 </body>

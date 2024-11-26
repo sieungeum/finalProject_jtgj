@@ -112,4 +112,16 @@ public class UserService {
 	public CompanyDTO getCompanyByUserId(String userId) {
         return dao.getCompanyByUserId(userId);
     }
+	
+	// 기업회원 정보 수정(user)
+	public int updateC(UserDTO user) {
+		int result = dao.updateC(user);
+		return result;
+	}
+	
+	// 기업회원 정보 수정(company)
+	public int updateCMore(CompanyDTO company) {
+		int result = dao.updateCMore(company);
+		return result;
+	}
 }
