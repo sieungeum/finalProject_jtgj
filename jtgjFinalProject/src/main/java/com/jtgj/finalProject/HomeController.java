@@ -43,55 +43,6 @@ public class HomeController {
 		
 		return "home";
 	}
-	
-	@RequestMapping("/personalEditView")
-	public String personalEditView(HttpSession session, HttpServletResponse response) throws IOException {
-		System.out.println("- personalEditView - ");
-		
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		
-		UserDTO login = (UserDTO) session.getAttribute("login");
-		session.setAttribute("atchtype", "prof_img");
-		
-		if(login == null) {
-			return "redirect:/";
-		}
-		
-		if (login.getUserAccount().equals("C")) {
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('개인회원만 접근 가능합니다!');");
-			out.println("history.go(-1);</script>");
-			out.close();
-        } 
-		
-		return "myPage/personalEditView";
-	}
-	
-	@RequestMapping("/companyEditView")
-	public String companyEditView(HttpSession session, HttpServletResponse response) throws IOException{
-		System.out.println("- companyEditView - ");
-		
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8");
-		
-		UserDTO login = (UserDTO) session.getAttribute("login");
-		session.setAttribute("atchtype", "prof_img");
-		
-		if(login == null) {
-			return "redirect:/";
-		}
-		
-		if (login.getUserAccount().equals("P")) {
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('기업회원만 접근 가능합니다!');");
-			out.println("history.go(-1);</script>");
-			out.close();
-        } 
-		
-		return "myPage/companyEditView";
-	}
-	
 
 	
 }
