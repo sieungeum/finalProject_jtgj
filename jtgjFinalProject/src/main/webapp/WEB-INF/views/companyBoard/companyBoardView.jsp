@@ -89,9 +89,23 @@
 	            
 	        </div>
 	    </div>
-	    <a href="${pageContext.request.contextPath }/companyBoardWriteView">
-		    <button type="button" class="btn btn-primary">글쓰기</button>
-	    </a>
+	    <!-- 글쓰기 / 글 수정 버튼 -->
+		<c:if test="${sessionScope.login != null && sessionScope.login.userAccount == 'C'}">
+		    <c:choose>
+		        <c:when test="${hasPosted}">
+		            <!-- 글 수정 버튼 -->
+		            <a href="${pageContext.request.contextPath}/companyBoardEditView">
+		                <button type="button" class="btn btn-warning">글 수정</button>
+		            </a>
+		        </c:when>
+		        <c:otherwise>
+		            <!-- 글쓰기 버튼 -->
+		            <a href="${pageContext.request.contextPath}/companyBoardWriteView">
+		                <button type="button" class="btn btn-primary">글쓰기</button>
+		            </a>
+		        </c:otherwise>
+		    </c:choose>
+		</c:if>
 		
 		<!-- Paging Bar -->
 		<div class="d-flex justify-content-center">

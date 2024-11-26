@@ -44,4 +44,10 @@
 		)
 	</insert>
 	
+	<select id="checkIfPosted" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM company_board 
+	    WHERE user_id = #{userId}
+	</select>
+	
 </mapper>

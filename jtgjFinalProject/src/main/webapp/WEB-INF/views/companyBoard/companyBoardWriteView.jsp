@@ -160,7 +160,12 @@
 		                <div class="dFjcB marB">
 		                    <div class="dF">
 		                        <!-- 프로필 이미지 표시 -->
-		                        <img class="profileImg marR" alt="Profile Image" src="${user.userProfImg != null ? user.userProfImg : 'img/proImg.jpg'}">
+		                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
+									<img src="img/default_img.png" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+								</c:if>
+								<c:if test="${sessionScope.login.userProfImg != 'N' }">
+									<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+								</c:if>
 		                        <div class="dFDjcA">
 		                            <!-- 기업명 -->
 		                            <h6>${user.userName}</h6>

@@ -38,12 +38,21 @@ public class CompanyBoardController {
 	FileUploadUtils fileUploadUtils;
 	
 	@RequestMapping("/companyBoardView")
-	public String companyBoardView(Model model) {
+	public String companyBoardView(Model model, HttpSession session) {
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+		boolean hasPosted = false;
+		
+		if (login != null && "C".equals(login.getUserAccount())) {
+	        // 글 작성 여부 확인
+	        hasPosted = companyBoardService.checkIfPosted(login.getUserId());
+	    }
 		
 		List<CompanyBoardDTO> companyBoardList = companyBoardService.getCompanyBoardList();
 		
 		System.out.println("companyBoardList : " + companyBoardList);
 		model.addAttribute("companyBoardList", companyBoardList);
+		model.addAttribute("hasPosted", hasPosted);
 		
 		return "companyBoard/companyBoardView";
 		

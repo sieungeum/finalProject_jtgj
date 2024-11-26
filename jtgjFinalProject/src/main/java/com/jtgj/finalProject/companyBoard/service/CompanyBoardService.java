@@ -47,4 +47,8 @@ public class CompanyBoardService {
         return dao.writeCompanyBoard(companyBoard);
     }
 	
+	public boolean checkIfPosted(String userId) {
+	    return dao.checkIfPosted(userId) > 0; // DAO 호출 결과가 0보다 크면 이미 게시글 작성
+	}
+	
 }
