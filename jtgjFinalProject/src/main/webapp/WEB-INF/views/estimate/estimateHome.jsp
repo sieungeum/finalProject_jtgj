@@ -264,11 +264,11 @@
 						<span class="cal-ml">(원)</span>
 					</div>
 				</div>
-			</div>
 
-			<!-- 계산버튼 -->
-			<div class="cal-btn-box">
-				<div id="resultBtn" class="sjm-btn sjm-btn-success">계산</div>
+				<!-- 계산버튼 -->
+				<div class="cal-btn-box">
+					<div id="resultBtn" class="sjm-btn sjm-btn-success sjm-btn-lg">계산</div>
+				</div>
 			</div>
 
 		</div>
@@ -284,38 +284,7 @@
 				src="${pageContext.request.contextPath}/img/mat-category/cancel_modal.png"
 				width="25px">
 		</div>
-		<!--   	이건 일단 삭제 ㄴㄴ
-		<div class="modal-box__top">
-			<img class="modal-top__img" src="">
-		</div>
-		<div class="modal-box__bottom">
-			<div class="modal-botton__material"></div>
-			<div class="modal-botton__rating">
-				<div>
-					<div>배출량</div>
-					<div>가격</div>
-					<div>내구성</div>
-				</div>
-				<div>
-					<div class="modal-botton__carbon">
-						db값
-					</div>
-					<div class="modal-botton__price">
-						db값
-					</div>
-					<div class="modal-botton__durability">
-						db값
-					</div>
-				</div>
-			</div>
-			<div class="modal-botton__explain">
-				db값
-			</div>
-			<div>
-				<button class="btn btn-primary btn-select">선택</button>
-				<button class="btn btn-danger btn-cancel">닫기</button>
-			</div>
-		</div> -->
+		
 		<div class="add-modal">
 			<!-- ajax로 가져옴 -->
 		</div>
@@ -348,73 +317,58 @@
 		<!-- 선택한 자제, 대체 자제 -->
 		<div class="only-flex">
 			<!-- 결과 모달창 -->
-			<div class="modal-box_sort">
+			<div class="modal-box_sort mat-box__flow-y">
 				<!-- 기본 자제 -->
-				<div class="mat-box">
-					<div class="select-mat">
-						<div>외장재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>지붕재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>창호재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>거실</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-<!-- 					<div class="select-mat">
-						<div>주방</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div>
-					<div class="select-mat">
-						<div>욕실</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div>
-					<div class="select-mat">
-						<div>방</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div> -->
-				</div> <!-- 기본 자제 -->
-	
-				<!-- 대체 자제 -->
-				<div class="mat-box">
-					<div class="select-mat">
-						<div>외장재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>지붕재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>창호재</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-					<div class="select-mat">
-						<div>거실</div>
-						<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-					</div>
-<!-- 					<div class="select-mat">
-						<div>주방</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div>
-					<div class="select-mat">
-						<div>욕실</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div>
-					<div class="select-mat">
-						<div>방</div>
-						div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨
-					</div> -->
-				</div> <!-- 대체 자제 -->
+				<div class="mat-box__half">
+					<div class="mat-box">
+						<div class="select-mat">
+							<div>외장재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>지붕재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>창호재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>거실</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+					</div> <!-- 기본 자제 -->
+				</div>
 				
-			</div> <!-- 선택한 자제, 대체 자제 -->
-	
+				<div class="mat-box__half">
+					<!-- 대체 자제 -->
+					<div class="mat-box">
+						<div class="select-mat">
+							<div>외장재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>지붕재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>창호재</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+						<div class="select-mat">
+							<div>거실</div>
+							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
+						</div>
+					</div> <!-- 대체 자제 -->
+				</div>
+				
+			</div>
+			
+		</div>
+				
+				
+		<!-- 기본 자제 최종 가격, 탄소배출량 -->
+		<div class="mat-box__half">
 			<!-- 탄소, 가격 변경사항 -->
 			<div class="compare-percent-box">
 				
@@ -424,8 +378,6 @@
 					<div class="modal-box_sort">
 						<!-- 기본 자제 총 탄소배출량 -->
 						<div class="cal-before"></div>
-						<!-- 대체 자제 총 탄소배출량 -->
-						<div class="cal-after"></div>
 					</div>
 				</div>
 				
@@ -435,14 +387,37 @@
 					<div class="modal-box_sort">
 						<!-- 기본 자제 총 가격 -->
 						<div class="cal-before"></div>
-						<!-- 대체 자제 총 가격 -->
-						<div class="cal-after"></div>
 					</div>
 				</div>
 				
-			</div> <!-- 탄소, 가격 변경사항 -->
-			
-		</div> <!-- 선택한 자제, 대체 자제 -->
+			</div>
+		</div>
+		
+		<!-- 대체 자제 최종 가격, 탄소배출량 -->
+		<div class="mat-box__half">
+			<!-- 탄소, 가격 변경사항 -->
+			<div class="compare-percent-box">
+				
+				<!-- 탄소배출량 -->
+				<div class="compare-percent__carbon">
+					<div>탄소배출량</div>
+					<div class="modal-box_sort">
+						<!-- 기본 자제 총 탄소배출량 -->
+						<div class="cal-before"></div>
+					</div>
+				</div>
+				
+				<!-- 가격 -->
+				<div class="compare-percent__price">
+					<div>가격</div>
+					<div class="modal-box_sort">
+						<!-- 기본 자제 총 가격 -->
+						<div class="cal-before"></div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
 		
 		<!-- 초기화 버튼 -->
 		<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary">
@@ -754,8 +729,17 @@
 						}
 						
 						// ajax로 가져온 데이터들이 욕실, 주방, 방 일 경우 비율에 맞는 평수 가져오기
-						if (v_data[i]['materCategory'] == v_materNamePlusNum.replace(/[0-9]/g, '')){
-							v_diffPyong = v_roomPercentPyeong[i + 1].value
+						if (v_materNamePlusNum.replace(/[0-9]/g, '') == "욕실"){
+							console.log(v_materNamePlusNum.replace(/[0-9]/g, ''));
+							v_diffPyong = v_roomPercentPyeong[1].value
+							break;
+						} else if (v_materNamePlusNum.replace(/[0-9]/g, '') == "주방"){
+							console.log(v_materNamePlusNum.replace(/[0-9]/g, ''));
+							v_diffPyong = v_roomPercentPyeong[2].value
+							break;
+						} else if (v_materNamePlusNum.replace(/[0-9]/g, '') == "방"){
+							console.log(v_materNamePlusNum.replace(/[0-9]/g, ''));
+							v_diffPyong = v_roomPercentPyeong[3].value
 							break;
 						}
 					}
@@ -777,12 +761,12 @@
 							
 							/* 자제 수치들(나중에 별점 5개로 시각화 필요) */
 							v_query += '		<div class="modal-botton__rating">'
-							v_query += '			<div>'
+							v_query += '			<div class="rating-title">'
 							v_query += '				<div>배출량</div>'
 							v_query += '				<div>가격</div>'
 							v_query += '				<div>내구성</div>'
 							v_query += '			</div>'
-							v_query += '			<div>'
+							v_query += '			<div class="rating-star">'
 							v_query += '				<div class="modal-botton__carbon">'
 							v_query += '					' + v_data[i]['materGasKg']
 							v_query += '				</div>'
@@ -802,8 +786,8 @@
 							v_query += '	</div>'
 								
 							/* 선택 버튼 */
-							v_query += '	<div class="modal-m">'
-							v_query += '		<button class="sjm-btn sjm-btn-primary btn-select">선택</button>'
+							v_query += '	<div class="modal-botton__btn modal-m">'
+							v_query += '		<button class="sjm-btn sjm-btn-success sjm-btn-lg btn-select">선택</button>'
 							v_query += '	</div>'
 							v_query += '</div>'
 							
@@ -850,9 +834,9 @@
 							
 							// 등록한 자제 html 태그
 							// v_newMaterialDiv.innerHTML = v_data[i]['materName'] + '<br> <input type="number" oninput="f_inputValue()" value="0">kg';
-							v_newMaterialDiv.innerHTML = v_data[i]['materName'];
+							v_newMaterialDiv.innerHTML = '<div>' + v_data[i]['materName'] + '</div>';
 							// 닫기 이미지
-							v_newMaterialDiv.innerHTML += '<img width="18px" height="18px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
+							v_newMaterialDiv.innerHTML += '<img width="22px" height="22px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
 							
 							// 숨겨진 input 요소 생성
 							let v_price = document.createElement("input");
@@ -1305,7 +1289,7 @@
 							
 							let v_query = ""
 								v_query += '<div class="select-mat">'
-								v_query += '	<div>' + v_materCategory[i].innerHTML + '</div>'
+								v_query += '	<div class="select-mat__category">' + v_materCategory[i].innerHTML + '</div>'
 								v_query += '</div>'
 								
 							v_matBox[k].innerHTML += v_query;
@@ -1414,18 +1398,21 @@
 			
 			let v_query = "";
 			v_query += '<div class="temp-save__obj">';
-			v_query += '	<div class="sjm-btn sjm-btn-primary temp-save-btn">불러오기</div>';
-			v_query += '	<div>' + v_matInfo[0]['materName'] + ' 외 ' + (Object.keys(v_matInfo).length - 1)  + '개' + '</div>';
+			v_query += '	<div class="sjm-btn sjm-btn-warning temp-save-btn">불러오기</div>';
+			v_query += '	<div class="temp-save__text">' + v_matInfo[0]['materName'] + ' 외 ' + (Object.keys(v_matInfo).length - 1)  + '개' + '</div>';
+			v_query += '	<img class="temp-del-btn" width="22px" height="22px" src="${pageContext.request.contextPath}/img/delete_icon.png">';
 			v_query += '	<input type="hidden" value="' + Object.keys(v_matInfoStack).length + '">'; // 이 값으로 불러오기 버튼 클릭 시 이벤트 구분
 			v_query += '</div>';
 			
 			v_tempSave.innerHTML += v_query;
+			let v_tempSaveObj = document.querySelectorAll(".temp-save__obj");
 			let v_tempSaveBtn = document.querySelectorAll(".temp-save-btn");
+			let v_tempDelBtn = document.querySelectorAll(".temp-del-btn");
 			
 			for (let idx = 0; idx < v_tempSave.children.length; idx++){
 				v_tempSaveBtn[idx].addEventListener("click", ()=>{
 					// hidden input의 value 값에 각 불러오기 별 key값을 넣어놔서 가져오는 절차(2, 4, 6... 이렇게 가져옴)
-					let v_stackKey = v_tempSaveBtn[idx].nextElementSibling.nextElementSibling.value;
+					let v_stackKey = v_tempSaveBtn[idx].nextElementSibling.nextElementSibling.nextElementSibling.value;
 					
 					v_matInfo = v_matInfoStack[v_stackKey - 2]; // 자제 정보
 					v_matNum = v_matInfoStack[v_stackKey - 1]; // 자제 갯수
@@ -1491,9 +1478,9 @@
 								v_newMaterialDiv.classList.add("material-box__add");
 								
 								// 등록한 자제 html 태그
-								// v_newMaterialDiv.innerHTML = v_matInfo[j]['materName'] + '<br> <input type="number" oninput="f_inputValue()" value=' + v_matNum[j] + '>kg';
-								v_newMaterialDiv.innerHTML = v_matInfo[j]['materName'];
-								v_newMaterialDiv.innerHTML += '<img width="18px" height="18px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
+								v_newMaterialDiv.innerHTML = '<div>' + v_matInfo[j]['materName'] + '</div>';
+								// 닫기 이미지
+								v_newMaterialDiv.innerHTML += '<img width="22px" height="22px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
 								
 								// 숨겨진 input 요소 생성
 								let v_price = document.createElement("input");
@@ -1535,7 +1522,12 @@
 							}
 						}
 					}
-				})
+				});
+				
+				// 불러오기 삭제
+				v_tempDelBtn[idx].addEventListener("click", ()=>{
+					v_tempSaveObj[idx].style.display = "none";
+				});
 			}
 			
 			// 모달창 닫기
