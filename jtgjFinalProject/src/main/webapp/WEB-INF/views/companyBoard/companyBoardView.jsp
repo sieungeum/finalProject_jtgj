@@ -55,80 +55,44 @@
 		</div>
 		
 		<div class="container margin-top">
-        <div class="blog-wrapper">
-            <div class="blog-post">
-                <div class="blog-front-image">
-                    <div class="row">
-                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
-                            <img src="img/blog/img_1.jpg" alt="Blog Image">
-                        </div>
-                        <div class="col-md-5 col-md-offset-1">
-                            <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
-                                <div class="blog-front-content-inner">
-                                    <span class="post-date">14 Jun - 2015</span>
-                                    <h1>Idea of denouncing pleasure and praising pain was born</h1>
-                                    <p>The great explorer of the truth, the master of human happiness rejects, dislike pleasure itself...</p>
-                                    <a href="single-blog.html"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="blog-post">
-                <div class="blog-front-image">
-                    <div class="row">
-                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
-                            <img src="img/blog/img_2.jpg" alt="Blog Image">
-                        </div>
-                        <div class="col-md-5 col-md-offset-1">
-                            <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
-                                <div class="blog-front-content-inner">
-                                    <span class="post-date">9 Jun - 2015</span>
-                                    <h1>Denouncing pleasure clean and praising pain was born</h1>
-                                    <p>The great explorer of the truth, the master of human happiness rejects, dislike pleasure itself...</p>
-                                    <a href="single-blog.html"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="blog-post">
-                <div class="blog-front-image">
-                    <div class="row">
-                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
-                            <div class="blog-thumb">
-                                <img src="img/blog/img_3.jpg" alt="Blog Image">
-                                <div class="icon-video-blog">
-                                    <a href="https://www.youtube.com/watch?v=n2vy7qRm5s0" class="popup-video playBut">
-                                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="69px" height="69px" viewBox="0 0 213.7 213.7" enable-background="new 0 0 213.7 213.7" xml:space="preserve">
-                                            <polygon class="triangle" id="XMLID_18_" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" points="
-                                        73.5,62.5 148.5,105.8 73.5,149.1 " />
-                                            <circle class="circle" id="XMLID_17_" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" cx="106.8" cy="106.8" r="103.3" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5 col-md-offset-1">
-                            <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
-                                <div class="blog-front-content-inner">
-                                    <span class="post-date">9 Jun - 2015</span>
-                                    <h1>Denouncing pleasure clean and praising pain was born</h1>
-                                    <p>The great explorer of the truth, the master of human happiness rejects, dislike pleasure itself...</p>
-                                    <a href="single-blog.html"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <a href="${pageContext.request.contextPath }/companyBoardWriteView">
-	    <button type="button" class="btn btn-primary">글쓰기</button>
-    </a>
+		
+		
+	        <div class="blog-wrapper">
+	        
+				<c:forEach items="${companyBoardList }" var="companyBoard">
+		            <div class="blog-post">
+		                <div class="blog-front-image">
+		                    <div class="row">
+		                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
+		                            <!-- 대표 이미지 -->
+		                            <p>${companyBoard}</p>
+                    				<img src="${pageContext.request.contextPath}/displayImage?imgName=${companyBoard.cpBoardReperImg}" 
+     									alt="Blog Image" style="width: 100%; height: auto;">
+		                        </div>
+		                        <div class="col-md-5 col-md-offset-1">
+		                            <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
+		                                <div class="blog-front-content-inner">
+				                            <!-- 작성자 이름 -->
+				                            <span class="post-date">${companyBoard.userName}</span> <!-- userName이 출력됨 -->
+				                            <!-- 소개글 -->
+				                            <h1>${companyBoard.cpBoardIntro}</h1>
+				                            <!-- 업무 영역 -->
+				                            <p>${companyBoard.cpBoardArea}</p>
+				                            <!-- 게시글 상세보기 링크 (추후 수정 가능) -->
+				                            <a href="single-blog.html"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
+				                        </div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                </div>
+		            </div>
+				</c:forEach>
+	            
+	        </div>
+	    </div>
+	    <a href="${pageContext.request.contextPath }/companyBoardWriteView">
+		    <button type="button" class="btn btn-primary">글쓰기</button>
+	    </a>
 		
 		<!-- Paging Bar -->
 		<div class="d-flex justify-content-center">
