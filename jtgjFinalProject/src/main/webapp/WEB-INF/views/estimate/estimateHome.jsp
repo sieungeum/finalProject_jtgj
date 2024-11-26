@@ -178,51 +178,6 @@
 						</div>
 					</div>
 				</div>
-<%-- 
-				<!-- 5. 주방 -->
-				<div class="card-box" style="height: 500px;">
-					<div class="card-box__top">
-						<div class="mater-category">주방</div>
-						<img src="${pageContext.request.contextPath}/img/mat-category/mat_category5.jpg">
-					</div>
-					<div class="card-box__bottom">
-						<div class="materials" style="height: 80%;"></div>
-						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 6. 욕실 -->
-				<div class="card-box" style="height: 500px;">
-					<div class="card-box__top">
-						<div class="mater-category">욕실</div>
-						<img
-							src="${pageContext.request.contextPath}/img/mat-category/mat_category6.jpg">
-					</div>
-					<div class="card-box__bottom">
-						<div class="materials" style="height: 80%;"></div>
-						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
-						</div>
-					</div>
-				</div>
-
-				<!-- 7. 방 -->
-				<div class="card-box" style="height: 500px;">
-					<div class="card-box__top">
-						<div class="mater-category">방</div>
-						<img
-							src="${pageContext.request.contextPath}/img/mat-category/mat_category7.jpg">
-					</div>
-					<div class="card-box__bottom">
-						<div class="materials" style="height: 80%;"></div>
-						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
-						</div>
-					</div>
-				</div>
- --%>
 			</div>
 		</div>
 	</div>
@@ -275,6 +230,7 @@
 	</div>
 
 	<!-- Material Modal -->
+	<div class="overlay"></div>
 	<div class="sjm_mocdal-box">
 
 		<!-- 자제 모달창 닫기 버튼 -->
@@ -365,76 +321,77 @@
 			</div>
 			
 		</div>
-				
-				
-		<!-- 기본 자제 최종 가격, 탄소배출량 -->
-		<div class="mat-box__half">
-			<!-- 탄소, 가격 변경사항 -->
-			<div class="compare-percent-box">
-				
-				<!-- 탄소배출량 -->
-				<div class="compare-percent__carbon">
-					<div>탄소배출량</div>
-					<div class="modal-box_sort">
-						<!-- 기본 자제 총 탄소배출량 -->
-						<div class="cal-before"></div>
+		
+		<div class="modal-box_sort">
+			<!-- 기본 자제 최종 가격, 탄소배출량 -->
+			<div class="mat-box__half">
+				<!-- 탄소, 가격 변경사항 -->
+				<div class="compare-percent-box">
+					
+					<!-- 탄소배출량 -->
+					<div class="compare-percent__carbon">
+						<div>탄소배출량</div>
+						<div class="compare-percent__result">
+							<!-- 기본 자제 총 탄소배출량 -->
+							<div class="cal-before"></div>
+						</div>
 					</div>
-				</div>
-				
-				<!-- 가격 -->
-				<div class="compare-percent__price">
-					<div>가격</div>
-					<div class="modal-box_sort">
-						<!-- 기본 자제 총 가격 -->
-						<div class="cal-before"></div>
+					
+					<!-- 가격 -->
+					<div class="compare-percent__price">
+						<div>가격</div>
+						<div class="compare-percent__result">
+							<!-- 기본 자제 총 가격 -->
+							<div class="cal-before"></div>
+						</div>
 					</div>
+					
 				</div>
-				
 			</div>
-		</div>
-		
-		<!-- 대체 자제 최종 가격, 탄소배출량 -->
-		<div class="mat-box__half">
-			<!-- 탄소, 가격 변경사항 -->
-			<div class="compare-percent-box">
-				
-				<!-- 탄소배출량 -->
-				<div class="compare-percent__carbon">
-					<div>탄소배출량</div>
-					<div class="modal-box_sort">
-						<!-- 기본 자제 총 탄소배출량 -->
-						<div class="cal-before"></div>
-					</div>
-				</div>
-				
-				<!-- 가격 -->
-				<div class="compare-percent__price">
-					<div>가격</div>
-					<div class="modal-box_sort">
-						<!-- 기본 자제 총 가격 -->
-						<div class="cal-before"></div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		
-		<!-- 초기화 버튼 -->
-		<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary">
-			초기화
-		</div> <!-- 초기화 버튼 -->
-		
-		<!-- 임시 저장 버튼 -->
-		<div id="tempSaveBtn" class="sjm-btn sjm-btn-primary">
-			임시 저장
-		</div> <!-- 임시 저장 버튼 -->
-		
-		<!-- 저장 버튼 -->
-		<div id="resultSaveBtn" class="sjm-btn sjm-btn-primary">
-			저장
 			
-			<!-- 비로그인 시 로그인 창으로 가야됨 -->
-		</div> <!-- 저장 버튼 -->
+			<!-- 대체 자제 최종 가격, 탄소배출량 -->
+			<div class="mat-box__half">
+				<!-- 탄소, 가격 변경사항 -->
+				<div class="compare-percent-box">
+					
+					<!-- 탄소배출량 -->
+					<div class="compare-percent__carbon">
+						<div>탄소배출량</div>
+						<div class="compare-percent__result">
+							<!-- 기본 자제 총 탄소배출량 -->
+							<div class="cal-after"></div>
+						</div>
+					</div>
+					
+					<!-- 가격 -->
+					<div class="compare-percent__price">
+						<div>가격</div>
+						<div class="compare-percent__result">
+							<!-- 기본 자제 총 가격 -->
+							<div class="cal-after"></div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal-box__result-btn">
+			<!-- 초기화 버튼 -->
+			<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
+				초기화
+			</div> <!-- 초기화 버튼 -->
+			
+			<!-- 임시 저장 버튼 -->
+			<div id="tempSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
+				임시 저장
+			</div> <!-- 임시 저장 버튼 -->
+			
+			<!-- 저장 버튼 -->
+			<div id="resultSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
+				저장
+			</div> <!-- 저장 버튼 -->
+		</div>
 		
 	</div> <!-- Finally Calculate Modal -->
 
@@ -457,7 +414,6 @@
 
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
-	
 		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
 		if ("${login.userId}" != ""){ // 로그인 안할 경우 실행 나중에 != 를 == 로 바꿔주기
 			if (window.confirm("비로그인 시 해당 견적을 저장해둘 수 없습니다. 로그인 하시겠습니까?")) {
@@ -468,8 +424,6 @@
 				  // 사용자가 "취소"를 클릭한 경우 실행할 코드
 				}
 		}
-		
-		
 		
 		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
 		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
@@ -621,7 +575,9 @@
 					let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
 					console.log(v_category);
 					sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
-
+					
+					document.querySelector(".overlay").classList.add("show");
+					document.body.style.overflow = "hidden";
 					v_modalBox.style.display = "block"; // 모달창 활성화
 				});
 			}
@@ -630,6 +586,9 @@
 			let v_selectModalCancel = document.getElementById("selectModalCancel");
 			
 			v_selectModalCancel.addEventListener("click", () => {
+
+				document.querySelector(".overlay").classList.remove("show");
+				document.body.style.overflow = "auto";
 				v_modalBox.style.display = "none";
 			});
 		});
@@ -852,7 +811,9 @@
 							v_materials[cate_idx].appendChild(v_newMaterialDiv);
 							v_newMaterialDiv.appendChild(v_price);
 							v_newMaterialDiv.appendChild(v_carbon);
-							
+
+							document.querySelector(".overlay").classList.remove("show");
+							document.body.style.overflow = "auto";
 							v_modalBox.style.display = "none"; // 모달창 닫기
 							
 							// 등록할 자제 정보 딕셔너리로 저장
@@ -1041,6 +1002,32 @@
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
 			
+			/* 카테고리별로 하나 이상씩 선택 안하면 계산 안되게 함 */
+			let allSelectCategory = document.querySelectorAll(".mater-category");
+			let selectCategory = document.getElementById("calCarbon");
+			
+			let selectCateDict = {};
+			
+			for (let i = 0; i < allSelectCategory.length; i++){
+				
+				let v_partCategory = allSelectCategory[i].innerHTML;
+				for (let j = 1; j < selectCategory.children.length; j++){
+					let v_selectCategory = selectCategory.children[j].textContent.split(",")[1];
+
+					if (v_partCategory == v_selectCategory){
+						selectCateDict[v_partCategory] = 0;
+						break;
+					}
+				}
+			}
+			console.log(Object.keys(selectCateDict).length);
+			console.log(allSelectCategory.length);
+			
+			if (Object.keys(selectCateDict).length < allSelectCategory.length){
+				alert("적어도 카테고리별 하나씩은 채워 이사람아");
+				return;
+			}
+			
 			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
 			
 			// 선택한 자제들의 탄소배출량
@@ -1071,7 +1058,7 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 50);
+			f_ajaxJsonString(v_sendMaterials, 1000);
 			
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
@@ -1119,7 +1106,7 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 50);
+			f_ajaxJsonString(v_sendMaterials, 1000);
 			
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
@@ -1211,7 +1198,7 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 100);
+			f_ajaxJsonString(v_sendMaterials, 100000);
 
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtCarbon.classList.contains("sjm-btn-dark")){
@@ -1346,7 +1333,9 @@
 					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
 					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
 					
-					// 모달창 출력
+					// 모달창 출력	
+					document.querySelector(".overlay").classList.add("show");
+					document.body.style.overflow = "hidden";
 					v_modalBoxCal.style.display = "block";
  					
  					v_matInfo = {}; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
@@ -1384,6 +1373,8 @@
 		let v_calModalCancel = document.getElementById("calModalCancel");
 		
 		v_calModalCancel.addEventListener("click", () => {
+			document.querySelector(".overlay").classList.remove("show");
+			document.body.style.overflow = "auto";
 			v_modalBoxCal.style.display = "none";
 		});
 
@@ -1531,7 +1522,12 @@
 			}
 			
 			// 모달창 닫기
+			document.querySelector(".overlay").classList.remove("show");
+			document.body.style.overflow = "auto";
 			v_modalBoxCal.style.display = "none";
+
+			// 스크롤 다시 활성화
+			enableScroll();
 		});
 		
 		/* 저장 버튼 클릭 시 값들 DB에 저장(로그인 시 가능) */
