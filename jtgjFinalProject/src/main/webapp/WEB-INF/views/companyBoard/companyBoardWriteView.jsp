@@ -141,10 +141,19 @@
 	</div>
 	
 	<section class="page-section" id="contact">
-    	<div class="container">
-    		<img class="reperImg" alt="" src="img/blog-header.jpg">
-		</div>    
-		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyBoardWriteDo" method="POST">
+		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyBoardWriteDo" method="POST" enctype="multipart/form-data">
+	    	<div class="container">
+		        <!-- 이미지 업로드 -->
+		        <div class="form-group">
+		            <label for="cpBoardReperImgFile">대표 이미지 업로드</label>
+		            <input type="file" name="cpBoardReperImgFile" id="cpBoardReperImgFile" 
+		                   class="form-control-file" onchange="previewImage(event)" />
+		        </div>
+		        <div class="form-group">
+		            <img id="preview" src="img/blog-header.jpg" alt="대표 이미지 미리보기" 
+		                 style="max-width: 300px; max-height: 300px; margin-top: 10px;" />
+		        </div>
+		    </div>    
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
 		            <div class="row">
@@ -153,7 +162,7 @@
 		                        <!-- 프로필 이미지 표시 -->
 		                        <img class="profileImg marR" alt="Profile Image" src="${user.userProfImg != null ? user.userProfImg : 'img/proImg.jpg'}">
 		                        <div class="dFDjcA">
-		                            <!-- 사용자 이름 표시 -->
+		                            <!-- 기업명 -->
 		                            <h6>${user.userName}</h6>
 		                            <!-- 소개글 입력 -->
 		                            <input type="text" name="cpBoardIntro" placeholder="간단한 소개">
@@ -363,5 +372,20 @@
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
+	
+	<script type="text/javascript">
+		function previewImage(event) {
+	        const reader = new FileReader();
+	        reader.onload = function () {
+	            document.getElementById('preview').src = reader.result;
+	        };
+	        if (event.target.files && event.target.files[0]) {
+	            reader.readAsDataURL(event.target.files[0]);
+	        } else {
+	            document.getElementById('preview').src = 'img/blog-header.jpg';
+	        }
+	    }
+	</script>
+	
 </body>
 </html>

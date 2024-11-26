@@ -43,6 +43,7 @@ public class imageController {
 		
 		// InputStream 으로 불러올 파일 매칭
 		try {
+			System.out.println(imgPath);
 			inputStream = new FileInputStream(imgPath);
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(inputStream), headers, HttpStatus.CREATED);
 		} catch (Exception e) {

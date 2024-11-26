@@ -197,6 +197,29 @@
 		  AND atch_type = #{atchType}
 	</select>
 
+<select id="getNotiList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO">
+		SELECT *
+	    FROM (
+	        SELECT
+	            a.notice_no,
+	            a.notice_title,
+	            b.user_id,
+	            b.user_name,
+	            a.notice_content,
+	            TO_CHAR(a.notice_date, 'MM.dd') AS notice_date
+	        FROM 
+	            notices a, users b
+	        WHERE 1=1
+	            AND a.user_id = b.user_id
+	        ORDER BY a.notice_no DESC
+	    )
+	    
+	</select>
 
-
+	<select id="getNotiNo" resultType="int">
+		SELECT 
+			COUNT(*) + 1
+		FROM 
+			notices
+	</select>
 </mapper>

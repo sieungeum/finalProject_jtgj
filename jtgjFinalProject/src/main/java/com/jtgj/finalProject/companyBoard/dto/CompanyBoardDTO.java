@@ -5,6 +5,7 @@ public class CompanyBoardDTO {
 	private int cpBoardNo; 			// 기업홍보게시판 번호
 	private String cpBoardIntro;	// 소개글
 	private String userId;			// 기업 아이디
+	private String userName;		// 기업명
 	private String cpBoardContent;	// 게시판 내용
 	private String cpBoardArea;		// 기업 업무 영역
 	private String cpBoardDate;		// 홍보글 등록일
@@ -16,12 +17,13 @@ public class CompanyBoardDTO {
 		super();
 	}
 
-	public CompanyBoardDTO(int cpBoardNo, String cpBoardIntro, String userId, String cpBoardContent, String cpBoardArea,
-			String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn) {
+	public CompanyBoardDTO(int cpBoardNo, String cpBoardIntro, String userId, String userName, String cpBoardContent,
+			String cpBoardArea, String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn) {
 		super();
 		this.cpBoardNo = cpBoardNo;
 		this.cpBoardIntro = cpBoardIntro;
 		this.userId = userId;
+		this.userName = userName;
 		this.cpBoardContent = cpBoardContent;
 		this.cpBoardArea = cpBoardArea;
 		this.cpBoardDate = cpBoardDate;
@@ -51,6 +53,14 @@ public class CompanyBoardDTO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getCpBoardContent() {
@@ -96,8 +106,9 @@ public class CompanyBoardDTO {
 	@Override
 	public String toString() {
 		return "CompanyBoardDTO [cpBoardNo=" + cpBoardNo + ", cpBoardIntro=" + cpBoardIntro + ", userId=" + userId
-				+ ", cpBoardContent=" + cpBoardContent + ", cpBoardArea=" + cpBoardArea + ", cpBoardDate=" + cpBoardDate
-				+ ", cpBoardReperImg=" + cpBoardReperImg + ", cpBoardDelYn=" + cpBoardDelYn + "]";
+				+ ", userName=" + userName + ", cpBoardContent=" + cpBoardContent + ", cpBoardArea=" + cpBoardArea
+				+ ", cpBoardDate=" + cpBoardDate + ", cpBoardReperImg=" + cpBoardReperImg + ", cpBoardDelYn="
+				+ cpBoardDelYn + "]";
 	}
 	
 }

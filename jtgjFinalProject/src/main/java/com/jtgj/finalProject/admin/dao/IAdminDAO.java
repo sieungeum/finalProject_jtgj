@@ -12,6 +12,7 @@ import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Mapper
@@ -21,6 +22,7 @@ public interface IAdminDAO {
 	int userProDo(UserDTO user);
 	int userLDo(UserDTO user);
 	int userDelDo(UserDTO user);
+	
 	List<FaqDTO> getFaqList();
 	int faqAstDo(FaqDTO faqAst);
 	int faqAstDelDo(FaqDTO faqAst);
@@ -36,6 +38,8 @@ public interface IAdminDAO {
 	
 	int insertAttachMater(AttachDTO attachMater);
 	List<AttachDTO> getAttachMaterList(int materNo);
-
+	
+	List<NoticeDTO> getNotiList();
+	int getNotiNo();
 	
 }

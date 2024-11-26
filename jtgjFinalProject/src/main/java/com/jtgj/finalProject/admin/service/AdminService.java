@@ -11,6 +11,7 @@ import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -19,7 +20,7 @@ public class AdminService {
 	@Autowired
 	IAdminDAO dao;
 	
-	
+
 	
 	@Autowired
 	IEstimateDAO estimateDAO;
@@ -98,5 +99,14 @@ public class AdminService {
 		return result;
 	}
 	
+	public List<NoticeDTO> getNotiList(){
+		List<NoticeDTO> result = dao.getNotiList();
+		return result;
+	}
+	
+	public int getNotiNo() {
+		int result = dao.getNotiNo();
+		return result;
+	}
 	
 }

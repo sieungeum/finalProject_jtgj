@@ -32,6 +32,7 @@ import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
@@ -64,6 +65,7 @@ public class AdminController {
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
 		model.addAttribute("faqList", faqList);
+		
 		
 		List<EstimateDTO> basicMatter = estimateService.basic_mater();
 		model.addAttribute("basicMatter", basicMatter);
@@ -176,6 +178,8 @@ public class AdminController {
 	public String myPage(Model model) {
 		System.out.println("- myPage - ");
 		
+		List<NoticeDTO> notiList = adminService.getNotiList();
+		model.addAttribute("notiList", notiList);
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
 		
