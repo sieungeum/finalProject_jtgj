@@ -2,7 +2,7 @@ package com.jtgj.finalProject.user.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.spi.FileSystemProvider;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,10 +73,10 @@ public class UserController {
 
 	// 로그인 실행
 	@PostMapping("/loginDo")
-	public String loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response,
+	public void loginDo(UserDTO user, HttpSession session, boolean rememberId, HttpServletResponse response,
 			HttpServletRequest request, String fromUrl) throws IOException {
 		UserDTO login = userService.loginUser(user);
-
+		
 		System.out.println(fromUrl);
 		System.out.println(user);
 		System.out.println(login);
@@ -90,15 +90,36 @@ public class UserController {
 			out.println("history.go(-1);</script>");
 			out.close();
 
-			return null;
+			return;
 		} else if (!user.getUserPw().equals(login.getUserPw())) {
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('비밀번호가 일치하지 않습니다!');");
 			out.println("history.go(-1);</script>");
 			out.close();
 
-			return null;
+			return;
 		} else {
+			CompanyDTO company = userService.getCompanyByUserId(login.getUserId());
+			
+			if(company != null) {
+				// 시간 포맷 수정(시,분,초 삭제)
+				String v_companyDate = company.getCpOpenDate();
+				v_companyDate = v_companyDate.split(" ")[0];
+				company.setCpOpenDate(v_companyDate);
+				
+				// 주소 상세 저장
+				String address = company.getCpAddress();
+				String[] arr = address.split("\\|");
+				
+				List<String> addressDetails = new ArrayList<>();
+				for(int i = 0; i < arr.length; i++) {			
+					addressDetails.add(arr[i]);
+				}
+				
+				session.setAttribute("address", addressDetails);
+			}
+				
+			session.setAttribute("company", company);
 			session.setAttribute("login", login);
 			session.setMaxInactiveInterval(60 * 200);
 
@@ -119,7 +140,7 @@ public class UserController {
 			out.println("<script>alert('환영합니다!'); location.href='" + fromUrl + "';</script>");
 			out.close();
 
-			return null;
+			return;
 		}
 	}
 
@@ -274,36 +295,23 @@ public class UserController {
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
-
-	// 프로필 이미지 업로드
-	/*
-	 * @ResponseBody
-	 * 
-	 * @PostMapping(value = "/uploadProfile", produces =
-	 * "application/json; charset=utf-8") public Map<String, Object>
-	 * uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된
-	 * 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 Map<String, Object> result = new
-	 * HashMap<>();
-	 * 
-	 * String profImgName = null;
-	 * 
-	 * if (file != null) { try { AttachDTO attach =
-	 * fileUploadUtils.getAttachByMultipart(file); profImgName =
-	 * attach.getAtchFileName(); // UUID 로 생성한 파일명 } catch (Exception e) {
-	 * e.printStackTrace(); System.out.println("이미지 파일 저장 실패"); } }
-	 * 
-	 * // 현재 로그인 중인 사용자의 정보 가져오기 UserDTO login = (UserDTO)
-	 * session.getAttribute("login");
-	 * 
-	 * // 방금 로컬에 저장된 프로필 이미지의 파일명을 login 객체 내부에 저장
-	 * login.setUserProfImg(profImgName);
-	 * 
-	 * // DB에 회원정보 수정을 통해 프로필 이미지명 반영! userService.editProfImg(login);
-	 * 
-	 * result.put("result", profImgName);
-	 * 
-	 * return result; }
-	 */
+	
+	// 비밀번호 중복 여부 체크
+	@ResponseBody
+	@PostMapping("/ConfirmPassword")
+	public ResponseEntity<Boolean> ConfirmPassword(String email, String password) {
+		boolean result = true;
+		
+		String nowPw = userService.getPwUsedEmail(email);
+		
+		if(nowPw.equals(password)) {
+			result = false;
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
 	
 	// 계정 찾기 페이지
 	@RequestMapping("/findAccountView")
@@ -904,5 +912,189 @@ public class UserController {
 		System.out.println("중복된 사업자등록번호 존재");
 
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	
+	// 프로필 이미지 업로드
+	@ResponseBody
+	@PostMapping(value = "/uploadProfile", produces = "application/json; charset=utf-8") 
+	public Map<String, Object> uploadProfile(Model model, HttpSession session, MultipartFile file) { // 첨부된 이미지 파일을 로컬에 저장 -> 저장된 이미지 파일명을 Map에 담아 리턴 
+	  
+		Map<String, Object> result = new HashMap<>();
+  
+		String profImgName = null;
+		
+		if(file != null) {
+			try {
+				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file, "prof_img");
+				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
+			} catch(IOException e) {
+				e.printStackTrace();
+				System.out.println("이미지 파일 저장 실패");
+			}
+		}
+		
+		UserDTO login = (UserDTO)session.getAttribute("login");
+		login.setUserProfImg(profImgName);
+		userService.editProfImg(login);
+		result.put("result", profImgName);
+		return result;
+	}
+	
+	// 개인회원수정 페이지
+	@RequestMapping("/personalEditView")
+	public String personalEditView(HttpSession session, HttpServletResponse response) throws IOException {
+		System.out.println("- personalEditView - ");
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
+		
+		if(login == null) {
+			return "redirect:/";
+		}
+		
+		if (login.getUserAccount().equals("C")) {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('개인회원만 접근 가능합니다!');");
+			out.println("history.go(-1);</script>");
+			out.close();
+        } 
+		
+		return "myPage/personalEditView";
+	}
+	
+	// 기업회원수정 페이지
+	@RequestMapping("/companyEditView")
+	public String companyEditView(HttpSession session, HttpServletResponse response) throws IOException{
+		System.out.println("- companyEditView - ");
+		
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8");
+		
+		UserDTO login = (UserDTO) session.getAttribute("login");
+		session.setAttribute("atchtype", "prof_img");
+		
+		if(login == null) {
+			return "redirect:/";
+		}
+		
+		if (login.getUserAccount().equals("P")) {
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('기업회원만 접근 가능합니다!');");
+			out.println("history.go(-1);</script>");
+			out.close();
+        } 
+		
+		return "myPage/companyEditView";
+	}
+	
+	
+	// 개인회원 회원수정
+	@ResponseBody
+	@PostMapping("/personalEditDo")
+	public ResponseEntity<Boolean> personalEditDo(@RequestBody Map<String, Object> requestData, HttpSession session){
+		System.out.println(" - Personal Edit Do - ");
+		
+		boolean result = false;
+		
+		System.out.println(requestData);
+		
+		String email = (String)requestData.get("userEmail");
+		
+		// UserDTO 매핑
+		UserDTO user = new UserDTO();
+		user.setUserId((String) requestData.get("userId"));
+		user.setUserName((String) requestData.get("userName"));
+		if(!requestData.get("userPw").equals("")) {
+			user.setUserPw((String) requestData.get("userPw"));
+		} else {
+			user.setUserPw(userService.getPwUsedEmail(email));
+		}
+		user.setUserPhone((String) requestData.get("userPhone"));
+		user.setUserEmail((String) requestData.get("userEmail"));
+		
+		if(user != null) {
+			userService.updateC(user);
+			
+			result = true;
+			
+			UserDTO login = userService.getUserById(user.getUserId());
+			session.setAttribute("login", login);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	// 기업회원 회원수정
+	@ResponseBody
+	@PostMapping("/companyEditDo")
+	public ResponseEntity<Boolean> companyEditDo(@RequestBody Map<String, Object> requestData, HttpSession session) {
+		System.out.println(" - Company Edit Do - ");
+		
+		boolean result = false;
+		
+		System.out.println(requestData);
+		
+		int cpCarbonEmissions = Integer.parseInt((String) requestData.get("cpCarbonEmissions"));
+		String email = (String)requestData.get("userEmail");
+		
+		// UserDTO 매핑
+		UserDTO user = new UserDTO();
+		user.setUserId((String) requestData.get("userId"));
+		user.setUserName((String) requestData.get("userName"));
+		if(!requestData.get("userPw").equals("")) {
+			user.setUserPw((String) requestData.get("userPw"));
+		} else {
+			user.setUserPw(userService.getPwUsedEmail(email));
+		}
+		user.setUserPhone((String) requestData.get("userPhone"));
+		user.setUserEmail((String) requestData.get("userEmail"));
+
+		// CompanyDTO 매핑
+		CompanyDTO company = new CompanyDTO();
+		company.setUserId((String) requestData.get("userId"));
+		company.setCpOpenDate((String) requestData.get("cpOpenDate"));
+		company.setCpAddress((String) requestData.get("cpAddress"));
+		company.setCpCeoName((String) requestData.get("cpCeoName"));
+		company.setCpCarbonEmissions(cpCarbonEmissions);
+
+		// 데이터 베이스에 insert
+		if(user != null && company != null) {
+			userService.updateC(user);
+			userService.updateCMore(company);
+
+			result = true;
+			
+			// 세션 업데이트(user, company, address)
+			UserDTO login = userService.getUserById(user.getUserId());
+			CompanyDTO company_info = userService.getCompanyByUserId(company.getUserId());
+			
+			// 시간 포맷 수정(시,분,초 삭제)
+			String v_companyDate = company_info.getCpOpenDate();
+			v_companyDate = v_companyDate.split(" ")[0];
+			company_info.setCpOpenDate(v_companyDate);
+			
+			String address = company.getCpAddress();
+			String[] arr = address.split("\\|");
+			
+			List<String> addressDetails = new ArrayList<>();
+			for(int i = 0; i < arr.length; i++) {			
+				addressDetails.add(arr[i]);
+			}
+			
+			session.setAttribute("login", login);
+			session.setAttribute("company", company_info);
+			session.setAttribute("address", addressDetails);
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		} else {
+			
+			return new ResponseEntity<>(result, HttpStatus.OK);
+		}
 	}
 }

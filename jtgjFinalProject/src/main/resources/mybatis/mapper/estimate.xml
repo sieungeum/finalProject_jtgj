@@ -65,7 +65,7 @@
 		    AND a.mater_category = #{materCategory}
 	</select>
 	
-	<!-- 선정된 대체 자제들 정보 단일 가져오기 -->
+	<!-- 선정된 대체 자제들 정보 단일 가져오기 or 단일 자제들 정보 가져오기 -->
 	<select id="getSubMaterInfo" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO"  resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO" >
 		SELECT
 		    mater_no,

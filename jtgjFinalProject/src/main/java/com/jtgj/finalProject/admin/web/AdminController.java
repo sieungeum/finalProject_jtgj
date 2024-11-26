@@ -32,6 +32,7 @@ import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
@@ -64,6 +65,7 @@ public class AdminController {
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
 		model.addAttribute("faqList", faqList);
+		
 		
 		List<EstimateDTO> basicMatter = estimateService.basic_mater();
 		model.addAttribute("basicMatter", basicMatter);
@@ -99,27 +101,11 @@ public class AdminController {
 	
 	
 	@PostMapping("/writeMater")
-	public String writeMater(@RequestParam(value = "materImg", required = false) MultipartFile file, EstimateDTO mater) {
-	    System.out.println("- WriteMater - ");
-
-	    // 파일이 존재할 경우 처리
-	    if (file != null && !file.isEmpty()) {
-	        try {
-	            String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-	            File uploadFile = new File("파일 저장 경로", fileName);
-	            file.transferTo(uploadFile);
-	            mater.setMaterImg(fileName); // 이미지 경로 저장
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	            mater.setMaterImg(null); // 파일 업로드 실패 시 null 처리
-	        }
-	    } else {
-	        mater.setMaterImg(null); // 파일을 선택하지 않았을 경우 null 처리
-	    }
-
-	    // 서비스 호출
-	    adminService.writeMater(mater);
-	    return "redirect:/adminPage";
+	public String writeMater(EstimateDTO mater) {
+		
+		adminService.writeMater(mater);
+		
+		return "redirect:/adminPage";
 	}
 
 	
@@ -192,6 +178,8 @@ public class AdminController {
 	public String myPage(Model model) {
 		System.out.println("- myPage - ");
 		
+		List<NoticeDTO> notiList = adminService.getNotiList();
+		model.addAttribute("notiList", notiList);
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
 		
@@ -211,6 +199,7 @@ public class AdminController {
 	}
 	
 
+	
 
 	  
 }

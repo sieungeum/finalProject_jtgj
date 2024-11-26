@@ -87,23 +87,28 @@
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
 			<nav
-				class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
-				id="sidenavAccordion">
-				<div class="sb-sidenav-menu">
-					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a> 
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/editView"> 수정 </a> 
-						<c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
-						</c:if>
-						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
-						</c:if>
-					</div>
-				</div>
-			</nav>
+            class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
+            id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+               <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
+                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
+                  </c:if>
+                  <c:if test="${sessionScope.login.userAccount != 'C'}">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
+                  </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
+                  </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
+                     <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+                  </c:if>
+               </div>
+            </div>
+         </nav>
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
@@ -114,48 +119,83 @@
 					</h1>
 
 
-					<div class="row">
+					<div class="row d-flex justify-content-center">
 					
+						
 						<div class="col-xl-4 col-lg-5">
-							<div   class="card mb-4">
+							<div class="card mb-4" style="padding-bottom:26px;">
 								<div class="card-header">자재등록</div>
 								<div class="card-body">
-								<h2>자재등록</h2>
-									<form id="contactFrom" action="${pageContext.request.contextPath}/writeMater" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="materNo" id="materNo" value="${mater.materNo}">
-    <label for="materImg">자재 이미지:</label>
-    <input name="materImg" type="file" id="materImg" accept="image/*" onchange="readImage(this)"><br />
+								<form action="${pageContext.request.contextPath}/writeMater" method="POST">
 
-    <label for="materName">자재 이름:</label>
-    <input type="text" id="materName" name="materName" required/><br />
-
-    <label for="materCategory">카테고리:</label>
-    <input type="text" id="materCategory" name="materCategory" /><br />
-
-    <label for="materGasKg">탄소 배출량:</label>
-    <input type="number" id="materGasKg" name="materGasKg" /><br />
-
-    <label for="materPrice">가격:</label>
-    <input type="number" id="materPrice" name="materPrice" /><br />
-
-    <label for="materDurability">강도:</label>
-    <input type="text" id="materDurability" name="materDurability" /><br />
-
-    <label for="materInfo">정보:</label>
-    <textarea id="materInfo" name="materInfo"></textarea><br />
-
-    <label for="materClassify">대체자재여부:</label>
-    <input type="text" id="materClassify" name="materClassify" /><br />
-
-    <div class="d-flex justify-content-end mar-buttom">
-        <button class="btn btn-primary btn-xl m-right" type="submit">등록</button>
-        <a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath}/adminPage">돌아가기</a>
-    </div>
-</form>
-									
+							        <div class="mb-3">
+							        	<img id="imagePreview" class="profile-img"  src="${mater.materImg}"  alt="자재 이미지가 없습니다." />
+							            <label for="materImg">자재 이미지: !${attach.atchOriginalName }</label>
+							            <div class="input-group d-flex">
+							                <input type="file" id="materImg" name="materImg" accept="image/*" onchange="previewImage(event)" /><br />
+							            </div>
+							        </div>
+							
+							        <div class="mb-3">
+							           		<label for="materName" style="font-weight:bolder;">자재 이름:</label>
+							            <div class="input-group mb-3">
+									   	 	<input type="text"  class="form-control" id="materName" name="materName" required /><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		<label for="materCategory" style="font-weight:bolder;">카테고리:</label>
+							            <div class="input-group mb-3">
+										    <input type="text" class="form-control"  id="materCategory" name="materCategory" required /><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		<label for="materGasKg" style="font-weight:bolder;">탄소 배출량:</label>
+							            <div class="input-group mb-3">
+										    <input type="number" class="form-control"  id="materGasKg" name="materGasKg" required /><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		<label for="materPrice" style="font-weight:bolder;">가격:</label>
+							            <div class="input-group mb-3">
+										    <input type="number" class="form-control"  id="materPrice" name="materPrice" required /><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		<label for="materDurability" style="font-weight:bolder;">강도:</label>
+							            <div class="input-group mb-3">
+										    <input type="text" class="form-control"  id="materDurability" name="materDurability"  required /><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		 <label for="materInfo" style="font-weight:bolder;">정보:</label>
+							            <div class="input-group mb-3">
+										    <textarea id="materInfo" class="form-control"  name="materInfo" required></textarea><br />
+							            </div>
+							        </div>
+							        
+							        <div class="mb-3">
+							           		<label for="materClassify" style="font-weight:bolder;">대체자재여부:</label>
+							            <div class="input-group mb-3">
+										    <input type="text"  class="form-control" id="materClassify" name="materClassify" required /><br />
+							            </div>
+							        </div>
+							        
+									<div class="d-flex justify-content-end mar-buttom">
+									        <button class="btn btn-primary btn-xl m-right"  style="margin-right: 10%;" type="submit">등록</button>
+									        <a class="btn btn-primary btn-xl a-sor" href="${pageContext.request.contextPath}/adminPage">돌아가기</a>
+									    </div>
+								</form>
+							        											
 								</div>
 							</div>
+							
 						</div>
+						
 					</div>
 
 

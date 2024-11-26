@@ -3,6 +3,7 @@ package com.jtgj.finalProject.userEstimate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.userEstimate.dao.IUserEstimateDAO;
 import com.jtgj.finalProject.userEstimate.dto.BathroomDTO;
 import com.jtgj.finalProject.userEstimate.dto.ExteriorDTO;
@@ -10,6 +11,7 @@ import com.jtgj.finalProject.userEstimate.dto.KitchenDTO;
 import com.jtgj.finalProject.userEstimate.dto.LivingDTO;
 import com.jtgj.finalProject.userEstimate.dto.RoofingDTO;
 import com.jtgj.finalProject.userEstimate.dto.RoomDTO;
+import com.jtgj.finalProject.userEstimate.dto.UserEstimateDTO;
 import com.jtgj.finalProject.userEstimate.dto.WindowDTO;
 
 @Service
@@ -25,51 +27,9 @@ public class UserEstimateService {
 		return result;
 	}
 	
-	// bathroom »ğÀÔ
-	public int insertBathroom(BathroomDTO bathroom) {
-		int result = dao.insertBathroom(bathroom);
-		
-		return result;
-	}
-	
-	// exterior »ğÀÔ
-	public int insertExterior(ExteriorDTO exterior) {
-		int result = dao.insertExterior(exterior);
-		
-		return result;
-	}
-	
-	// kitchen »ğÀÔ
-	public int insertKitchen(KitchenDTO kitchen) {
-		int result = dao.insertKitchen(kitchen);
-		
-		return result;
-	}
-	
-	// living »ğÀÔ
-	public int insertLiving(LivingDTO living) {
-		int result = dao.insertLiving(living);
-		
-		return result;
-	}
-	
-	// roofing »ğÀÔ
-	public int insertRoofing(RoofingDTO roofing) {
-		int result = dao.insertRoofing(roofing);
-		
-		return result;
-	}
-	
-	// window »ğÀÔ
-	public int insertWindow(WindowDTO window) {
-		int result = dao.insertWindow(window);
-		
-		return result;
-	}
-	
-	// room»ğÀÔ 
-	public int insertRoom(RoomDTO room) {
-		int result = dao.insertRoom(room);
+	// ÃÖÁ¾ ÀÚÁ¦µé ±âº» ÀÚÁ¦¶û ´ëÃ¼ ÀÚÁ¦ ÀúÀåÇÏ±â (insert)
+	public int setUserEstimate(UserEstimateDTO esti) {
+		int result = dao.setUserEstimate(esti);
 		
 		return result;
 	}
