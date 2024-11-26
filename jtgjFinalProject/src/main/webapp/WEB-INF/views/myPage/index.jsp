@@ -160,7 +160,7 @@
 						</div>
 					</div>
 					<div class="card mb-4">
-						<div class="card-header">내 건의사항</div>
+						<div class="card-header">내 게시글</div>
 						<div class="card-body">
 							<table id="datatablesSimple">
 								<thead>
@@ -174,6 +174,20 @@
 									</tr>
 								</thead>
 								<tbody>
+									<c:forEach items="${notiList }" var="noti">
+										<c:if test="${noti.userId == sessionScope.login.userId }">
+										<tr>
+											<td scope="row">공지사항</td>
+											<td><a href="${pageContext.request.contextPath }/noticeDetailView?noticeNo=${noti.noticeNo}">${noti.noticeTitle }</a></td>
+											<td>${noti.userName }</td>
+											<td>${noti.noticeDate }</td>
+											<td></td>
+										</tr>
+										</c:if>
+									</c:forEach>
+								
+								
+								
 									<c:forEach items="${faqList}" var="faq">
 										<c:if test="${faq.userId == sessionScope.login.userId }">
 											<tr>

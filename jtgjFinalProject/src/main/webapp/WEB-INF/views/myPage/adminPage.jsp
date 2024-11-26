@@ -313,47 +313,51 @@
 					</div>
 					
 					<div class="card mb-4">
-					    <div class="card-header">건의사항 게시판</div>
-					    <div class="card-body">
-					        <table id="datatablesEarnings" style="width:100%;">
-					            <thead>
-					                <tr>
-					                    <th>글번호</th>
-					                    <th>글제목</th>
-					                    <th>작성자</th>
-					                    <th>작성일</th>
-					                    <th>답변 여부</th>
-					                </tr>
-					            </thead>
-					            <tbody>
-									<c:forEach items="${faqList}" var="faq">
-											<tr>
-												<td scope="row">${faq.faqNo }</td>
-												<td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
-												<td>${faq.userName }</td>
-												<td>${faq.faqDate }</td>
-												<td>
-													<c:if test="${faq.faqAst == 'N'}">
-														<form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
-															<input type="hidden" name="faqNo" value="${faq.faqNo}">
-														    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit">미답변</button>
-														</form>
-												</c:if>
-												
-												<c:if test="${faq.faqAst == 'Y'}">
-													<form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
-														<input type="hidden" name="faqNo" value="${faq.faqNo}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">답변완료</button>
-													</form>
-												</c:if>
-												</td>
-											</tr>
-									</c:forEach>
-									
-								</tbody>
-					        </table>
-					    </div>
-					</div>
+    <div class="card-header">건의사항 게시판</div>
+    <div class="card-body">
+        <!-- 미답변 보기, 답변완료 보기, 모두 보기 버튼 -->
+        <button class="btn btn-primary" onclick="filterFaq('N')">미답변 글만 보기</button>
+        <button class="btn btn-success" onclick="filterFaq('Y')">답변완료 글만 보기</button>
+        <button class="btn btn-secondary" onclick="filterFaq('all')">모두 보기</button>
+
+        <table id="datatablesEarnings" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>글번호</th>
+                    <th>글제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>답변 여부</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach items="${faqList}" var="faq">
+                    <tr class="faq-row" data-status="${faq.faqAst}">
+                        <td scope="row">${faq.faqNo }</td>
+                        <td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo }"/>">${faq.faqTitle }</a></td>
+                        <td>${faq.userName }</td>
+                        <td>${faq.faqDate }</td>
+                        <td>
+                            <c:if test="${faq.faqAst == 'N'}">
+                                <form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
+                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
+                                    <button class="btn btn-primary btn-xl" id="checkBtnN" type="submit">미답변</button>
+                                </form>
+                            </c:if>
+                            <c:if test="${faq.faqAst == 'Y'}">
+                                <form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
+                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
+                                    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">답변완료</button>
+                                </form>
+                            </c:if>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 					
 					
 					<div class="card mb-4">
@@ -409,6 +413,40 @@
 		</div>
 	</div>
 	
+<script>
+    function filterFaq(status) {
+        // 모든 tr 요소를 가져오기
+        var rows = document.querySelectorAll('#datatablesEarnings tbody tr');
+        
+        // "모두 보기" 버튼을 클릭했을 때
+        if (status === 'all') {
+            // 모든 글을 다시 표시
+            rows.forEach(function(row) {
+                row.style.display = ''; // 모든 글을 보이게 함
+            });
+        } else {
+            // 상태에 맞게 필터링
+            rows.forEach(function(row) {
+                var rowStatus = row.getAttribute('data-status'); // 각 행의 data-status 속성을 확인
+                
+                // 미답변일 경우
+                if (status === 'N' && rowStatus === 'N') {
+                    row.style.display = ''; // 미답변 글만 보이게
+                }
+                // 답변완료일 경우
+                else if (status === 'Y' && rowStatus === 'Y') {
+                    row.style.display = ''; // 답변완료 글만 보이게
+                } 
+                // 해당 상태가 아닐 경우 숨기기
+                else {
+                    row.style.display = 'none'; // 해당 상태가 아닌 글은 숨김
+                }
+            });
+        }
+    }
+</script>
+
+
 	
 	
 <script>
