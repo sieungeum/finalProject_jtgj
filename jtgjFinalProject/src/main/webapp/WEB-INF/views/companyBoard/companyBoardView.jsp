@@ -65,8 +65,7 @@
 		                    <div class="row">
 		                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
 		                            <!-- 대표 이미지 -->
-		                            <p>${companyBoard}</p>
-                    				<img src="${pageContext.request.contextPath}/displayImage?imgName=${companyBoard.cpBoardReperImg}" 
+                    				<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
      									alt="Blog Image" style="width: 100%; height: auto;">
 		                        </div>
 		                        <div class="col-md-5 col-md-offset-1">
