@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.project.dao.IProjectDAO">
+	
+    <!-- 초기 데이터 로드 -->
+    <select id="getInitialProjects" parameterType="int" resultType="com.jtgj.finalProject.project.dto.ProjectDTO">
+        SELECT *
+        FROM (
+            SELECT 
+                ROW_NUMBER() OVER (ORDER BY PT_NO ASC) AS RN,
+                PT_THUMBNAIL,
+                PT_CONTENT,
+                PT_TITLE,
+                PT_NO,
+                PT_DESIGN,
+                PT_CONSTRUCTION,
+                PT_LAND_AREA,
+                PT_BUILDING_AREA,
+                PT_TOTAL_FLOOR_AREA,
+                PT_FLOOR_NUM,
+                PT_HOUSEHOLD_NUM,
+                PT_COMPLETION_YEAR,
+                USER_ID
+            FROM COMPANY_PROJECT
+        )
+        WHERE RN &lt;= #{limit}
+    </select>
+
+
+    <!-- 추가 데이터 로드 -->
+	<select id="getProjectsAfter" resultType="com.jtgj.finalProject.project.dto.ProjectDTO">
+		SELECT 
+		    CP.PT_THUMBNAIL,
+		    CP.PT_CONTENT,
+		    CP.PT_TITLE,
+		    CP.PT_NO,
+		    CP.PT_DESIGN,
+		    CP.PT_CONSTRUCTION,
+		    CP.PT_LAND_AREA,
+		    CP.PT_BUILDING_AREA,
+		    CP.PT_TOTAL_FLOOR_AREA,
+		    CP.PT_FLOOR_NUM,
+		    CP.PT_HOUSEHOLD_NUM,
+		    CP.PT_COMPLETION_YEAR,
+		    CP.USER_ID,
+		    U.USER_NAME
+		FROM (
+		    SELECT 
+		        PT_THUMBNAIL,
+		        PT_CONTENT,
+		        PT_TITLE,
+		        PT_NO,
+		        PT_DESIGN,
+		        PT_CONSTRUCTION,
+		        PT_LAND_AREA,
+		        PT_BUILDING_AREA,
+		        PT_TOTAL_FLOOR_AREA,
+		        PT_FLOOR_NUM,
+		        PT_HOUSEHOLD_NUM,
+		        PT_COMPLETION_YEAR,
+		        USER_ID,
+		        ROWNUM AS RN
+		    FROM COMPANY_PROJECT
+		    WHERE PT_NO &gt; #{lastProjectNum}
+		) CP
+		JOIN USERS U
+		ON CP.USER_ID = U.USER_ID
+		WHERE RN &lt;= #{limit}
+	    ORDER BY PT_NO
+	</select>
+</mapper>
