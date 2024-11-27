@@ -5,8 +5,11 @@
 	<!-- estiNo 구하기 -->
 	<select id="getEstiNo" resultType="int">
 		SELECT
-			COUNT(*)
+		    MAX(esti_no)
+		FROM (SELECT
+		    DISTINCT esti_no
 		FROM user_estimate
+		)
 	</select>
 	
 	<!-- 최종 자제들 기본 자제랑 대체 자제 저장하기 (insert) -->
@@ -23,7 +26,9 @@
 			mater_durability,
 			mater_info,
 			mater_classify,
-			kg_per_pyeong
+			kg_per_pyeong,
+			esti_date,
+			esti_title
 		) VALUES (
 			#{userId},
 			#{estiNo},
@@ -36,8 +41,33 @@
 			#{materDurability},
 			#{materInfo},
 			#{materClassify},
-			#{kgPerPyeong}
+			#{kgPerPyeong},
+			SYSDATE,
+			#{estiTitle}
 		)
 	</insert>
+	
+	<!-- 유저의 견적 가져오기 -->
+	<select id="getUserEstimate" parameterType="String" resultType="com.jtgj.finalProject.userEstimate.dto.UserEstimateDTO">
+		SELECT
+			user_id,
+			esti_no,
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify,
+			kg_per_pyeong,
+			esti_date,
+			esti_title
+		FROM user_estimate
+		WHERE 1=1
+			AND user_id = #{userId}
+		ORDER BY (esti_no) ASC
+	</select>
 	
 </mapper>

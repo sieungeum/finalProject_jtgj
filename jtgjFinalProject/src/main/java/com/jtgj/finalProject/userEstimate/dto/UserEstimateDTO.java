@@ -13,12 +13,14 @@ public class UserEstimateDTO {
 	private String materInfo;
 	private String materClassify;
 	private int kgPerPyeong;
+	private String estiDate;
+	private String estiTitle;
 	public UserEstimateDTO() {
 		super();
 	}
 	public UserEstimateDTO(String userId, int estiNo, int materNo, String materCategory, String materName,
 			double materGasKg, String materImg, int materPrice, String materDurability, String materInfo,
-			String materClassify, int kgPerPyeong) {
+			String materClassify, int kgPerPyeong, String estiDate, String estiTitle) {
 		super();
 		this.userId = userId;
 		this.estiNo = estiNo;
@@ -32,13 +34,16 @@ public class UserEstimateDTO {
 		this.materInfo = materInfo;
 		this.materClassify = materClassify;
 		this.kgPerPyeong = kgPerPyeong;
+		this.estiDate = estiDate;
+		this.estiTitle = estiTitle;
 	}
 	@Override
 	public String toString() {
 		return "UserEstimateDTO [userId=" + userId + ", estiNo=" + estiNo + ", materNo=" + materNo + ", materCategory="
 				+ materCategory + ", materName=" + materName + ", materGasKg=" + materGasKg + ", materImg=" + materImg
 				+ ", materPrice=" + materPrice + ", materDurability=" + materDurability + ", materInfo=" + materInfo
-				+ ", materClassify=" + materClassify + ", kgPerPyeong=" + kgPerPyeong + "]";
+				+ ", materClassify=" + materClassify + ", kgPerPyeong=" + kgPerPyeong + ", estiDate=" + estiDate
+				+ ", estiTitle=" + estiTitle + "]";
 	}
 	public String getUserId() {
 		return userId;
@@ -111,6 +116,18 @@ public class UserEstimateDTO {
 	}
 	public void setKgPerPyeong(int kgPerPyeong) {
 		this.kgPerPyeong = kgPerPyeong;
+	}
+	public String getEstiDate() {
+		return estiDate;
+	}
+	public void setEstiDate(String estiDate) {
+		this.estiDate = estiDate;
+	}
+	public String getEstiTitle() {
+		return estiTitle;
+	}
+	public void setEstiTitle(String estiTitle) {
+		this.estiTitle = estiTitle;
 	}
 	
 	

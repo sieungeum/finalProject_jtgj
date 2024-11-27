@@ -1,5 +1,6 @@
 package com.jtgj.finalProject.userEstimate.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,6 @@ public interface IUserEstimateDAO {
 	// 최종 자제들 기본 자제랑 대체 자제 저장하기 (insert)
 	int setUserEstimate(UserEstimateDTO esti);
 	
+	// 유저의 견적 가져오기
+	List<UserEstimateDTO> getUserEstimate(String userId);
 }

@@ -1,5 +1,7 @@
 package com.jtgj.finalProject.userEstimate.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,13 @@ public class UserEstimateService {
 	// 최종 자제들 기본 자제랑 대체 자제 저장하기 (insert)
 	public int setUserEstimate(UserEstimateDTO esti) {
 		int result = dao.setUserEstimate(esti);
+		
+		return result;
+	}
+	
+	// 유저의 견적 가져오기
+	public List<UserEstimateDTO> getUserEstimate(String userId){
+		List<UserEstimateDTO> result = dao.getUserEstimate(userId);
 		
 		return result;
 	}
