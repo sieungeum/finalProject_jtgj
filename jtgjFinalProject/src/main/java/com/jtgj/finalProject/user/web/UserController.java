@@ -15,14 +15,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,6 +48,9 @@ public class UserController {
 
 	@Autowired
 	FileUploadUtils fileUploadUtils;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Inject // 서비스를 호출하기 위해서 의존성 주입
 	JavaMailSender mailSender; // 메일 서비스를 사용하기 위해 의존성 주입
@@ -91,7 +98,13 @@ public class UserController {
 			out.close();
 
 			return;
-		} else if (!user.getUserPw().equals(login.getUserPw())) {
+		} 
+		
+		// 사용자가 입력한 비밀번호가 암호화된 비밀번호와 일치하는지 체크
+		boolean isMatch = passwordEncoder.matches(user.getUserPw(), login.getUserPw());
+		System.out.println(isMatch);
+		
+		if (!isMatch) {
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('비밀번호가 일치하지 않습니다!');");
 			out.println("history.go(-1);</script>");
@@ -194,6 +207,12 @@ public class UserController {
 			out.println("history.go(-1);</script>");
 			out.close();
 		} else {
+			
+			String encodePw = passwordEncoder.encode(user.getUserPw());
+			System.out.println(encodePw);
+			user.setUserPw(encodePw);
+			System.out.println(user);
+			
 			userService.registPersonalUser(user);
 
 			PrintWriter out = response.getWriter();
@@ -242,6 +261,11 @@ public class UserController {
 		
 		// 데이터 베이스에 insert
 		if(user != null && company != null) {
+			// 비밀번호 암호화
+			String encodePw = passwordEncoder.encode(user.getUserPw());
+			user.setUserPw(encodePw);
+			System.out.println(encodePw);
+			
 			userService.registC(user);
 			userService.registCMore(company);
 
@@ -260,7 +284,7 @@ public class UserController {
 	@ResponseBody
 	public ResponseEntity<Boolean> ConfirmId(String id) {
 		boolean result = true;
-
+		
 		System.out.println(id);
 
 		if (id.trim().isEmpty()) {
@@ -304,7 +328,9 @@ public class UserController {
 		
 		String nowPw = userService.getPwUsedEmail(email);
 		
-		if(nowPw.equals(password)) {
+		boolean isMatch = passwordEncoder.matches(password, nowPw);
+		
+		if(isMatch) {
 			result = false;
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
@@ -436,6 +462,8 @@ public class UserController {
 			messageHelper.setText(content, true); // HTML 내용 설정
 			mailSender.send(message);
 			System.out.println("메일 성공적으로 보내짐!");
+			
+			System.out.println(message);
 
 			result = true;
 
@@ -458,6 +486,8 @@ public class UserController {
 		boolean result = true;
 		
 		int storedDice = (int) request.getSession().getAttribute("dice_" + email); 
+		
+		System.out.println(storedDice);
 
 		if(storedDice == number) {
 			System.out.println("인증번호 일치");
@@ -665,6 +695,8 @@ public class UserController {
 		boolean result = false;
 		Integer storedDice = (Integer) request.getSession().getAttribute("findAccountDice_" + email); 
 		
+		System.out.println(storedDice);
+		
 		if(storedDice == null) {
 			System.out.println("세션에 인증번호가 존재하지 않음. 인증 요청이 만료됐거나 잘못됌");
 			String warningReason = "세션에 인증번호가 존재하지 않습니다. 인증 요청이 만료됐거나 잘못됐습니다.";
@@ -724,6 +756,8 @@ public class UserController {
 
 		boolean result = false;
 		Integer storedDice = (Integer) request.getSession().getAttribute("findAccountDice_" + email); 
+		
+		System.out.println(storedDice);
 		
 		// 인증번호 체크
 		if(storedDice == null) {
@@ -870,8 +904,11 @@ public class UserController {
 		// 현재 비밀번호 불러오기
 		String beforePw = userService.getPwUsedEmail(email);
 		
+		// 현재 비밀번호와 입력 비밀번호가 일치하는지 체크
+		boolean isMatch = passwordEncoder.matches(password, beforePw);
+		
 		// 이전 비밀번호와 같다면?
-		if(beforePw.equals(password)) {
+		if(isMatch) {
 			String warning = "이전 비밀번호와 같습니다. 다른 비밀번호를 입력해주세요!";
 			
 			responseMap.put("success", result);
@@ -880,8 +917,9 @@ public class UserController {
 			return new ResponseEntity<>(responseMap, HttpStatus.OK);
 		}
 		
-		// 다르다면 새로운 비밀번호로 update
-		userService.updateNewPw(password, email);
+		// 다르다면 새로운 비밀번호로 암호화 후 update
+		String encodePw = passwordEncoder.encode(password);
+		userService.updateNewPw(encodePw, email);
 		
 		result = true;
 		
@@ -1004,30 +1042,30 @@ public class UserController {
 		
 		String email = (String)requestData.get("userEmail");
 		
+		String encodePw;
+		
 		// UserDTO 매핑
 		UserDTO user = new UserDTO();
 		user.setUserId((String) requestData.get("userId"));
 		user.setUserName((String) requestData.get("userName"));
 		if(!requestData.get("userPw").equals("")) {
-			user.setUserPw((String) requestData.get("userPw"));
+			encodePw = passwordEncoder.encode((String) requestData.get("userPw"));
+			user.setUserPw(encodePw);
 		} else {
 			user.setUserPw(userService.getPwUsedEmail(email));
 		}
 		user.setUserPhone((String) requestData.get("userPhone"));
 		user.setUserEmail((String) requestData.get("userEmail"));
 		
-		if(user != null) {
-			userService.updateC(user);
-			
-			result = true;
-			
-			UserDTO login = userService.getUserById(user.getUserId());
-			session.setAttribute("login", login);
-			
-			return new ResponseEntity<>(result, HttpStatus.OK);
-		}
+		userService.updateC(user);
+		
+		result = true;
+		
+		UserDTO login = userService.getUserById(user.getUserId());
+		session.setAttribute("login", login);
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
+
 	}
 	
 	// 기업회원 회원수정
@@ -1043,12 +1081,15 @@ public class UserController {
 		int cpCarbonEmissions = Integer.parseInt((String) requestData.get("cpCarbonEmissions"));
 		String email = (String)requestData.get("userEmail");
 		
+		String encodePw;
+		
 		// UserDTO 매핑
 		UserDTO user = new UserDTO();
 		user.setUserId((String) requestData.get("userId"));
 		user.setUserName((String) requestData.get("userName"));
 		if(!requestData.get("userPw").equals("")) {
-			user.setUserPw((String) requestData.get("userPw"));
+			encodePw = passwordEncoder.encode((String) requestData.get("userPw"));
+			user.setUserPw(encodePw);
 		} else {
 			user.setUserPw(userService.getPwUsedEmail(email));
 		}

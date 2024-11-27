@@ -104,7 +104,7 @@ public class EstimateController {
 				
 				// 가격, 탄소배출량 수치로 정규화? 이걸 정규화라 하는게 맞나? 흠냐륑
 				double normalize = Math.pow(matPrice / (1 * calRange) * Integer.parseInt(materDict.get("matKg")), 2)
-						+ Math.pow((matCarbon + 10.0) * Integer.parseInt(materDict.get("matKg")), 2);
+						+ Math.pow((matCarbon + 3.0) * Integer.parseInt(materDict.get("matKg")), 2);
 				
 				normalize = Math.round(normalize * 100.0) / 100.0; // 가끔 수치가 크면 double을 넘어서 소수점 둘째짜리까지 표기
 

@@ -521,9 +521,81 @@ div{
 }
 
 
+/* 제목 입력 모달(저장) */
+.title-modal{
+	display: none;
+	position: fixed;
+	z-index: 999;
+	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	width: 320px;
+	
+	background-color: #fff;
+	
+	border: 3px solid black;
+	border-radius: 8px;
+	
+}
 
+.title-modal__flex{
+	display: flex;
+	flex-direction: column;
+	
+	width: 100%;
+}
 
+.title-modal__input{
+	width: 80%;
+	
+	margin: 8px 0px 0px 15px;
+}
+#titleInput {
+	height: 35px;
+}
 
+.title-modal__btn{
+	display: flex;
+	justify-content: end;
+	
+	margin: 10px 10px 8px 0px;
+}
+#titleModalSave{
+	margin-right: 8px;
+}
+
+/* 제목 입력 모달(다운) */
+.title-modal-down{
+	display: none;
+	position: fixed;
+	z-index: 999;
+	
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	
+	width: 320px;
+	height: 20%;
+	
+	background-color: #fff;
+	
+	border: 3px solid black;
+	border-radius: 8px;
+	
+}
+
+.title-modal__flex-down{
+	display: flex;
+	flex-direction: column;
+}
+
+.title-modal__btn-down{
+	display: flex;
+	justify-content: end;
+	
+}
 
 
 
