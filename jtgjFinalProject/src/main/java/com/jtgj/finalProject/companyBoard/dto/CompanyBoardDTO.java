@@ -12,13 +12,21 @@ public class CompanyBoardDTO {
 	private String cpBoardReperImg;	// 글 대표 이미지
 //    private String cpBoardProfImg;	// 프로필 이미지
 	private String cpBoardDelYn;	// 삭제여부
+	// 추가 필드 (users 테이블에서 가져옴, company_board에는 저장하지 않음)
+	private String userProfImg; // 사용자 프로필 이미지
+	private String cpCeoName;     // 기업 대표 이름
+	private String cpOpenDate;    // 기업 설립일
+	private String userPhone;     // 연락처
+	private String userEmail;     // 이메일
+	private String cpAddress;     // 주소
 	
 	public CompanyBoardDTO() {
 		super();
 	}
 
 	public CompanyBoardDTO(int cpBoardNo, String cpBoardIntro, String userId, String userName, String cpBoardContent,
-			String cpBoardArea, String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn) {
+			String cpBoardArea, String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn, String userProfImg,
+			String cpCeoName, String cpOpenDate, String userPhone, String userEmail, String cpAddress) {
 		super();
 		this.cpBoardNo = cpBoardNo;
 		this.cpBoardIntro = cpBoardIntro;
@@ -29,6 +37,12 @@ public class CompanyBoardDTO {
 		this.cpBoardDate = cpBoardDate;
 		this.cpBoardReperImg = cpBoardReperImg;
 		this.cpBoardDelYn = cpBoardDelYn;
+		this.userProfImg = userProfImg;
+		this.cpCeoName = cpCeoName;
+		this.cpOpenDate = cpOpenDate;
+		this.userPhone = userPhone;
+		this.userEmail = userEmail;
+		this.cpAddress = cpAddress;
 	}
 
 	public int getCpBoardNo() {
@@ -103,12 +117,62 @@ public class CompanyBoardDTO {
 		this.cpBoardDelYn = cpBoardDelYn;
 	}
 
+	public String getUserProfImg() {
+		return userProfImg;
+	}
+
+	public void setUserProfImg(String userProfImg) {
+		this.userProfImg = userProfImg;
+	}
+
+	public String getCpCeoName() {
+		return cpCeoName;
+	}
+
+	public void setCpCeoName(String cpCeoName) {
+		this.cpCeoName = cpCeoName;
+	}
+
+	public String getCpOpenDate() {
+		return cpOpenDate;
+	}
+
+	public void setCpOpenDate(String cpOpenDate) {
+		this.cpOpenDate = cpOpenDate;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public String getCpAddress() {
+		return cpAddress;
+	}
+
+	public void setCpAddress(String cpAddress) {
+		this.cpAddress = cpAddress;
+	}
+
 	@Override
 	public String toString() {
 		return "CompanyBoardDTO [cpBoardNo=" + cpBoardNo + ", cpBoardIntro=" + cpBoardIntro + ", userId=" + userId
 				+ ", userName=" + userName + ", cpBoardContent=" + cpBoardContent + ", cpBoardArea=" + cpBoardArea
 				+ ", cpBoardDate=" + cpBoardDate + ", cpBoardReperImg=" + cpBoardReperImg + ", cpBoardDelYn="
-				+ cpBoardDelYn + "]";
+				+ cpBoardDelYn + ", userProfImg=" + userProfImg + ", cpCeoName=" + cpCeoName + ", cpOpenDate="
+				+ cpOpenDate + ", userPhone=" + userPhone + ", userEmail=" + userEmail + ", cpAddress=" + cpAddress
+				+ "]";
 	}
 	
 }

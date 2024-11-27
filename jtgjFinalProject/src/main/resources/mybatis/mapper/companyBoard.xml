@@ -5,19 +5,28 @@
 	    SELECT 
 	        a.cp_board_no,
 	        a.cp_board_intro,
+	        a.cp_board_content,
 	        a.user_id,
 	        b.cp_ceo_name,
 	        c.user_name,
 	        a.cp_board_area,
 	        a.cp_board_date,
 	        a.cp_board_reper_img,
-	        a.cp_board_del_yn
-	    FROM 
-	        company_board a, company_info b, users c
-	    WHERE 1=1
-	        AND a.cp_board_del_yn = 'N'
-	        AND a.user_id = b.user_id
-	        AND a.user_id = c.user_id
+	        a.cp_board_del_yn,
+	        c.user_prof_img, -- 추가: 프로필 이미지
+	        b.cp_ceo_name AS cpCeoName,       -- 기업 대표 이름
+	        b.cp_open_date AS cpOpenDate,    -- 기업 설립일
+	        c.user_phone AS userPhone,       -- 연락처
+	        c.user_email AS userEmail,       -- 이메일
+	        b.cp_address AS cpAddress        -- 주소
+		FROM 
+	        company_board a
+	    JOIN 
+	        company_info b ON a.user_id = b.user_id
+	    JOIN 
+	        users c ON a.user_id = c.user_id
+	    WHERE 
+	        a.cp_board_del_yn = 'N'
 	</select>
 	
 	<insert id="writeCompanyBoard" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
@@ -49,5 +58,75 @@
 	    FROM company_board 
 	    WHERE user_id = #{userId}
 	</select>
+	
+	<!-- 기업 홍보 게시판 상세보기 -->
+	<select id="getCompanyBoardDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+	    SELECT 
+	        a.cp_board_no,
+	        a.cp_board_intro,
+	        a.cp_board_content,         <!-- 게시글 내용 -->
+	        a.user_id,
+	        c.user_name,
+	        a.cp_board_area,
+	        a.cp_board_date,
+	        a.cp_board_reper_img,
+	        c.user_prof_img AS userProfImg, <!-- 프로필 이미지 -->
+	        b.cp_ceo_name AS cpCeoName,       <!-- 기업 대표 이름 -->
+	        b.cp_open_date AS cpOpenDate,    <!-- 기업 설립일 -->
+	        c.user_phone AS userPhone,       <!-- 연락처 -->
+	        c.user_email AS userEmail,       <!-- 이메일 -->
+	        b.cp_address AS cpAddress        <!-- 주소 -->
+	    FROM 
+	        company_board a
+	    JOIN company_info b ON a.user_id = b.user_id
+	    JOIN users c ON a.user_id = c.user_id
+	    WHERE 
+	        a.cp_board_no = #{cpBoardNo}
+	</select>
+	
+	<!-- 게시글 수정 -->
+    <update id="updateCompanyBoard" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+        UPDATE company_board
+        SET 
+            cp_board_intro = #{cpBoardIntro},
+            cp_board_content = #{cpBoardContent},
+            cp_board_area = #{cpBoardArea},
+            cp_board_reper_img = #{cpBoardReperImg}
+        WHERE cp_board_no = #{cpBoardNo}
+    </update>
+    
+    <insert id="writeCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    INSERT INTO company_project_r (
+	        user_id, 
+	        pt_no,
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area, 
+	        pt_total_floor_area,
+	        pt_floor_num, 
+	        pt_household_num, 
+	        pt_completion_year, 
+	        pt_location
+	    ) VALUES (
+	        #{userId}, 
+	        (SELECT COUNT(*)+1 FROM company_project_r), 
+	        #{ptThumbnail}, 
+	        #{ptContent}, 
+	        #{ptTitle}, 
+	        #{ptDesign}, 
+	        #{ptConstruction}, 
+	        #{ptLandArea}, 
+	        #{ptBuildingArea}, 
+	        #{ptTotalFloorArea}, 
+	        #{ptFloorNum}, 
+	        #{ptHouseholdNum}, 
+	        #{ptCompletionYear}, 
+	        #{ptLocation}
+	    )
+	</insert>
 	
 </mapper>

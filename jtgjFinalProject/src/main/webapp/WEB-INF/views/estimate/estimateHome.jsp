@@ -50,6 +50,9 @@
 			</div>
 			<div class="budget-btn-box">
 				<div id="budgetBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
+				<a href="${pageContext.request.contextPath}/testUserEstimateView">
+					test
+				</a>
 			</div>
 		</div>
 	</div>
@@ -378,8 +381,13 @@
 		
 		<div class="modal-box__result-btn">
 			<!-- 초기화 버튼 -->
-			<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
-				초기화
+			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn">
+				<form id="excelDown" method="POST" action="${pageContext.request.contextPath}/download/excel">
+					<input type="hidden" name="basicMater" id="basicMater">
+					<input type="hidden" name="subMatInfo" id="subMatInfo">
+					<input type="hidden" name="estiTitle" id="estiTitle">
+					엑셀 다운로드
+				</form>
 			</div> <!-- 초기화 버튼 -->
 			
 			<!-- 임시 저장 버튼 -->
@@ -393,6 +401,38 @@
 			</div> <!-- 저장 버튼 -->
 		</div>
 		
+	</div> <!-- Finally Calculate Modal -->
+	
+	<!-- 저장 모달 -->
+	<!-- Finally Calculate Modal -->
+	<div class="title-modal">
+		<div class="title-modal__flex">
+			<div class="title-modal__input">
+				<div>파일명을 입력해주세요.</div>
+				<input id="titleInput" type="text">
+			</div>
+			
+			<div class="title-modal__btn">
+				<div id="titleModalSave" class="sjm-btn sjm-btn-success">저장</div>
+				<div id="titleModalCancel" class="sjm-btn sjm-btn-danger">취소</div>
+			</div>
+		</div>
+	</div> <!-- Finally Calculate Modal -->
+	
+	
+	<!-- 엑셀 다운로드 모달 -->
+	<div class="title-modal-down">
+		<div class="title-modal__flex-down">
+			<div class="title-modal__input-down">
+				<div>제목 입력이 되</div>
+				<input id="downTitleInput" type="text">
+			</div>
+			
+			<div class="title-modal__btn-down">
+				<div id="downModalSave">저장</div>
+				<div id="downModalCancel">취소</div>
+			</div>
+		</div>
 	</div> <!-- Finally Calculate Modal -->
 
 	<!-- footer -->
@@ -539,8 +579,6 @@
 				}
 				
 				v_roomPercentPyeng[i].value = v_value.toFixed(1);
-				console.log(i);
-				console.log(v_roomPercentPyeng[i].value);
 				
 				if (i > 0) { // 거실은 왠만하면 1개여서 욕실, 주방, 방 카드만 추가됨.
 					for (let j = 0; j < parseInt(v_cntRoom[i - 1].innerHTML); j++){
@@ -1058,7 +1096,7 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 1000);
+			f_ajaxJsonString(v_sendMaterials, 3000);
 			
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
@@ -1106,7 +1144,7 @@
 			}
 			
 			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 1000);
+			f_ajaxJsonString(v_sendMaterials, 3000);
 			
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
@@ -1342,8 +1380,8 @@
  					v_matNum = []; // 선택한 기본 자제들 Kg(갯수), 계산마다 초기화 해줘야함
  					// 모든 기본 자제들(v_matInfoDict) 에서 선택 자제들(v_basicMat)의 정보만 가져오기
  					
- 					for (let i = 0; i < Object.keys(v_matInfoDict).length; i++){
- 						for (let j = 0; j < v_basicMat.length; j++){
+ 					for (let j = 0; j < v_basicMat.length; j++){
+ 						for (let i = 0; i < Object.keys(v_matInfoDict).length; i++){
  							if (v_basicMat[j]['matName'] == v_matInfoDict[i]['materName'] && v_basicMat[j]['matCategory'].replace(new RegExp('[0-9]', 'g'), '') == v_matInfoDict[i]['materCategory']){
 
  								// 값 추가
@@ -1539,55 +1577,145 @@
 			console.log(v_subMatInfo);
 			console.log(v_matNum);
 			
- 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
-			let basicMater = {};
+			/* 저장 시 제목 입력 */
+			let v_titleModal = document.querySelector(".title-modal");
+			let v_titleInput = document.getElementById("titleInput");
+			let v_titleModalSave = document.getElementById("titleModalSave");
+			let v_titleModalCancel = document.getElementById("titleModalCancel");
 			
-			for (let i = 0; i < Object.keys(v_matInfo).length; i++){
-				basicMater[i] = {};
-				basicMater[i]['materNo'] = v_matInfo[i]['materNo'];
-				basicMater[i]['materCategory'] = v_matInfo[i]['materCategory'];
-				basicMater[i]['materName'] = v_matInfo[i]['materName'];
-				basicMater[i]['materGasKg'] = v_matInfo[i]['materGasKg'];
-				basicMater[i]['materPrice'] = v_matInfo[i]['materPrice'];
-				basicMater[i]['materKg'] = v_matNum[i];
-			}
+			v_titleModal.style.display = "block";
 			
-			let subMatInfo = {};
-			
-			for (let i = 0; i < Object.keys(v_subMatInfo).length; i++){
-				subMatInfo[i] = {};
-				subMatInfo[i]['materNo'] = v_subMatInfo[i]['materNo'];
-				subMatInfo[i]['materCategory'] = v_subMatInfo[i]['materCategory'];
-				subMatInfo[i]['materName'] = v_subMatInfo[i]['materName'];
-				subMatInfo[i]['materGasKg'] = v_subMatInfo[i]['materGasKg'];
-				subMatInfo[i]['materPrice'] = v_subMatInfo[i]['materPrice'];
-				subMatInfo[i]['materKg'] = v_matNum[i];
-			}
-			
-			
-			basicMater = JSON.stringify(basicMater);
-			console.log(basicMater);
-			basicMater = "basicMater=" + basicMater;
-			
-			subMatInfo = JSON.stringify(subMatInfo);
-			console.log(subMatInfo);
-			basicMater += "&subMatInfo=" + subMatInfo;
-			
-			// console.log("${login.userId}");
-			// basicMater += "&userId=" + "${login.userId}"; 테스트 끝나면 주석 풀기
-			basicMater += "&userId=" + "gd";
-			
-			const v_ajax = XMLHttpRequest();
-			v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);
-			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			v_ajax.onload = () => {
-				if (v_ajax.status == 200){
-					console.log(v_ajax.response);
+			// 저장 클릭 시
+			v_titleModalSave.addEventListener("click", () => {
+				let estiTitle = v_titleInput.value; // 입력한 제목
+				
+	 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
+				let basicMater = {};
+				
+				for (let i = 0; i < Object.keys(v_matInfo).length; i++){
+					basicMater[i] = {};
+					basicMater[i]['materNo'] = v_matInfo[i]['materNo'];
+					basicMater[i]['materCategory'] = v_matInfo[i]['materCategory'];
+					basicMater[i]['materName'] = v_matInfo[i]['materName'];
+					basicMater[i]['materGasKg'] = v_matInfo[i]['materGasKg'];
+					basicMater[i]['materPrice'] = v_matInfo[i]['materPrice'];
+					basicMater[i]['materKg'] = v_matNum[i];
 				}
-			}
+				
+				let subMatInfo = {};
+				
+				for (let i = 0; i < Object.keys(v_subMatInfo).length; i++){
+					subMatInfo[i] = {};
+					subMatInfo[i]['materNo'] = v_subMatInfo[i]['materNo'];
+					subMatInfo[i]['materCategory'] = v_subMatInfo[i]['materCategory'];
+					subMatInfo[i]['materName'] = v_subMatInfo[i]['materName'];
+					subMatInfo[i]['materGasKg'] = v_subMatInfo[i]['materGasKg'];
+					subMatInfo[i]['materPrice'] = v_subMatInfo[i]['materPrice'];
+					subMatInfo[i]['materKg'] = v_matNum[i];
+				}
+				
+				
+				basicMater = JSON.stringify(basicMater);
+				console.log(basicMater);
+				basicMater = "basicMater=" + basicMater;
+				
+				subMatInfo = JSON.stringify(subMatInfo);
+				console.log(subMatInfo);
+				basicMater += "&subMatInfo=" + subMatInfo;
+				
+				console.log(estiTitle);
+				basicMater += "&estiTitle=" + estiTitle;
+				
+				// console.log("${login.userId}");
+				// basicMater += "&userId=" + "${login.userId}"; 테스트 끝나면 주석 풀기
+				basicMater += "&userId=" + "gd";
+				
+				const v_ajax = XMLHttpRequest();
+				v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);
+				v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				v_ajax.onload = () => {
+					if (v_ajax.status == 200){
+						console.log(v_ajax.response);
+					}
+				}
+				
+				v_ajax.send(basicMater);
+			});
 			
-			v_ajax.send(basicMater);
+			// 닫기 클릭 시
+			v_titleModalCancel.addEventListener("click", () => {
+				v_titleModal.style.display = "none";
+				return;
+			})
 		});
+		
+		/* 엑셀로 다운로드 */
+		let v_excelDownBtn = document.getElementById("excelDownBtn");
+		
+		v_excelDownBtn.addEventListener("click", () => {
+			let v_excelDown = document.getElementById("excelDown");
+			console.log("최종 다운");
+			console.log(v_matInfo);
+			console.log(v_subMatInfo);
+			console.log(v_matNum);
+			
+			/* 저장 시 제목 입력 */
+			let v_titleModalDown = document.querySelector(".title-modal-down");
+			let v_downTitleInput = document.getElementById("downTitleInput");
+			let v_downModalSave = document.getElementById("downModalSave");
+			let v_downModalCancel = document.getElementById("downModalCancel");
+			
+			v_titleModalDown.style.display = "block";
+			
+			// 저장 클릭 시
+			v_downModalSave.addEventListener("click", () => {
+				let estiTitle = v_downTitleInput.value; // 입력한 제목
+				
+	 			// JSONString으로 변환 및 ajax로 보내기 위한 변형
+				let basicMater = {};
+				
+				for (let i = 0; i < Object.keys(v_matInfo).length; i++){
+					basicMater[i] = {};
+					basicMater[i]['materNo'] = v_matInfo[i]['materNo'];
+					basicMater[i]['materCategory'] = v_matInfo[i]['materCategory'];
+					basicMater[i]['materName'] = v_matInfo[i]['materName'];
+					basicMater[i]['materGasKg'] = v_matInfo[i]['materGasKg'];
+					basicMater[i]['materPrice'] = v_matInfo[i]['materPrice'];
+					basicMater[i]['materKg'] = v_matNum[i];
+				}
+				
+				let subMatInfo = {};
+				
+				for (let i = 0; i < Object.keys(v_subMatInfo).length; i++){
+					subMatInfo[i] = {};
+					subMatInfo[i]['materNo'] = v_subMatInfo[i]['materNo'];
+					subMatInfo[i]['materCategory'] = v_subMatInfo[i]['materCategory'];
+					subMatInfo[i]['materName'] = v_subMatInfo[i]['materName'];
+					subMatInfo[i]['materGasKg'] = v_subMatInfo[i]['materGasKg'];
+					subMatInfo[i]['materPrice'] = v_subMatInfo[i]['materPrice'];
+					subMatInfo[i]['materKg'] = v_matNum[i];
+				}
+				
+			    // JSON.stringify()로 데이터를 직렬화하고 숨겨진 필드에 설정
+			    document.getElementById('basicMater').value = JSON.stringify(basicMater);
+			    document.getElementById('subMatInfo').value = JSON.stringify(subMatInfo);
+			    document.getElementById('estiTitle').value = JSON.stringify(estiTitle);
+
+			    // 폼 제출
+			    document.getElementById('excelDown').submit();
+			});
+			
+			// 닫기 클릭 시
+			v_downModalCancel.addEventListener("click", () => {
+				v_titleModalDown.style.display = "none";
+				return;
+			})
+		})
+		
+		
+			
+		
+		
 	</script>
 </body>
 </html>

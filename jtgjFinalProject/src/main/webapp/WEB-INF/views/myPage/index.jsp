@@ -219,6 +219,8 @@
 							</table>
 						</div>
 					</div>
+					
+					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					<div class="card mb-4">
 						<div class="card-header">내 견적</div>
 						<div class="card-body">
@@ -245,6 +247,7 @@
 							</table>
 						</div>
 					</div>
+					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					
 					<c:if test="${sessionScope.login.userAccount == 'C' && sessionScope.login.userAccount != null}">
 					<div class="card mb-4">

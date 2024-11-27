@@ -1,7 +1,11 @@
 package com.jtgj.finalProject.user.dto;
 
+import javax.validation.constraints.Pattern;
+
 public class UserDTO {
+	@Pattern(regexp = "[a-zA-Z0-9]{4,12}", message = "아이디는 4글자 이상 12글자 이하로 입력해주세요.")
 	private String userId;
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[0-9])[a-zA-Z0-9]{8,12}$", message = "비밀번호는 알파벳과 숫자를 섞어주세요.")
 	private String userName;
 	private String userPw;
 	private String userEmail;

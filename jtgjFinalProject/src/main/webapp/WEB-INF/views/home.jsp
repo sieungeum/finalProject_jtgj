@@ -52,6 +52,10 @@
 			bottom: 10px;
 			right: 10px;
 		}
+		
+		#work-grid > div{
+			padding-right:5px;
+		}
 	</style>
 </head>
 <body>
@@ -192,54 +196,55 @@
 	
 	<div class="container margin-top">
 		<div class="main-title">
-			<h1 style="">IDEAS</h1>
+			<h1 style="padding-bottom:15px;">Projects</h1>
 			<hr>
 		</div>
 		<div class="portfolio-wrapper">
-			<button class="nav">
-				<span class="icon-container"> <span class="line line01"></span>
-					<span class="line line02"></span> <span class="line line03"></span>
-					<span class="line line04"></span>
-				</span>
-			</button>
-			<div class="works-filter">
-				<a href="javascript:void(0)" class="filter active" data-filter="mix">All</a>
-				<a href="javascript:void(0)" class="filter" data-filter="Insights">Insights</a>
-				<a href="javascript:void(0)" class="filter" data-filter="Projects">Projects</a> 
-			</div>
 			<div class="js-masonry">
 				<div class="row" id="work-grid">
-					<!-- Insights 혹은 Projects 실행 -->			
+					<!-- Insights 혹은 Projects 실행 -->	
+		            <div class="col-md-6 col-sm-6 col-xs-12"  style="position: absolute; left: 0px; top: 133px;"> 
+		                <div class="img home-portfolio-image" style="width:550px; height:300px;">
+		                    <img src="img/pj-test/test1.png" alt="Project Thumbnail" style="width:100%;height:100%;">
+		                    <div class="overlay-thumb">
+		                        <div class="details">
+		                            <span class="title">HUMANIST</span>
+		                            <span class="info">다미건설(주)</span>
+		                        </div>
+		                        <span class="btnBefore"></span>
+		                        <span class="btnAfter"></span>
+		                        <a class="main-portfolio-link" href="#"></a>
+		                    </div>
+		                </div>
+		            </div>
+		            
+		            <div class="col-md-6 col-sm-6 col-xs-12"  style="position: absolute; left: 585px; top: 133px;"> 
+		                <div class="img home-portfolio-image" style="width:550px; height:300px;">
+		                    <img src="img/pj-test/test2.png" alt="Project Thumbnail" style="width:100%;height:100%;">
+		                    <div class="overlay-thumb">
+		                        <div class="details">
+		                            <span class="title">SREN C</span>
+		                            <span class="info">종합건축사사무소 도하</span>
+		                        </div>
+		                        <span class="btnBefore"></span>
+		                        <span class="btnAfter"></span>
+		                        <a class="main-portfolio-link" href="#"></a>
+		                    </div>
+		                </div>
+		            </div>
 				</div>
 			</div>
+			<div class="load-more">
+            	<a href="javascript:void(0)" id="load-more-2col"><i class="icon-refresh"></i></a>
+       		</div>
 		</div>
 	</div>
-	    
-	<div class="container">
-        <ul class="pagination-ef wow animated fadeInUp" data-wow-delay="0.20s">
-            <li>
-                <a href="#">
-                    <i class="pe-7s-angle-left"></i>
-                </a>
-            </li>
-            <li class="current"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">...</a></li>
-            <li><a href="#">8</a></li>
-            <li>
-                <a href="#">
-                    <i class="pe-7s-angle-right"></i>
-                </a>
-            </li>
-        </ul>
-    </div>
 	
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
 
 	<script>
-
 		
 	</script>
 
