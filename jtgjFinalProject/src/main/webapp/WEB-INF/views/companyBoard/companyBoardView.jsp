@@ -65,8 +65,11 @@
 		                    <div class="row">
 		                        <div class="col-md-6 wow animated fadeInUp" data-wow-delay="0.10s">
 		                            <!-- 대표 이미지 -->
-                    				<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
-     									alt="Blog Image" style="width: 100%; height: auto;">
+		                            <a href="${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyBoard.cpBoardNo}">
+	                    				<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
+	     									alt="Blog Image" style="width: 100%; height: auto;">
+		                            </a>
+		                            
 		                        </div>
 		                        <div class="col-md-5 col-md-offset-1">
 		                            <div class="blog-front-content wow animated fadeInUp" data-wow-delay="0.20s">
@@ -94,9 +97,6 @@
 		    <c:choose>
 		        <c:when test="${hasPosted}">
 		            <!-- 글 수정 버튼 -->
-		            <a href="${pageContext.request.contextPath}/companyBoardEditView">
-		                <button type="button" class="btn btn-warning">글 수정</button>
-		            </a>
 		        </c:when>
 		        <c:otherwise>
 		            <!-- 글쓰기 버튼 -->
