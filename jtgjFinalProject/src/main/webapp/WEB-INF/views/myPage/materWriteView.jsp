@@ -129,12 +129,10 @@
 								<form action="${pageContext.request.contextPath}/writeMater" method="POST">
 
 							        <div class="mb-3">
-							        	<img id="imagePreview" class="profile-img"  src="${mater.materImg}"  alt="자재 이미지가 없습니다." />
-							            <label for="materImg">자재 이미지: !${attach.atchOriginalName }</label>
-							            <div class="input-group d-flex">
-							                <input type="file" id="materImg" name="materImg" accept="image/*" onchange="previewImage(event)" /><br />
-							            </div>
-							        </div>
+								        <label for="materImg">자재 이미지:</label>
+								        <input type="file" id="materImg" name="materImg" accept="image/*" onchange="previewImage(event)" /><br />
+								        <img id="imagePreview" class="profile-img" src="${mater.materImg}" alt="자재 이미지가 없습니다." />
+								    </div>
 							
 							        <div class="mb-3">
 							           		<label for="materName" style="font-weight:bolder;">자재 이름:</label>
@@ -142,7 +140,7 @@
 									   	 	<input type="text"  class="form-control" id="materName" name="materName" required /><br />
 							            </div>
 							        </div>
-							        
+							         
 							        <div class="mb-3">
 							           		<label for="materCategory" style="font-weight:bolder;">카테고리:</label>
 							            <div class="input-group mb-3">
@@ -212,7 +210,20 @@
 		</div>
 	</div>
 
+<script>
+function previewImage(event) {
+    const input = event.target;
+    const preview = document.getElementById("imagePreview");
 
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 
 
 
