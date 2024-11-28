@@ -20,17 +20,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jtgj.finalProject.admin.service.AdminFaqService;
+import com.jtgj.finalProject.admin.service.AdminService;
+import com.jtgj.finalProject.common.util.FileUploadUtils;
+import com.jtgj.finalProject.estimate.dto.EstimateDTO;
+import com.jtgj.finalProject.estimate.service.EstimateService;
+import com.jtgj.finalProject.faq.dto.FaqDTO;
+import com.jtgj.finalProject.faq.service.FaqService;
 import com.jtgj.finalProject.project.dto.ProjectDTO;
 import com.jtgj.finalProject.project.service.ProjectService;
+import com.jtgj.finalProject.user.dto.UserDTO;
 
 /**
  * Handles requests for the application home page.
  */
 @Controller
 public class HomeController {
-
+	
 	@Autowired
 	ProjectService projectService;
+	
+	// юс╫ц..
+	@Autowired
+	AdminService adminService;
+	
+	@Autowired
+	FaqService faqService;
+	
+	@Autowired
+	AdminFaqService adminfaqService;
+	
+	@Autowired
+	EstimateService estimateService;
+	
+	@Autowired
+	FileUploadUtils fileUploadUtils;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -81,5 +105,30 @@ public class HomeController {
 		
 		return projectService.getRandomProjects(displayedPtNos, limit);
 	}
-			 
+	
+	@RequestMapping("/adminPageTest")
+	public String adminPage(Model model) {
+		System.out.println("- adminPageTest - ");
+		
+		
+		List<UserDTO> userList = adminService.getUserList();
+		model.addAttribute("userList", userList);
+		
+		List<FaqDTO> faqList = adminfaqService.getFaqList();
+		model.addAttribute("faqList", faqList);
+		
+		
+		List<EstimateDTO> basicMatter = estimateService.basic_mater();
+		model.addAttribute("basicMatter", basicMatter);
+		
+		return "myPage/adminPageTest";
+	}
+	
+	@RequestMapping("/materWriteViewTest")
+	public String materWriteView() {
+		System.out.println("- materWriteViewTest - ");
+		
+		return "myPage/materWriteViewTest";
+	}	
+	
 }

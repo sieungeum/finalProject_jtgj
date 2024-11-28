@@ -134,7 +134,8 @@ public class UserController {
 				
 			session.setAttribute("company", company);
 			session.setAttribute("login", login);
-			session.setMaxInactiveInterval(60 * 200);
+			// 나중에 주석해제!
+			/* session.setMaxInactiveInterval(60 * 200); */
 
 			if (rememberId) {
 				Cookie cookie = new Cookie("rememberId", user.getUserId());
