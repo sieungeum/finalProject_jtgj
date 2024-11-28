@@ -380,7 +380,7 @@
 		</div>
 		
 		<div class="modal-box__result-btn">
-			<!-- 초기화 버튼 -->
+			<!-- 다운로드 버튼 -->
 			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn">
 				<form id="excelDown" method="POST" action="${pageContext.request.contextPath}/download/excel">
 					<input type="hidden" name="basicMater" id="basicMater">
@@ -1028,7 +1028,6 @@
 		/* 자제 정보 */
 		let v_matInfoStack = []; // 불러오기 창에 추가될 것들 차곡차곡 쌓임
 		let v_matInfo = {}; // 최종 결과에 임시저장할 자제들
-		console.log(v_matInfo);
 		let v_subMatInfo = null; // 최종 결과에 임시저장할 대체 자제들
 		let v_matNum = []; // 최종 결과에 임시저장할 자제들 갯수
 		
@@ -1041,13 +1040,12 @@
 		v_resultBtn.addEventListener("click", ()=>{
 			
 			/* 카테고리별로 하나 이상씩 선택 안하면 계산 안되게 함 */
-			let allSelectCategory = document.querySelectorAll(".mater-category");
-			let selectCategory = document.getElementById("calCarbon");
+			let allSelectCategory = document.querySelectorAll(".mater-category"); // 모든 카테고리 종류
+			let selectCategory = document.getElementById("calCarbon"); // 고른 자제들의 카테고리들
 			
-			let selectCateDict = {};
+			let selectCateDict = {}; // 키값에 카테고리 저장
 			
 			for (let i = 0; i < allSelectCategory.length; i++){
-				
 				let v_partCategory = allSelectCategory[i].innerHTML;
 				for (let j = 1; j < selectCategory.children.length; j++){
 					let v_selectCategory = selectCategory.children[j].textContent.split(",")[1];
@@ -1058,14 +1056,13 @@
 					}
 				}
 			}
-			console.log(Object.keys(selectCateDict).length);
-			console.log(allSelectCategory.length);
 			
 			if (Object.keys(selectCateDict).length < allSelectCategory.length){
 				alert("적어도 카테고리별 하나씩은 채워 이사람아");
 				return;
 			}
 			
+			/* 최종 결과 계산 */
 			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
 			
 			// 선택한 자제들의 탄소배출량
@@ -1092,11 +1089,9 @@
 						, 'matCarbon' : v_matCarbon
 						, 'matPrice' : v_matPrice
 						, 'matKg': v_matKg}
+				
 				console.log(v_sendMaterials);
 			}
-			
-			// ajax 통신 함수
-			f_ajaxJsonString(v_sendMaterials, 3000);
 			
 			// 버튼 클릭 시 다른거 비활성화
 			if (!v_rtOptimum.classList.contains("sjm-btn-dark")){
@@ -1106,11 +1101,14 @@
 				v_rtPrice.classList.add("sjm-btn-light");
 				v_rtCarbon.classList.remove("sjm-btn-dark");
 				v_rtCarbon.classList.add("sjm-btn-light");
-
-				v_rtOptimum.style.pointerEvents = "none";
-				v_rtPrice.style.pointerEvents = "auto";
-				v_rtCarbon.style.pointerEvents = "auto";
 			}
+
+			v_rtOptimum.style.pointerEvents = "none";
+			v_rtPrice.style.pointerEvents = "auto";
+			v_rtCarbon.style.pointerEvents = "auto";
+			
+			// ajax 통신 함수
+			f_ajaxJsonString(v_sendMaterials, 3000);
 		});
 		
 		/* 결과 선택 */
@@ -1154,11 +1152,11 @@
 				v_rtPrice.classList.add("sjm-btn-light");
 				v_rtCarbon.classList.remove("sjm-btn-dark");
 				v_rtCarbon.classList.add("sjm-btn-light");
-
-				v_rtOptimum.style.pointerEvents = "none";
-				v_rtPrice.style.pointerEvents = "auto";
-				v_rtCarbon.style.pointerEvents = "auto";
 			}
+
+			v_rtOptimum.style.pointerEvents = "none";
+			v_rtPrice.style.pointerEvents = "auto";
+			v_rtCarbon.style.pointerEvents = "auto";
 		});
 
 		// 가격 감소
@@ -1259,7 +1257,7 @@
 		// parameter : json 형식의 선택 자제들 데이터, 현재 범위 input의 this.value
 		function f_ajaxJsonString(v_sendMaterials, v_range){
 			// 선택한 자제들 ajax로 보내기 전에 원본 유지
-			let v_basicMatDict = JSON.parse(JSON.stringify(v_sendMaterials));
+			let v_basicMatDict = JSON.parse(JSON.stringify(v_sendMaterials)); // 깊은 복사
 			
 			// 주방1, 욕실2 같은거 있어서 서버에 보낼 때는 지워주기
 			for (let i = 0; i < Object.keys(v_sendMaterials).length; i++){
@@ -1291,6 +1289,8 @@
 						v_basicMat.push(v_basicMatDict[key]);
 					}
 					
+					// Controller에서 LinckedMap 으로 가져와서 순서가 고정
+					// 이를 이용해 미리 저장해 둔 카테고리명으로 주방 -> 주방2 이렇게 바꿔주는 과정
 					for (let i = 0; i < v_basicMat.length; i++){
 						v_subMat[i]["materCategory"] = v_basicMat[i]["matCategory"]
 					}
@@ -1563,9 +1563,6 @@
 			document.querySelector(".overlay").classList.remove("show");
 			document.body.style.overflow = "auto";
 			v_modalBoxCal.style.display = "none";
-
-			// 스크롤 다시 활성화
-			enableScroll();
 		});
 		
 		/* 저장 버튼 클릭 시 값들 DB에 저장(로그인 시 가능) */
