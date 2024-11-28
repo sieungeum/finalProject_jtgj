@@ -114,6 +114,10 @@ public class CompanyBoardController {
 	    CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardDetail(cpBoardNo);
 	    model.addAttribute("companyBoard", companyBoard);
 	    System.out.println(companyBoard);
+	    
+	    // companyProject 정보 가져오기
+	    List<CompanyProjectDTO> companyProjects = companyBoardService.getCompanyProjectsByUserId(companyBoard.getUserId());
+	    model.addAttribute("companyProjects", companyProjects);
 	    return "companyBoard/companyBoardDetailView";
 	}
 	
@@ -186,6 +190,30 @@ public class CompanyBoardController {
         return "redirect:/companyBoardView";
     }
     
-    
+    @RequestMapping("/companyProjectDetailView")
+    public String companyProjectDetailView(@RequestParam("ptNo") int ptNo, Model model) {
+
+        // 프로젝트 상세 데이터 가져오기
+        CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+
+        // 사용자 및 회사 정보 가져오기
+        String userId = companyProject.getUserId();
+        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardByUserId(userId);
+
+        // 모델에 데이터 추가
+        model.addAttribute("companyProject", companyProject);
+        model.addAttribute("companyBoard", companyBoard);
+
+        return "companyBoard/companyProjectDetailView";
+    }
+
+    @RequestMapping("/companyProjectEditView")
+    public String companyProjectEditView(@RequestParam("ptNo") int ptNo, Model model) {
+        // 특정 프로젝트 가져오기
+        CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+        model.addAttribute("companyProject", companyProject);
+
+        return "companyBoard/companyProjectEditView";
+    }
 	
 }

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jtgj.finalProject.project.dto.ProjectDTO;
 import com.jtgj.finalProject.project.service.ProjectService;
 
@@ -38,35 +41,45 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 
+		// 서버 시간 추가
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-
 		String formattedDate = dateFormat.format(date);
-
 		model.addAttribute("serverTime", formattedDate);
-
-		
-		// 초기 프로젝트 4개를 화면에 띄웁니다 
-		int limit = 2; 
-		List<ProjectDTO> projectList = projectService.getInitialProjects(limit); 
-		model.addAttribute("projectList", projectList);
 			 
+		// 초기 프로젝트 2개 가져오기
+		List<ProjectDTO> initialProjects = projectService.getInitialProjects(2);
+		
+		// 초기 ptNo 목록 생성
+		List<Integer> displayedPtNos = initialProjects.stream().map(ProjectDTO::getPtNo).collect(Collectors.toList());
+		
+		// JSON 으로 변환
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			String displayedPtNosJson = objectMapper.writeValueAsString(displayedPtNos);
+			model.addAttribute("displayedPtNosJson", displayedPtNosJson);
+			
+			String initialProjectsJson = objectMapper.writeValueAsString(initialProjects);
+			model.addAttribute("initialProjectsJson", initialProjectsJson);
+		} catch(JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
 		return "home";
 	}
-
 	
-	@PostMapping("/projectsLoad")
+	@PostMapping("/projectsLoadRandom")
 	@ResponseBody
-	public List<ProjectDTO> loadMoreProjects(@RequestBody Map<String, Object> request) {
+	public List<ProjectDTO> loadRandomProjects(@RequestBody Map<String, Object> request) {
 		System.out.println("Request Data: " + request);
 		
-		int lastProjectNum = (int) request.get("lastProjectNum");
+		List<Integer> displayedPtNos = (List<Integer>) request.get("displayedPtNos");
 		int limit = (int) request.get("limit");
 		
-		System.out.println(lastProjectNum);
+		System.out.println(displayedPtNos);
 		System.out.println(limit);
 		
-		return projectService.getProjectsAfter(lastProjectNum, limit);
+		return projectService.getRandomProjects(displayedPtNos, limit);
 	}
 			 
 }

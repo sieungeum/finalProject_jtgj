@@ -58,6 +58,45 @@
 		}
 	</style>
 </head>
+<script>
+    let initialProjectsJson = '${initialProjectsJson}';
+    initialProjectsJson = JSON.parse(initialProjectsJson);
+    
+    // 서버에서 전달받은 JSON 데이터를 활용
+    document.addEventListener("DOMContentLoaded", function () {
+    	let displayedPtNos = []; 
+    	
+        initialProjectsJson.forEach(function (project, index) {
+            // 카드 DOM 요소 선택
+            const card = document.querySelector(".card-" + index);
+            if (card) {
+                // 이미지 경로 업데이트
+                const thumbnail = card.querySelector(".project-thumbnail");
+                thumbnail.src = "img/pj-test/" + project.ptThumbnail;
+                thumbnail.alt = project.ptTitle;
+
+                // 제목 업데이트
+                const title = card.querySelector(".project-title");
+                title.textContent = project.ptTitle;
+
+                // 사용자 이름 업데이트
+                const user = card.querySelector(".project-user");
+                user.textContent = project.userName;
+
+                // 링크 업데이트
+                const link = card.querySelector(".main-portfolio-link");
+                link.href = "#" + project.ptNo;
+                
+                // displayedPtNos 배열에 pt_no 추가
+                displayedPtNos.push(project.ptNo);
+            }
+        });
+        
+        // AJAX에서 사용할 displayedPtNos 전역으로 설정
+        // displayedPtNos를 전역 객체로 설정하여 다른 스크립트에서 접근 가능하게 함
+        window.displayedPtNos = displayedPtNos;
+    });
+</script>
 <body>
 
 	<!-- Preloader -->
@@ -203,35 +242,35 @@
 			<div class="js-masonry">
 				<div class="row" id="work-grid">
 					<!-- Insights 혹은 Projects 실행 -->	
-		            <div class="col-md-6 col-sm-6 col-xs-12"  style="position: absolute; left: 0px; top: 133px;"> 
-		                <div class="img home-portfolio-image" style="width:550px; height:300px;">
-		                    <img src="img/pj-test/test1.png" alt="Project Thumbnail" style="width:100%;height:100%;">
-		                    <div class="overlay-thumb">
-		                        <div class="details">
-		                            <span class="title">HUMANIST</span>
-		                            <span class="info">다미건설(주)</span>
-		                        </div>
-		                        <span class="btnBefore"></span>
-		                        <span class="btnAfter"></span>
-		                        <a class="main-portfolio-link" href="#"></a>
-		                    </div>
-		                </div>
-		            </div>
-		            
-		            <div class="col-md-6 col-sm-6 col-xs-12"  style="position: absolute; left: 585px; top: 133px;"> 
-		                <div class="img home-portfolio-image" style="width:550px; height:300px;">
-		                    <img src="img/pj-test/test2.png" alt="Project Thumbnail" style="width:100%;height:100%;">
-		                    <div class="overlay-thumb">
-		                        <div class="details">
-		                            <span class="title">SREN C</span>
-		                            <span class="info">종합건축사사무소 도하</span>
-		                        </div>
-		                        <span class="btnBefore"></span>
-		                        <span class="btnAfter"></span>
-		                        <a class="main-portfolio-link" href="#"></a>
-		                    </div>
-		                </div>
-		            </div>
+				    <div class="col-md-6 col-sm-6 col-xs-12 card-0">
+				        <div class="img home-portfolio-image" style="width:550px; height:300px;">
+				            <img src="" alt="Portfolio Item" class="project-thumbnail" style="width:100%;height:100%;">
+				            <div class="overlay-thumb">
+				                <div class="details">
+				                    <span class="title project-title"></span>
+				                    <span class="info project-user"></span>
+				                </div>
+				                <span class="btnBefore"></span>
+				                <span class="btnAfter"></span>
+				                <a class="main-portfolio-link" href="#"></a>
+				            </div>
+				        </div>
+				    </div>
+				    
+				    <div class="col-md-6 col-sm-6 col-xs-12 card-1">
+				        <div class="img home-portfolio-image" style="width:550px; height:300px;">
+				            <img src="" alt="Portfolio Item" class="project-thumbnail" style="width:100%;height:100%;">
+				            <div class="overlay-thumb">
+				                <div class="details">
+				                    <span class="title project-title"></span>
+				                    <span class="info project-user"></span>
+				                </div>
+				                <span class="btnBefore"></span>
+				                <span class="btnAfter"></span>
+				                <a class="main-portfolio-link" href="#"></a>
+				            </div>
+				        </div>
+				   </div>
 				</div>
 			</div>
 			<div class="load-more">
@@ -240,14 +279,12 @@
 		</div>
 	</div>
 	
-	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
-
+	
 	<script>
-		
+	
 	</script>
-
 
 </body>
 </html>

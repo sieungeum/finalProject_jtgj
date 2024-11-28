@@ -129,4 +129,76 @@
 	    )
 	</insert>
 	
+	<select id="getCompanyProjectsByUserId" parameterType="String" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    SELECT 
+	        user_id,
+	        pt_no,
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area,
+	        pt_total_floor_area,
+	        pt_floor_num,
+	        pt_household_num,
+	        pt_completion_year,
+	        pt_location
+	    FROM company_project_r
+	    WHERE user_id = #{userId}
+	    ORDER BY pt_no ASC
+	</select>
+	
+	<select id="getCompanyProjectDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    SELECT 
+	        user_id,
+	        pt_no,
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area,
+	        pt_total_floor_area,
+	        pt_floor_num,
+	        pt_household_num,
+	        pt_completion_year,
+	        pt_location
+	    FROM company_project_r
+	    WHERE pt_no = #{ptNo}
+	</select>
+	
+	<update id="updateCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    UPDATE company_project_r
+	    SET 
+	        pt_thumbnail = #{ptThumbnail},
+	        pt_content = #{ptContent},
+	        pt_title = #{ptTitle},
+	        pt_design = #{ptDesign},
+	        pt_construction = #{ptConstruction},
+	        pt_land_area = #{ptLandArea},
+	        pt_building_area = #{ptBuildingArea},
+	        pt_total_floor_area = #{ptTotalFloorArea},
+	        pt_floor_num = #{ptFloorNum},
+	        pt_household_num = #{ptHouseholdNum},
+	        pt_completion_year = #{ptCompletionYear},
+	        pt_location = #{ptLocation}
+	    WHERE pt_no = #{ptNo}
+	</update>
+	
+	<select id="getCompanyBoardByUserId" parameterType="String" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+	    SELECT 
+	        a.user_id,
+	        c.user_name,
+	        c.user_prof_img
+	    FROM 
+	        company_board a
+	    JOIN 
+	        users c ON a.user_id = c.user_id
+	    WHERE 
+	        a.user_id = #{userId}
+	</select>
+	
 </mapper>
