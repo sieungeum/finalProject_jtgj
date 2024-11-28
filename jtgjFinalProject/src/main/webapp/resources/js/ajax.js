@@ -3,43 +3,11 @@
 jQuery(window).load(function($) {
 
     var container = jQuery("#work-grid"); // 데이터를 추가할 컨테이너
-    
-    //  Load more Portfolio Home
-    jQuery('#load-more').click(function() {
-        var self = jQuery(this);
-        self.hide();
-        var url = 'ajax/portfolio-3column.html';
-        var loadanim = jQuery('a#load-more i');
-        loadanim.addClass('spinef');
-        var itemLoad = 4;
-        jQuery.ajax({
-            url: url,
-            data: {
-                itemCount: itemLoad
-            }
-        }).done(function(data) {
-            container.isotope('insert', jQuery(data));
-
-            container.isotope('insert', jQuery(data.content)).imagesLoaded(function() {
-                container.isotope('layout');
-                loadanim.removeClass('spinef');
-                likeEf();
-            });
-
-            self.show();
-        }).fail(function() {
-            self.text('Error while loading!');
-        });
-    });
-    
-    // Load more Portfolio Home
-    
-    let lastProjectNum = 2; // 초기 프로젝트 번호
-	const limit = 2; // 한 번에 가져올 데이터 수    
+    const limit = 2; // 한 번에 가져올 데이터 수
     
     jQuery('#load-more-2col').click(function (e) {
         e.preventDefault(); // 기본 동작 방지
-
+		
         var self = jQuery(this);
         self.hide(); // 버튼 숨김
         var loadanim = jQuery('a#load-more-2col i'); // 로딩 애니메이션
@@ -47,11 +15,11 @@ jQuery(window).load(function($) {
 
     	// AJAX 요청
         jQuery.ajax({
-            url: "/finalProject/projectsLoad", // Controller의 URL
+            url: "/finalProject/projectsLoadRandom", 
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({
-                lastProjectNum: lastProjectNum, // 가장 마지막으로 로드된 프로젝트 번호
+                displayedPtNos: window.displayedPtNos || [], // 이미 표시된 pt_no 목록
                 limit: limit // 로드할 카드 수
             }),
             success: function (data) {
@@ -78,12 +46,12 @@ jQuery(window).load(function($) {
                                             '</div>' +
                                             '<span class="btnBefore"></span>' +
                                             '<span class="btnAfter"></span>' +
-                                            '<a class="main-portfolio-link" href="#"></a>' +
+                                            '<a class="main-portfolio-link" href="#' + project.ptNo + '"></a>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>';
-                    // 마지막 프로젝트 번호 업데이트
-                    lastProjectNum = project.ptNo;
+                    // displayedPtNos 배열에 추가
+                    window.displayedPtNos.push(project.ptNo);
                 });
                 
                 // 동적으로 추가된 요소를 jQuery 객체로 변환

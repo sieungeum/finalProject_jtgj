@@ -13,5 +13,5 @@ public interface IProjectDAO {
 	public List<ProjectDTO> getInitialProjects(int limit);
 	
 	// 추가 데이터 로드
-    public List<ProjectDTO> getProjectsAfter(@Param("lastProjectNum") int lastProjectNum, @Param("limit") int limit);
+    public List<ProjectDTO> getRandomProjects(@Param("displayedPtNos") List<Integer>displayedPtNos, @Param("limit") int limit);
 }
