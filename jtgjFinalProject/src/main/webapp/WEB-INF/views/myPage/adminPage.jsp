@@ -34,63 +34,213 @@
 	width: 200px;
 }
 
-.custom-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin: 20px 0;
-}
+  .userTable {
+    width: 100%; /* 테이블 너비 고정 */
+    table-layout: fixed; /* 테이블 셀의 크기를 고정하여 자동 크기 조정 방지 */
+    border-collapse: collapse; /* 테이블 셀 테두리 겹침 제거 */
+  }
 
-/* 헤더 스타일 */
-.custom-table thead {
-	background-color: #f8f9fa;
-	font-weight: bold;
-}
+  /* <th>에 스타일 적용 */
+  .userTable th {
+    font-size: 15px;
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+    background-color: #f4f4f4; /* 배경색 */
+  }
 
-.custom-table th, .custom-table td {
-	padding: 12px;
-	text-align: left;
-	border-bottom: 1px solid #ddd;
-}
+  /* 각 열의 너비를 다르게 설정 */
+  .userTable th:nth-child(1), /* 회원 아이디 */
+  .userTable td:nth-child(1) {
+    width: 15%; 
+    text-align: center; /* 중앙 정렬 */
+  }
 
-/* 짝수 행 배경색 */
-.custom-table tr:nth-child(even) {
-	background-color: #f9f9f9;
-}
+  .userTable th:nth-child(2), /* 이름 */
+  .userTable td:nth-child(2) {
+    width: 20%; 
+    text-align: center; /* 중앙 정렬 */
+  }
 
-/* 호버 효과 */
-.custom-table tr:hover {
-	background-color: #e2e6ea;
-}
+  .userTable th:nth-child(3), /* 이메일 */
+  .userTable td:nth-child(3) {
+    width: 20%; 
+    text-align: center; /* 중앙 정렬 */
+  }
 
-/* 링크 스타일 */
-.custom-table a {
-	color: #007bff;
-	text-decoration: none;
-}
+  .userTable th:nth-child(4), /* 가입일 */
+  .userTable td:nth-child(4) {
+    width: 15%; 
+    text-align: center; /* 중앙 정렬 */
+  }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
-    display: none; /* 기본적으로 숨겨짐 */
-    justify-content: center;
-    align-items: center;
-}
+  .userTable th:nth-child(5), /* 기업여부 */
+  .userTable td:nth-child(5) {
+    width: 5%; 
+    text-align: center; /* 중앙 정렬 */
+  }
 
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    width: 400px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+  .userTable th:nth-child(6), /* 인증 */
+  .userTable td:nth-child(6) {
+    width: 15%; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .userTable th:nth-child(7), /* 관리자 권한 */
+  .userTable td:nth-child(7) {
+    width: 10%;
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  /* <td>에 스타일 적용 */
+  .userTable td {
+    height: 20px; /* 셀 높이 고정 */
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+  }
 
 
+ .faqTable th {
+    font-size: 15px;
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+    background-color: #f4f4f4; /* 배경색 */
+  }
+
+  /* 각 열의 너비를 다르게 설정 */
+  .faqTable th:nth-child(1), /* 글 번호 */
+  .faqTable td:nth-child(1) {
+    width: 40px; /* 번호 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(2), /* 글 제목 */
+  .faqTable td:nth-child(2) {
+    width: 500px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(3), /* 작성자 */
+  .faqTable td:nth-child(3) {
+    width: 80px; /* 이름 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(4), /* 작성일 */
+  .faqTable td:nth-child(4) {
+    width: 80px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(5), /* 답변 여부 */
+  .faqTable td:nth-child(5) {
+    width: 60px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  /* <td>에 스타일 적용 */
+  .faqTable td {
+    height: 20px; /* 셀 높이 고정 */
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+  }
+
+
+
+  .materTable {
+    width: 100%; /* 테이블 너비 고정 */
+    table-layout: fixed; /* 테이블 셀의 크기를 고정하여 자동 크기 조정 방지 */
+    border-collapse: collapse; /* 테이블 셀 테두리 겹침 제거 */
+  }
+
+  /* <th>에 스타일 적용 */
+  .materTable th {
+    font-size: 15px;
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+    background-color: #f4f4f4; /* 배경색 */
+  }
+
+  /* 각 열의 너비를 다르게 설정 */
+  .materTable th:nth-child(1), /* 첫 번째 열 (번호) */
+  .materTable td:nth-child(1) {
+    width: 40px; /* 번호 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(2), /* 두 번째 열 (종류) */
+  .materTable td:nth-child(2) {
+    width: 60px; /* 종류 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(3), /* 세 번째 열 (이름) */
+  .materTable td:nth-child(3) {
+    width: 120px; /* 이름 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(4), /* 네 번째 열 (탄소배출량) */
+  .materTable td:nth-child(4) {
+    width: 100px; /* 탄소배출량 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(5), /* 다섯 번째 열 (가격) */
+  .materTable td:nth-child(5) {
+    width: 80px; /* 가격 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(6), /* 여섯 번째 열 (강도) */
+  .materTable td:nth-child(6) {
+    width: 80px; /* 강도 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(7), /* 일곱 번째 열 (설명) */
+  .materTable td:nth-child(7) {
+    width: 260px; /* 설명 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .materTable th:nth-child(8), /* 여덟 번째 열 (대체자재여부) */
+  .materTable td:nth-child(8) {
+    width: 80px; /* 대체자재여부 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  /* <td>에 스타일 적용 */
+  .materTable td {
+    height: 20px; /* 셀 높이 고정 */
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+  }
 </style>
+
 </head>
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
@@ -175,7 +325,7 @@
 					<div class="card mb-4">
 						<div class="card-header">회원관리</div>
 						<div class="card-body">
-							<table id="datatablesSimple">
+							<table class="userTable" id="datatablesSimple">
 								<thead>
 									<tr>
 										<th>회원ID</th>
@@ -202,7 +352,7 @@
 														<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
-														    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit">미인증기업</button>
+														    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit">미인증기업</button>
 															
 														</form>
 													</c:if>
@@ -224,7 +374,7 @@
 													<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">미인증기업</button>
+														    <button class="btn btn-danger btn-xl" id="checkBtnA" type="submit">미인증기업</button>
 														
 													</form>
 													</c:if>
@@ -253,10 +403,10 @@
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
 														    <c:if test="${sessionScope.login.userRank == 'Y' }">
-														    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit">일반회원</button>
+														    	<button class="btn btn-warning btn-xl" id="checkBtnB" type="submit">일반회원</button>
 															</c:if>
 															<c:if test="${sessionScope.login.userRank == 'K' }">
-															    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">일반회원</button>
+															    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled">일반회원</button>
 															</c:if>
 														</form>
 													</c:if>
@@ -293,10 +443,10 @@
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
 														<c:if test="${sessionScope.login.userRank == 'Y' }">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">일반회원</button>
+														    <button class="btn btn-warning btn-xl" id="checkBtnA" type="submit">일반회원</button>
 														</c:if>
 														<c:if test="${sessionScope.login.userRank == 'K' }">
-														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">일반회원</button>
+														    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled">일반회원</button>
 														</c:if>
 													</form>
 												</c:if>
@@ -312,55 +462,54 @@
 						</div>
 					</div>
 					
-<div class="card mb-4">
-    <div class="card-header">건의사항 게시판</div>
-    <div class="card-body">
-
-        <table id="datatablesEarnings" style="width:100%;">
-            <thead>
-                <tr>
-                    <th>글번호</th>
-                    <th>글제목</th>
-                    <th>작성자</th>
-                    <th>작성일</th>
-                    <th>답변 여부(정렬)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach items="${faqList}" var="faq">
-                    <!-- FAQ의 faqAst 값으로 미답변/답변완료 상태를 구분 -->
-                    <tr class="faq-row" data-status="${faq.faqAst}">
-                        <td scope="row">${faq.faqNo}</td>
-                        <td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}"/>">${faq.faqTitle}</a></td>
-                        <td>${faq.userName}</td>
-                        <td>${faq.faqDate}</td>
-                        <td>
-                            <c:if test="${faq.faqAst == 'N'}">
-                                <form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
-                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
-                                    <button class="btn btn-primary btn-xl" id="checkBtnN" type="submit">${faq.faqAst} 미답변</button>
-                                </form>
-                            </c:if>
-                            <c:if test="${faq.faqAst == 'Y'}">
-                                <form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
-                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
-                                    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">${faq.faqAst} 답변완료</button>
-                                </form>
-                            </c:if>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-    </div>
-</div>
-
+					<div class="card mb-4">
+					    <div class="card-header">건의사항 관리</div>
+					    <div class="card-body">
+					
+					        <table class="faqTable" id="datatablesEarnings" style="width:100%;">
+					            <thead>
+					                <tr>
+					                    <th>글번호</th>
+					                    <th>글제목</th>
+					                    <th>작성자</th>
+					                    <th>작성일</th>
+					                    <th>답변 여부(정렬)</th>
+					                </tr>
+					            </thead>
+					            <tbody>
+					                <c:forEach items="${faqList}" var="faq">
+					                    <!-- FAQ의 faqAst 값으로 미답변/답변완료 상태를 구분 -->
+					                    <tr class="faq-row" data-status="${faq.faqAst}">
+					                        <td scope="row">${faq.faqNo}</td>
+					                        <td><a href="<c:url value="/faqDetailView?faqNo=${faq.faqNo}"/>">${faq.faqTitle}</a></td>
+					                        <td>${faq.userName}</td>
+					                        <td>${faq.faqDate}</td>
+					                        <td>
+					                            <c:if test="${faq.faqAst == 'N'}">
+					                                <form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
+					                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
+					                                    <button class="btn btn-warning btn-xl" id="checkBtnN" type="submit">미답변</button>
+					                                </form>
+					                            </c:if>
+					                            <c:if test="${faq.faqAst == 'Y'}">
+					                                <form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
+					                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
+					                                    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">답변완료</button>
+					                                </form>
+					                            </c:if>
+					                        </td>
+					                    </tr>
+					                </c:forEach>
+					            </tbody>
+					        </table>
+					    </div>
+					</div>
 					
 					
 					<div class="card mb-4">
-						<div class="card-header">자재정보</div>
+						<div class="card-header">자재 관리</div>
 						<div class="card-body">
-							<table id="datatablesOrders" style="width:100%; background-color: inherit;">
+							<table class="materTable" id="datatablesOrders" style="width:100%; background-color: inherit;">
 							    <thead>
 							        <tr>
 							            <th>번호</th>
@@ -443,7 +592,9 @@
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
+		
 	<script src="js/datatables-simple-demo.js"></script>
+	
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script>
