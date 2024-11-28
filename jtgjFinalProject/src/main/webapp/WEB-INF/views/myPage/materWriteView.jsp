@@ -142,11 +142,17 @@
 							        </div>
 							         
 							        <div class="mb-3">
-							           		<label for="materCategory" style="font-weight:bolder;">카테고리:</label>
-							            <div class="input-group mb-3">
-										    <input type="text" class="form-control"  id="materCategory" name="materCategory" required /><br />
-							            </div>
-							        </div>
+					                    <label for="materCategory" style="font-weight:bolder;">카테고리:</label>
+					                    <div class="btn-group mb-3" role="group" aria-label="카테고리 선택">
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('외장재', this)">외장재</button>
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('지붕재', this)">지붕재</button>
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('창호재', this)">창호재</button>
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('거실', this)">거실</button>
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('욕실', this)">욕실</button>
+					                        <button type="button" class="btn btn-success" onclick="selectCategory('방', this)">방</button>
+					                    </div>
+					                    <input type="hidden" id="materCategory" name="materCategory" required />
+					                </div>
 							        
 							        <div class="mb-3">
 							           		<label for="materGasKg" style="font-weight:bolder;">탄소 배출량:</label>
@@ -163,11 +169,16 @@
 							        </div>
 							        
 							        <div class="mb-3">
-							           		<label for="materDurability" style="font-weight:bolder;">강도:</label>
-							            <div class="input-group mb-3">
-										    <input type="text" class="form-control"  id="materDurability" name="materDurability"  required /><br />
-							            </div>
-							        </div>
+					                    <label for="materDurability" style="font-weight:bolder;">강도:</label>
+					                    <div class="btn-group mb-3" role="group" aria-label="강도 선택">
+					                        <button type="button" class="btn btn-success" onclick="selectDurability('매우높음', this)">매우높음</button>
+					                        <button type="button" class="btn btn-success" onclick="selectDurability('높음', this)">높음</button>
+					                        <button type="button" class="btn btn-success" onclick="selectDurability('보통', this)">보통</button>
+					                        <button type="button" class="btn btn-success" onclick="selectDurability('낮음', this)">낮음</button>
+					                        <button type="button" class="btn btn-success" onclick="selectDurability('매우낮음', this)">매우낮음</button>
+					                    </div>
+					                    <input type="hidden" id="materDurability" name="materDurability" required />
+					                </div>
 							        
 							        <div class="mb-3">
 							           		 <label for="materInfo" style="font-weight:bolder;">정보:</label>
@@ -177,11 +188,13 @@
 							        </div>
 							        
 							        <div class="mb-3">
-							           		<label for="materClassify" style="font-weight:bolder;">대체자재여부:</label>
-							            <div class="input-group mb-3">
-										    <input type="text"  class="form-control" id="materClassify" name="materClassify" required /><br />
-							            </div>
-							        </div>
+					                    <label for="materClassify" style="font-weight:bolder;">대체자재여부:</label>
+					                    <div class="btn-group mb-3" role="group" aria-label="대체자재여부 선택">
+					                        <button type="button" class="btn btn-success" onclick="selectClassify('Y', this)">Y</button>
+					                        <button type="button" class="btn btn-success" onclick="selectClassify('N', this)">N</button>
+					                    </div>
+					                    <input type="hidden" id="materClassify" name="materClassify" required />
+					                </div>
 							        
 									<div class="d-flex justify-content-end mar-buttom">
 									        <button class="btn btn-primary btn-xl m-right"  style="margin-right: 10%;" type="submit">등록</button>
@@ -209,6 +222,34 @@
 			</footer>
 		</div>
 	</div>
+
+<script>
+    function selectCategory(category, button) {
+        document.getElementById('materCategory').value = category;
+        updateButtonState(button);
+    }
+    
+    function selectDurability(durability, button) {
+        document.getElementById('materDurability').value = durability;
+        updateButtonState(button);
+    }
+
+    function selectClassify(classify, button) {
+        document.getElementById('materClassify').value = classify;
+        updateButtonState(button);
+    }
+
+    function updateButtonState(selectedButton) {
+        // 모든 버튼에 대해 'active' 클래스 제거
+        var buttons = selectedButton.closest('.btn-group').getElementsByTagName('button');
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].classList.remove('active');
+        }
+
+        // 클릭된 버튼에 'active' 클래스 추가
+        selectedButton.classList.add('active');
+    }
+</script>
 
 <script>
 function previewImage(event) {

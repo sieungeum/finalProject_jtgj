@@ -142,11 +142,34 @@
 							        </div>
 							        
 							        <div class="mb-3">
-							           		<label for="materCategory" style="font-weight:bolder;">카테고리:</label>
-							            <div class="input-group mb-3">
-										    <input type="text" class="form-control"  id="materCategory" name="materCategory" value="${mater.materCategory}" required /><br />
-							            </div>
-							        </div>
+                    <label for="materCategory" style="font-weight:bolder;">카테고리:  ${mater.materCategory}</label><br />
+                    <div class="btn-group mb-3" role="group" aria-label="카테고리 선택">
+                        <button type="button" class="btn btn-success" id="category-exterior" 
+                            onclick="selectCategory('외장재', this)"
+                            ${mater.materCategory == '외장재' ? 'class="btn btn-primary active"' : ''}>외장재</button>
+
+                        <button type="button" class="btn btn-success" id="category-roof"
+                            onclick="selectCategory('지붕재', this)"
+                            ${mater.materCategory == '지붕재' ? 'class="btn btn-primary active"' : ''}>지붕재</button>
+
+                        <button type="button" class="btn btn-success" id="category-window"
+                            onclick="selectCategory('창호재', this)"
+                            ${mater.materCategory == '창호재' ? 'class="btn btn-primary active"' : ''}>창호재</button>
+
+                        <button type="button" class="btn btn-success" id="category-living"
+                            onclick="selectCategory('거실', this)"
+                            ${mater.materCategory == '거실' ? 'class="btn btn-primary active"' : ''}>거실</button>
+
+                        <button type="button" class="btn btn-success" id="category-bathroom"
+                            onclick="selectCategory('욕실', this)"
+                            ${mater.materCategory == '욕실' ? 'class="btn btn-primary active"' : ''}>욕실</button>
+
+                        <button type="button" class="btn btn-success" id="category-room"
+                            onclick="selectCategory('방', this)"
+                            ${mater.materCategory == '방' ? 'class="btn btn-primary active"' : ''}>방</button>
+                    </div>
+                    <input type="hidden" id="materCategory" name="materCategory" value="${mater.materCategory}" required />
+                </div>
 							        
 							        <div class="mb-3">
 							           		<label for="materGasKg" style="font-weight:bolder;">탄소 배출량:</label>
@@ -163,11 +186,31 @@
 							        </div>
 							        
 							        <div class="mb-3">
-							           		<label for="materDurability" style="font-weight:bolder;">강도:</label>
-							            <div class="input-group mb-3">
-										    <input type="text" class="form-control"  id="materDurability" name="materDurability" value="${mater.materDurability}" required /><br />
-							            </div>
-							        </div>
+                    <label for="materDurability" style="font-weight:bolder;">강도:  ${mater.materDurability}</label><br />
+                    <div class="btn-group mb-3" role="group" aria-label="강도 선택">
+                        <button type="button" class="btn btn-success" id="durability-normal"
+                            onclick="selectDurability('보통', this)"
+                            ${mater.materDurability == '보통' ? 'class="btn btn-primary active"' : ''}>보통</button>
+
+                        <button type="button" class="btn btn-success" id="durability-high"
+                            onclick="selectDurability('높음', this)"
+                            ${mater.materDurability == '높음' ? 'class="btn btn-primary active"' : ''}>높음</button>
+
+                        <button type="button" class="btn btn-success" id="durability-very-high"
+                            onclick="selectDurability('매우높음', this)"
+                            ${mater.materDurability == '매우높음' ? 'class="btn btn-primary active"' : ''}>매우높음</button>
+
+                        <button type="button" class="btn btn-success" id="durability-low"
+                            onclick="selectDurability('낮음', this)"
+                            ${mater.materDurability == '낮음' ? 'class="btn btn-primary active"' : ''}>낮음</button>
+                            
+                        <button type="button" class="btn btn-success" id="durability-low"
+                            onclick="selectDurability('매우낮음', this)"
+                            ${mater.materDurability == '매우낮음' ? 'class="btn btn-primary active"' : ''}>매우낮음</button>
+                    </div>
+                    <input type="hidden" id="materDurability" name="materDurability" value="${mater.materDurability}" required />
+                </div>
+
 							        
 							        <div class="mb-3">
 							           		 <label for="materInfo" style="font-weight:bolder;">정보:</label>
@@ -176,12 +219,19 @@
 							            </div>
 							        </div>
 							        
-							        <div class="mb-3">
-							           		<label for="materClassify" style="font-weight:bolder;">대체자재여부:</label>
-							            <div class="input-group mb-3">
-										    <input type="text"  class="form-control" id="materClassify" name="materClassify" value="${mater.materClassify}" required /><br />
-							            </div>
-							        </div>
+							         <div class="mb-3">
+                    <label for="materClassify" style="font-weight:bolder;">대체자재여부:  ${mater.materClassify}</label><br />
+                    <div class="btn-group mb-3" role="group" aria-label="대체자재 여부 선택">
+                        <button type="button" class="btn btn-success" id="classify-yes"
+                            onclick="selectClassify('Y', this)"
+                            ${mater.materClassify == 'Y' ? 'class="btn btn-primary active"' : ''}>Y</button>
+
+                        <button type="button" class="btn btn-success" id="classify-no"
+                            onclick="selectClassify('N', this)"
+                            ${mater.materClassify == 'N' ? 'class="btn btn-primary active"' : ''}>N</button>
+                    </div>
+                    <input type="hidden" id="materClassify" name="materClassify" value="${mater.materClassify}" required />
+                </div>
 							        
 									<div class="d-flex justify-content-end mar-buttom ">
 								   		<button class="btn btn-primary btn-xl m-right" style="margin-right: 10%;" type="submit">저장</button>
@@ -212,6 +262,49 @@
 			</footer>
 		</div>
 	</div>
+
+
+<script>
+    // 카테고리 버튼 클릭 시 처리
+    function selectCategory(category, button) {
+        // 모든 카테고리 버튼의 active 클래스 제거
+        const buttons = document.querySelectorAll('#category-exterior, #category-roof, #category-window, #category-living, #category-bathroom, #category-room');
+        buttons.forEach(btn => btn.classList.remove('active', 'btn-primary'));
+
+        // 클릭한 버튼에 active 클래스 추가
+        button.classList.add('active', 'btn-primary');
+
+        // hidden input에 선택된 카테고리 값을 설정
+        document.getElementById('materCategory').value = category;
+    }
+
+    // 강도 버튼 클릭 시 처리
+    function selectDurability(durability, button) {
+        // 모든 강도 버튼의 active 클래스 제거
+        const buttons = document.querySelectorAll('#durability-normal, #durability-high, #durability-very-high, #durability-low');
+        buttons.forEach(btn => btn.classList.remove('active', 'btn-primary'));
+
+        // 클릭한 버튼에 active 클래스 추가
+        button.classList.add('active', 'btn-primary');
+
+        // hidden input에 선택된 강도 값을 설정
+        document.getElementById('materDurability').value = durability;
+    }
+
+    // 대체자재 여부 버튼 클릭 시 처리
+    function selectClassify(classify, button) {
+        // 모든 대체자재 버튼의 active 클래스 제거
+        const buttons = document.querySelectorAll('#classify-yes, #classify-no');
+        buttons.forEach(btn => btn.classList.remove('active', 'btn-primary'));
+
+        // 클릭한 버튼에 active 클래스 추가
+        button.classList.add('active', 'btn-primary');
+
+        // hidden input에 선택된 대체자재 여부 값을 설정
+        document.getElementById('materClassify').value = classify;
+    }
+</script>
+
 
 	<script>
     function previewImage(event) {
