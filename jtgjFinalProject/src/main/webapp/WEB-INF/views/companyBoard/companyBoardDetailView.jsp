@@ -233,125 +233,40 @@
 			        	<div class="js-masonry">
 			                <div class="row" id="work-grid">
 			                    <!-- Begin of Thumbs Portfolio -->
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_1.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">250</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix web">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_2.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">60</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">WATCH-J</span>
-			                                    <span class="info">NEW TREND FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix graphic">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_3.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">1060</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_4.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">900</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_5.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">979</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_6.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">1024</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    
+			                    <c:forEach items="${companyProjects}" var="project">
+					                <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
+					                    <div class="img home-portfolio-image">
+					                        <!-- 프로젝트 썸네일 -->
+					                        <c:if test="${project.ptThumbnail != null}">
+					                            <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${project.ptThumbnail}" alt="${project.ptTitle}">
+					                        </c:if>
+					                        <c:if test="${project.ptThumbnail == null}">
+					                            <img src="${pageContext.request.contextPath}/img/default-thumbnail.jpg" alt="Default Image">
+					                        </c:if>
+					                        <div class="overlay-thumb">
+					                            <div class="details">
+					                                <!-- 프로젝트명 -->
+					                                <span class="title">${project.ptTitle}</span>
+					                                <!-- 완공년도 -->
+					                                <span class="info">${project.ptCompletionYear}</span>
+					                            </div>
+					                            <span class="btnBefore"></span>
+					                            <span class="btnAfter"></span>
+					                            <a class="main-portfolio-link" href="${pageContext.request.contextPath}/companyProjectDetailView?ptNo=${project.ptNo}"></a>
+					                        </div>
+					                    </div>
+					                </div>
+            					</c:forEach>
 			                    
 			                </div>
 			            </div>
 			        </div>
+			        
+			        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
+			        	<a href="${pageContext.request.contextPath}/companyProjectWriteView">
+			        		<button class="btn btn-success" type="button">프로젝트 추가</button>
+			        	</a>
+			        </c:if>
 			        
 			        <div class="youtubeRink">
 			        	<label> 유튜브 </label>

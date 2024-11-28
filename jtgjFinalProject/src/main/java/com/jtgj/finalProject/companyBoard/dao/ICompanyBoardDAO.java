@@ -20,4 +20,16 @@ public interface ICompanyBoardDAO {
     int updateCompanyBoard(CompanyBoardDTO companyBoard);
     
     void writeCompanyProject(CompanyProjectDTO companyProjectDTO);
+    
+    List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId);
+    
+    // 특정 프로젝트 가져오기
+    CompanyProjectDTO getCompanyProjectDetail(int ptNo);
+
+    // 프로젝트 수정
+    void updateCompanyProject(CompanyProjectDTO companyProjectDTO);
+    
+    // userId로 CompanyBoardDTO 가져오기
+    CompanyBoardDTO getCompanyBoardByUserId(String userId);
+    
 }

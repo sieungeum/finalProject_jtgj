@@ -86,5 +86,21 @@ public class CompanyBoardService {
         // 프로젝트 정보 DB 저장
         dao.writeCompanyProject(companyProjectDTO);
     }
+    
+    public List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId) {
+        return dao.getCompanyProjectsByUserId(userId);
+    }
+    
+    public CompanyProjectDTO getCompanyProjectDetail(int ptNo) {
+        return dao.getCompanyProjectDetail(ptNo);
+    }
+
+    public void updateCompanyProject(CompanyProjectDTO companyProjectDTO) {
+        dao.updateCompanyProject(companyProjectDTO);
+    }
+    
+    public CompanyBoardDTO getCompanyBoardByUserId(String userId) {
+        return dao.getCompanyBoardByUserId(userId);
+    }
 	
 }
