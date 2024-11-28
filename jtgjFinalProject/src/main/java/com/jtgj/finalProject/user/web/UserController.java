@@ -282,22 +282,44 @@ public class UserController {
 	// 아이디 중복 여부 체크
 	@PostMapping("/ConfirmId")
 	@ResponseBody
-	public ResponseEntity<Boolean> ConfirmId(String id) {
+	public ResponseEntity<Map<String, Object>> ConfirmId(@Valid @RequestBody UserDTO userDTO, BindingResult errResult) {
+		Map<String, Object> responseMap = new HashMap<>();
+		String warning;
 		boolean result = true;
 		
-		System.out.println(id);
-
-		if (id.trim().isEmpty()) {
-			result = false;
-		} else {
-			if (userService.confirmId(id)) {
-				result = false;
-			} else {
-				result = true;
-			}
+		// 유효성 검사 결과 확인
+		if(errResult.hasErrors()) {
+			warning = "아이디는 영문 소문자 혹은 숫자로 구성된 4 ~ 20 자리입니다.";
+			responseMap.put("success", result);
+	        responseMap.put("warning", warning);
+	        
+	        System.out.println(responseMap);
+	        
+	        return new ResponseEntity<>(responseMap, HttpStatus.OK);
 		}
-
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		
+		String id = userDTO.getUserId();		
+		System.out.println(id);
+		result = userService.confirmId(id);
+		System.out.println(result);
+		
+		if(!result) {
+			warning = "사용 가능한 아이디 입니다!";
+			responseMap.put("success", result);
+	        responseMap.put("warning", warning);
+	        
+	        System.out.println(responseMap);
+	        
+	        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		} else {
+			warning = "이미 존재하는 아이디 입니다!";
+			responseMap.put("success", result);
+	        responseMap.put("warning", warning);
+	        
+	        System.out.println(responseMap);
+	        
+	        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		}
 	}
 
 	// 닉네임 중복 여부 체크
@@ -337,6 +359,33 @@ public class UserController {
 		}
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	// 비밀번호 유효성 체크
+	@PostMapping("/pwValidation")
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> pwValidation(@Valid @RequestBody UserDTO userDTO, BindingResult errResult) {
+		Map<String, Object> responseMap = new HashMap<>();
+		String msg;
+		boolean result = false;
+		
+		System.out.println(userDTO);
+		
+		// 유효성 검사 결과 확인
+		if(errResult.hasErrors()) {
+			msg = "비밀번호는 소문자 알파벳과 숫자만을 섞은 8 ~ 12자리여야 합니다.";
+			responseMap.put("success", result);
+	        responseMap.put("msg", msg);
+	        
+	        return new ResponseEntity<>(responseMap, HttpStatus.OK);
+		} 
+		
+		result = true;
+		msg = "사용가능한 비밀번호 입니다!";
+		responseMap.put("success", result);
+        responseMap.put("msg", msg);
+        
+        return new ResponseEntity<>(responseMap, HttpStatus.OK);
 	}
 	
 	// 계정 찾기 페이지

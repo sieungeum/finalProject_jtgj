@@ -140,6 +140,7 @@
 		// 이메일 인증번호 확인
 		$(document).ready(function() {
 			let idOn = false; // 아이디 중복 체크 여부
+			let pwValOn = false; // 비밀번호 유효성 체크
 			let pwOn = false; // 비밀번호 일치 여부
 			let nameOn = false; // 닉네임 중복 체크 여부
 			let emailOn = false; // 이메일 인증 체크 여부
@@ -160,23 +161,29 @@
 				// ajax 전송
 				$.ajax({
 					url : '${pageContext.request.contextPath}/ConfirmId',
-					data : {
-						id: id
-					},
 					type : 'POST',
-					dataType : 'json',
+					contentType: 'application/json',
+					data: JSON.stringify({userId:id}),
+					contentType: 'application/json; charset=UTF-8', 
+					dataType: 'json',
 					success : function(result) {
-						if(result == true){
-							idOn = true;
-							$("#label1").css("color", "green").css("font-size", "13px").text("사용 가능한 ID 입니다.");
-						} else{
+						console.log(result);
+						
+						if(result.success){
 							idOn = false;
-							$("#label1").css("color", "red").css("font-size", "13px").text("사용 불가능한 ID 입니다.");
-							$("#inputId").val('');
+							$("#label1").css("color", "red").css("font-size", "13px").text(result.warning);
+						} else{
+							idOn = true;
+							$("#label1").css("color", "green").css("font-size", "13px").text(result.warning);
 						}
-						toggleSignUpButton(); // 가입 버튼 활성화 상태 갱신
-					}
+					},
+					error:function(xhr){
+						console.log(xhr);
+						idOn = false;
+						alert(xhr);
+					},
 				});
+				toggleSignUpButton(); // 가입 버튼 활성화 상태 갱신
 			}
 			
 			// 닉네임 중복 체크 함수
@@ -211,10 +218,47 @@
 				});
 			}
 			
+			// 비밀번호 유효성 검사
+			function checkPasswordValidation(){
+				let pw = $('#inputPassword').val();
+				
+				// 유효성 검사
+				// ajax 전송
+				$.ajax({
+					url : '${pageContext.request.contextPath}/pwValidation',
+					type : 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify({userPw:pw}),
+					contentType: 'application/json; charset=UTF-8', 
+					dataType: 'json',
+					success : function(result) {
+						console.log(result);
+						
+						if(result.success){
+							pwValOn = true;
+							$("#label2").css("color", "green").css("font-size", "13px").text(result.msg);
+						} else{
+							pwValOn = false;
+							$("#label2").css("color", "red").css("font-size", "13px").text(result.msg);
+						}
+					},
+					error:function(xhr){
+						console.log(xhr);
+						pwValOn = false;
+						alert(xhr);
+					},
+				});
+			}
+			
+			
 			// 비밀번호 일치 여부 확인 함수
 			function checkPasswordMatch() {
 				let pw = $('#inputPassword').val();
 				let rePw = $('#checkPassword').val();
+				
+				if(!pwValOn){
+					return;
+				}
 				
 				if(pw && rePw){
 					if(pw === rePw){
@@ -336,10 +380,12 @@
 			// 이벤트 리스너 설정
 			$('#inputId').on("focusout", checkIdDuplicate); // 아이디 focusout 이벤트
 			$('#inputName').on("focusout", checkNameDuplicate); // 닉네임 focusout 이벤트
-			$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
+			$("#inputPassword").on('focusout', checkPasswordValidation); // 비밀번호 유효성 검사 focusout
+			$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 input 이벤트
 			$('#emailAuthBtn').on("click", sendEmailAuth); // 이메일 인증 버튼 클릭 시
 			$('#checkAuthEmail').on("click", checkEmailAuth); // 인증번호 확인 버튼 클릭 시
 			$('#reCheckAuthEmail').on('click', reSendEmailAuth); // 인증번호 재전송 버튼 클릭 시
+			
 			
 			// 초기 버튼 상태 설정
 			toggleSignUpButton();
