@@ -25,4 +25,7 @@ public interface IUserEstimateDAO {
 	
 	// 유저의 견적 가져오기
 	List<UserEstimateDTO> getUserEstimate(String userId);
+	
+	// 견적 삭제하기
+	int delUserEstimate(UserEstimateDTO esti);
 }

@@ -42,4 +42,6 @@ public interface IAdminDAO {
 	List<NoticeDTO> getNotiList();
 	int getNotiNo();
 	
+	int deleteMater(int materNo);
+	
 }

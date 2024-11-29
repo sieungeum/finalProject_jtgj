@@ -42,4 +42,11 @@ public class UserEstimateService {
 		
 		return result;
 	}
+	
+	// 견적 삭제하기
+	public int delUserEstimate(UserEstimateDTO esti) {
+		int result = dao.delUserEstimate(esti);
+		
+		return result;
+	}
 }

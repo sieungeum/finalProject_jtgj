@@ -41,7 +41,7 @@ public class UserEstimateController {
 	@Autowired
 	EstimateService estimateService;
 
-	// 유저 견적 마이페이지에 보이게 하는거 test, 끝나면 지우기
+	// 유저 견적 마이페이지에 보이게 하는거 test, 이식 끝나면 지우기
 	@ResponseBody
 	@PostMapping("/userEstimate")
 	public List<UserEstimateDTO> userEstimate() {
@@ -56,6 +56,37 @@ public class UserEstimateController {
 
 		String userId = "gd";
 
+		List<UserEstimateDTO> userEstimate = userEstimateService.getUserEstimate(userId);
+
+		System.out.println(userEstimate);
+
+		return userEstimate;
+	}
+
+	// 유저 견적 마이페이지에서 삭제 시키기 test, 이식 끝나면 지우기
+	@ResponseBody
+	@PostMapping("/estimateDelete")
+	public List<UserEstimateDTO> estimateDelete(String deleteNo) {
+		System.out.println(" - estimateDelete - ");
+
+		/*
+		 * UserDTO user = (UserDTO) session.getAttribute("login"); String userId =
+		 * user.getUserId();
+		 * 
+		 * System.out.println(userId);
+		 */
+
+		String userId = "gd";
+		
+		// 선택 견적 삭제
+		System.out.println(deleteNo);
+		UserEstimateDTO delEsti = new UserEstimateDTO();
+		
+		delEsti.setEstiNo(Integer.parseInt(deleteNo));
+		delEsti.setUserId(userId);
+		userEstimateService.delUserEstimate(delEsti);
+
+		// 데이터 보내기
 		List<UserEstimateDTO> userEstimate = userEstimateService.getUserEstimate(userId);
 
 		System.out.println(userEstimate);
