@@ -3,6 +3,8 @@ package com.jtgj.finalProject.companyBoard.web;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
 
@@ -48,7 +50,7 @@ public class CompanyBoardController {
 		
 		if (login != null && "C".equals(login.getUserAccount())) {
 	        // 글 작성 여부 확인
-	        hasPosted = companyBoardService.checkIfPosted(login.getUserId());
+	        hasPosted = companyBoardService.checkIfActivePostExists(login.getUserId());
 	    }
 		
 		List<CompanyBoardDTO> companyBoardList = companyBoardService.getCompanyBoardList();
@@ -87,7 +89,8 @@ public class CompanyBoardController {
 	public String companyBoardWriteDo(
 	        CompanyBoardDTO companyBoard,
 	        HttpSession session,
-	        @RequestParam("cpBoardReperImgFile") MultipartFile cpBoardReperImgFile) {
+	        @RequestParam("cpBoardReperImgFile") MultipartFile cpBoardReperImgFile,
+	        @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink) {
 	    
 	    UserDTO login = (UserDTO) session.getAttribute("login");
 	    if (login == null) {
@@ -99,6 +102,18 @@ public class CompanyBoardController {
 	    companyBoard.setUserName(login.getUserName());
 
 	    try {
+	    	
+	    	if (youtubeLink != null && !youtubeLink.isEmpty()) {
+	            String videoId = extractYoutubeVideoId(youtubeLink);
+	            if (videoId != null) {
+	                String iframeCode = String.format(
+	                        "<iframe width=\"750\" height=\"420\" src=\"https://www.youtube.com/embed/%s\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+	                        videoId
+	                );
+	                companyBoard.setCpBoardYoutubeLink(iframeCode);
+	            }
+	        }
+	    	
 	        // 서비스 호출을 통해 파일 업로드 및 게시글 저장 처리
 	        companyBoardService.writeCompanyBoard(companyBoard, cpBoardReperImgFile);
 	    } catch (IOException e) {
@@ -107,6 +122,14 @@ public class CompanyBoardController {
 	    }
 
 	    return "redirect:/companyBoardView"; // 저장 후 게시판 리스트로 리다이렉트
+	}
+	
+	// 유튜브 링크에서 Video ID 추출
+	private String extractYoutubeVideoId(String youtubeLink) {
+	    String regex = "(?:https?:\\/\\/)?(?:www\\.)?(?:youtube\\.com\\/watch\\?v=|youtu\\.be\\/)([a-zA-Z0-9_-]+)";
+	    Pattern pattern = Pattern.compile(regex);
+	    Matcher matcher = pattern.matcher(youtubeLink);
+	    return matcher.find() ? matcher.group(1) : null;
 	}
 	
 	@RequestMapping("/companyBoardDetailView")
@@ -195,10 +218,15 @@ public class CompanyBoardController {
 
         // 프로젝트 상세 데이터 가져오기
         CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+        if (companyProject == null) {
+            throw new IllegalArgumentException("유효하지 않은 프로젝트 번호입니다: " + ptNo);
+        }
 
         // 사용자 및 회사 정보 가져오기
-        String userId = companyProject.getUserId();
-        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardByUserId(userId);
+        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardByUserId(companyProject.getUserId());
+        if (companyBoard == null) {
+            throw new IllegalArgumentException("해당 프로젝트와 연결된 기업 게시판 정보가 없습니다.");
+        }
 
         // 모델에 데이터 추가
         model.addAttribute("companyProject", companyProject);
@@ -210,10 +238,50 @@ public class CompanyBoardController {
     @RequestMapping("/companyProjectEditView")
     public String companyProjectEditView(@RequestParam("ptNo") int ptNo, Model model) {
         // 특정 프로젝트 가져오기
+    	System.out.println("ptNo: " + ptNo);
         CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+        System.out.println("companyProject: " + companyProject);
         model.addAttribute("companyProject", companyProject);
 
         return "companyBoard/companyProjectEditView";
+    }
+    
+    @PostMapping("/companyProjectEditDo")
+    public String companyProjectEditDo(
+        CompanyProjectDTO companyProjectDTO,
+        @RequestParam("thumbnailFile") MultipartFile thumbnailFile,
+        RedirectAttributes redirectAttributes) {
+    	System.out.println("ptNo: " + companyProjectDTO.getPtNo());
+        try {
+            // 프로젝트 수정 처리
+            companyBoardService.updateCompanyProject(companyProjectDTO, thumbnailFile);
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 수정되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "프로젝트 수정 중 오류가 발생했습니다: " + e.getMessage());
+        }
+        return "redirect:/companyProjectDetailView?ptNo=" + companyProjectDTO.getPtNo();
+    }
+    
+    @RequestMapping("/companyBoardDelete")
+    public String deleteCompanyBoard(@RequestParam("cpBoardNo") int cpBoardNo, RedirectAttributes redirectAttributes) {
+        try {
+            companyBoardService.deleteCompanyBoard(cpBoardNo);
+            redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "게시글 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/companyBoardView";
+    }
+    
+    @RequestMapping("/companyProjectDelete")
+    public String deleteCompanyProject(@RequestParam("ptNo") int ptNo, RedirectAttributes redirectAttributes) {
+        try {
+            companyBoardService.deleteCompanyProject(ptNo);
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "프로젝트 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/companyBoardView";
     }
 	
 }

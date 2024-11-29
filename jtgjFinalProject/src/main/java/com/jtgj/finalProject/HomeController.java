@@ -106,29 +106,4 @@ public class HomeController {
 		return projectService.getRandomProjects(displayedPtNos, limit);
 	}
 	
-	@RequestMapping("/adminPageTest")
-	public String adminPage(Model model) {
-		System.out.println("- adminPageTest - ");
-		
-		
-		List<UserDTO> userList = adminService.getUserList();
-		model.addAttribute("userList", userList);
-		
-		List<FaqDTO> faqList = adminfaqService.getFaqList();
-		model.addAttribute("faqList", faqList);
-		
-		
-		List<EstimateDTO> basicMatter = estimateService.basic_mater();
-		model.addAttribute("basicMatter", basicMatter);
-		
-		return "myPage/adminPageTest";
-	}
-	
-	@RequestMapping("/materWriteViewTest")
-	public String materWriteView() {
-		System.out.println("- materWriteViewTest - ");
-		
-		return "myPage/materWriteViewTest";
-	}	
-	
 }

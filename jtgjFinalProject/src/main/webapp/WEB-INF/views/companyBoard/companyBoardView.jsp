@@ -92,21 +92,15 @@
 	            
 	        </div>
 	    </div>
-	    <!-- 글쓰기 / 글 수정 버튼 -->
-		<c:if test="${sessionScope.login != null && sessionScope.login.userAccount == 'C'}">
-		    <c:choose>
-		        <c:when test="${hasPosted}">
-		            <!-- 글 수정 버튼 -->
-		        </c:when>
-		        <c:otherwise>
-		            <!-- 글쓰기 버튼 -->
-		            <a href="${pageContext.request.contextPath}/companyBoardWriteView">
-		                <button type="button" class="btn btn-primary">글쓰기</button>
-		            </a>
-		        </c:otherwise>
-		    </c:choose>
+	    <c:if test="${sessionScope.login != null && sessionScope.login.userAccount == 'C'}">
+		    <!-- 글쓰기 버튼 (삭제 여부 확인하여 출력) -->
+		    <c:if test="${!hasPosted}">
+		        <a href="${pageContext.request.contextPath}/companyBoardWriteView">
+		            <button type="button" class="btn btn-primary">글쓰기</button>
+		        </a>
+		    </c:if>
 		</c:if>
-		
+		<%-- 
 		<!-- Paging Bar -->
 		<div class="d-flex justify-content-center">
 			<nav aria-label="Page navigation example">
@@ -205,6 +199,7 @@
 				</button>
 			</form>
 		</div>
+		--%>
 		
 	</section>
 	

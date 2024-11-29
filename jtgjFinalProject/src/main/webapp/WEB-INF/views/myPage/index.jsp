@@ -69,6 +69,59 @@
 	text-decoration: underline;
 }
 
+ .faqTable th {
+    font-size: 15px;
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+    background-color: #f4f4f4; /* 배경색 */
+  }
+
+  /* 각 열의 너비를 다르게 설정 */
+  .faqTable th:nth-child(1), /* 글 번호 */
+  .faqTable td:nth-child(1) {
+    width: 40px; /* 번호 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(2), /* 글 제목 */
+  .faqTable td:nth-child(2) {
+    width: 500px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(3), /* 작성자 */
+  .faqTable td:nth-child(3) {
+    width: 80px; /* 이름 열의 너비 */
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(4), /* 작성일 */
+  .faqTable td:nth-child(4) {
+    width: 80px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  .faqTable th:nth-child(5), /* 답변 여부 */
+  .faqTable td:nth-child(5) {
+    width: 60px; 
+    text-align: center; /* 중앙 정렬 */
+  }
+
+  /* <td>에 스타일 적용 */
+  .faqTable td {
+    height: 20px; /* 셀 높이 고정 */
+    overflow: hidden; /* 넘치는 내용 잘리기 */
+    text-overflow: ellipsis; /* 넘친 텍스트는 '...'으로 표시 */
+    white-space: nowrap; /* 텍스트가 줄바꿈 되지 않도록 설정 */
+    padding: 8px;
+    text-align: center; /* 중앙 정렬 */
+    border: 1px solid #ddd; /* 테두리 */
+  }
+  
 
 </style>
 </head>
@@ -115,7 +168,6 @@
 					<h1 class="mt-4"><a style="text-decoration: none; color: inherit;" href="${pageContext.request.contextPath }/myPage">마이페이지</a></h1>
 
 					<div class="row">
-						<c:if test="${sessionScope.login.userRank == 'N'|| sessionScope.login.userRank == 'K' }">
 						
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
@@ -123,8 +175,7 @@
 								<div class="card-body" style="height: 330px;">
 									<!-- 프로필 이미지 -->
 									<div class="d-flex justify-content-center">
-										<div
-											class="profile-div d-flex justify-content-center align-items-center">
+										<div class="profile-div d-flex justify-content-center align-items-center">
 											<c:if test="${sessionScope.login.userProfImg == 'N' }">
 												<img src="img/default_img.png" class="profile-img">
 											</c:if>
@@ -134,12 +185,11 @@
 										</div>
 										
 									</div>
-									<div class="d-flex justify-content-center"
-										style="font-size: 30px; font-weight: bold; margin-top: 30px;">${sessionScope.login.userName }</div>
+									<div class="d-flex justify-content-center" style="font-size: 30px; font-weight: bold; margin-top: 30px;">${sessionScope.login.userName }</div>
+									<div><a style="margin-left: 70%;" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div>
 								</div>
 							</div>
 						</div>
-						</c:if>
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
@@ -162,7 +212,7 @@
 					<div class="card mb-4">
 						<div class="card-header">내 게시글</div>
 						<div class="card-body">
-							<table id="datatablesSimple">
+							<table class="faqTable" id="datatablesSimple">
 								<thead>
 									<tr>
 										<th>글번호</th>
@@ -199,14 +249,14 @@
 												<c:if test="${faq.faqAst == 'N'}">
 															<form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
 																<input type="hidden" name="faqNo" value="${faq.faqNo}">
-															    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit" disabled>미답변</button>
+															    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit" disabled style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미답변</button>
 															</form>
 													</c:if>
 													
 													<c:if test="${faq.faqAst == 'Y'}">
 														<form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
 															<input type="hidden" name="faqNo" value="${faq.faqNo}">
-															    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit" disabled>답변완료</button>
+															    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit" disabled style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">답변완료</button>
 														</form>
 													</c:if>
 												

@@ -13,7 +13,7 @@ public interface ICompanyBoardDAO {
 	int writeCompanyBoard(CompanyBoardDTO companyBoard);
 	
 	 // 사용자 ID로 게시글 작성 여부 확인
-    int checkIfPosted(String userId);
+	int checkIfActivePostExists(String userId);
     
     CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo);
     
@@ -31,5 +31,9 @@ public interface ICompanyBoardDAO {
     
     // userId로 CompanyBoardDTO 가져오기
     CompanyBoardDTO getCompanyBoardByUserId(String userId);
+    
+    void deleteCompanyBoard(int cpBoardNo);
+    
+    void deleteCompanyProject(int ptNo);
     
 }

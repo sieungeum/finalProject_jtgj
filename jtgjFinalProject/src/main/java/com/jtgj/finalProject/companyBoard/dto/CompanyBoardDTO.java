@@ -19,6 +19,7 @@ public class CompanyBoardDTO {
 	private String userPhone;     // 楷遏贸
 	private String userEmail;     // 捞皋老
 	private String cpAddress;     // 林家
+	private String cpBoardYoutubeLink;
 	
 	public CompanyBoardDTO() {
 		super();
@@ -26,7 +27,8 @@ public class CompanyBoardDTO {
 
 	public CompanyBoardDTO(int cpBoardNo, String cpBoardIntro, String userId, String userName, String cpBoardContent,
 			String cpBoardArea, String cpBoardDate, String cpBoardReperImg, String cpBoardDelYn, String userProfImg,
-			String cpCeoName, String cpOpenDate, String userPhone, String userEmail, String cpAddress) {
+			String cpCeoName, String cpOpenDate, String userPhone, String userEmail, String cpAddress,
+			String cpBoardYoutubeLink) {
 		super();
 		this.cpBoardNo = cpBoardNo;
 		this.cpBoardIntro = cpBoardIntro;
@@ -43,6 +45,7 @@ public class CompanyBoardDTO {
 		this.userPhone = userPhone;
 		this.userEmail = userEmail;
 		this.cpAddress = cpAddress;
+		this.cpBoardYoutubeLink = cpBoardYoutubeLink;
 	}
 
 	public int getCpBoardNo() {
@@ -165,6 +168,14 @@ public class CompanyBoardDTO {
 		this.cpAddress = cpAddress;
 	}
 
+	public String getCpBoardYoutubeLink() {
+		return cpBoardYoutubeLink;
+	}
+
+	public void setCpBoardYoutubeLink(String cpBoardYoutubeLink) {
+		this.cpBoardYoutubeLink = cpBoardYoutubeLink;
+	}
+
 	@Override
 	public String toString() {
 		return "CompanyBoardDTO [cpBoardNo=" + cpBoardNo + ", cpBoardIntro=" + cpBoardIntro + ", userId=" + userId
@@ -172,7 +183,7 @@ public class CompanyBoardDTO {
 				+ ", cpBoardDate=" + cpBoardDate + ", cpBoardReperImg=" + cpBoardReperImg + ", cpBoardDelYn="
 				+ cpBoardDelYn + ", userProfImg=" + userProfImg + ", cpCeoName=" + cpCeoName + ", cpOpenDate="
 				+ cpOpenDate + ", userPhone=" + userPhone + ", userEmail=" + userEmail + ", cpAddress=" + cpAddress
-				+ "]";
+				+ ", cpBoardYoutubeLink=" + cpBoardYoutubeLink + "]";
 	}
 	
 }

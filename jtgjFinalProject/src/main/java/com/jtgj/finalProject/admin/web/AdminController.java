@@ -67,8 +67,8 @@ public class AdminController {
 		model.addAttribute("faqList", faqList);
 		
 		
-		List<EstimateDTO> basicMatter = estimateService.basic_mater();
-		model.addAttribute("basicMatter", basicMatter);
+		List<EstimateDTO> allMatter = adminService.all_mater();
+		model.addAttribute("allMatter", allMatter);
 		
 		return "myPage/adminPage";
 	}

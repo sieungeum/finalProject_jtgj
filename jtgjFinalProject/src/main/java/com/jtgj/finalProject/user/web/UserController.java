@@ -31,11 +31,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jtgj.finalProject.admin.service.AdminService;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
+import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 import com.jtgj.finalProject.user.service.UserService;
@@ -51,9 +55,12 @@ public class UserController {
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AdminService adminService;
 
 	@Inject // 서비스를 호출하기 위해서 의존성 주입
-	JavaMailSender mailSender; // 메일 서비스를 사용하기 위해 의존성 주입
+	JavaMailSender mailSender; // 메일 서비스를 사용하기 위해 의존성 주입	
 
 	@RequestMapping("/home")
 	public String test() {
@@ -1187,5 +1194,52 @@ public class UserController {
 			
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
+	}
+	
+	// 자재 추가
+	@ResponseBody
+	@PostMapping("/writeMaterTest")
+	public ResponseEntity<Boolean> writeMaterTest(
+	@RequestParam("materCategory") String materCategory,
+    @RequestParam("materName") String materName,
+    @RequestParam("materGasKg") String materGasKg,
+    @RequestParam("materPrice") String materPrice,
+    @RequestParam("materDurabilit") String materDurabilit,
+    @RequestParam("materInfo") String materInfo,
+    @RequestParam("materClassify") String materClassify,
+    @RequestPart(value = "file", required = false) MultipartFile file) {
+		
+		EstimateDTO estimate = new EstimateDTO();
+		
+		double castMaterGasKg = Double.parseDouble(materGasKg);
+		int castMaterPrice = Integer.parseInt(materPrice);
+		
+		estimate.setMaterCategory(materCategory);
+		estimate.setMaterName(materName);
+		estimate.setMaterGasKg(castMaterGasKg);
+		estimate.setMaterPrice(castMaterPrice);
+		estimate.setMaterDurability(materDurabilit);
+		estimate.setMaterInfo(materInfo);
+		estimate.setMaterClassify(materClassify);
+
+		String profImgName = null;
+		
+        if (file != null && !file.isEmpty()) {
+			try {
+				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file, "mater_img");
+				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("이미지 파일 저장 실패");
+			}
+        } else {
+        	profImgName = "N";
+        }
+        
+        estimate.setMaterImg(profImgName);
+        
+        adminService.writeMater(estimate);
+
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 }
