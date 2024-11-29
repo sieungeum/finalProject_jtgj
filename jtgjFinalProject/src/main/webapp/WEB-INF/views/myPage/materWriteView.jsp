@@ -128,7 +128,7 @@
 			<main>
 				<div class="container-fluid px-4">
 					<div class="mt-4" style="text-align:center;font-size:35px;font-weight:bolder;">
-						<a style="text-decoration: none;  color: inherit;" href="${pageContext.request.contextPath }/myPage">자재추가</a>
+						<a style="text-decoration: none;  color: inherit;" href="${pageContext.request.contextPath }/materWriteView">자재추가</a>
 					</div>
 					
 					<div style="display:flex; justify-content:center;"><hr style="width:68%;"></div>
@@ -435,6 +435,8 @@
 				v_formData.append("materDurabilit", v_materDurability.value);
 				v_formData.append("materInfo", v_materInfo);
 				v_formData.append("materClassify", v_materClassify.value);
+				v_formData.append("materNo", 0);
+				v_formData.append("roleClassification", "plus");
 				
 				console.log(selectedFile);
 				

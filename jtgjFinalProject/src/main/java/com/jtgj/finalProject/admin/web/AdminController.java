@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,16 +103,74 @@ public class AdminController {
 	}
 	
 	
+	// 자재 추가
+	@ResponseBody
 	@PostMapping("/writeMater")
-	public String writeMater(EstimateDTO mater) {
+	public ResponseEntity<Boolean> writeMaterTest(
+	@RequestParam("materCategory") String materCategory,
+    @RequestParam("materName") String materName,
+    @RequestParam("materGasKg") double materGasKg,
+    @RequestParam("materPrice") int materPrice,
+    @RequestParam("materDurabilit") String materDurabilit,
+    @RequestParam("materInfo") String materInfo,
+    @RequestParam("materClassify") String materClassify,
+    @RequestParam("materNo") int materNo,
+    @RequestParam("roleClassification") String roleClassification,
+    @RequestPart(value = "file", required = false) MultipartFile file) {
 		
-		adminService.writeMater(mater);
+		EstimateDTO estimate = new EstimateDTO();
 		
-		return "redirect:/adminPage";
+		System.out.println(materNo);
+		
+		estimate.setMaterCategory(materCategory);
+		estimate.setMaterName(materName);
+		estimate.setMaterGasKg(materGasKg);
+		estimate.setMaterPrice(materPrice);
+		estimate.setMaterDurability(materDurabilit);
+		estimate.setMaterInfo(materInfo);
+		estimate.setMaterClassify(materClassify);
+
+		String profImgName = null;
+		
+        if (file != null && !file.isEmpty()) {
+			try {
+				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file, "mater_img");
+				profImgName = attach.getAtchFileName(); // UUID 로 생성한 파일명
+			} catch (IOException e) {
+				e.printStackTrace();
+				System.out.println("이미지 파일 저장 실패");
+			}
+        } else {
+        	profImgName = "N";
+        }
+        
+        estimate.setMaterImg(profImgName);
+
+        if(roleClassification.equals("edit")) {
+    		estimate.setMaterNo(materNo);        	
+        	System.out.println(estimate);
+			adminService.editMater(estimate); 
+        	
+        	return new ResponseEntity<>(true, HttpStatus.OK);
+        }
+        
+		
+		 adminService.writeMater(estimate);
+		 
+		return new ResponseEntity<>(true, HttpStatus.OK);
 	}
-
 	
-
+	// 자재 삭제
+	@ResponseBody
+	@PostMapping("/deleteMater")
+	public ResponseEntity<Boolean> deleteMater(int materNo) {
+		
+		System.out.println(materNo);
+		
+		adminService.deleteMater(materNo);
+		
+		return new ResponseEntity<>(true, HttpStatus.OK);
+	}
 	
 	@PostMapping("/userDo")
 	public String userDo(UserDTO user) {

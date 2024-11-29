@@ -99,12 +99,12 @@
 
 </select>
  
-<select id="getMater" parameterType="int" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
-    SELECT * 
-    FROM building_materials 
-    WHERE mater_no = #{materNo}
-    AND ROWNUM = 1
-</select>
+	<select id="getMater" parameterType="int" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+	    SELECT * 
+	    FROM building_materials 
+	    WHERE mater_no = #{materNo}
+	    AND ROWNUM = 1
+	</select>
 
 	<update id="editMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
 		UPDATE
@@ -122,29 +122,35 @@
 			AND mater_no = #{materNo}
 	</update>
 
-<insert id="writeMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
-    INSERT INTO building_materials (
-        mater_no,
-        mater_name,
-        mater_category,
-        mater_gas_kg,
-        mater_img,
-        mater_price,
-        mater_durability,
-        mater_info,
-        mater_classify
-    ) VALUES (
-        (SELECT NVL(MAX(mater_no), 0) + 1 FROM building_materials),
-        #{materName},
-        #{materCategory},
-        #{materGasKg},
-        #{materImg},
-        #{materPrice},
-        #{materDurability},
-        #{materInfo},
-        #{materClassify}
-    )
-</insert>
+	<insert id="writeMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+	    INSERT INTO building_materials (
+	        mater_no,
+	        mater_name,
+	        mater_category,
+	        mater_gas_kg,
+	        mater_img,
+	        mater_price,
+	        mater_durability,
+	        mater_info,
+	        mater_classify
+	    ) VALUES (
+	        (SELECT NVL(MAX(mater_no), 0) + 1 FROM building_materials),
+	        #{materName},
+	        #{materCategory},
+	        #{materGasKg},
+	        #{materImg},
+	        #{materPrice},
+	        #{materDurability},
+	        #{materInfo},
+	        #{materClassify}
+	    )
+	</insert>
+	
+	<delete id="deleteMater">
+		DELETE 
+		FROM building_materials
+		WHERE mater_no = #{materNo}
+	</delete>
 
 
 <select id="getMaterNo" resultType="int">

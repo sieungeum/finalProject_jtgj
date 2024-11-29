@@ -19,9 +19,7 @@ public class AdminService {
 	
 	@Autowired
 	IAdminDAO dao;
-	
 
-	
 	@Autowired
 	IEstimateDAO estimateDAO;
 	
@@ -110,6 +108,11 @@ public class AdminService {
 	
 	public int getNotiNo() {
 		int result = dao.getNotiNo();
+		return result;
+	}
+
+	public int deleteMater(int materNo) {
+		int result = dao.deleteMater(materNo);
 		return result;
 	}
 	

@@ -15,10 +15,8 @@ public class UserDTO {
 	private String userRank;
 	private String userProfImg;
 	
-	
 	public UserDTO() {
 	}
-
 
 	public UserDTO(String userId, String userName, String userPw, String userEmail, String userDate, String userPhone,
 			String userAccount, String userRank, String userProfImg) {
