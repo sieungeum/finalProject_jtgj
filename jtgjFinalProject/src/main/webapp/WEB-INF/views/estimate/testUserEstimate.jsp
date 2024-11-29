@@ -478,12 +478,12 @@
 					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					<div class="card mb-4">
 						<div class="card-header">내 견적</div>
-						<div class="card-body">
+						<div id="estiCard" class="card-body">
 							<table id="datatablesEarnings" >
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">견적</th>
+										<th scope="col">견적명</th>
 										<th scope="col">작성자</th>
 										<th scope="col">작성일</th>
 									</tr>
@@ -657,7 +657,7 @@
 		
 		<div class="modal-box__result-btn">
 			<!-- 초기화 버튼 -->
-			<div id="resetSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
+			<div id="estiDeleteBtn" class="sjm-btn sjm-btn-primary final-btn">
 				삭제
 			</div> <!-- 초기화 버튼 -->
 		</div>
@@ -724,6 +724,7 @@
 	<script type="text/javascript">
 		/* 영역 전개 "자리요" feat.SJM */
 		let v_modalBoxCal = document.querySelector(".modal-box__cal"); // 전체 모달창
+		let v_deleteNo = 0;
 		
 		const v_ajax = new XMLHttpRequest;
 		v_ajax.open("POST", "${pageContext.request.contextPath}/userEstimate", false);
@@ -738,6 +739,11 @@
 				let v_estiNoDict = {};
 				let v_noCategoryDict = {};
 				
+				/* 삭제 시 글번호가 정렬이 이상하게 되있어서 
+				임시 글번호를 보여주고 진짜 글번호는 따로 저장 */
+				let v_tempIdx = 1;
+				let v_realNo = {};
+				
 				for (let i = 0; i < v_list.length; i++){
 					if (v_estiNoDict[v_list[i]["estiNo"]] == null){
 						v_estiNoDict[v_list[i]["estiNo"]] = [];
@@ -745,6 +751,10 @@
 						
 						v_noCategoryDict[v_list[i]["estiNo"]] = [];
 						v_noCategoryDict[v_list[i]["estiNo"]].push(v_list[i]["materCategory"]);
+
+						// 진짜 글번호 저장
+						v_realNo[v_tempIdx] = v_list[i]["estiNo"];
+						v_tempIdx++;
 						
 					} else {
 						v_estiNoDict[v_list[i]["estiNo"]].push(v_list[i]);
@@ -794,7 +804,7 @@
 				}
 
 				// 정렬 실행
-				for (let i = 1; i < Object.keys(v_noCategoryDict).length + 1; i++){
+				for (let i of Object.keys(v_estiNoDict)){
 					v_noCategoryDict[i] = [...new Set(v_noCategoryDict[i])];
 					v_noCategoryDict[i] = customSort(v_noCategoryDict[i]);
 				}
@@ -803,28 +813,289 @@
 				// 왜인진 모르겠는데 html 코드에 id 든 class 든 추가해도 추가가 안됨. 그래서 근처 id 태그에서 접근 중
 				let v_estiTableBody = document.getElementById("datatablesEarnings");
 				
-				for (let i = 1; i < Object.keys(v_estiNoDict).length + 1; i++){
-					
-					if (!v_estiNoDict[i]){
-						continue;
-					}
+				// 순차적 글번호 생성
+				let v_cnt = 1;
+
+				for (let i of Object.keys(v_estiNoDict)){
+					console.log("키값")
+					console.log(i)
 					
 					let v_query = '';
 						v_query += '<tr>';
-						v_query += '	<td>' + v_estiNoDict[i][0]["estiNo"] + '</td>';
+						v_query += '	<td>' + v_cnt + '</td>';
 						v_query += '	<td class="sjm-row-title">' + v_estiNoDict[i][0]["estiTitle"] + '</td>';
 						v_query += '	<td>' + v_estiNoDict[i][0]["userId"] + '</td>';
 						v_query += '	<td>' + v_estiNoDict[i][0]["estiDate"] + '</td>';
 						v_query += '</tr>';
 					
-					console.log(v_estiTableBody.children[1]);
 					v_estiTableBody.children[1].insertAdjacentHTML('afterbegin', v_query);
 					
-					v_estiTableBody.children[1].children[0].children[1]
+					// 순차적 글번호 생성
+					v_cnt++;
+				}
+				
+				console.log("왜 클릭 이벤트가 안됨");
+				console.log(v_estiTableBody.children[1]);
+				v_estiTableBody.addEventListener("click", () => {
+					/* 테이블에서 테이블 헤더의 값과 데이블 바디의 값이 같은 것을 클릭 하는 용도 */
+/* 					const target = event.target; // 클릭된 요소
+					const children = Array.from(target.parentElement.children);
+					const index = children.indexOf(target);
 					
-					v_estiTableBody.children[1].children[0].children[1].addEventListener("click", () => {
-						const v_nowNo = event.target.parentElement.children[0].innerHTML; // 현재 견적번호
+					// parent - 위 형제 - children - children[1].textContent
+					let v_tableHeadEsti = event.target.parentElement.parentElement.previousElementSibling.children[0].children[index].textContent;
+					
+					console.log(v_tableHeadEsti);
+					if (v_tableHeadEsti != "견적"){
+						return;
+					} */
+					
+					const v_nowNo = v_realNo[event.target.parentElement.children[0].innerHTML]; // 현재 견적번호
+					v_deleteNo = v_nowNo; // 삭제 시 필요
+
+					console.log("현재 글번호 : ", event.target.parentElement.children[0].innerHTML);
+					console.log("진짜 글번호 : ", v_nowNo);
+					console.log(v_estiNoDict[v_nowNo][0]["estiTitle"]);
+					
+					/* 최종 결과 계산 */
+					
+					// 주방1, 욕실 2 같은거 때문에 최종 결과 카테고리 div 추가
+					let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
+					
+					for (let k = 0; k < v_matBox.length; k++){
+						v_matBox[k].innerHTML = "";
+						for (let cateIdx = 0; cateIdx < v_noCategoryDict[v_nowNo].length; cateIdx++){
+							
+							let v_query = ""
+								v_query += '<div class="select-mat">'
+								v_query += '	<div class="select-mat__category">' + v_noCategoryDict[v_nowNo][cateIdx] + '</div>'
+								v_query += '</div>'
+								
+							v_matBox[k].innerHTML += v_query;
+						}
+					}
+
+					/* 기본자제, 대체자제 모달창에 추가 */
+					let v_basicCarbonSum = 0; // 기본 자제 총 탄소배출량
+					let v_basicPriceSum = 0; // 기본 자제 총 가격
+					let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
+					let v_subPriceSum = 0; // 대체 자제 총 가격
+					
+					let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
+					
+					for (let i = 0; i < v_matBox[0].children.length; i++){
+						// category 공백제거 div - div - div(카테고리명)
+						let v_category = v_matBox[0].children[i].children[0].innerHTML.trim();
+						
+						let v_tempDiv = document.createElement("div"); // 한번 사용하면 두번 사용 못함 그래서 .cloneNode(true) 써줘야됨.
+						if (v_matBox[0].children[i].children.length == 1){
+							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
+							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
+						} else {
+							v_matBox[0].children[i].children[1].remove();
+							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
+							v_matBox[1].children[i].children[1].remove();
+							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
+						}
+						
+						// 자제 정보 html에 추가
+						for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
+							if (v_category == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+								
+								if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
+									
+									// 기본 자제
+									v_matBox[0].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
+
+									// 기본 자제들 총 탄소, 가격
+									let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"]; 
+									v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
+									v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+								} else {
+									
+									// 대체 자제
+									v_matBox[1].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
+									
+									// 대체 자제들 총 탄소, 가격
+									let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"];
+									v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
+									v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+								}
+							}
+						}
+					}
+
+					/* 기본 자제들 총합 */
+					let v_calBefore = document.querySelectorAll(".cal-before");
+					v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
+					v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
+
+					/* 대체 자제들 총합 */
+					let v_calAfter = document.querySelectorAll(".cal-after");
+					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
+					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
+					
+					// 모달창 출력	
+					document.querySelector(".overlay").classList.add("show");
+					document.body.style.overflow = "hidden";
+					v_modalBoxCal.style.display = "block";
+				});
+			}
+		}
+			
+		v_ajax.send();
+		
+		/* 최종 결과 모달창 닫기 */
+		let v_calModalCancel = document.getElementById("calModalCancel");
+		
+		v_calModalCancel.addEventListener("click", () => {
+			document.querySelector(".overlay").classList.remove("show");
+			document.body.style.overflow = "auto";
+			v_modalBoxCal.style.display = "none";
+		});
+		
+		
+		/* 해당 견적 삭제 */
+		let v_estiDeleteBtn = document.getElementById("estiDeleteBtn");
+		
+		v_estiDeleteBtn.addEventListener("click", () => {
+			let sendDeleteNo = "deleteNo=" + v_deleteNo;
+			
+			location.reload(); // 새로고침
+			
+			const v_ajax = new XMLHttpRequest;
+			v_ajax.open("POST", "${pageContext.request.contextPath}/estimateDelete", false);
+			v_ajax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			v_ajax.onload = () => {
+				if (v_ajax.status == 200){
+					
+					let v_list = JSON.parse(v_ajax.response);
+					
+					console.log(v_list);
+					
+					/* estiNo 기준으로 묶기 */
+					let v_estiNoDict = {};
+					let v_noCategoryDict = {};
+					
+					/* 삭제 시 글번호가 정렬이 이상하게 되있어서 
+					임시 글번호를 보여주고 진짜 글번호는 따로 저장 */
+					let v_tempIdx = 1;
+					let v_realNo = {};
+					
+					for (let i = 0; i < v_list.length; i++){
+						if (v_estiNoDict[v_list[i]["estiNo"]] == null){
+							v_estiNoDict[v_list[i]["estiNo"]] = [];
+							v_estiNoDict[v_list[i]["estiNo"]].push(v_list[i]);
+							
+							v_noCategoryDict[v_list[i]["estiNo"]] = [];
+							v_noCategoryDict[v_list[i]["estiNo"]].push(v_list[i]["materCategory"]);
+							
+							// 진짜 글번호 저장
+							v_realNo[v_tempIdx] = v_list[i]["estiNo"];
+							v_tempIdx++;
+							
+						} else {
+							v_estiNoDict[v_list[i]["estiNo"]].push(v_list[i]);
+							v_noCategoryDict[v_list[i]["estiNo"]].push(v_list[i]["materCategory"]);
+						}
+					}
+					
+					console.log(v_estiNoDict);
+					
+					// 정렬 기준 우선순위를 정의
+					const priority = [
+					    "외장재", "지붕재", "창호재", "거실",
+					    "욕실1", "욕실2", "욕실3", "욕실4", "욕실5", 
+					    "주방1", "주방2", "주방3", "주방4", "주방5", 
+					    "방1", "방2", "방3", "방4", "방5"
+					];
+
+					// 정렬 함수
+					function customSort(arr) {
+					    return arr.sort((a, b) => {
+					        // a와 b의 인덱스를 기준으로 비교
+					        const aIndex = getPriorityIndex(a);
+					        const bIndex = getPriorityIndex(b);
+
+					        return aIndex - bIndex;
+					    });
+					}
+
+					// 우선순위 인덱스를 얻는 함수
+					function getPriorityIndex(item) {
+					    // 정해진 우선순위 배열에 해당 항목이 있는지 확인
+					    const staticIndex = priority.indexOf(item);
+					    if (staticIndex !== -1) return staticIndex;
+
+					    // 정해진 우선순위 배열에 없으면, 패턴으로 동적 처리
+					    const dynamicMatch = item.match(/(욕실|방)(\d+)/);
+					    if (dynamicMatch) {
+					        const [_, type, number] = dynamicMatch;
+					        const baseIndex = priority.indexOf(`${type}1`); // 기본 우선순위에서 해당 타입의 첫 번째 항목 위치
+					        if (baseIndex !== -1) {
+					            return baseIndex + parseInt(number, 10) - 1; // 숫자에 따라 순서 조정
+					        }
+					    }
+
+					    // 우선순위가 없는 경우 마지막으로 정렬
+					    return Number.MAX_SAFE_INTEGER;
+					}
+
+					// 정렬 실행
+					for (let i = 1; i < Object.keys(v_noCategoryDict).length + 1; i++){
+						v_noCategoryDict[i] = [...new Set(v_noCategoryDict[i])];
+						v_noCategoryDict[i] = customSort(v_noCategoryDict[i]);
+					}
+					console.log(v_noCategoryDict);
+					
+					// 왜인진 모르겠는데 html 코드에 id 든 class 든 추가해도 추가가 안됨. 그래서 근처 id 태그에서 접근 중
+					let v_estiTableBody = document.getElementById("datatablesEarnings");
+
+					// 순차적 글번호 생성
+					let v_cnt = 1;
+					
+					for (let i of Object.keys(v_estiNoDict)){
+						console.log("키값")
+						console.log(i)
+						
+						let v_query = '';
+							v_query += '<tr>';
+							v_query += '	<td>' + v_cnt + '</td>';
+							v_query += '	<td class="sjm-row-title">' + v_estiNoDict[i][0]["estiTitle"] + '</td>';
+							v_query += '	<td>' + v_estiNoDict[i][0]["userId"] + '</td>';
+							v_query += '	<td>' + v_estiNoDict[i][0]["estiDate"] + '</td>';
+							v_query += '</tr>';
+						
+						console.log(v_estiTableBody.children[1]);
+						v_estiTableBody.children[1].insertAdjacentHTML('afterbegin', v_query);
+						
+						// 순차적 글번호 생성
+						v_cnt++;
+					}
+					
+					console.log(v_estiTableBody.children[1]);
+					
+					v_estiTableBody.children[1].addEventListener("click", () => {
+						/* 테이블에서 테이블 헤더의 값과 데이블 바디의 값이 같은 것을 클릭 하는 용도 */
+	/* 					const target = event.target; // 클릭된 요소
+						const children = Array.from(target.parentElement.children);
+						const index = children.indexOf(target);
+						
+						// parent - 위 형제 - children - children[1].textContent
+						let v_tableHeadEsti = event.target.parentElement.parentElement.previousElementSibling.children[0].children[index].textContent;
+						
+						console.log(v_tableHeadEsti);
+						if (v_tableHeadEsti != "견적"){
+							return;
+						} */
+						
+						const v_nowNo = v_realNo[event.target.parentElement.children[0].innerHTML]; // 현재 견적번호
+						v_deleteNo = v_nowNo; // 삭제 시 필요
+
+						console.log("현재 글번호 : ", event.target.parentElement.children[0].innerHTML);
+						console.log("진짜 글번호 : ", v_nowNo);
 						console.log(v_estiNoDict[v_nowNo][0]["estiTitle"]);
+						
 						/* 최종 결과 계산 */
 						
 						// 주방1, 욕실 2 같은거 때문에 최종 결과 카테고리 div 추가
@@ -892,36 +1163,31 @@
 								}
 							}
 						}
-	
+
 						/* 기본 자제들 총합 */
 						let v_calBefore = document.querySelectorAll(".cal-before");
 						v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
 						v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
-	
+
 						/* 대체 자제들 총합 */
 						let v_calAfter = document.querySelectorAll(".cal-after");
 						v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
 						v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
 						
-						// 모달창 출력	
+						// 모달창 출력
 						document.querySelector(".overlay").classList.add("show");
 						document.body.style.overflow = "hidden";
 						v_modalBoxCal.style.display = "block";
 					});
 				}
 			}
-		}
 			
-		v_ajax.send();
-		
-		/* 최종 결과 모달창 닫기 */
-		let v_calModalCancel = document.getElementById("calModalCancel");
-		
-		v_calModalCancel.addEventListener("click", () => {
+			v_ajax.send(sendDeleteNo);
+			
 			document.querySelector(".overlay").classList.remove("show");
 			document.body.style.overflow = "auto";
 			v_modalBoxCal.style.display = "none";
-		});
+		})
 		
 		/* 예산 입력 시 세자리마다 콤마 추가 */
 		function insertComma(num) {    

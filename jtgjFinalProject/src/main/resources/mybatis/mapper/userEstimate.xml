@@ -70,4 +70,12 @@
 		ORDER BY (esti_no) ASC
 	</select>
 	
+	<!-- 유져 견적 삭제하기 -->
+	<delete id="delUserEstimate" parameterType="com.jtgj.finalProject.userEstimate.dto.UserEstimateDTO">
+		DELETE
+		FROM user_estimate
+		WHERE 1=1
+			AND user_id = #{userId}
+			AND esti_no = #{estiNo}
+	</delete>
 </mapper>
