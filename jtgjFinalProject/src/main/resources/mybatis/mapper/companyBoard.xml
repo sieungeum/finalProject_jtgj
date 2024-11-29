@@ -39,6 +39,7 @@
 		    cp_board_area,			
 		    cp_board_date,				
 		    cp_board_reper_img,	
+		    cp_board_youtube_link,
 		    cp_board_del_yn 		
 		) VALUES (
 			(SELECT COUNT(*)+1 FROM company_board),
@@ -49,6 +50,7 @@
 			#{cpBoardArea},
 			SYSDATE,
 			#{cpBoardReperImg},
+			#{cpBoardYoutubeLink},
 			'N'
 		)
 	</insert>
@@ -70,6 +72,7 @@
 	        a.cp_board_area,
 	        a.cp_board_date,
 	        a.cp_board_reper_img,
+	        a.cp_board_youtube_link,
 	        c.user_prof_img AS userProfImg, <!-- 프로필 이미지 -->
 	        b.cp_ceo_name AS cpCeoName,       <!-- 기업 대표 이름 -->
 	        b.cp_open_date AS cpOpenDate,    <!-- 기업 설립일 -->
@@ -152,22 +155,29 @@
 	
 	<select id="getCompanyProjectDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
 	    SELECT 
-	        user_id,
-	        pt_no,
-	        pt_thumbnail,
-	        pt_content,
-	        pt_title,
-	        pt_design,
-	        pt_construction,
-	        pt_land_area,
-	        pt_building_area,
-	        pt_total_floor_area,
-	        pt_floor_num,
-	        pt_household_num,
-	        pt_completion_year,
-	        pt_location
-	    FROM company_project_r
-	    WHERE pt_no = #{ptNo}
+	        p.user_id,
+	        p.pt_no,
+	        p.pt_thumbnail,
+	        p.pt_content,
+	        p.pt_title,
+	        p.pt_design,
+	        p.pt_construction,
+	        p.pt_land_area,
+	        p.pt_building_area,
+	        p.pt_total_floor_area,
+	        p.pt_floor_num,
+	        p.pt_household_num,
+	        p.pt_completion_year,
+	        p.pt_location,
+	        b.cp_board_no -- 추가: company_board 테이블에서 가져오는 cp_board_no
+	    FROM 
+	        company_project_r p
+	    LEFT JOIN 
+	        company_board b 
+	    ON 
+	        p.user_id = b.user_id
+	    WHERE 
+	        p.pt_no = #{ptNo}
 	</select>
 	
 	<update id="updateCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">

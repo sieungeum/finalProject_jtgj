@@ -364,6 +364,7 @@
 			        
 			        <div class="youtubeRink">
 			        	<label> 유튜브 </label>
+			        	<input type="text" id="youtubeLinkInput" name="cpBoardYoutubeLink" class="form-control" placeholder="유튜브 링크를 입력하세요" />
 			        </div>
 			        
 			        <div class="dFjcE">
@@ -390,6 +391,36 @@
 	            document.getElementById('preview').src = 'img/blog-header.jpg';
 	        }
 	    }
+	</script>
+	
+	<script>
+	    function validateYouTubeLink(link) {
+	        const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)|(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/;
+	        const match = link.match(regex);
+	        return match ? match[1] || match[2] : null; // 동영상 ID 반환
+	    }
+	
+	    document.getElementById('companyBoardWriteForm').addEventListener('submit', function(event) {
+	        const inputField = document.getElementById('youtubeLinkInput');
+	        const youtubeLink = inputField.value;
+	        const videoId = validateYouTubeLink(youtubeLink);
+	
+	        if (!videoId) {
+	            alert('올바른 유튜브 링크를 입력해주세요.');
+	            event.preventDefault();
+	            return;
+	        }
+	
+	        // iframe 형식으로 변환
+	        const iframeCode = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+	        
+	        // 히든 필드로 변환된 iframe 코드를 전송
+	        const iframeField = document.createElement('input');
+	        iframeField.type = 'hidden';
+	        iframeField.name = 'cpBoardYoutubeIframe';
+	        iframeField.value = iframeCode;
+	        this.appendChild(iframeField);
+	    });
 	</script>
 	
 </body>

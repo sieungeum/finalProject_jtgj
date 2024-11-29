@@ -15,6 +15,8 @@
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous"></script>
 	
 	<style type="text/css">
 		
@@ -124,6 +126,11 @@
 			justify-content: flex-end;
 		}
 		
+		.youtubeRink {
+			display: flex;
+			flex-direction: column;
+		}
+		
 	</style>
 	
 </head>
@@ -165,8 +172,7 @@
 								</div>
 							</div>
 		                    <div class="dFjcC">
-		                        <button type="button" class="btn btn-success marR15">팔로우하기</button>
-		                        <button type="button" class="btn btn-primary">공유하기</button>
+		                        <button type="button" class="btn btn-primary" onclick="shareOnKakao()">카카오 공유하기</button>
 		                    </div>
 		                </div>
 		            </div>
@@ -268,9 +274,12 @@
 			        	</a>
 			        </c:if>
 			        
-			        <div class="youtubeRink">
-			        	<label> 유튜브 </label>
-			        </div>
+			        <div class="youtubeVideo">
+					    <label>유튜브 영상</label>
+					    <c:if test="${not empty companyBoard.cpBoardYoutubeLink}">
+					        <div>${companyBoard.cpBoardYoutubeLink}</div>
+					    </c:if>
+					</div>
 			        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
 				        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
 				            <button class="btn btn-success" type="button">홍보 수정</button>
@@ -297,6 +306,42 @@
 	        }
 	    }
 	</script>
+	
+	<script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Kakao 초기화
+            const personalKey = '412d4c0eb4efb269990b831dedba9e52'; // Kakao JavaScript 앱 키
+            Kakao.init(personalKey);
+
+            // 카카오톡 공유 함수
+            window.shareOnKakao = function () {
+                const currentUrl = window.location.href; // 현재 페이지 URL
+                Kakao.Share.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: '공유하기',
+                        description: '이 페이지를 확인해보세요!',
+                        imageUrl: currentUrl + '/resources/images/kakao_share.png', // 카카오톡 공유 이미지 경로
+                        link: {
+                            mobileWebUrl: currentUrl,
+                            webUrl: currentUrl
+                        }
+                    },
+                    buttons: [
+                        {
+                            title: '자세히 보기',
+                            link: {
+                                mobileWebUrl: currentUrl,
+                                webUrl: currentUrl
+                            }
+                        }
+                    ]
+                }).then(() => console.log('카카오 공유 성공!'))
+                  .catch(error => console.error('카카오 공유 실패:', error));
+            };
+        });
+    </script>
+	
 	
 </body>
 </html>

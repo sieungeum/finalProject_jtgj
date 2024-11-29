@@ -92,7 +92,13 @@ public class CompanyBoardService {
     }
     
     public CompanyProjectDTO getCompanyProjectDetail(int ptNo) {
-        return dao.getCompanyProjectDetail(ptNo);
+    	CompanyProjectDTO projectDetail = dao.getCompanyProjectDetail(ptNo);
+        if (projectDetail == null) {
+            System.out.println("No project found for ptNo: " + ptNo);
+        } else {
+            System.out.println("Retrieved project detail: " + projectDetail);
+        }
+        return projectDetail;
     }
 
     public void updateCompanyProject(CompanyProjectDTO companyProjectDTO) {
@@ -100,7 +106,28 @@ public class CompanyBoardService {
     }
     
     public CompanyBoardDTO getCompanyBoardByUserId(String userId) {
-        return dao.getCompanyBoardByUserId(userId);
+    	if (userId == null) {
+            throw new IllegalArgumentException("유효하지 않은 사용자 ID입니다: null");
+        }
+    	CompanyBoardDTO companyBoard = dao.getCompanyBoardByUserId(userId);
+    	if (companyBoard == null) {
+            throw new IllegalArgumentException("해당 사용자 ID에 대한 게시판 정보가 없습니다: " + userId);
+        }
+    	return companyBoard;
+    }
+    
+    public void updateCompanyProject(CompanyProjectDTO companyProjectDTO, MultipartFile thumbnailFile) throws IOException {
+        if (thumbnailFile != null && !thumbnailFile.isEmpty()) {
+            // 썸네일 이미지 파일 업로드
+            AttachDTO attach = fileUploadUtils.getAttachByMultipart(thumbnailFile, "companyProject");
+            companyProjectDTO.setPtThumbnail(attach.getAtchFileName());
+
+            // 첨부 파일 DB 저장
+            attachService.insertAttach(attach);
+        }
+
+        // 프로젝트 업데이트 처리
+        dao.updateCompanyProject(companyProjectDTO);
     }
 	
 }

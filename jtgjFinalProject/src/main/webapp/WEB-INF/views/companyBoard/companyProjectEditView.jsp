@@ -16,9 +16,6 @@
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
 	
-	<!-- 카카오 공유기능 -->
-	<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js" integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous"></script>
-	
 	<style type="text/css">
 		
 		.dFjcB{
@@ -198,13 +195,19 @@
 	</div>
 	
 	<section class="page-section" id="contact">
-		
+		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectEditDo" method="POST" enctype="multipart/form-data">
+	    	
+	    	<input type="hidden" name="ptNo" value="${companyProject.ptNo}">
+	    	
 	    	<div class="container">
-		        <!-- 대표이미지 -->
-		       
+		        <!-- 이미지 업로드 -->
+		       <div class="form-group highlight">
+                    <label for="thumbnailFile">대표 이미지 업로드</label>
+                    <input type="file" name="thumbnailFile" id="thumbnailFile" 
+                           class="form-control-file" onchange="previewThumbnail(event)" />
+                </div>
                 <div class="form-group highlight">
-                    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" alt="대표 이미지 미리보기" 
-                         class="thumbnail-preview" />
+                    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" alt="대표 이미지 미리보기" class="thumbnail-preview" />
                 </div>
 		    </div>    
 			<div class="container margin-top">
@@ -212,32 +215,23 @@
 		            <div class="row">
 		                <div class="dFjcE_E marB">
 		                    <div class="dFjcE_E companyProfile">
-							    <!-- 프로필 이미지 표시 -->
-							    <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
-							        <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
-							    </c:if>
-							    <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
-							        <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
-							             class="profileImg" alt="프로필 이미지">
-							    </c:if>
-							    <div class="dFDjcA">
-							        <!-- 기업명 -->
-							        <h4>기업명 :</h4>
-							        <h4>${companyBoard.userName}</h4> <!-- users 테이블에서 가져온 userName -->
-							        <!-- 기타 추가 정보 필요 시 아래에 추가 가능 -->
-							    </div>
-							    <div class="dFjcC">
-							        <c:if test="${companyProject.cpBoardNo != null}">
-									    <button 
-									        type="button" 
-									        class="btn btn-success marR15" 
-									        onclick="location.href='${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyProject.cpBoardNo}'">
-									        기업으로
-									    </button>
-									</c:if>
-							        <button type="button" class="btn btn-primary" onclick="shareOnKakao()">카카오 공유하기</button>
-							    </div>
-							</div>
+		                        <!-- 프로필 이미지 표시 -->
+		                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
+									<img src="img/default_img.png" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+								</c:if>
+								<c:if test="${sessionScope.login.userProfImg != 'N' }">
+									<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+								</c:if>
+		                        <div class="dFDjcA">
+		                            <!-- 기업명 -->
+		                            <h4>기업명 : </h4>
+		                            <h4>${sessionScope.login.userName}</h4>
+		                        </div>
+			                    <div class="dFjcC">
+			                        <button type="button" class="btn btn-success marR15">기업으로</button>
+			                        <button type="button" class="btn btn-primary">프로젝트 공유</button>
+			                    </div>
+		                    </div>
 		                </div>
 		            </div>
 		            <div class="blog-post">
@@ -245,19 +239,19 @@
 		                
 		                	<div class="width65">
 			                	<h1>프로젝트명</h1>
-			                	<span>${companyProject.ptTitle }</span>
+			                	<input type="text" id="ptTitle" name="ptTitle" class="form-control" value="${companyProject.ptTitle}" placeholder="프로젝트명을 입력하세요" required>
 		                	</div>
 		
 		                    <div class="proInput">
 		                        <!-- 간단한 프로젝트 소개 -->
 		                        <h2>프로젝트 소개</h2>
-		                        <span>${companyProject.ptContent }</span>
+		                        <textarea id="ptContent" name="ptContent" class="form-control" rows="5" placeholder="프로젝트 소개를 입력하세요">${companyProject.ptContent}</textarea>
 		                    </div>
 		                    
 		                    <div class="dFjc_C width65">
 		                    	<!-- 여기가 프로젝트 주소 -->
-		                    	<label>프로젝트 주소</label>
-		                    	<span>${companyProject.ptLocation }</span>
+		                    	<label>프로젝트 주소 입력란</label>
+		                    	<input type="text" id="ptLocation" name="ptLocation" class="form-control" value="${companyProject.ptLocation}" placeholder="프로젝트 주소를 입력하세요">
 		                    </div>
 		
 		                    <!-- 여기가 카드부분 -->
@@ -268,19 +262,19 @@
 		                    		<div class="marginL_L">
 		                    			<div class="width45">
 		                    				<label for="ptDesign">설계 기간</label>
-		                    				<span>${companyProject.ptDesign }</span>
+		                    				<input type="text" id="ptDesign" name="ptDesign" class="form-control" value="${companyProject.ptDesign}" placeholder="설계 기간을 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptConstruction">시공 기간</label>
-		                    				<span>${companyProject.ptConstruction }</span>
+		                    				<input type="text" id="ptConstruction" name="ptConstruction" class="form-control" value="${companyProject.ptConstruction}" placeholder="시공 기간을 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptFloorNum">층수</label>
-		                    				<span>${companyProject.ptFloorNum }</span>
+                   							<input type="text" id="ptFloorNum" name="ptFloorNum" class="form-control" value="${companyProject.ptFloorNum}" placeholder="층수를 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptHouseholdNum">가구수</label>
-		                    				<span>${companyProject.ptHouseholdNum }</span>
+                    						<input type="text" id="ptHouseholdNum" name="ptHouseholdNum" class="form-control" value="${companyProject.ptHouseholdNum}" placeholder="가구수를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
@@ -288,27 +282,27 @@
 		                    			<div class="width45">
 		                    				<label for="ptLandArea">대지 면적</label>
 		                    				<div  class="dF">
-		                    					<span>${companyProject.ptLandArea }</span>
+	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="form-control" value="${companyProject.ptLandArea}" step="0.01" placeholder="대지 면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptBuildingArea">건축 면적</label>
 		                    				<div class="dF">
-		                    					<span>${companyProject.ptBuildingArea }</span>
+	                    						<input type="number" id="ptBuildingArea" name="ptBuildingArea" class="form-control" value="${companyProject.ptBuildingArea}" step="0.01" placeholder="건축 면적을 입력하세요">
 	                    						<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptTotalFloorArea">연면적</label>
 		                    				<div class="dF">
-		                    					<span>${companyProject.ptTotalFloorArea }</span>
+	                    						<input type="number" id="ptTotalFloorArea" name="ptTotalFloorArea" class="form-control" value="${companyProject.ptTotalFloorArea}" step="0.01" placeholder="연면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptCompletionYear">준공년도</label>
-		                    				<span>${companyProject.ptCompletionYear }</span>
+                    						<input type="text" id="ptCompletionYear" name="ptCompletionYear" class="form-control" value="${companyProject.ptCompletionYear}" placeholder="준공년도를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    	</div>
@@ -320,15 +314,13 @@
 		                </div>
 		            </div>
 			        
-			        <c:if test="${sessionScope.login.userId == companyProject.userId }">
-				        <a href="${pageContext.request.contextPath}/companyProjectEditView?ptNo=${companyProject.ptNo}">
-					        <button class="btn btn-success" type="button">프로젝트 수정</button>
-					    </a>
-			        </c:if>
+			        <div class="dFjcE">
+				        <button class="btn btn-success" type="submit">수정 완료</button>
+			        </div>
 			        
 			    </div>
 			</div>
-		
+		</form>
 	</section>
 	
 	<!-- footer -->
@@ -347,41 +339,6 @@
 	        }
 	    }
 	</script>
-	
-	<script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Kakao 초기화
-            const personalKey = '412d4c0eb4efb269990b831dedba9e52'; // Kakao JavaScript 앱 키
-            Kakao.init(personalKey);
-
-            // 카카오톡 공유 함수
-            window.shareOnKakao = function () {
-                const currentUrl = window.location.href; // 현재 페이지 URL
-                Kakao.Share.sendDefault({
-                    objectType: 'feed',
-                    content: {
-                        title: '공유하기',
-                        description: '이 페이지를 확인해보세요!',
-                        imageUrl: currentUrl + '/resources/images/kakao_share.png', // 카카오톡 공유 이미지 경로
-                        link: {
-                            mobileWebUrl: currentUrl,
-                            webUrl: currentUrl
-                        }
-                    },
-                    buttons: [
-                        {
-                            title: '자세히 보기',
-                            link: {
-                                mobileWebUrl: currentUrl,
-                                webUrl: currentUrl
-                            }
-                        }
-                    ]
-                }).then(() => console.log('카카오 공유 성공!'))
-                  .catch(error => console.error('카카오 공유 실패:', error));
-            };
-        });
-    </script>
 	
 </body>
 </html>

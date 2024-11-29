@@ -106,7 +106,7 @@
 		        </c:otherwise>
 		    </c:choose>
 		</c:if>
-		
+		<%-- 
 		<!-- Paging Bar -->
 		<div class="d-flex justify-content-center">
 			<nav aria-label="Page navigation example">
@@ -205,6 +205,7 @@
 				</button>
 			</form>
 		</div>
+		--%>
 		
 	</section>
 	
