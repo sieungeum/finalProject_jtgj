@@ -284,6 +284,10 @@
 				        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
 				            <button class="btn btn-success" type="button">홍보 수정</button>
 				        </a>
+				        <form action="${pageContext.request.contextPath}/companyBoardDelete" method="post" style="margin-top: 20px;">
+						    <input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}" />
+						    <button type="submit" class="btn btn-danger">게시글 삭제</button>
+						</form>
 			        </c:if>
 			        
 			    </div>

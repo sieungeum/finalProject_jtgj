@@ -50,7 +50,7 @@ public class CompanyBoardController {
 		
 		if (login != null && "C".equals(login.getUserAccount())) {
 	        // 글 작성 여부 확인
-	        hasPosted = companyBoardService.checkIfPosted(login.getUserId());
+	        hasPosted = companyBoardService.checkIfActivePostExists(login.getUserId());
 	    }
 		
 		List<CompanyBoardDTO> companyBoardList = companyBoardService.getCompanyBoardList();
@@ -107,7 +107,7 @@ public class CompanyBoardController {
 	            String videoId = extractYoutubeVideoId(youtubeLink);
 	            if (videoId != null) {
 	                String iframeCode = String.format(
-	                        "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/%s\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+	                        "<iframe width=\"750\" height=\"420\" src=\"https://www.youtube.com/embed/%s\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
 	                        videoId
 	                );
 	                companyBoard.setCpBoardYoutubeLink(iframeCode);
@@ -260,6 +260,28 @@ public class CompanyBoardController {
             redirectAttributes.addFlashAttribute("error", "프로젝트 수정 중 오류가 발생했습니다: " + e.getMessage());
         }
         return "redirect:/companyProjectDetailView?ptNo=" + companyProjectDTO.getPtNo();
+    }
+    
+    @RequestMapping("/companyBoardDelete")
+    public String deleteCompanyBoard(@RequestParam("cpBoardNo") int cpBoardNo, RedirectAttributes redirectAttributes) {
+        try {
+            companyBoardService.deleteCompanyBoard(cpBoardNo);
+            redirectAttributes.addFlashAttribute("message", "게시글이 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "게시글 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/companyBoardView";
+    }
+    
+    @RequestMapping("/companyProjectDelete")
+    public String deleteCompanyProject(@RequestParam("ptNo") int ptNo, RedirectAttributes redirectAttributes) {
+        try {
+            companyBoardService.deleteCompanyProject(ptNo);
+            redirectAttributes.addFlashAttribute("message", "프로젝트가 성공적으로 삭제되었습니다.");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "프로젝트 삭제 중 오류가 발생했습니다.");
+        }
+        return "redirect:/companyBoardView";
     }
 	
 }

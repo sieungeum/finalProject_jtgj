@@ -324,6 +324,10 @@
 				        <a href="${pageContext.request.contextPath}/companyProjectEditView?ptNo=${companyProject.ptNo}">
 					        <button class="btn btn-success" type="button">프로젝트 수정</button>
 					    </a>
+					    <form action="${pageContext.request.contextPath}/companyProjectDelete" method="post" style="margin-top: 20px;">
+						    <input type="hidden" name="ptNo" value="${companyProject.ptNo}" />
+						    <button type="submit" class="btn btn-danger">프로젝트 삭제</button>
+						</form>
 			        </c:if>
 			        
 			    </div>

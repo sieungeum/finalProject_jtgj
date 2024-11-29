@@ -55,10 +55,11 @@
 		)
 	</insert>
 	
-	<select id="checkIfPosted" resultType="int">
-	    SELECT COUNT(*) 
-	    FROM company_board 
+	<select id="checkIfActivePostExists" resultType="int">
+	    SELECT COUNT(*)
+	    FROM company_board
 	    WHERE user_id = #{userId}
+	      AND cp_board_del_yn = 'N'
 	</select>
 	
 	<!-- 기업 홍보 게시판 상세보기 -->
@@ -113,7 +114,8 @@
 	        pt_floor_num, 
 	        pt_household_num, 
 	        pt_completion_year, 
-	        pt_location
+	        pt_location,
+	        pt_del_yn <!-- 삭제 여부 추가 -->
 	    ) VALUES (
 	        #{userId}, 
 	        (SELECT COUNT(*)+1 FROM company_project_r), 
@@ -128,7 +130,8 @@
 	        #{ptFloorNum}, 
 	        #{ptHouseholdNum}, 
 	        #{ptCompletionYear}, 
-	        #{ptLocation}
+	        #{ptLocation},
+	        'N' <!-- 기본값: N -->
 	    )
 	</insert>
 	
@@ -147,9 +150,11 @@
 	        pt_floor_num,
 	        pt_household_num,
 	        pt_completion_year,
-	        pt_location
+	        pt_location,
+	        pt_del_yn
 	    FROM company_project_r
 	    WHERE user_id = #{userId}
+	    	AND pt_del_yn = 'N' <!-- 삭제되지 않은 항목만 -->
 	    ORDER BY pt_no ASC
 	</select>
 	
@@ -169,6 +174,7 @@
 	        p.pt_household_num,
 	        p.pt_completion_year,
 	        p.pt_location,
+	        p.pt_del_yn, <!-- 삭제 여부 추가 -->
 	        b.cp_board_no -- 추가: company_board 테이블에서 가져오는 cp_board_no
 	    FROM 
 	        company_project_r p
@@ -178,6 +184,7 @@
 	        p.user_id = b.user_id
 	    WHERE 
 	        p.pt_no = #{ptNo}
+	        AND p.pt_del_yn = 'N' <!-- 삭제되지 않은 항목만 -->
 	</select>
 	
 	<update id="updateCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
@@ -210,5 +217,18 @@
 	    WHERE 
 	        a.user_id = #{userId}
 	</select>
+	
+	<update id="deleteCompanyBoard" parameterType="int">
+	    UPDATE company_board
+	    SET cp_board_del_yn = 'Y'
+	    WHERE cp_board_no = #{cpBoardNo}
+	</update>
+	
+	<update id="deleteCompanyProject" parameterType="int">
+	    UPDATE company_project_r
+	    SET pt_del_yn = 'Y'
+	    WHERE pt_no = #{ptNo}
+	</update>
+	
 	
 </mapper>

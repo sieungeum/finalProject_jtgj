@@ -17,6 +17,7 @@ public class CompanyProjectDTO {
     private String ptCompletionYear;     // 준공년도
     private String ptLocation;           // 프로젝트 주소
     private int cpBoardNo; // 추가된 필드
+    private String ptDelYn; 
     
 	public CompanyProjectDTO() {
 		super();
@@ -24,7 +25,8 @@ public class CompanyProjectDTO {
 
 	public CompanyProjectDTO(String userId, int ptNo, String ptThumbnail, String ptContent, String ptTitle,
 			String ptDesign, String ptConstruction, double ptLandArea, double ptBuildingArea, double ptTotalFloorArea,
-			String ptFloorNum, String ptHouseholdNum, String ptCompletionYear, String ptLocation, int cpBoardNo) {
+			String ptFloorNum, String ptHouseholdNum, String ptCompletionYear, String ptLocation, int cpBoardNo,
+			String ptDelYn) {
 		super();
 		this.userId = userId;
 		this.ptNo = ptNo;
@@ -41,6 +43,7 @@ public class CompanyProjectDTO {
 		this.ptCompletionYear = ptCompletionYear;
 		this.ptLocation = ptLocation;
 		this.cpBoardNo = cpBoardNo;
+		this.ptDelYn = ptDelYn;
 	}
 
 	public String getUserId() {
@@ -163,6 +166,14 @@ public class CompanyProjectDTO {
 		this.cpBoardNo = cpBoardNo;
 	}
 
+	public String getPtDelYn() {
+		return ptDelYn;
+	}
+
+	public void setPtDelYn(String ptDelYn) {
+		this.ptDelYn = ptDelYn;
+	}
+
 	@Override
 	public String toString() {
 		return "CompanyProjectDTO [userId=" + userId + ", ptNo=" + ptNo + ", ptThumbnail=" + ptThumbnail
@@ -170,7 +181,7 @@ public class CompanyProjectDTO {
 				+ ptConstruction + ", ptLandArea=" + ptLandArea + ", ptBuildingArea=" + ptBuildingArea
 				+ ", ptTotalFloorArea=" + ptTotalFloorArea + ", ptFloorNum=" + ptFloorNum + ", ptHouseholdNum="
 				+ ptHouseholdNum + ", ptCompletionYear=" + ptCompletionYear + ", ptLocation=" + ptLocation
-				+ ", cpBoardNo=" + cpBoardNo + "]";
+				+ ", cpBoardNo=" + cpBoardNo + ", ptDelYn=" + ptDelYn + "]";
 	}
     
 }

@@ -48,8 +48,8 @@ public class CompanyBoardService {
         return dao.writeCompanyBoard(companyBoard);
     }
 	
-	public boolean checkIfPosted(String userId) {
-	    return dao.checkIfPosted(userId) > 0; // DAO 호출 결과가 0보다 크면 이미 게시글 작성
+	public boolean checkIfActivePostExists(String userId) {
+	    return dao.checkIfActivePostExists(userId) > 0; // 삭제되지 않은 게시글 여부 확인
 	}
 	
 	public CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo) {
@@ -130,4 +130,12 @@ public class CompanyBoardService {
         dao.updateCompanyProject(companyProjectDTO);
     }
 	
+    public void deleteCompanyBoard(int cpBoardNo) {
+        dao.deleteCompanyBoard(cpBoardNo);
+    }
+    
+    public void deleteCompanyProject(int ptNo) {
+        dao.deleteCompanyProject(ptNo);
+    }
+    
 }
