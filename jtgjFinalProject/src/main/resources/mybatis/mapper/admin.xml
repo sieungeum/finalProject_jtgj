@@ -93,7 +93,7 @@
 					, users b
 				WHERE 1=1
 					AND a.user_id = b.user_id
-				
+					AND a.faq_del_yn = 'N'
 				ORDER BY faq_no DESC
 			
 
@@ -222,4 +222,22 @@
 		FROM 
 			notices
 	</select>
+	
+		<select id="all_mater" resultType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+		SELECT
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify,
+			kg_per_pyeong
+		FROM building_materials
+		WHERE 1=1
+	</select>
+	
+	
 </mapper>

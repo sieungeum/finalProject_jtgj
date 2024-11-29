@@ -82,7 +82,11 @@ public class AdminService {
 		return dao.writeMater(mater);
 	}
 	
-
+	public List<EstimateDTO> all_mater() {
+		List<EstimateDTO> result = dao.all_mater();
+		
+		return result;
+	}
 	
 	public int getMaterNo() {
 		int result = dao.getMaterNo();

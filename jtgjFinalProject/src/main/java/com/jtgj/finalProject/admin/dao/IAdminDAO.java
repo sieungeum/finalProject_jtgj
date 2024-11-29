@@ -30,7 +30,7 @@ public interface IAdminDAO {
 	List<FaqDTO> getUserId();
 	int getUserId(UserDTO userId);
 	
-	List<EstimateDTO> basic_mater();
+	List<EstimateDTO> all_mater();
 	EstimateDTO getMater(int materNo);
 	int editMater(EstimateDTO mater);
 	int writeMater(EstimateDTO mater);

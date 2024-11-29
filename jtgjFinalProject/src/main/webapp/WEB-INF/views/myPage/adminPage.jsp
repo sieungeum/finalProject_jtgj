@@ -343,7 +343,9 @@
 										<tr>
 											<td scope="row">${user.userId }</td>
 											<td>${user.userName }</td>
-											<td>${user.userEmail }</td>
+											<td>
+											    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${user.userEmail}" target="_blank">${user.userEmail}</a>
+											</td>
 											<td>${user.userDate }</td>
 											<td>${user.userAccount }</td>
 											<td>
@@ -352,7 +354,7 @@
 														<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
-														    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit">미인증기업</button>
+														    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
 															
 														</form>
 													</c:if>
@@ -363,7 +365,7 @@
 													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">인증기업</button>
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
 														
 													</form>
 													</c:if>
@@ -374,7 +376,7 @@
 													<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-danger btn-xl" id="checkBtnA" type="submit">미인증기업</button>
+														    <button class="btn btn-danger btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
 														
 													</form>
 													</c:if>
@@ -385,13 +387,13 @@
 													<form action="${pageContext.request.contextPath }/userLDo" method="POST" id="checkFormA">
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">인증기업</button>
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
 														
 													</form>
 													</c:if>
 												</c:if>
 												<c:if test="${user.userRank == 'Y'}">
-													<button class="btn btn-primary btn-xl" disabled="disabled">총괄 관리자</button>
+													<button class="btn btn-primary btn-xl" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">총괄 관리자</button>
 												</c:if>
 											</td>
 											
@@ -403,10 +405,10 @@
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
 														    <c:if test="${sessionScope.login.userRank == 'Y' }">
-														    	<button class="btn btn-warning btn-xl" id="checkBtnB" type="submit">일반회원</button>
+														    	<button class="btn btn-warning btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
 															</c:if>
 															<c:if test="${sessionScope.login.userRank == 'K' }">
-															    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled">일반회원</button>
+															    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
 															</c:if>
 														</form>
 													</c:if>
@@ -417,10 +419,10 @@
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
 														<c:if test="${sessionScope.login.userRank == 'Y' }">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">관리자</button>
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
 														</c:if>
 														<c:if test="${sessionScope.login.userRank == 'K' }">
-														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
 														</c:if>
 													</form>
 												</c:if>
@@ -430,10 +432,10 @@
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
 														<c:if test="${sessionScope.login.userRank == 'Y' }">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit">관리자</button>
+														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
 														</c:if>
 														<c:if test="${sessionScope.login.userRank == 'K' }">
-														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled">관리자</button>
+														    <button class="btn btn-primary btn-xl" type="submit" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
 														</c:if>
 													</form>
 												</c:if>
@@ -443,15 +445,15 @@
 														<input type="hidden" name="userId" value="${user.userId}">
 														<input type="hidden" name="userName" value="${user.userName}">
 														<c:if test="${sessionScope.login.userRank == 'Y' }">
-														    <button class="btn btn-warning btn-xl" id="checkBtnA" type="submit">일반회원</button>
+														    <button class="btn btn-warning btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
 														</c:if>
 														<c:if test="${sessionScope.login.userRank == 'K' }">
-														    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled">일반회원</button>
+														    <button class="btn btn-warning btn-xl" type="submit" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
 														</c:if>
 													</form>
 												</c:if>
 												<c:if test="${user.userRank == 'Y'}">
-													<button class="btn btn-primary btn-xl" disabled="disabled">총괄 관리자</button>
+													<button class="btn btn-primary btn-xl" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">총괄 관리자</button>
 												</c:if>
 											</td>
 										</tr>
@@ -488,13 +490,13 @@
 					                            <c:if test="${faq.faqAst == 'N'}">
 					                                <form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
 					                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
-					                                    <button class="btn btn-warning btn-xl" id="checkBtnN" type="submit">미답변</button>
+					                                    <button class="btn btn-warning btn-xl" id="checkBtnN" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미답변</button>
 					                                </form>
 					                            </c:if>
 					                            <c:if test="${faq.faqAst == 'Y'}">
 					                                <form action="${pageContext.request.contextPath }/faqAstDelDo" method="POST" id="checkFormY">
 					                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
-					                                    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit">답변완료</button>
+					                                    <button class="btn btn-primary btn-xl" id="checkBtnY" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">답변완료</button>
 					                                </form>
 					                            </c:if>
 					                        </td>
@@ -524,7 +526,7 @@
 							        </tr>
 							    </thead>
 							    <tbody>
-							        <c:forEach items="${basicMatter}" var="mater">
+							        <c:forEach items="${allMatter}" var="mater">
 							            <tr>
 							                <td scope="row">${mater.materNo}</td>
 							                <td>${mater.materCategory}</td>

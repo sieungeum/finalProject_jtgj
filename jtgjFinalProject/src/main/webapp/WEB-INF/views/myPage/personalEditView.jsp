@@ -114,13 +114,13 @@
 		<div id="layoutSidenav_content">
 			<main>
 				<div class="container-fluid px-4">
-					<div class="mt-4 mb-4" style="text-align:center;font-size:35px;font-weight:bolder;">
+					<div class="mt-4" style="text-align:center;font-size:35px;font-weight:bolder;">
 						<a style="text-decoration: none;  color: inherit;" href="${pageContext.request.contextPath }/myPage">${sessionScope.login.userName }님의 마이페이지</a>
 					</div>
 					
 					<div style="display:flex; justify-content:center;"><hr style="width:68%;"></div>
 					
-					<div class="row d-flex justify-content-center">	
+					<div class="row d-flex justify-content-center mt-3">	
 						<!-- 프로필 이미지 -->
 						<c:if test="${sessionScope.login.userRank != 'Y'}">
 							<div class="d-flex" style="flex-direction:column;align-items:center;margin-top:20px;margin-bottom:20px;">
