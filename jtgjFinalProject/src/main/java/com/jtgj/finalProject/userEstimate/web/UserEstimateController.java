@@ -1,6 +1,8 @@
 package com.jtgj.finalProject.userEstimate.web;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -294,9 +296,14 @@ public class UserEstimateController {
 			workbook.write(outputStream);
 
 			// HTTP 응답 설정
-			System.out.println(estiTitle);
+			System.out.println(estiTitle.replace("\"", ""));
+            // 파일명 설정 (한글 파일명)
+            String fileName = estiTitle.replace("\"", "") + ".xlsx";
+            String encodedFileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8.toString()).replace("+", "%20");
+            
+            
 			HttpHeaders headers = new HttpHeaders();
-			headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + estiTitle + ".xlsx\"");
+			headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodedFileName);
 			headers.add(HttpHeaders.CONTENT_TYPE, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 			return ResponseEntity.ok().headers(headers).body(outputStream.toByteArray());

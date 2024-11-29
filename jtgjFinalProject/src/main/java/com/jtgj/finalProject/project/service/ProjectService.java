@@ -20,7 +20,7 @@ public class ProjectService {
     }
 
     // 추가 데이터 로드
-    public List<ProjectDTO> getProjectsAfter(int lastProjectNum, int limit) {
-        return projectDAO.getProjectsAfter(lastProjectNum, limit);
+    public List<ProjectDTO> getRandomProjects(List<Integer> displayedPtNos, int limit) {
+        return projectDAO.getRandomProjects(displayedPtNos, limit);
     }
 }

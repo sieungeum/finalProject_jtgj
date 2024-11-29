@@ -280,6 +280,7 @@
 
 		
 		// 토글 활성화 boolean
+		let pwValOn = false; // 비밀번호 유효성 체크
 		let pwOn = true;
 		let nameOn = true;
 		
@@ -297,10 +298,46 @@
 			}
 		}
 		
+		// 비밀번호 유효성 검사
+		function checkPasswordValidation(){
+			let pw = $('#inputPassword').val();
+			
+			// 유효성 검사
+			// ajax 전송
+			$.ajax({
+				url : '${pageContext.request.contextPath}/pwValidation',
+				type : 'POST',
+				contentType: 'application/json',
+				data: JSON.stringify({userPw:pw}),
+				contentType: 'application/json; charset=UTF-8', 
+				dataType: 'json',
+				success : function(result) {
+					console.log(result);
+					
+					if(result.success){
+						pwValOn = true;
+						$("#label").css("color", "green").css("font-size", "13px").text(result.msg);
+					} else{
+						pwValOn = false;
+						$("#label").css("color", "red").css("font-size", "13px").text(result.msg);
+					}
+				},
+				error:function(xhr){
+					console.log(xhr);
+					pwValOn = false;
+					alert(xhr);
+				},
+			});
+		}
+		
 		// 비밀번호 일치 여부 확인 함수
 		function checkPasswordMatch() {
 			pw = $('#inputPassword').val();
 			rePw = $('#checkPassword').val();
+			
+	    	if(!pwValOn){
+				return;
+			}
 			
 			// 입력값이 모두 비어있으면
 		    if (!pw || !rePw) {
@@ -311,7 +348,7 @@
 			        pwOn = false; // 비밀번호 확인 실패
 			        $('#label').text('비밀번호를 입력해주세요.').css("color", "red").css("font-size", "13px");
 		    	}
-		    } else if (pw === rePw) { // 비밀번호가 일치할 때		   
+		    } else if (pw === rePw) { // 비밀번호가 일치할 때		 
 		    	$.ajax({
 		    		url:"${pageContext.request.contextPath}/ConfirmPassword",
 		    		data: {
@@ -356,6 +393,7 @@
 			}
 		}
 		
+		$("#inputPassword").on('focusout', checkPasswordValidation); // 비밀번호 유효성 검사 focusout
 		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
 		$("#inputName").on("focusout", checkName); // 유저이름 focusout 이벤트
 		
