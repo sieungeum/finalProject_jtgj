@@ -305,17 +305,21 @@ public class FaqController {
 	
 	@RequestMapping("/faqOnlyAnnouncementView")
 	public String faqOnlyAnnouncementView(Model model, PageSearchVO pageSearch) {
-		
-		/*
-		 * System.out.println(pageSearch);
-		 * 
-		 * int totalRowCount = faqService.getFaqCount(pageSearch);
-		 * 
-		 * pageSearch.setTotalRowCount(totalRowCount); pageSearch.pageSetting();
-		 */
+	
+	  System.out.println(pageSearch);
+	  
+	  int totalRowCount = faqService.getNoticeCount(pageSearch);
+	  
+	  pageSearch.setTotalRowCount(totalRowCount); 
+	  pageSearch.pageSetting(); 
+		 
+	  System.out.println(totalRowCount);
 
-		List<NoticeDTO> noticeList = faqService.getAllNoticeList();
-		model.addAttribute("noticeList", noticeList);
+		
+	  List<NoticeDTO> noticeList = faqService.getAllNoticeList();
+	  model.addAttribute("pageSearch", pageSearch);
+	  model.addAttribute("noticeList", noticeList);
+		 
 		
 		return "faq/faqOnlyAnnouncementView";
 	}

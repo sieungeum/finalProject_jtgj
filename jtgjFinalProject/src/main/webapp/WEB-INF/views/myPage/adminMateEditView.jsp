@@ -180,7 +180,7 @@
 									</div>
 
 									<div class="mb-3" style="display:flex;flex-direction:column;">
-										<div><label for="materCategory" style="font-weight:bolder;">카테고리</label><br />
+										<div><label for="materCategory" style="font-weight:bolder;">카테고리</label>
 										<div class="btn-group mb-3 mt-2" style="width:100%;" role="group" aria-label="카테고리 선택">
 										  <button type="button" class="btn btn-secondary me-2 ${mater.materCategory == '외장재' ? 'active' : ''}" 
 										          id="category-exterior" onclick="selectCategory('외장재', this)">외장재</button>
@@ -194,34 +194,36 @@
 										          id="category-bathroom" onclick="selectCategory('욕실', this)">욕실</button>
 										  <button type="button" class="btn btn-secondary me-2 ${mater.materCategory == '방' ? 'active' : ''}" 
 										          id="category-room" onclick="selectCategory('방', this)">방</button>
+     									  <button type="button" class="btn btn-secondary me-2 ${mater.materCategory == '주방' ? 'active' : ''}" 
+										          id="category-room" onclick="selectCategory('주방', this)">주방</button>
 										</div>
 										<input type="hidden" id="materCategory" value="${mater.materCategory}" required />
 									</div>
 
 									<div class="mb-3">
 										<label for="materGasKg" style="font-weight: bolder;">탄소 배출량</label>
-										<div class="input-group mb-3">
+										<div class="input-group">
 											<input type="number" class="form-control" id="materGasKg" value="${mater.materGasKg}" required /><br />
 										</div>
 									</div>
 
 									<div class="mb-3">
 										<label for="materPrice" style="font-weight: bolder;">가격</label>
-										<div class="input-group mb-3">
+										<div class="input-group ">
 											<input type="number" class="form-control" id="materPrice" value="${mater.materPrice}" required /><br />
 										</div>
 									</div>
 
 									<div class="mb-3" style="display:flex;flex-direction:column;">
-										<label for="materDurability" style="font-weight: bolder;">강도</label><br />
-										<div class="btn-group mb-3" style="width:100%;" role="group" aria-label="강도 선택">
-										  <button type="button" class="btn btn-secondary ${mater.materDurability == '보통' ? 'active' : ''}" 
-										          id="durability-normal" onclick="selectDurability('보통', this)">보통</button>
-										  <button type="button" class="btn btn-secondary ${mater.materDurability == '높음' ? 'active' : ''}" 
-										          id="durability-high" onclick="selectDurability('높음', this)">높음</button>
-										  <button type="button" class="btn btn-secondary ${mater.materDurability == '매우높음' ? 'active' : ''}" 
+										<label for="materDurability" style="font-weight: bolder;">강도</label>
+										<div class="btn-group" style="width:100%;" role="group" aria-label="강도 선택">
+										  <button type="button" class="btn btn-secondary me-2 ${mater.materDurability == '매우높음' ? 'active' : ''}" 
 										          id="durability-very-high" onclick="selectDurability('매우높음', this)">매우높음</button>
-										  <button type="button" class="btn btn-secondary ${mater.materDurability == '낮음' ? 'active' : ''}" 
+										  <button type="button" class="btn btn-secondary me-2 ${mater.materDurability == '높음' ? 'active' : ''}" 
+										          id="durability-high" onclick="selectDurability('높음', this)">높음</button>
+  										  <button type="button" class="btn btn-secondary me-2 ${mater.materDurability == '보통' ? 'active' : ''}" 
+										          id="durability-normal" onclick="selectDurability('보통', this)">보통</button>
+										  <button type="button" class="btn btn-secondary me-2 ${mater.materDurability == '낮음' ? 'active' : ''}" 
 										          id="durability-low" onclick="selectDurability('낮음', this)">낮음</button>
 										  <button type="button" class="btn btn-secondary ${mater.materDurability == '매우낮음' ? 'active' : ''}" 
 										          id="durability-very-low" onclick="selectDurability('매우낮음', this)">매우낮음</button>
@@ -234,14 +236,14 @@
 
 									<div class="mb-3">
 										<label for="materInfo" style="font-weight: bolder;">정보</label>
-										<div class="input-group mb-3">
+										<div class="input-group">
 											<textarea id="materInfo" class="form-control" required>${mater.materInfo}</textarea>
 											<br />
 										</div>
 									</div>
 
 									<div class="mb-3" style="display:flex;flex-direction:column;">
-										<label for="materClassify" style="font-weight: bolder;">대체자재여부</label><br />
+										<label for="materClassify" style="font-weight: bolder;">대체자재여부</label>
 										<div class="btn-group mb-3" style="width:100%;" role="group" aria-label="대체자재 여부 선택">
 										  <button type="button" class="btn btn-secondary ${mater.materClassify == 'Y' ? 'active' : ''}" 
 										          id="classify-yes" onclick="selectClassify('Y', this)">Y</button>
@@ -288,7 +290,7 @@
 		const initialImg = imgElement.src;
 		const initialImgName = initialImg.split("=")[2];
 		console.log(initialImgName);
-		let selectedFile = null; // 전역 변수로 선택된 파일 저장
+		let selectedFile = null;
 		let inputImageElement = document.getElementById('inputImage');
 		
 		// 프로필 이미지 클릭 시 숨겨놓은 input file이 클릭됌
@@ -461,6 +463,9 @@
 			document.getElementById('registBtn').addEventListener('click', () => {
 				if(confirm('자재의 정보를 수정하시겠습니까?')){
 					
+					console.log(selectedFile);
+					console.log(initialImgName);
+					
 					// 1. 자재정보 DB에 추가
 					let v_materInfo = document.getElementById('materInfo').value;
 					let v_formData = new FormData();
@@ -487,8 +492,10 @@
 					
 					if(selectedFile != null){
 						v_formData.append("file", selectedFile);	
+						v_formData.append("profImgName", initialImgName);
 					} else{
 						v_formData.append("file", "N");
+						v_formData.append("profImgName", initialImgName);
 					}
 					
 					for(let [key, value] of v_formData.entries()){
