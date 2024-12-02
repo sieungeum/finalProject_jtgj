@@ -25,10 +25,16 @@
 			justify-content: space-between;
 		}
 		
-		.profileImg{
-			width: 120px;
+		.profileImgBox{
 			height: 120px;
+			width: 120px;
 			border-radius: 60px;
+			overflow: hidden;
+		}
+		
+		.profileImg{
+			width: auto;
+			height: 150px;
 		}
 		
 		.marB{
@@ -118,7 +124,7 @@
 			flex-direction: column;
 			justify-content:space-between;
 			align-items: flex-start;
-			height: 50px;
+			min-height: 50px;
 		}
 		
 		.dFjcE{
@@ -130,6 +136,63 @@
 			display: flex;
 			flex-direction: column;
 		}
+		
+		.projectArea {
+			min-height: 400px;
+		}
+		
+		.aE {
+			align-items: flex-end;
+		}
+		
+		.mL20 {
+			margin-left: 20px;
+		}
+		
+		.boer {
+			font-weight: 700;
+		}
+		
+		.marR30 {
+			margin-right: 30px;
+		}
+		
+		.fontSize20{
+			font-size: 20px;
+		}
+		
+		.fontSize15{
+			font-size: 17px;
+		}
+		
+		.w10h10{
+			margin-left: 20px;
+			height: 34px;
+			width: 34px;
+		}
+		
+		.bigImgBox {
+			height: 400px;
+			width: 1170px;
+			border-radius: 15px;
+			overflow: hidden;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			background-color: #e9ecef;
+		}
+		
+		.bigImg {
+			height: 400px;
+			width: auto;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
 		
 	</style>
 	
@@ -149,8 +212,8 @@
 	
 	<section class="page-section" id="contact">
 	    	<div class="container"><!-- 이곳에 대표 이미 업로드 대신 대표이미지를 보여줘 -->
-		        <div>
-					<img id="previewImage" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
+		        <div class="bigImgBox">
+					<img class="bigImg" id="previewImage" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
 						alt="대표 이미지">
 				</div>
 		    </div>    
@@ -160,20 +223,26 @@
 		                <div class="dFjcB marB">
 		                    <div class="dF">
 								<c:if test="${companyBoard.userProfImg == null}">
-									<img src="img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
+									<div class="profileImgBox marR30">
+										<img src="img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
+									</div>
 								</c:if>
 								<c:if test="${companyBoard.userProfImg != null}">
-									<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
-									     class="profileImg" alt="프로필 이미지">
+									<div class="profileImgBox marR30">
+										<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
+										     class="profileImg" alt="프로필 이미지">
+									</div>
 								</c:if>
 								<div class="dFDjcA">
-									<h6>${companyBoard.userName}</h6> <!-- 기업명 -->
-									<p>${companyBoard.cpBoardIntro}</p> <!-- 소개글 -->
+									<p class="boer fontSize15">${companyBoard.userName}</p> <!-- 기업명 -->
+									<p class="fontSize15">${companyBoard.cpBoardIntro}</p> <!-- 소개글 -->
 								</div>
 							</div>
+							<%--
 		                    <div class="dFjcC">
 		                        <button type="button" class="btn btn-primary" onclick="shareOnKakao()">카카오 공유하기</button>
 		                    </div>
+							 --%>
 		                </div>
 		            </div>
 		            <div class="blog-post">
@@ -181,9 +250,9 @@
 		
 		                    <!-- 프로필 부분 -->
 		                    <div class="proInput">
-		                        <label class="marB20" for="inputTitle">프로필</label>
+		                        <label class="marB20 fontSize15" for="inputTitle">프로필</label>
 		                        <!-- 기업 소개글 입력 --><!-- 이곳은 기업소개 cpBoardContent textarea 말고 이미 입려되서 보이게  -->
-		                        <p>${companyBoard.cpBoardContent}</p>
+		                        <p class="fontSize15">${companyBoard.cpBoardContent}</p>
 		                    </div>
 		
 		                    <!-- 여기가 카드부분 -->
@@ -197,7 +266,7 @@
 		
 		                        <!-- 경력 정보 -->
 		                        <div class="NextDetailCardBox">
-		                            <label>경력</label>
+		                            <label>창업일</label>
 		                            <h6>${companyBoard.cpOpenDate}</h6><!-- 이곳도 cpOpenDate 이글을 등록한 사람이랑 id를 비교해서 -->
 		                        </div>
 		                        <hr class="width100">
@@ -227,6 +296,10 @@
 		                        <div class="lastDetailCardBox">
 		                            <label>주소</label>
 		                            <h6>${companyBoard.cpAddress}</h6><!-- 이곳도 cpAddress 이글을 등록한 사람이랑 id를 비교해서 -->
+		                            <div class="dFjcC">
+				                        <button type="button" class="btn btn-warning" onclick="shareOnKakao()">카카오 공유하기</button>
+				                        <img alt="" src="img/katalk.png" class="w10h10">
+				                    </div>
 		                        </div>
 		                    </div>
 		                </div>
@@ -268,27 +341,35 @@
 			            </div>
 			        </div>
 			        
-			        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
-			        	<a href="${pageContext.request.contextPath}/companyProjectWriteView">
-			        		<button class="btn btn-success" type="button">프로젝트 추가</button>
-			        	</a>
-			        </c:if>
+			        <div class="dFjcE">
+				        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
+				        	<a href="${pageContext.request.contextPath}/companyProjectWriteView">
+				        		<button class="btn btn-success" type="button">프로젝트 추가</button>
+				        	</a>
+				        </c:if>
+			        </div>
 			        
 			        <div class="youtubeVideo">
-					    <label>유튜브 영상</label>
+					    <label class="fontSize15">유튜브 영상</label>
 					    <c:if test="${not empty companyBoard.cpBoardYoutubeLink}">
 					        <div>${companyBoard.cpBoardYoutubeLink}</div>
 					    </c:if>
 					</div>
-			        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
-				        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
-				            <button class="btn btn-success" type="button">홍보 수정</button>
-				        </a>
-				        <form action="${pageContext.request.contextPath}/companyBoardDelete" method="post" style="margin-top: 20px;">
-						    <input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}" />
-						    <button type="submit" class="btn btn-danger">게시글 삭제</button>
-						</form>
-			        </c:if>
+					<div class="dFjcE">
+				        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
+				        	<div class="dFjcE aE">
+						        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
+						            <button class="btn btn-success" type="button">홍보 수정</button>
+						        </a>
+				        	</div>
+				        	<div>
+						        <form class="mL20" action="${pageContext.request.contextPath}/companyBoardDelete" method="post" style="margin-top: 20px;">
+								    <input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}" />
+								    <button type="submit" class="btn btn-danger">게시글 삭제</button>
+								</form>
+				        	</div>
+				        </c:if>
+					</div>
 			        
 			    </div>
 			</div>

@@ -23,10 +23,16 @@
 			justify-content: space-between;
 		}
 		
-		.profileImg{
-			width: 120px;
+		.profileImgBox{
 			height: 120px;
+			width: 120px;
 			border-radius: 60px;
+			overflow: hidden;
+		}
+		
+		.profileImg{
+			width: auto;
+			height: 150px;
 		}
 		
 		.marB{
@@ -116,12 +122,34 @@
 			flex-direction: column;
 			justify-content:space-between;
 			align-items: flex-start;
-			height: 50px;
+			min-height: 50px;
 		}
 		
 		.dFjcE{
 			display: flex;
 			justify-content: flex-end;
+		}
+		
+		.imgboxD{
+			display: flex;
+			flex-direction: column;
+			
+		}
+		
+		.boer {
+			font-weight: 700;
+		}
+		
+		.marR30 {
+			margin-right: 30px;
+		}
+		
+		.fontSize20{
+			font-size: 20px;
+		}
+		
+		.fontSize15{
+			font-size: 17px;
 		}
 		
 	</style>
@@ -145,13 +173,19 @@
 	    	<input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}">
 	    	<div class="container">
 		        <!-- 이미지 업로드 -->
-		        <div class="form-group">
-		            <label for="cpBoardReperImgFile">대표 이미지</label>
-		            <img id="preview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" alt="대표 이미지" 
-             			style="max-width: 300px; max-height: 300px; margin-bottom: 10px;" />
-		            <input type="file" name="cpBoardReperImgFile" id="cpBoardReperImgFile" class="form-control" 
-               				onchange="previewImage(event)" />
-		        </div>
+		        <div class="form-group imgboxD">
+				    <label class="fontSize20" for="cpBoardReperImgFile">대표 이미지</label>
+				    <!-- 클릭 가능한 이미지 -->
+				    <img id="preview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
+				         alt="대표 이미지" 
+				         style="max-width: 300px; max-height: 300px; margin-bottom: 10px; cursor: pointer;" 
+				         onclick="document.getElementById('cpBoardReperImgFile').click();" />
+				    <!-- 숨겨진 파일 입력 -->
+				    <input type="file" name="cpBoardReperImgFile" id="cpBoardReperImgFile" 
+				           class="form-control" style="display: none;" 
+				           onchange="previewImage(event)" />
+				</div>
+
 		    </div>    
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
@@ -159,12 +193,14 @@
 		                <div class="dFjcB marB">
 		                    <div class="dF">
 		                        <!-- 프로필 이미지 표시 -->
-		                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
-									<img src="img/default_img.png" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
-								<c:if test="${sessionScope.login.userProfImg != 'N' }">
-									<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
+		                        <div class="profileImgBox marR30">
+			                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
+										<img src="img/default_img.png" class="profileImg" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
+									<c:if test="${sessionScope.login.userProfImg != 'N' }">
+										<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
+		                        </div>
 		                        <div class="dFDjcA">
 		                            <!-- 기업명 -->
 		                            <h6>${user.userName}</h6>
@@ -172,10 +208,12 @@
 		                            <input type="text" name="cpBoardIntro" placeholder="간단한 소개" value="${companyBoard.cpBoardIntro}">
 		                        </div>
 		                    </div>
+		                    <%--
 		                    <div class="dFjcC">
 		                        <button type="button" class="btn btn-success marR15">팔로우하기</button>
 		                        <button type="button" class="btn btn-primary">공유하기</button>
 		                    </div>
+		                     --%>
 		                </div>
 		            </div>
 		            <div class="blog-post">
@@ -183,7 +221,7 @@
 		
 		                    <!-- 프로필 부분 -->
 		                    <div class="proInput">
-		                        <label class="marB20" for="inputTitle">프로필</label>
+		                        <label class="marB20 fontSize15" for="inputTitle">프로필</label>
 		                        <!-- 기업 소개글 입력 -->
 		                        <textarea class="from-control proText" name="cpBoardContent" rows="6" placeholder="기업의 소개를 해주세요.">${companyBoard.cpBoardContent}</textarea>
 		                    </div>
@@ -234,135 +272,8 @@
 		                </div>
 		            </div>
 			        
-			        <!-- 여기부터 프로젝트 -->
-			        <div class="projectArea">
-			        	<label>프로젝트</label>
-			        	<br>
-			        	<div class="js-masonry">
-			                <div class="row" id="work-grid">
-			                    <!-- Begin of Thumbs Portfolio -->
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_1.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">250</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix web">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_2.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">60</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">WATCH-J</span>
-			                                    <span class="info">NEW TREND FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix graphic">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_3.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">1060</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_4.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">900</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_5.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">979</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    <div class="col-md-4 col-sm-4 col-xs-12 mix branding">
-			                        <div class="img home-portfolio-image">
-			                            <img src="img/home-portfolio/img_6.jpg" alt="Portfolio Item">
-			                            <div class="overlay-thumb">
-			                                <a href="javascript:void(0)" class="like-product">
-			                                    <i class="ion-ios-heart-outline"></i>
-			                                    <span class="like-product">Liked</span>
-			                                    <span class="output">1024</span>
-			                                </a>
-			                                <div class="details">
-			                                    <span class="title">STYLE FASHION</span>
-			                                    <span class="info">NEW BAG & STYLE FASHION</span>
-			                                </div>
-			                                <span class="btnBefore"></span>
-			                                <span class="btnAfter"></span>
-			                                <a class="main-portfolio-link" href="single-project.html"></a>
-			                            </div>
-			                        </div>
-			                    </div>
-			                    
-			                    
-			                </div>
-			            </div>
-			        </div>
-			        
 			        <div class="youtubeRink">
-			        	<label for="cpBoardYoutubeLink">YouTube 링크</label>
+			        	<label class="fontSize15" for="cpBoardYoutubeLink">YouTube 링크</label>
 					    <input type="text" class="form-control" id="cpBoardYoutubeLink" name="cpBoardYoutubeLink" 
 					           value="${companyBoard.cpBoardYoutubeLink == null ? '' : ''}" />
 					    <small class="form-text text-muted">YouTube 링크를 입력하거나 비워두면 기존 링크를 유지합니다.</small>

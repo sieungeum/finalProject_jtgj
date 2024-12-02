@@ -76,7 +76,7 @@
 	        a.cp_board_youtube_link,
 	        c.user_prof_img AS userProfImg, <!-- 프로필 이미지 -->
 	        b.cp_ceo_name AS cpCeoName,       <!-- 기업 대표 이름 -->
-	        b.cp_open_date AS cpOpenDate,    <!-- 기업 설립일 -->
+	        TO_CHAR(b.cp_open_date, 'YYYY-MM-DD') AS cpOpenDate,    <!-- 기업 설립일 -->
 	        c.user_phone AS userPhone,       <!-- 연락처 -->
 	        c.user_email AS userEmail,       <!-- 이메일 -->
 	        b.cp_address AS cpAddress        <!-- 주소 -->

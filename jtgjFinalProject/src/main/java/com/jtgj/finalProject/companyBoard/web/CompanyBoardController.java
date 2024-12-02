@@ -90,7 +90,8 @@ public class CompanyBoardController {
 	        CompanyBoardDTO companyBoard,
 	        HttpSession session,
 	        @RequestParam("cpBoardReperImgFile") MultipartFile cpBoardReperImgFile,
-	        @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink) {
+	        @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink,
+	        RedirectAttributes redirectAttributes) {
 	    
 	    UserDTO login = (UserDTO) session.getAttribute("login");
 	    if (login == null) {
@@ -100,6 +101,12 @@ public class CompanyBoardController {
 	    // 로그인 사용자 정보 설정
 	    companyBoard.setUserId(login.getUserId());
 	    companyBoard.setUserName(login.getUserName());
+	    
+	    // **대표 이미지 검증**
+	    if (cpBoardReperImgFile == null || cpBoardReperImgFile.isEmpty()) {
+	        redirectAttributes.addFlashAttribute("errorMessage", "대표 이미지를 첨부 해주십시오.");
+	        return "redirect:/companyBoardWriteView"; // 입력 페이지로 다시 이동
+	    }
 
 	    try {
 	    	
@@ -112,12 +119,16 @@ public class CompanyBoardController {
 	                );
 	                companyBoard.setCpBoardYoutubeLink(iframeCode);
 	            }
-	        }
+	        }else {
+                redirectAttributes.addFlashAttribute("errorMessage", "올바른 유튜브 링크를 입력해주세요.");
+                return "redirect:/companyBoardWriteView";
+            }
 	    	
 	        // 서비스 호출을 통해 파일 업로드 및 게시글 저장 처리
 	        companyBoardService.writeCompanyBoard(companyBoard, cpBoardReperImgFile);
 	    } catch (IOException e) {
 	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("errorMessage", "게시글 저장 중 오류가 발생했습니다.");
 	        return "error"; // 예외 발생 시 에러 페이지 이동
 	    }
 
@@ -172,8 +183,7 @@ public class CompanyBoardController {
         companyBoard.setUserName(login.getUserName());
 
         try {
-        	
-        	// 유튜브 링크 처리
+            // 유튜브 링크 처리
             if (youtubeLink != null && !youtubeLink.isEmpty()) {
                 String videoId = extractYoutubeVideoId(youtubeLink);
                 if (videoId != null) {
@@ -183,11 +193,26 @@ public class CompanyBoardController {
                     );
                     companyBoard.setCpBoardYoutubeLink(iframeCode);
                 } else {
-                	 CompanyBoardDTO existingBoard = companyBoardService.getCompanyBoardDetail(companyBoard.getCpBoardNo());
-                	 companyBoard.setCpBoardYoutubeLink(existingBoard.getCpBoardYoutubeLink());
+                    companyBoard.setCpBoardYoutubeLink(null); // 비정상적인 링크 처리
                 }
+            } else {
+                // 유튜브 링크가 비었을 경우 기존 값을 유지하도록 설정
+                CompanyBoardDTO existingBoard = companyBoardService.getCompanyBoardDetail(companyBoard.getCpBoardNo());
+                companyBoard.setCpBoardYoutubeLink(existingBoard.getCpBoardYoutubeLink());
             }
-        	
+
+            // 대표 이미지 처리
+            if (cpBoardReperImgFile != null && !cpBoardReperImgFile.isEmpty()) {
+                // 새 이미지가 업로드되었을 경우
+                AttachDTO attach = fileUploadUtils.getAttachByMultipart(cpBoardReperImgFile, "companyBoard");
+                companyBoard.setCpBoardReperImg(attach.getAtchFileName());
+                attachService.insertAttach(attach); // 파일 정보를 DB에 저장
+            } else {
+                // 이미지가 선택되지 않은 경우 기존 이미지를 유지
+                CompanyBoardDTO existingBoard = companyBoardService.getCompanyBoardDetail(companyBoard.getCpBoardNo());
+                companyBoard.setCpBoardReperImg(existingBoard.getCpBoardReperImg());
+            }
+
             // 서비스 호출을 통해 게시글 및 이미지 수정 처리
             companyBoardService.updateCompanyBoard(companyBoard, cpBoardReperImgFile);
         } catch (IOException e) {

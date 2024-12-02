@@ -32,21 +32,23 @@ public class CompanyBoardService {
 	}
 	
 	public int writeCompanyBoard(CompanyBoardDTO companyBoard, MultipartFile cpBoardReperImgFile) throws IOException {
-        if (cpBoardReperImgFile != null && !cpBoardReperImgFile.isEmpty()) {
-            // 파일 업로드 처리
-            AttachDTO attach = fileUploadUtils.getAttachByMultipart(cpBoardReperImgFile, "companyBoard");
+	    // **대표 이미지 파일 검증**
+	    if (cpBoardReperImgFile == null || cpBoardReperImgFile.isEmpty()) {
+	        throw new IllegalArgumentException("대표 이미지는 필수 입력값입니다.");
+	    }
 
-            // `addExtensionToFile` 호출 제거
-            // 업로드된 파일 경로를 게시글에 설정
-            companyBoard.setCpBoardReperImg(attach.getAtchFileName());
+	    // 파일 업로드 처리
+	    AttachDTO attach = fileUploadUtils.getAttachByMultipart(cpBoardReperImgFile, "companyBoard");
 
-            // 첨부파일 DB 저장
-            attachService.insertAttach(attach);
-        }
+	    // 업로드된 파일 경로를 게시글에 설정
+	    companyBoard.setCpBoardReperImg(attach.getAtchFileName());
 
-        // 게시글 DB 저장
-        return dao.writeCompanyBoard(companyBoard);
-    }
+	    // 첨부파일 DB 저장
+	    attachService.insertAttach(attach);
+
+	    // 게시글 DB 저장
+	    return dao.writeCompanyBoard(companyBoard);
+	}
 	
 	public boolean checkIfActivePostExists(String userId) {
 	    return dao.checkIfActivePostExists(userId) > 0; // 삭제되지 않은 게시글 여부 확인
