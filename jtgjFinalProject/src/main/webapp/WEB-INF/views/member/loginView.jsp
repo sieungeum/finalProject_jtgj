@@ -47,19 +47,7 @@
 
         .sign-in-box{
             width: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: end;
-            position: relative;
-        }
-
-        #carouselExampleFade{
-        	width: 80%;
-        	height: 53%;
-        	position: absolute;
-			top: 48%;
-			left: 50%;
-    		transform: translate(-50%, -50%);
+            margin:0;
         }
         
         .sign-in-btn-box{
@@ -156,52 +144,22 @@
 	</div>
     
     <div class="custom-container">
-    
-        <div class="sign-in-box">
-        	<!-- 캐러셀 -->
-	        <div id="carouselExampleFade" class="carousel slide carousel-fade" >
-	            <div class="carousel-inner w-100 h-100">
-	                <div class="carousel-item active w-100">
-	                    <img src="./img/test/아이젠소스케.png" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케2.png" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케9.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케3.png" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케4.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케5.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케6.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케7.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케8.jpg" class="w-100 h-100">
-	                </div>
-	                <div class="carousel-item w-100 h-100">
-	                    <img src="./img/test/아이젠소스케10.jpg" class="w-100 h-100">
-	                </div>
-	            </div>
-	            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	                <span class="visually-hidden">Previous</span>
-	            </button>
-	            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	                <span class="visually-hidden">Next</span>
-	            </button>
-	        </div> 
-        </div>
+        
+        <div class="sign-in-box" data-wow-duration="0.8s" data-wow-delay="0.3s">
+				<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;">
+					<div id="history-images" class="owl-carousel" >
+						<div>
+							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:300px;overflow:hidden;">
+						</div>
+						<div>
+							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:300px;overflow:hidden;">
+						</div>
+						<div>
+							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:300px;overflow:hidden;">
+						</div>
+					</div>
+				</div>
+			</div>
 
         <div class="login-box">
             <div class="login-mini-box">
