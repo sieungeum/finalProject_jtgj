@@ -401,9 +401,11 @@
 			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn">
 				<form id="excelDown" method="POST"
 					action="${pageContext.request.contextPath}/download/excel">
-					<input type="hidden" name="basicMater" id="basicMater"> <input
-						type="hidden" name="subMatInfo" id="subMatInfo"> <input
-						type="hidden" name="estiTitle" id="estiTitle"> 엑셀 다운로드
+					<input type="hidden" name="basicMater" id="basicMater"> 
+					<input type="hidden" name="subMatInfo" id="subMatInfo"> 
+					<input type="hidden" name="estiTitle" id="estiTitle"> 
+					<input type="hidden" name="estiPyeong" id="estiPyeong"> 
+					엑셀 다운로드
 				</form>
 			</div>
 
@@ -426,7 +428,7 @@
 	<div class="title-modal">
 		<div class="title-modal__flex">
 			<div class="title-modal__input">
-				<div>파일명을 입력해주세요.</div>
+				<div>견적명을 입력해주세요.</div>
 				<input id="titleInput" type="text">
 			</div>
 
@@ -443,13 +445,13 @@
 	<div class="title-modal-down">
 		<div class="title-modal__flex-down">
 			<div class="title-modal__input-down">
-				<div>제목 입력이 되</div>
+				<div>파일명을 입력해주세요.</div>
 				<input id="downTitleInput" type="text">
 			</div>
 
 			<div class="title-modal__btn-down">
-				<div id="downModalSave">저장</div>
-				<div id="downModalCancel">취소</div>
+				<div id="downModalSave" class="sjm-btn sjm-btn-success">저장</div>
+				<div id="downModalCancel" class="sjm-btn sjm-btn-danger">취소</div>
 			</div>
 		</div>
 	</div>
@@ -476,7 +478,7 @@
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
 		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
-		if ("${login.userId}" != ""){ // 로그인 안할 경우 실행 나중에 != 를 == 로 바꿔주기
+		if ("${login.userId}" == ""){ // 로그인 안할 경우 실행 나중에 != 를 == 로 바꿔주기
 			if (window.confirm("비로그인 시 해당 견적을 저장해둘 수 없습니다. 로그인 하시겠습니까?")) {
 				  // 사용자가 "확인"을 클릭한 경우 실행할 코드
 					alert("로그인창으로 이동합니다.")
@@ -757,7 +759,7 @@
 					for (let i = 0; i < v_roomPercentPyeong.length; i++){
 						if (i > 2){
 							if (v_data[i]['materCategory'] == "거실"){
-								v_diffPyong = v_roomPercentPyeong[i].value
+								v_diffPyong = v_roomPercentPyeong[0].value
 							}
 							break;
 						}
@@ -1097,7 +1099,7 @@
 			}
 			
 			if (Object.keys(selectCateDict).length < allSelectCategory.length){
-				alert("적어도 카테고리별 하나씩은 채워 이사람아");
+				alert("카테고리별로 최소 하나씩은 선택해주세요.");
 				return;
 			}
 			
@@ -1118,7 +1120,6 @@
 		    const interval = setInterval(() => {
 		        spinnerMessage.textContent = messages[step];
 		        step++;
-		        console.log("되고 있나")
 
 		        if (step >= messages.length) {
 		            clearInterval(interval);
@@ -1520,6 +1521,11 @@
 					v_matInfo = v_matInfoStack[v_stackKey - 2]; // 자제 정보
 					v_matNum = v_matInfoStack[v_stackKey - 1]; // 자제 갯수
 					
+
+					console.log("임시저장 클릭");
+					console.log(v_matInfo);
+					console.log(v_matNum);
+					
 					let v_materCategorys = document.querySelectorAll(".mater-category"); // 카테고리
 					let v_materials = document.querySelectorAll(".materials"); // 선택 자제들 보이는 곳
 					
@@ -1561,8 +1567,14 @@
 							}
 							
 							// ajax로 가져온 데이터들이 욕실, 주방, 방 일 경우 비율에 맞는 평수 가져오기
-							if (v_materCategorys[i].innerHTML.replace(/[0-9]/g, '') == v_cntRoom[k].previousElementSibling.innerHTML){
-								v_diffPyong = v_roomPercentPyeong[k + 1].value
+							if (v_materCategorys[i].innerHTML.replace(/[0-9]/g, '') == "욕실"){
+								v_diffPyong = v_roomPercentPyeong[1].value
+								break;
+							} else if (v_materCategorys[i].innerHTML.replace(/[0-9]/g, '') == "주방"){
+								v_diffPyong = v_roomPercentPyeong[2].value
+								break;
+							} else if (v_materCategorys[i].innerHTML.replace(/[0-9]/g, '') == "방"){
+								v_diffPyong = v_roomPercentPyeong[3].value
 								break;
 							}
 						}
@@ -1699,9 +1711,12 @@
 					console.log(estiTitle);
 					basicMater += "&estiTitle=" + estiTitle;
 					
-					// console.log("${login.userId}");
-					// basicMater += "&userId=" + "${login.userId}"; 테스트 끝나면 주석 풀기
-					basicMater += "&userId=" + "gd";
+					console.log("${login.userId}");
+					basicMater += "&userId=" + "${login.userId}"; //테스트 끝나면 주석 풀기
+					// basicMater += "&userId=" + "gd";
+					
+					console.log("전체 평수 : " + parseInt(v_budget.value));
+					basicMater += "&estiPyeong=" + parseInt(v_budget.value);
 					
 					const v_ajax = XMLHttpRequest();
 					v_ajax.open("POST" , "${pageContext.request.contextPath}/saveMaterials", false);
@@ -1709,6 +1724,11 @@
 					v_ajax.onload = () => {
 						if (v_ajax.status == 200){
 							console.log(v_ajax.response);
+						    
+						    // 저장 완료 후 창 닫기
+						    alert("저장이 완료되었습니다!");
+						    
+							v_titleModal.style.display = "none";
 						}
 					}
 					
@@ -1779,9 +1799,16 @@
 				    document.getElementById('basicMater').value = JSON.stringify(basicMater);
 				    document.getElementById('subMatInfo').value = JSON.stringify(subMatInfo);
 				    document.getElementById('estiTitle').value = JSON.stringify(estiTitle);
+				    document.getElementById('estiPyeong').value = JSON.stringify(parseInt(v_budget.value));
 
 				    // 폼 제출
 				    document.getElementById('excelDown').submit();
+				    
+				    // 저장 완료 후 창 닫기
+				    alert("다운로드가 완료되었습니다!");
+
+					v_titleModalDown.style.display = "none";
+					return;
 				});
 				
 				v_excelEventBool = true;
@@ -1791,7 +1818,6 @@
 			// 닫기 클릭 시
 			v_downModalCancel.addEventListener("click", () => {
 				v_titleModalDown.style.display = "none";
-				return;
 			})
 		})
 		

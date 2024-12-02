@@ -484,7 +484,7 @@
 									<tr>
 										<th scope="col">번호</th>
 										<th scope="col">견적명</th>
-										<th scope="col">작성자</th>
+										<th scope="col">평수</th>
 										<th scope="col">작성일</th>
 									</tr>
 								</thead>
@@ -824,7 +824,7 @@
 						v_query += '<tr>';
 						v_query += '	<td>' + v_cnt + '</td>';
 						v_query += '	<td class="sjm-row-title">' + v_estiNoDict[i][0]["estiTitle"] + '</td>';
-						v_query += '	<td>' + v_estiNoDict[i][0]["userId"] + '</td>';
+						v_query += '	<td>' + v_estiNoDict[i][0]["estiPyeong"] + '</td>';
 						v_query += '	<td>' + v_estiNoDict[i][0]["estiDate"] + '</td>';
 						v_query += '</tr>';
 					

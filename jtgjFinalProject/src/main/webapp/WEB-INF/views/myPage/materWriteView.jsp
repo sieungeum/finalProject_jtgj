@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>저탄고집</title>
+<title>관리자 자재 등록</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
@@ -113,7 +113,7 @@
 						<c:if
 							test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
 							<a class="nav-link" style="color: white; padding-top: 30px;"
-								href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
+								href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 						</c:if>
 						<c:if
 							test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
