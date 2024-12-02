@@ -36,4 +36,7 @@ public interface ICompanyBoardDAO {
     
     void deleteCompanyProject(int ptNo);
     
+    // 회사 디테일 번호만 가져오기
+    int getNumComBoard(String userId);
+    
 }

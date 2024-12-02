@@ -405,7 +405,7 @@
                   </c:if>
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
 	                  </c:if>
 	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
