@@ -31,6 +31,7 @@ import com.jtgj.finalProject.admin.service.AdminFaqService;
 import com.jtgj.finalProject.admin.service.AdminService;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
+import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
@@ -73,6 +74,8 @@ public class AdminController {
 		List<EstimateDTO> allMatter = adminService.all_mater();
 		model.addAttribute("allMatter", allMatter);
 		
+		
+		
 		return "myPage/adminPage";
 	}
 	
@@ -90,7 +93,7 @@ public class AdminController {
 	@PostMapping("/editMater")
 	public String editMater(EstimateDTO mater) {
 		
-		adminService.editMater(mater);
+		// adminService.editMater(mater);
 		
 		return "redirect:/adminPage";
 	}
@@ -108,6 +111,7 @@ public class AdminController {
 	@PostMapping("/writeMater")
 	public ResponseEntity<Boolean> writeMaterTest(
 	@RequestParam("materCategory") String materCategory,
+	@RequestParam("beforeCategory") String beforeCategory,
     @RequestParam("materName") String materName,
     @RequestParam("materGasKg") double materGasKg,
     @RequestParam("materPrice") int materPrice,
@@ -146,10 +150,17 @@ public class AdminController {
         
         estimate.setMaterImg(profImgName);
 
+//        if(roleClassification.equals("edit")) {
+//    		estimate.setMaterNo(materNo);        	
+//        	System.out.println(estimate);
+//			adminService.editMater(estimate); 
+//        	
+//        	return new ResponseEntity<>(true, HttpStatus.OK);
+//        }
         if(roleClassification.equals("edit")) {
-    		estimate.setMaterNo(materNo);        	
+    		estimate.setMaterNo(materNo);
         	System.out.println(estimate);
-			adminService.editMater(estimate); 
+			adminService.editMater(estimate, beforeCategory); 
         	
         	return new ResponseEntity<>(true, HttpStatus.OK);
         }
@@ -241,6 +252,24 @@ public class AdminController {
 		
 	}
 	
+	@PostMapping("/companyBoardDetailView")
+	public String companyBoardDetailView() {
+		System.out.println();
+		
+		
+		return "companyBoard/companyBoardDetailView";
+		
+	}
+	
+	@GetMapping("/noinjungCompany")
+	public String noinjungCompany() {
+		System.out.println("µÇ³ª?");
+		
+		
+		return "myPage/noinjungCompany";
+		
+	}
+	
 	
 	@RequestMapping("/myPage")
 	public String myPage(Model model) {
@@ -250,8 +279,10 @@ public class AdminController {
 		model.addAttribute("notiList", notiList);
 		
 		List<FaqDTO> faqList = adminfaqService.getFaqList();
-		
 		model.addAttribute("faqList", faqList);
+		
+		List<CompanyBoardDTO> CBList = adminService.getCBList();
+		model.addAttribute("CBList", CBList);
 		
 		return "myPage/index";
 	}

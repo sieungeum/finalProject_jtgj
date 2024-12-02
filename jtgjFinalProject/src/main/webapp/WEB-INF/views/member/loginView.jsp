@@ -106,7 +106,7 @@
         .id-box{
             margin-bottom: 20px;
         }
-
+        
         .pw-box{
             margin-bottom: 15px;
         }
@@ -120,12 +120,17 @@
         #login-btn{
             width: 100%;
             margin-bottom: 20px;
+            height:40px;
         }
 
         .find-create-member{
         	width: 100%;
             display: flex;
         }
+        
+        .owl-wrapper-outer {
+	        border-radius: 20px;
+	    }
     </style>
     
 </head>
@@ -146,32 +151,37 @@
     <div class="custom-container">
         
         <div class="sign-in-box" data-wow-duration="0.8s" data-wow-delay="0.3s">
-				<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;">
-					<div id="history-images" class="owl-carousel" >
-						<div>
-							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
-						<div>
-							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
-						<div>
-							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
+			<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;padding:10px;">
+				<div id="history-images" class="owl-carousel">
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test1.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test2.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test3.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test4.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test5.jpg" style="width:100%;height:350px;overflow:hidden;">
 					</div>
 				</div>
 			</div>
+		</div>
 
         <div class="login-box">
             <div class="login-mini-box">
-
 				<form action="${pageContext.request.contextPath }/loginDo" method="POST">
 			       	<input type="hidden" value="${fromUrl }" name="fromUrl">
 					<div class="id-box">
-	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }">
+	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }" style="height:50px;">
 	                </div>
 	
 	                <div class="pw-box">
-	                    <input class="form-control" type="password" placeholder="비밀번호" name="userPw">
+	                    <input class="form-control" type="password" placeholder="비밀번호" name="userPw" style="height:50px;">
 	                </div>
 	
 	                <div class="check-box">
@@ -188,9 +198,9 @@
                 
 
                 <div class="find-create-member">
-                    <div style="width:100%;display:flex;flex-direction:column;font-size:13px;">
-                        <a class="btn btn-info mb-3" style="text-decoration:none;color:white;" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
-                    	<a class="btn btn-info" style="text-decoration:none;color:white;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a>
+                    <div style="width:100%;display:flex;flex-direction:column;">
+                        <a class="btn btn-secondary mb-3" style="text-decoration:none;color:white;height:30px;" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
+                    	<a class="btn btn-secondary" style="text-decoration:none;color:white;height:30px;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a>
                     </div>
                 </div>
             </div>

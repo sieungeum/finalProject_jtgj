@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
+import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
@@ -32,7 +33,8 @@ public interface IAdminDAO {
 	
 	List<EstimateDTO> all_mater();
 	EstimateDTO getMater(int materNo);
-	int editMater(EstimateDTO mater);
+	// int editMater(EstimateDTO mater);
+	int editMater(@Param("mater")EstimateDTO mater, @Param("beforeCategory")String beforeCategory);
 	int writeMater(EstimateDTO mater);
 	int getMaterNo();
 	
@@ -44,4 +46,6 @@ public interface IAdminDAO {
 	
 	int deleteMater(int materNo);
 	
+	List<CompanyBoardDTO> getCBList();
+	CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo);
 }

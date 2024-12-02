@@ -118,7 +118,6 @@
 				<img class="img-responsive" src="img/test/test1.jpg">
 				<img class="img-responsive" src="img/test/test2.jpg">
 				<img class="img-responsive" src="img/test/test3.jpg">
-				<img class="img-responsive" src="img/test/test6.jpg">
 				<img class="img-responsive" src="img/test/test7.jpg">
 				<img class="img-responsive" src="img/test/test8.jpg">
 				<img class="img-responsive" src="img/test/test9.jpg">
@@ -137,9 +136,9 @@
 				<div class="cd-intro">
 					<div class="cd-headline clip" style="color:white;">
 						<span class="cd-words-wrapper"> 
-							<b class="is-visible">Redefining Materials</b> 
-							<b>Innovating Construction</b> 
-							<b>Sustainable by Design</b>
+						    <b class="is-visible">더 푸른 내일을 위한 건축 자재를 사용해보세요!</b> 
+						    <b>지속 가능한 솔루션으로 당신의 비전을 설계하겠습니다!</b> 
+						    <b>친환경 건설사와 함께 꿈을 현실로 만들어보세요!</b>
 						</span>
 					</div>
 				</div>

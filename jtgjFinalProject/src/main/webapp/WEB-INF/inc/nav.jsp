@@ -24,15 +24,6 @@
 		<nav class="menu">
 			<div class="menu-list">
 				<ul>
-					<li><a href="about.html">About</a></li>
-					<li class="menu-item-has-children"><a href="#">Portfolio</a>
-						<ul class="sub-menu">
-							<li><a href="portfolio-2column.html">-Portfolio 2 Column</a></li>
-							<li><a href="portfolio-3column.html">-Portfolio 3 Column</a></li>
-							<li><a href="portfolio-masonry.html">-Portfolio Masonry</a></li>
-							<li><a href="portfolio-dribbble.html">-Portfolio
-									Dribbble</a></li>
-						</ul></li>
 					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/estimateHome">견적작성</a>
 						
 					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/companyBoardView">기업홍보게시판</a>	
@@ -63,20 +54,10 @@
 		</nav>
 
 		<div class="hidden-xs">
-			<div class="menu-social-media">
-				<ul>
-					<li><a href="#"><i class="iconmoon-facebook"></i></a></li>
-					<li><a href="#"><i class="iconmoon-twitter"></i></a></li>
-					<li><a href="#"><i class="iconmoon-dribbble3"></i></a></li>
-					<li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
-					<li><a href="#"><i class="iconmoon-linkedin2"></i></a></li>
-				</ul>
-			</div>
-
 			<div class="menu-information">
 				<ul>
-					<li><span>T:</span> 003 124 115</li>
-					<li><span>E:</span> info@mail.com</li>
+					<li><span>T:</span> 010-4929-1779</li>
+					<li><span>E:</span> jjjkuul@naver.com</li>
 				</ul>
 			</div>
 		</div>

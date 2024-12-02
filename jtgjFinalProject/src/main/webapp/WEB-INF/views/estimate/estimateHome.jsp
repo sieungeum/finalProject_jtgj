@@ -788,7 +788,15 @@
 							/* 자제 이미지 */
 							v_query += '<div class="add-modal__box">'
 							v_query += '	<div class="modal-box__top modal-m">'
-							v_query += '		<img src="' + v_data[i]['materImg'] + '">'
+							if (v_data[i]['materImg'].includes("https")){
+								v_query += '		<img src="' + v_data[i]['materImg'] + '">'
+							} else if (v_data[i]['materImg'] == "N") {
+								v_query += '		<img src="${pageContext.request.contextPath}/img/delete_icon.png">'
+							} else {
+								console.log(v_data[i]['materImg'])
+								v_query += '		<img src="${pageContext.request.contextPath }/displayProfImg?atchtype=mater_img&imgName=' + v_data[i]['materImg'] + '">'
+							}
+							
 							v_query += '	</div>'
 							
 							/* 자제 정보 */

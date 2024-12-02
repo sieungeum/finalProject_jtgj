@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
+import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
@@ -71,8 +72,13 @@ public class AdminService {
 		return result;
 	}
 	
-	public int editMater(EstimateDTO mater) {
-		int result = dao.editMater(mater);
+//	public int editMater(EstimateDTO mater) {
+//		int result = dao.editMater(mater);
+//		return result;
+//	}
+	
+	public int editMater(EstimateDTO mater, String beforeCategory) {
+		int result = dao.editMater(mater, beforeCategory);
 		return result;
 	}
 	
@@ -114,6 +120,15 @@ public class AdminService {
 	public int deleteMater(int materNo) {
 		int result = dao.deleteMater(materNo);
 		return result;
+	}
+	
+	public List<CompanyBoardDTO> getCBList() {
+		List<CompanyBoardDTO> result = dao.getCBList();
+		return result;
+	}
+	
+	public CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo) {
+	    return dao.getCompanyBoardDetail(cpBoardNo);
 	}
 	
 }

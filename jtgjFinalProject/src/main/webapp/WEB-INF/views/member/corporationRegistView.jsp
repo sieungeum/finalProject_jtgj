@@ -39,6 +39,14 @@
             align-items: center;
         }
         
+        .custom-container input{
+        	height:50px;
+        }
+        
+        .custom-container label{
+        	font-size:13px;
+        }
+        
         .container-box{
         	width: 30%;
         	display: flex;
@@ -79,14 +87,14 @@
     <div class="custom-container">
     	<div class="container-box">
 	        <div class="mb-4" style="text-align:center;">
-	        	<h4>저탄고집 기업회원 가입</h4>
+	        	<h4 style="font-size:25px;">저탄고집 기업회원 가입</h4>
 	        </div>
 	
 			<div class="mb-3">
 	            <div class="input-group">
 	                <label for="inputFile" class="form-label" style="font-weight:bolder;">기업 인증(사업자등록증명원을 첨부해주세요!)</label>
 	                <div class="input-group">
-	                    <input type="file" class="form-control me-3" id="inputFile" aria-describedby="inputGroupFileAddon04">
+	                    <input style="height:100%;font-size:17px;padding:10px;"type="file" class="form-control me-3" id="inputFile" aria-describedby="inputGroupFileAddon04">
 	                	<button class="btn btn-primary" id="submitFile" onclick="sendFileToOCR()")>사업자 등록인증</button>
 						<button class="btn btn-primary" type="button" id="loadingBtn" disabled>
 							<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -186,7 +194,7 @@
 		            </div>						            
 		        </div>
 		
-		        <div class="mt-3 mb-5">
+		        <div class="mt-5">
 		            <button class="btn btn-primary btn-lg w-100" type="button" id="signUpBtn">가입하기</button>
 		        </div>  		
 			</div>	        
@@ -451,9 +459,9 @@
 		
 		// 아이디(중복확인)
 		function checkIdDuplicate(){
-			let id = $("#inputId").val();
+			v_userId = $("#inputId").val();
 			
-			if(id == "" || id.length == 0){
+			if(v_userId == "" || v_userId.length == 0){
 				$("#label1").css('color', "red").css('font-size', '13px').text('공백은 ID로 사용할 수 없습니다.');
 				idOn = false;
 				toggleSignUpButton(); 
@@ -465,7 +473,7 @@
 				url : '${pageContext.request.contextPath}/ConfirmId',
 				type : 'POST',
 				contentType: 'application/json',
-				data: JSON.stringify({userId:id}),
+				data: JSON.stringify({userId:v_userId}),
 				contentType: 'application/json; charset=UTF-8', 
 				dataType: 'json',
 				success : function(result) {
@@ -506,10 +514,10 @@
 					
 					if(result.success){
 						pwValOn = true;
-						$("#label2").css("color", "green").css("font-size", "13px").text(result.msg);
+						$("#label2").css("color", "green").css("font-size", "12px").text(result.msg);
 					} else{
 						pwValOn = false;
-						$("#label2").css("color", "red").css("font-size", "13px").text(result.msg);
+						$("#label2").css("color", "red").css("font-size", "12px").text(result.msg);
 					}
 				},
 				error:function(xhr){
