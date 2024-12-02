@@ -120,6 +120,7 @@ public class AdminController {
     @RequestParam("materClassify") String materClassify,
     @RequestParam("materNo") int materNo,
     @RequestParam("roleClassification") String roleClassification,
+    @RequestParam("profImgName") String profImgName,
     @RequestPart(value = "file", required = false) MultipartFile file) {
 		
 		EstimateDTO estimate = new EstimateDTO();
@@ -133,9 +134,8 @@ public class AdminController {
 		estimate.setMaterDurability(materDurabilit);
 		estimate.setMaterInfo(materInfo);
 		estimate.setMaterClassify(materClassify);
-
-		String profImgName = null;
 		
+		System.out.println(file);
         if (file != null && !file.isEmpty()) {
 			try {
 				AttachDTO attach = fileUploadUtils.getAttachByMultipart(file, "mater_img");
@@ -145,7 +145,11 @@ public class AdminController {
 				System.out.println("이미지 파일 저장 실패");
 			}
         } else {
-        	profImgName = "N";
+        	if(profImgName != null && !profImgName.isEmpty()) {
+        		System.out.println("기존 이미지 이름 유지");
+        	} else {
+        		profImgName = "N";
+        	}
         }
         
         estimate.setMaterImg(profImgName);

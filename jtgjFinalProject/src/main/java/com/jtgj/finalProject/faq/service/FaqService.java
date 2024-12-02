@@ -86,6 +86,11 @@ public class FaqService {
 		return result;
 	}
 	
+	public int getNoticeCount(PageSearchVO pageSearch) {
+		int result = dao.getNoticeCount(pageSearch);
+		return result;
+	}
+	
 	public int writeNotice(NoticeDTO notice) {
 		int result = dao.writeNotice(notice);
 		return result;

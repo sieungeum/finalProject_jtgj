@@ -241,53 +241,22 @@
         ORDER BY a.notice_no DESC
 	</select>
 	
-<!-- 	<select id="getNoticeList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO">
-		SELECT * FROM (
-			SELECT 
-				a.*
-				, (
-					SELECT
-						COUNT(*)
-					FROM comments
-					WHERE notice_no = a.notice_no
-						AND com_del_yn = 'N'
-				) AS faq_count
-			FROM(
-				SELECT * FROM (
-					SELECT
-						a.*,
-						ROWNUM AS RNUM
-					FROM(
-						SELECT
-							a.faq_no,
-							a.faq_title,
-							b.user_id,
-							b.user_name,
-							b.user_rank,
-							a.faq_content,
-							TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
-							a.faq_sic_yn,
-							a.faq_ast
-						FROM 
-							faqs a
-							, users b
-						WHERE 1=1
-							AND a.user_id = b.user_id
-							AND a.faq_del_yn = 'N'
-						<if test="searchWord != null">
-							<choose>
-								<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
-								<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
-								<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
-							</choose>
-						</if>
-						ORDER BY faq_no DESC
-					)a
-				)
-				WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
-			)a
-		)
-	</select> -->
+	<select id="getNoticeCount" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			notices a, users b
+		WHERE 1=1
+			AND a.user_id = b.user_id
+			AND a.notice_del_yn = 'N'
+		<if test="searchWord != null">
+			<choose>
+				<when test="searchOption=='title'">AND a.notice_title LIKE '%' || #{searchWord} || '%'</when>
+				<when test="searchOption=='content'">AND a.notice_content LIKE '%' || #{searchWord} || '%'</when>
+				<when test="searchOption=='name'">AND b.user_name LIKE '%' || #{searchWord} || '%'</when>
+			</choose>
+		</if>
+	</select>
 	
 	<insert id="writeNotice" parameterType="com.jtgj.finalProject.faq.dto.NoticeDTO">
 		INSERT INTO notices(
