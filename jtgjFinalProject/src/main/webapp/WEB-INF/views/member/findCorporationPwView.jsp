@@ -136,7 +136,7 @@
 					<button class="btn btn-primary btn-lg" style="width:100%;" type="button" id="checkPwAuthBtn">인증확인</button>
 				</div>
 				
-				<div class="w-100" id="pwInfoBox" style="font-size:14px;color:black;display:none;">
+				<div class="w-100 mt-5" id="pwInfoBox" style="font-size:14px;color:black;display:none;">
 					<label for="inputPassword" class="form-label" style="font-weight:bolder;">비밀번호</label>
 					<div>
 						<input type="password" class="form-control mb-3" id="inputPassword">

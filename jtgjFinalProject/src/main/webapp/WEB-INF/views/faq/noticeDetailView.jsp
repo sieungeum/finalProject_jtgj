@@ -137,11 +137,20 @@
 				                </div>
 			                </div>
 			                
-			                <div class ="dFjcE  marTB">
-			                	<a class="me-2" href ="${pageContext.request.contextPath}/faqView">
-			                		<button class="btn btn-secondary">돌아가기</button> 
-			                	</a>
-			                </div>
+							<%
+							    String referer = request.getHeader("Referer"); // 내장 객체 사용
+							    String contextPath = request.getContextPath();
+							    String backUrl = contextPath + "/faqView"; // 기본값
+							
+							    if (referer != null && referer.contains("faqOnlyAnnouncementView")) {
+							        backUrl = contextPath + "/faqOnlyAnnouncementView";
+							    }
+							%>
+							<div class="dFjcE marTB">
+							    <a class="me-2" href="<%= backUrl %>">
+							        <button class="btn btn-secondary">돌아가기</button> 
+							    </a>
+							</div>
 			                
 			                <c:if test="${notice.userId == sessionScope.login.userId }">  
 				                <div class ="dFjcE marTB">

@@ -30,7 +30,7 @@ public interface IFaqDAO {
 	
 	// 공지사항 관련
 	List<NoticeDTO> getNoticeList();
-	List<NoticeDTO> getAllNoticeList();
+	List<NoticeDTO> getAllNoticeList(PageSearchVO pageSearch);
 	int getNoticeCount(PageSearchVO pageSearch);
 	int writeNotice(NoticeDTO notice);
 	int getNoticeNo();

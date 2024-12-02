@@ -81,8 +81,8 @@ public class FaqService {
 		return result;
 	}
 
-	public List<NoticeDTO> getAllNoticeList(){
-		List<NoticeDTO> result = dao.getAllNoticeList();
+	public List<NoticeDTO> getAllNoticeList(PageSearchVO pageSearch){
+		List<NoticeDTO> result = dao.getAllNoticeList(pageSearch);
 		return result;
 	}
 	
