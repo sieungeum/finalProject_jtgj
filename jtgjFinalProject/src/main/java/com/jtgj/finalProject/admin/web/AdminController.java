@@ -32,6 +32,7 @@ import com.jtgj.finalProject.admin.service.AdminService;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
+import com.jtgj.finalProject.companyBoard.service.CompanyBoardService;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
@@ -57,6 +58,9 @@ public class AdminController {
 	
 	@Autowired
 	FileUploadUtils fileUploadUtils;
+	
+	@Autowired
+	CompanyBoardService companyBoardService;
 	
 	
 	@RequestMapping("/adminPage")
@@ -247,12 +251,28 @@ public class AdminController {
 		
 	}
 	
-	@PostMapping("/companyBoardWriteView")
-	public String companyBoardWriteView() {
+	@RequestMapping("/companyBoardWriteViewAd")
+	public String companyBoardWriteViewAd(HttpSession session) {
 		System.out.println();
+		System.out.println("companyBoardWriteViewAd");
+
+		// sjm
+		UserDTO login = (UserDTO) session.getAttribute("login");
 		
+		int cpNum;
+		try {
+			cpNum = companyBoardService.getNumComBoard(login.getUserId());
+			
+			String v_url = "?cpBoardNo=" + cpNum;
+			
+			System.out.println(v_url);
+			
+			return "redirect:/companyBoardDetailView" + v_url;
+		} catch (Exception e) {
+			cpNum = 0;
+			return "companyBoard/companyBoardWriteView";
+		}
 		
-		return "companyBoard/companyBoardWriteView";
 		
 	}
 	

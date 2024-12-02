@@ -140,4 +140,11 @@ public class CompanyBoardService {
         dao.deleteCompanyProject(ptNo);
     }
     
+    // 회사 디테일 번호만 가져오기
+    public int getNumComBoard(String userId) {
+    	int result = dao.getNumComBoard(userId);
+    	
+    	return result;
+    }
+    
 }
