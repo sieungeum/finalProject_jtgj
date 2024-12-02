@@ -16,10 +16,6 @@
 	<div class="menu-content">
 		<div class="navigation">
 			<span class="pe-7s-close close-menu" id="close-button"></span>
-			<div class="search-wrap js-ui-search">
-				<input class="js-ui-text" type="text" placeholder="Search Here...">
-				<span class="eks js-ui-close"></span>
-			</div>
 		</div>
 		<nav class="menu">
 			<div class="menu-list">
@@ -28,8 +24,13 @@
 						
 					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/companyBoardView">기업홍보게시판</a>	
 						
-					<!-- 건의사항 페이지 추가 -->	
-					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath }/faqView">건의사항</a></li>
+					<!-- 건의사항 페이지 추가 -->			
+					<li class="menu-item-has-children"><a href="#">FAQ</a>
+                        <ul class="sub-menu">
+                            <li><a href="${pageContext.request.contextPath }/faqView">- 건의사항</a></li>
+                            <li><a href="${pageContext.request.contextPath }/faqOnlyAnnouncementView">- 공지사항</a></li>
+                        </ul>
+                    </li>
 					
 					<c:if test="${sessionScope.login == null }">
 						<li><a href="${pageContext.request.contextPath }/loginView">로그인</a></li>
