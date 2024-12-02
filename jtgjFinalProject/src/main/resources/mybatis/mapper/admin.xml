@@ -246,4 +246,32 @@
 	</select>
 	
 	
+	<select id="getCBList" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+	    SELECT 
+	        a.cp_board_no,
+	        a.cp_board_intro,
+	        a.cp_board_content,
+	        a.user_id,
+	        b.cp_ceo_name,
+	        c.user_name,
+	        a.cp_board_area,
+	        a.cp_board_date,
+	        a.cp_board_reper_img,
+	        a.cp_board_del_yn,
+	        c.user_prof_img, -- 추가: 프로필 이미지
+	        b.cp_ceo_name AS cpCeoName,       -- 기업 대표 이름
+	        b.cp_open_date AS cpOpenDate,    -- 기업 설립일
+	        c.user_phone AS userPhone,       -- 연락처
+	        c.user_email AS userEmail,       -- 이메일
+	        b.cp_address AS cpAddress        -- 주소
+		FROM 
+	        company_board a
+	    JOIN 
+	        company_info b ON a.user_id = b.user_id
+	    JOIN 
+	        users c ON a.user_id = c.user_id
+	    WHERE 
+	        a.cp_board_del_yn = 'N'
+	</select>
+	
 </mapper>

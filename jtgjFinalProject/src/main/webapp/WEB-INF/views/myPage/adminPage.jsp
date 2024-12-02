@@ -261,17 +261,23 @@
             <div class="sb-sidenav-menu">
                <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
                   </c:if>
                   <c:if test="${sessionScope.login.userAccount != 'C'}">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
+	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
+	                  </c:if>
                   </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
                      <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
                   </c:if>
@@ -349,36 +355,55 @@
 											<td>${user.userDate }</td>
 											<td>${user.userAccount }</td>
 											<td>
-											<c:if test="${user.userRank == 'N'}">
-														<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
+											<c:if test="${user.userAccount == 'C'}">
+												<c:if test="${user.userRank == 'N'}">
+															<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
+																<input type="hidden" name="userId" value="${user.userId}">
+																<input type="hidden" name="userName" value="${user.userName}">
+															    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
+															</form>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'M'}">
+														<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
-														    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
+															    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
 														</form>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'L'}">
+														<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
+															<input type="hidden" name="userId" value="${user.userId}">
+															<input type="hidden" name="userName" value="${user.userName}">
+															    <button class="btn btn-primary btn-xl" disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
+														</form>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'K'}">
+														<form action="${pageContext.request.contextPath }/userLDo" method="POST" id="checkFormA">
+															<input type="hidden" name="userId" value="${user.userId}">
+															<input type="hidden" name="userName" value="${user.userName}">
+															    <button class="btn btn-primary btn-xl"  disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
+														</form>
+													</c:if>
 												</c:if>
-												
-												<c:if test="${user.userRank == 'M'}">
-													<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
-														<input type="hidden" name="userId" value="${user.userId}">
-														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
-													</form>
-												</c:if>
-												
-												<c:if test="${user.userRank == 'L'}">
-													<form action="${pageContext.request.contextPath }/userDo" method="POST" id="checkFormA">
-														<input type="hidden" name="userId" value="${user.userId}">
-														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-danger btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
-													</form>
-												</c:if>
-												
-												<c:if test="${user.userRank == 'K'}">
-													<form action="${pageContext.request.contextPath }/userLDo" method="POST" id="checkFormA">
-														<input type="hidden" name="userId" value="${user.userId}">
-														<input type="hidden" name="userName" value="${user.userName}">
-														    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
-													</form>
+												<c:if test="${user.userAccount == 'P'}">
+												<c:if test="${user.userRank == 'N'}">
+															    	<button class="btn btn-warning btn-xl" disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'M'}">
+															    <button class="btn btn-warning btn-xl" disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">일반회원</button>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'L'}">
+															    <button class="btn btn-primary btn-xl" disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
+													</c:if>
+													
+													<c:if test="${user.userRank == 'K'}">
+															    <button class="btn btn-primary btn-xl" disabled="disabled" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">관리자</button>
+													</c:if>
 												</c:if>
 												<c:if test="${user.userRank == 'Y'}">
 													<button class="btn btn-primary btn-xl" disabled="disabled" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">총괄 관리자</button>

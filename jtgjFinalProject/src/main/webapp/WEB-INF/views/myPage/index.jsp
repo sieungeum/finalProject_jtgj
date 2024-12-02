@@ -397,17 +397,23 @@
             <div class="sb-sidenav-menu">
                <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> 
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
                   </c:if>
                   <c:if test="${sessionScope.login.userAccount != 'C'}">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
+	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
+	                  </c:if>
                   </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
                      <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
                   </c:if>
@@ -538,6 +544,16 @@
 								</tbody>
 							</table>
 						</div>
+						<div style="margin:10px;" >
+							<a href="${pageContext.request.contextPath }/faqWriteView">
+								<button class="btn btn-primary btn-xl">건의사항 작성</button>
+							</a>
+							<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
+								<a href="${pageContext.request.contextPath }/noticeWriteView">
+									<button class="btn btn-primary btn-xl">공지사항 작성</button>
+								</a>
+							</c:if>
+						</div>
 					</div>
 					
 					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
@@ -559,28 +575,38 @@
 								</tbody>
 							</table>
 						</div>
+						<div style="margin:10px;" >
+						<a href="${pageContext.request.contextPath }/estimateHome">
+								<button class="btn btn-primary btn-xl">견적작성</button>
+							</a>
+						</div>
 					</div>
 					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					
-					<c:if test="${sessionScope.login.userAccount == 'C' && sessionScope.login.userAccount != null}">
+					<c:if test="${sessionScope.login.userRank != 'N'}">
 					<div class="card mb-4">
 						<div class="card-header">기업 홍보</div>
 						<div class="card-body">
-							<table id=""  style="width:100%">
+							<table id="datatablesOrders"  style="width:100%">
 								<thead>
 									<tr>
-										<th scope="col">포트폴리오</th>
-										
+										<th scope="col">번호</th>
+										<th scope="col">소개글</th>
+										<th scope="col">기업명</th>
+										<th scope="col">등록일</th>
 									</tr>
 								</thead>
-
 								<tbody>
-									
-									<tr>
-										<td>어서와</td>
-										
-									</tr>
-									
+								<c:forEach items="${CBList}" var="cb">
+									<c:if test="${cb.userId == sessionScope.login.userId }">
+										<tr>
+											<td>${cb.cpBoardNo}</td>
+											<td><a href="<c:url value="/companyBoardDetailView?cpBoardNo=${cb.cpBoardIntro}"/>">${cb.cpBoardIntro}</a></td>
+											<td>${cb.userName}</td>
+											<td>${cb.cpBoardDate}</td>
+										</tr>
+									</c:if>
+								</c:forEach>
 								</tbody>
 							</table>
 						</div>
@@ -731,6 +757,13 @@
     // Datatable 초기화
     document.addEventListener('DOMContentLoaded', function() {
         new simpleDatatables.DataTable("#datatablesEarnings", {
+            perPage: 5,
+            searchable: true,
+            sortable: true,
+        });
+        
+     // 새로운 주문 목록 (myOrders)
+        new simpleDatatables.DataTable("#datatablesOrders", {
             perPage: 5,
             searchable: true,
             sortable: true,

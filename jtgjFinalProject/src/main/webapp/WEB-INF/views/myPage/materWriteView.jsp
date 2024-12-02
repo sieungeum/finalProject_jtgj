@@ -95,11 +95,7 @@
 					<div class="nav"
 						style="font-size: 30px; color: black; padding-top: 30px;">
 						<a class="nav-link" style="color: white; padding-top: 30px;"
-							href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> <a
-							class="nav-link" style="color: white; padding-top: 30px;"
-							href="${pageContext.request.contextPath}/estimateHome"> 견적 </a> <a
-							class="nav-link" style="color: white; padding-top: 30px;"
-							href="${pageContext.request.contextPath }/faqView"> 건의사항 </a>
+							href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a>  
 						<c:if test="${sessionScope.login.userAccount == 'C'}">
 							<a class="nav-link" style="color: white; padding-top: 30px;"
 								href="${pageContext.request.contextPath }/companyEditView">
@@ -110,11 +106,17 @@
 								href="${pageContext.request.contextPath }/personalEditView">
 								수정 </a>
 						</c:if>
-						<c:if
-							test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-							<a class="nav-link" style="color: white; padding-top: 30px;"
-								href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-						</c:if>
+						<c:if test="${sessionScope.login.userAccount == 'C'}">
+                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
+	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
+	                  </c:if>
+                  </c:if>
+                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  </c:if>
 						<c:if
 							test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;"
