@@ -27,6 +27,10 @@
         .custom-container input{
         	height:50px;
         }
+        
+        .custom-container label{
+        	font-size:13px;
+        }
 
         .custom-container{
             width: 100%;

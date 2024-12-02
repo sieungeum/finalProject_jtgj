@@ -36,6 +36,15 @@
             margin-top: 2%;
         }
         
+        .custom-container input{
+        	height:50px;
+        }
+        
+        .custom-container label{
+        	font-size:15px;
+        	font-weight:400;
+        }
+        
         .find-id-btn{
         	cursor:pointer;
         }
@@ -47,14 +56,14 @@
 		
 		#emailSpinner{
 			position: absolute;
-			top: 48%;
+			top: 56%;
 			right: -5%;
 			display: none;
 		}
 		
 		#regiNumSpinner{
 			position: absolute;
-			top: 28%;
+			top: 33%;
 			right: -5%;
 			display: none;
 		}
@@ -76,12 +85,12 @@
 	</div>
     
     <div class="custom-container">
-        <div class="w-100" style="padding-bottom:3%;"><h1>개인회원 비밀번호 찾기</h3></div>
+        <div class="w-100"><h1>기업회원 비밀번호 찾기</h1></div>
         
         <!-- 이메일 인증 on -->
-		<div style="border:1px solid black;padding-top:10%;padding-bottom:5%;padding-left:8%;padding-right:8%;margin-bottom:5%;">
-			<div class="mb-3"><h5 style="font-size:13px;font-weight:bolder;">이메일 인증으로 회원정보에 등록된 비밀번호를 찾을 수 있습니다.</h5></div>
-			
+		<div style="border:1px solid black;padding-top:5%;padding-bottom:5%;padding-left:8%;padding-right:8%;margin-bottom:5%;position:relative;">
+			<div class="mt-4 mb-5"><h5 style="font-size:15px;font-weight:bolder;">이메일 인증으로 회원정보에 등록된 비밀번호를 찾을 수 있습니다.</h5></div>
+						
 			<div class="w-100" style="display:flex;flex-direction:column;position:relative;">
 			  	<div class="spinner-border text-primary" role="status" id="emailSpinner">
 					<span class="visually-hidden">Loading...</span>
@@ -91,52 +100,40 @@
 					<span class="visually-hidden">Loading...</span>
 				</div>   
 			
-				<div class="d-flex w-100 mb-3" style="padding-right:10%;padding-left:0.5%;">
-					<div style="width:10%;display:flex;justify-content:center;align-items:center;margin-right:6%;">
-						<p style="color:#747474;">아이디</p>
-					</div>
+				<div class="d-flex w-100 mb-3" style="flex-direction:column;">
+					<label for="inputId" class="form-label">아이디</label>
 			        <div class="input-group mb-2">
 			                <input type="text" class="form-control me-2" id="inputId" placeholder="아이디를 입력하세요">
 			        </div>
 				</div>
 				
-				<div class="d-flex w-100 mb-3">
-					<div style="width:10%;display:flex;justify-content:center;align-items:center;margin-right:4%;">
-						<p style="color:#747474;font-size:10px;text-align:center;">사업자등록번호</p>
-					</div>
-			        <div class="input-group mb-2" style="display:flex;align-items:center;width:90%;height:58px;">
-			                <div class="h-100 d-flex justify-content-center align-items-center me-2" style="width:87.5%; border:1px solid #DDDDDD;">
-			                	<input type="file" class="me-2" id="inputFile" placeholder="사업자등록증명원을 첨부해주세요!">
-			                </div>
-			                <div class="h-100" style="width:11.5%;">
-			                	<button class="btn btn-warning h-100" type="button" id="submitFile" onclick="sendFileToOCR()">인증하기</button>
-			                </div>			                     	
+				<div class="d-flex w-100 mb-3" style="flex-direction:column;">
+					<label for="submitFile" class="form-label">사업자등록증명원</label>
+			        <div class="input-group mb-2">
+		                <div class="d-flex justify-content-center align-items-center" style="width:89%; border:1px solid #DDDDDD;">
+		                	<input type="file" id="inputFile" placeholder="사업자등록증명원을 첨부해주세요!" style="font-size:15px;padding:10px;width:100%;height:100%;">
+		                </div>
+		                <button style="width:10%;margin-left:5px;" class="btn btn-warning" type="button" id="submitFile" onclick="sendFileToOCR()">인증하기</button>                     	
 			        </div>
 				</div>				
 			
-				<div class="d-flex w-100">
-					<div style="width:10%;display:flex;justify-content:center;align-items:center;margin-right:5%;">
-						<p style="color:#747474;">이메일</p>
-					</div>
+				<div class="d-flex w-100" style="flex-direction:column;">
+					<label for="inputEmail" class="form-label">이메일</label>
 			        <div class="input-group mb-2">
-			                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요">
-			                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
+		                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요">
+		                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
 			        </div>
 				</div>
 				
-				<div class="w-100" style="display:flex;flex-direction:column;margin-top:2%;">
-					<div class="d-flex w-100">
-						<div style="width:10%;display:flex;justify-content:center;align-items:center;">
-							<p style="color:#747474;">인증번호</p>
-						</div>
-				        <div class="input-group mb-2" style="width:80%;padding-left:3.7%;">
-				                <input type="text" class="form-control me-2" id="inputAuthNumber">
-				        </div>
-					</div>
+				<div class="w-100 mt-2" style="display:flex;flex-direction:column;">
+					<label for="inputAuthNumber" class="form-label">인증번호</label>
+			        <div class="input-group mb-2">
+			                <input type="text" class="form-control me-2" id="inputAuthNumber">
+			        </div>
 				</div>
 				
-				<div style="display:flex;justify-content:center;align-items:center;margin-top:2%;margin-bottom:2%;">
-					<button class="btn btn-primary btn-lg" style="width:20%;" type="button" id="checkPwAuthBtn">인증확인</button>
+				<div style="display:flex;justify-content:center;align-items:center;margin-top:3%;">
+					<button class="btn btn-primary btn-lg" style="width:100%;" type="button" id="checkPwAuthBtn">인증확인</button>
 				</div>
 				
 				<div class="w-100" id="pwInfoBox" style="font-size:14px;color:black;display:none;">

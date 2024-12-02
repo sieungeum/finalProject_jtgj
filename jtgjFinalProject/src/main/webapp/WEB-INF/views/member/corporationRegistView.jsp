@@ -58,7 +58,7 @@
         }
         
         #moreInfoBox{
-        	display: 
+        	display: none;
         }
 
 		#emailSpinner{
@@ -94,7 +94,7 @@
 	            <div class="input-group">
 	                <label for="inputFile" class="form-label" style="font-weight:bolder;">기업 인증(사업자등록증명원을 첨부해주세요!)</label>
 	                <div class="input-group">
-	                    <input type="file" class="form-control me-3" id="inputFile" aria-describedby="inputGroupFileAddon04">
+	                    <input style="height:100%;font-size:17px;padding:10px;"type="file" class="form-control me-3" id="inputFile" aria-describedby="inputGroupFileAddon04">
 	                	<button class="btn btn-primary" id="submitFile" onclick="sendFileToOCR()")>사업자 등록인증</button>
 						<button class="btn btn-primary" type="button" id="loadingBtn" disabled>
 							<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -194,7 +194,7 @@
 		            </div>						            
 		        </div>
 		
-		        <div class="mt-4">
+		        <div class="mt-5">
 		            <button class="btn btn-primary btn-lg w-100" type="button" id="signUpBtn">가입하기</button>
 		        </div>  		
 			</div>	        

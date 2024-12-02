@@ -202,8 +202,8 @@
 			AND com_no = #{comNo}
 	</update>
 	
-	<!-- 여기부터는 공지사항 -->
 	
+	<!-- 여기부터는 공지사항 -->
 	<select id="getNoticeList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO">
 		SELECT *
 	    FROM (
@@ -223,6 +223,71 @@
 	    )
 	    WHERE ROWNUM <![CDATA[<=]]> 3
 	</select>
+	
+	<!-- 모든 공지사항 가져오기 -->
+	<select id="getAllNoticeList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO">
+        SELECT
+            a.notice_no,
+            a.notice_title,
+            b.user_id,
+            b.user_name,
+            a.notice_content,
+            TO_CHAR(a.notice_date, 'MM.dd') AS notice_date
+        FROM 
+            notices a, users b
+        WHERE 1=1
+            AND a.user_id = b.user_id
+            AND a.notice_del_yn = 'N'
+        ORDER BY a.notice_no DESC
+	</select>
+	
+<!-- 	<select id="getNoticeList" resultType="com.jtgj.finalProject.faq.dto.NoticeDTO" parameterType="com.jtgj.finalProject.common.vo.PageSearchVO">
+		SELECT * FROM (
+			SELECT 
+				a.*
+				, (
+					SELECT
+						COUNT(*)
+					FROM comments
+					WHERE notice_no = a.notice_no
+						AND com_del_yn = 'N'
+				) AS faq_count
+			FROM(
+				SELECT * FROM (
+					SELECT
+						a.*,
+						ROWNUM AS RNUM
+					FROM(
+						SELECT
+							a.faq_no,
+							a.faq_title,
+							b.user_id,
+							b.user_name,
+							b.user_rank,
+							a.faq_content,
+							TO_CHAR(a.faq_date, 'MM.dd') AS faq_date,
+							a.faq_sic_yn,
+							a.faq_ast
+						FROM 
+							faqs a
+							, users b
+						WHERE 1=1
+							AND a.user_id = b.user_id
+							AND a.faq_del_yn = 'N'
+						<if test="searchWord != null">
+							<choose>
+								<when test="searchOption=='title'">AND a.faq_title LIKE '%' || #{searchWord} || '%'</when>
+								<when test="searchOption=='content'">AND a.faq_content LIKE '%' || #{searchWord} || '%'</when>
+								<when test="searchOption=='name'">AND a.user_name LIKE '%' || #{searchWord} || '%'</when>
+							</choose>
+						</if>
+						ORDER BY faq_no DESC
+					)a
+				)
+				WHERE rnum BETWEEN #{firstRow} AND #{lastRow}
+			)a
+		)
+	</select> -->
 	
 	<insert id="writeNotice" parameterType="com.jtgj.finalProject.faq.dto.NoticeDTO">
 		INSERT INTO notices(

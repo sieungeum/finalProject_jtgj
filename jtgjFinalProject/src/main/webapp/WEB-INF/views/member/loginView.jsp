@@ -127,6 +127,10 @@
         	width: 100%;
             display: flex;
         }
+        
+        .owl-wrapper-outer {
+	        border-radius: 20px;
+	    }
     </style>
     
 </head>
@@ -147,20 +151,26 @@
     <div class="custom-container">
         
         <div class="sign-in-box" data-wow-duration="0.8s" data-wow-delay="0.3s">
-				<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:60px;">
-					<div id="history-images" class="owl-carousel" >
-						<div>
-							<img class="img-responsive center-block" src="img/test/test15.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
-						<div>
-							<img class="img-responsive center-block" src="img/test/test14.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
-						<div>
-							<img class="img-responsive center-block" src="img/test/test16.jpg" style="width:90%;height:300px;overflow:hidden;">
-						</div>
+			<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;padding:10px;">
+				<div id="history-images" class="owl-carousel">
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test1.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test2.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test3.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test4.jpg" style="width:100%;height:350px;overflow:hidden;">
+					</div>
+					<div>
+						<img class="img-responsive center-block" src="img/test/login-test5.jpg" style="width:100%;height:350px;overflow:hidden;">
 					</div>
 				</div>
 			</div>
+		</div>
 
         <div class="login-box">
             <div class="login-mini-box">
