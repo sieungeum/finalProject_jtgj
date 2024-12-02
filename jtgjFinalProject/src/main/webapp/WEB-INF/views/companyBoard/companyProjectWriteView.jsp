@@ -228,8 +228,18 @@
 			justify-content: center;
 		}
 		
-		.height34{
+		.inputBoxHW{
 			height: 34px;
+		}
+		
+		input[type=text] {
+			height: 34px;
+			width: 190px;
+		}
+		
+		input[type=number] {
+			height: 34px;
+			width: 190px;
 		}
 		
 	</style>
@@ -319,19 +329,19 @@
 		                    		<div class="marginL_L">
 		                    			<div class="width45">
 		                    				<label for="ptDesign">설계 기간</label>
-		                    				<input type="text" id="ptDesign" name="ptDesign" class="form-control height34"  placeholder="설계 기간을 입력하세요">
+		                    				<input type="text" id="ptDesign" name="ptDesign" class="inputBoxHW"  placeholder="설계 기간을 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptConstruction">시공 기간</label>
-		                    				<input type="text" id="ptConstruction" name="ptConstruction" class="form-control" placeholder="시공 기간을 입력하세요">
+		                    				<input type="text" id="ptConstruction" name="ptConstruction" class="inputBoxHW" placeholder="시공 기간을 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptFloorNum">층수</label>
-                   							<input type="text" id="ptFloorNum" name="ptFloorNum" class="form-control" placeholder="층수를 입력하세요">
+                   							<input type="text" id="ptFloorNum" name="ptFloorNum" class="inputBoxHW" placeholder="층수를 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptHouseholdNum">가구수</label>
-                    						<input type="text" id="ptHouseholdNum" name="ptHouseholdNum" class="form-control" placeholder="가구수를 입력하세요">
+                    						<input type="text" id="ptHouseholdNum" name="ptHouseholdNum" class="inputBoxHW" placeholder="가구수를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
@@ -339,27 +349,27 @@
 		                    			<div class="width45">
 		                    				<label for="ptLandArea">대지 면적</label>
 		                    				<div  class="dF">
-	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="form-control height34" step="0.01" placeholder="대지 면적을 입력하세요">
+	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="inputBoxHW"  step="0.01" placeholder="대지 면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptBuildingArea">건축 면적</label>
 		                    				<div class="dF">
-	                    						<input type="number" id="ptBuildingArea" name="ptBuildingArea" class="form-control" step="0.01" placeholder="건축 면적을 입력하세요">
+	                    						<input type="number" id="ptBuildingArea" name="ptBuildingArea" class="inputBoxHW" step="0.01" placeholder="건축 면적을 입력하세요">
 	                    						<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptTotalFloorArea">연면적</label>
 		                    				<div class="dF">
-	                    						<input type="text" id="ptTotalFloorArea" name="ptTotalFloorArea" class="form-control" step="0.01" placeholder="연면적을 입력하세요">
+	                    						<input type="number" id="ptTotalFloorArea" name="ptTotalFloorArea" class="inputBoxHW" step="0.01" placeholder="연면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptCompletionYear">준공년도</label>
-                    						<input type="text" id="ptCompletionYear" name="ptCompletionYear" class="form-control" placeholder="준공년도를 입력하세요">
+                    						<input type="text" id="ptCompletionYear" name="ptCompletionYear" class="inputBoxHW" placeholder="준공년도를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    	</div>

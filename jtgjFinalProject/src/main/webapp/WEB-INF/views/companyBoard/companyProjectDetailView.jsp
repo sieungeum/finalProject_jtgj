@@ -156,7 +156,7 @@
 		}
 		
 		.companyProfile{
-			width: 30%;
+			width: 25%;
 			min-height: 150px;
 			border-radius:20px;
 			border: 2px solid #F1F3F5;
@@ -174,11 +174,44 @@
 		}
 		
 		.width45{
-			width: 45%;
+			width: 190px;
+			display: flex;
+			flex-direction: column;
+			margin-bottom: 10px;
 		}
 		
 		.marginL_L{
 			margin-left: 50px;
+		}
+		
+		.bigImgBox {
+			height: 400px;
+			width: 65%;
+			border-radius: 15px;
+			overflow: hidden;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			background-color: #e9ecef;
+		}
+		
+		.bigImg {
+			height: 400px;
+			width: auto;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.marR15{
+			margin-right: 15px;
+		}
+		
+		.marTop10{
+			margin-top: 10px;
 		}
 		
 	</style>
@@ -202,31 +235,33 @@
 	    	<div class="container">
 		        <!-- 대표이미지 -->
 		       
-                <div class="form-group highlight">
+                <div class="form-group highlight bigImgBox">
                     <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" alt="대표 이미지 미리보기" 
-                         class="thumbnail-preview" />
+                         class="thumbnail-preview bigImg" />
                 </div>
 		    </div>    
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
 		            <div class="row">
-		                <div class="dFjcE_E marB">
+		                <div class="dFjcE_E marB marTop10">
 		                    <div class="dFjcE_E companyProfile">
-							    <!-- 프로필 이미지 표시 -->
-							    <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
-							        <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
-							    </c:if>
-							    <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
-							        <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
-							             class="profileImg" alt="프로필 이미지">
-							    </c:if>
-							    <div class="dFDjcA">
+		                    	<div class="marR15 marTop10">
+								    <!-- 프로필 이미지 표시 -->
+								    <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
+								        <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
+								    </c:if>
+								    <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
+								        <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
+								             class="profileImg" alt="프로필 이미지">
+								    </c:if>
+		                    	</div>
+							    <div class="dFDjcA marR15">
 							        <!-- 기업명 -->
-							        <h4>기업명 :</h4>
-							        <h4>${companyBoard.userName}</h4> <!-- users 테이블에서 가져온 userName -->
+							        <h4>기업명 : ${companyBoard.userName}</h4>
+							        <!-- users 테이블에서 가져온 userName -->
 							        <!-- 기타 추가 정보 필요 시 아래에 추가 가능 -->
 							    </div>
-							    <div class="dFjcC">
+							    <div class="dFjcC marR15 marB20">
 							        <c:if test="${companyProject.cpBoardNo != null}">
 									    <button 
 									        type="button" 

@@ -23,10 +23,16 @@
 			justify-content: space-between;
 		}
 		
+		.profileImgBox{
+			height: 200px;
+			width: 200px;
+			border-radius: 100px;
+			overflow: hidden;
+		}
+		
 		.profileImg{
-			width: 120px;
-			height: 120px;
-			border-radius: 60px;
+			width: auto;
+			height: 225px;
 		}
 		
 		.marB{
@@ -153,7 +159,7 @@
 		}
 		
 		.companyProfile{
-			width: 30%;
+			width: 25%;
 			min-height: 150px;
 			border-radius:20px;
 			border: 2px solid #F1F3F5;
@@ -176,6 +182,68 @@
 		
 		.marginL_L{
 			margin-left: 50px;
+		}
+		
+		.marginL_L40{
+			margin-left: 40px;
+		}
+		
+		.marR15{
+			margin-right: 15px;
+		}
+		
+		.marR30{
+			margin-right: 30px;
+		}
+		
+		.marTop10{
+			margin-top: 10px;
+		}
+		
+		.imgboxD{
+			display: flex;
+			flex-direction: column;
+			
+		}
+		
+		.width65{
+			width: 65%; 
+		}
+		
+		.bigImgBox {
+			height: 400px;
+			width: 65%;
+			border-radius: 15px;
+			overflow: hidden;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			background-color: #e9ecef;
+		}
+		
+		.bigImg {
+			height: 400px;
+			width: auto;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.inputBoxHW{
+			height: 34px;
+		}
+		
+		input[type=text] {
+			height: 34px;
+			width: 190px;
+		}
+		
+		input[type=number] {
+			height: 34px;
+			width: 190px;
 		}
 		
 	</style>
@@ -201,14 +269,22 @@
 	    	
 	    	<div class="container">
 		        <!-- 이미지 업로드 -->
-		       <div class="form-group highlight">
-                    <label for="thumbnailFile">대표 이미지 업로드</label>
-                    <input type="file" name="thumbnailFile" id="thumbnailFile" 
-                           class="form-control-file" onchange="previewThumbnail(event)" />
-                </div>
-                <div class="form-group highlight">
-                    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" alt="대표 이미지 미리보기" class="thumbnail-preview" />
-                </div>
+		    	<div class="form-group highlight imgboxD">
+				    <label for="thumbnailFile">대표 이미지</label>
+				    <!-- 클릭 가능한 이미지 -->
+				    <div class="bigImgBox">
+					    <img id="thumbnailPreview" 
+					         src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" 
+					         alt="대표 이미지 미리보기" 
+					         class="thumbnail-preview" 
+					         style="width: auto; height: 400px; cursor: pointer;" 
+					         onclick="document.getElementById('thumbnailFile').click();" />
+					    <!-- 숨겨진 파일 입력 -->
+					    <input type="file" name="thumbnailFile" id="thumbnailFile" class="form-control-file" 
+					           style="display: none;" onchange="previewThumbnail(event)" />
+				    </div>
+				</div>
+
 		    </div>    
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
@@ -216,18 +292,19 @@
 		                <div class="dFjcE_E marB">
 		                    <div class="dFjcE_E companyProfile">
 		                        <!-- 프로필 이미지 표시 -->
-		                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
-									<img src="img/default_img.png" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
-								<c:if test="${sessionScope.login.userProfImg != 'N' }">
-									<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
-		                        <div class="dFDjcA">
-		                            <!-- 기업명 -->
-		                            <h4>기업명 : </h4>
-		                            <h4>${sessionScope.login.userName}</h4>
+		                        <div class="profileImgBox marR30 marTop10">
+			                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
+										<img src="img/default_img.png" class="profileImg marR30"  style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
+									<c:if test="${sessionScope.login.userProfImg != 'N' }">
+										<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg marR30" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
 		                        </div>
-			                    <div class="dFjcC">
+		                        <div class="dFDjcA marR15">
+		                            <!-- 기업명 -->
+		                            <h4>기업명 : ${sessionScope.login.userName}</h4>
+		                        </div>
+			                    <div class="dFjcC  marR15 marB20">
 			                        <button type="button" class="btn btn-success marR15">기업으로</button>
 			                        <button type="button" class="btn btn-primary">프로젝트 공유</button>
 			                    </div>
@@ -278,7 +355,7 @@
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
-		                    		<div class="marginL_L">
+		                    		<div class="marginL_L40">
 		                    			<div class="width45">
 		                    				<label for="ptLandArea">대지 면적</label>
 		                    				<div  class="dF">
