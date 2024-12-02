@@ -10,7 +10,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<title>저탄고집</title>
+<title>마이페이지</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
@@ -153,7 +153,7 @@
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
                   </c:if>
                   <c:if test="${sessionScope.login.userRank == 'M' || sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' }">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/promotion"> 홍보 </a>
+                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
                   </c:if>
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
                      <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
@@ -177,10 +177,28 @@
 									<div class="d-flex justify-content-center">
 										<div class="profile-div d-flex justify-content-center align-items-center">
 											<c:if test="${sessionScope.login.userProfImg == 'N' }">
-												<img src="img/default_img.png" class="profile-img">
+												<c:if test="${sessionScope.login.userAccount == 'P' }">
+													<a href="${pageContext.request.contextPath }/personalEditView">
+														<img src="img/default_img.png" class="profile-img">
+													</a>
+												</c:if>
+												<c:if test="${sessionScope.login.userAccount == 'C' }">
+													<a href="${pageContext.request.contextPath }/companyEditView">
+														<img src="img/default_img.png" class="profile-img">
+													</a>
+												</c:if>
 											</c:if>
 											<c:if test="${sessionScope.login.userProfImg != 'N' }">
-												<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img">
+												<c:if test="${sessionScope.login.userAccount == 'P' }">
+													<a href="${pageContext.request.contextPath }/personalEditView">
+														<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img">
+													</a>
+												</c:if>
+												<c:if test="${sessionScope.login.userAccount == 'C' }">
+													<a href="${pageContext.request.contextPath }/companyEditView">
+														<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img">
+													</a>
+												</c:if>
 											</c:if>
 										</div>
 										
