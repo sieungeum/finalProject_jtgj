@@ -71,8 +71,13 @@ public class AdminService {
 		return result;
 	}
 	
-	public int editMater(EstimateDTO mater) {
-		int result = dao.editMater(mater);
+//	public int editMater(EstimateDTO mater) {
+//		int result = dao.editMater(mater);
+//		return result;
+//	}
+	
+	public int editMater(EstimateDTO mater, String beforeCategory) {
+		int result = dao.editMater(mater, beforeCategory);
 		return result;
 	}
 	

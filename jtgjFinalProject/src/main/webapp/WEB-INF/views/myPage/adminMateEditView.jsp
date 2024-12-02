@@ -467,8 +467,9 @@
 					let materInfo = $("#materInfo").val();
 					let materClassify = $("#materClassify").val();
 					let materNo = $("#materNo").val();
-					
+
 					v_formData.append("materCategory", materCategory);
+					v_formData.append("beforeCategory", "${mater.materCategory}");
 					v_formData.append("materName", materName);
 					v_formData.append("materGasKg", materGasKg);
 					v_formData.append("materPrice", materPrice);

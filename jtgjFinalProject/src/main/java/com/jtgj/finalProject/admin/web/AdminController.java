@@ -90,7 +90,7 @@ public class AdminController {
 	@PostMapping("/editMater")
 	public String editMater(EstimateDTO mater) {
 		
-		adminService.editMater(mater);
+		// adminService.editMater(mater);
 		
 		return "redirect:/adminPage";
 	}
@@ -108,6 +108,7 @@ public class AdminController {
 	@PostMapping("/writeMater")
 	public ResponseEntity<Boolean> writeMaterTest(
 	@RequestParam("materCategory") String materCategory,
+	@RequestParam("beforeCategory") String beforeCategory,
     @RequestParam("materName") String materName,
     @RequestParam("materGasKg") double materGasKg,
     @RequestParam("materPrice") int materPrice,
@@ -146,10 +147,17 @@ public class AdminController {
         
         estimate.setMaterImg(profImgName);
 
+//        if(roleClassification.equals("edit")) {
+//    		estimate.setMaterNo(materNo);        	
+//        	System.out.println(estimate);
+//			adminService.editMater(estimate); 
+//        	
+//        	return new ResponseEntity<>(true, HttpStatus.OK);
+//        }
         if(roleClassification.equals("edit")) {
-    		estimate.setMaterNo(materNo);        	
+    		estimate.setMaterNo(materNo);
         	System.out.println(estimate);
-			adminService.editMater(estimate); 
+			adminService.editMater(estimate, beforeCategory); 
         	
         	return new ResponseEntity<>(true, HttpStatus.OK);
         }

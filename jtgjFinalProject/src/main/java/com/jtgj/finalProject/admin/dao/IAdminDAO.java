@@ -32,7 +32,8 @@ public interface IAdminDAO {
 	
 	List<EstimateDTO> all_mater();
 	EstimateDTO getMater(int materNo);
-	int editMater(EstimateDTO mater);
+	// int editMater(EstimateDTO mater);
+	int editMater(@Param("mater")EstimateDTO mater, @Param("beforeCategory")String beforeCategory);
 	int writeMater(EstimateDTO mater);
 	int getMaterNo();
 	
