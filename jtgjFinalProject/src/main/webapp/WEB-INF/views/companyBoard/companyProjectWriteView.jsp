@@ -23,10 +23,16 @@
 			justify-content: space-between;
 		}
 		
+		.profileImgBox{
+			height: 200px;
+			width: 200px;
+			border-radius: 100px;
+			overflow: hidden;
+		}
+		
 		.profileImg{
-			width: 120px;
-			height: 120px;
-			border-radius: 60px;
+			width: auto;
+			height: 225px;
 		}
 		
 		.marB{
@@ -153,7 +159,7 @@
 		}
 		
 		.companyProfile{
-			width: 30%;
+			width: 25%;
 			min-height: 150px;
 			border-radius:20px;
 			border: 2px solid #F1F3F5;
@@ -178,6 +184,54 @@
 			margin-left: 50px;
 		}
 		
+		.marR15{
+			margin-right: 15px;
+		}
+		
+		.marR30{
+			margin-right: 30px;
+		}
+		
+		.marTop10{
+			margin-top: 10px;
+		}
+		
+		.imgboxD{
+			display: flex;
+			flex-direction: column;
+			
+		}
+		
+		.width65{
+			width: 65%; 
+		}
+		
+		.bigImgBox {
+			height: 400px;
+			width: 65%;
+			border-radius: 15px;
+			overflow: hidden;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			background-color: #e9ecef;
+		}
+		
+		.bigImg {
+			height: 400px;
+			width: auto;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.height34{
+			height: 34px;
+		}
+		
 	</style>
 	
 </head>
@@ -196,17 +250,21 @@
 	
 	<section class="page-section" id="contact">
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectWriteDo" method="POST" enctype="multipart/form-data">
-	    	<div class="container">
+	    	<div class="container ">
 		        <!-- 이미지 업로드 -->
-		       <div class="form-group highlight">
-                    <label for="thumbnailFile">대표 이미지 업로드</label>
-                    <input type="file" name="thumbnailFile" id="thumbnailFile" 
-                           class="form-control-file" onchange="previewThumbnail(event)" />
-                </div>
-                <div class="form-group highlight">
-                    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/img/blog-header.jpg" alt="대표 이미지 미리보기" 
-                         class="thumbnail-preview" />
-                </div>
+		       <div class="form-group highlight imgboxD">
+				    <label for="thumbnailFile">대표 이미지</label>
+				    <!-- 클릭 가능한 이미지 -->
+				    <div class="bigImgBox">
+					    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/img/blog-header.jpg" alt="대표 이미지 미리보기" 
+					         class="thumbnail-preview" style=" width: auto; height: 400px; cursor: pointer;" 
+					         onclick="document.getElementById('thumbnailFile').click();" />
+					    <!-- 숨겨진 파일 입력 -->
+					    <input type="file" name="thumbnailFile" id="thumbnailFile" class="form-control-file" 
+					           style="display: none;" onchange="previewThumbnail(event)" />
+				    </div>
+				</div>
+
 		    </div>    
 			<div class="container margin-top">
 			    <div class="single-blog-wrapper">
@@ -214,20 +272,21 @@
 		                <div class="dFjcE_E marB">
 		                    <div class="dFjcE_E companyProfile">
 		                        <!-- 프로필 이미지 표시 -->
-		                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
-									<img src="img/default_img.png" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
-								<c:if test="${sessionScope.login.userProfImg != 'N' }">
-									<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profile-img" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-								</c:if>
-		                        <div class="dFDjcA">
-		                            <!-- 기업명 -->
-		                            <h4>기업명 : </h4>
-		                            <h4>${sessionScope.login.userName}</h4>
+		                        <div class="profileImgBox marR30 marTop10">
+			                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
+										<img src="img/default_img.png" class="profileImg marR30" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
+									<c:if test="${sessionScope.login.userProfImg != 'N' }">
+										<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg marR30" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+									</c:if>
 		                        </div>
-			                    <div class="dFjcC">
-			                        <button type="button" class="btn btn-success marR15">기업으로</button>
-			                        <button type="button" class="btn btn-primary">프로젝트 공유</button>
+		                        <div class="dFDjcA marR15">
+		                            <!-- 기업명 -->
+		                            <h4>기업명 : ${sessionScope.login.userName}</h4>
+		                        </div>
+			                    <div class="dFjcC marR15 marB20">
+			                        <button type="button" class="btn btn-primary marR15">기업으로</button>
+			                        <button type="button" class="btn btn btn-warning">프로젝트 공유</button>
 			                    </div>
 		                    </div>
 		                </div>
@@ -260,7 +319,7 @@
 		                    		<div class="marginL_L">
 		                    			<div class="width45">
 		                    				<label for="ptDesign">설계 기간</label>
-		                    				<input type="text" id="ptDesign" name="ptDesign" class="form-control" placeholder="설계 기간을 입력하세요">
+		                    				<input type="text" id="ptDesign" name="ptDesign" class="form-control height34"  placeholder="설계 기간을 입력하세요">
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptConstruction">시공 기간</label>
@@ -280,7 +339,7 @@
 		                    			<div class="width45">
 		                    				<label for="ptLandArea">대지 면적</label>
 		                    				<div  class="dF">
-	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="form-control" step="0.01" placeholder="대지 면적을 입력하세요">
+	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="form-control height34" step="0.01" placeholder="대지 면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
@@ -294,7 +353,7 @@
 		                    			<div class="width45">
 		                    				<label for="ptTotalFloorArea">연면적</label>
 		                    				<div class="dF">
-	                    						<input type="number" id="ptTotalFloorArea" name="ptTotalFloorArea" class="form-control" step="0.01" placeholder="연면적을 입력하세요">
+	                    						<input type="text" id="ptTotalFloorArea" name="ptTotalFloorArea" class="form-control" step="0.01" placeholder="연면적을 입력하세요">
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
@@ -312,8 +371,8 @@
 		                </div>
 		            </div>
 			        
-			        <div class="dFjcE">
-				        <button class="btn btn-success" type="submit">프로젝트 등록</button>
+			        <div class="dFjcE width65">
+				        <button class="btn btn-success " type="submit">프로젝트 등록</button>
 			        </div>
 			        
 			    </div>
