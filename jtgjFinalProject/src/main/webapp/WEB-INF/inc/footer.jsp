@@ -8,9 +8,9 @@
 			<div class="col-md-2 col-sm-4 col-xs-12">
 				<div class="footer-inner">
 					<div class="footer-content">
-						<h4>O.A.K THEME</h4>
+						<h4>미래융합교육원</h4>
 						<address>
-							City 35 AM <br>Street 1395 p.n <br>your Country
+							대전광역시 서구<br>둔산동 1221번지
 						</address>
 					</div>
 				</div>
@@ -21,8 +21,8 @@
 					<div class="footer-content">
 						<h4>CONTACT INFO</h4>
 						<p>
-							T:003 124 115 <br> E:info@mail.com <br>
-							W:www.website.com
+							T: 010-4929-1779<br>E: jjjkuul@naver.com<br>
+							W: www.naver.com
 						</p>
 					</div>
 				</div>
@@ -31,16 +31,7 @@
 			<div class="col-md-4 col-sm-4 col-xs-12">
 				<div class="footer-inner">
 					<div class="footer-content">
-						<ul class="social-media">
-							<li><a href="#"><i class="iconmoon-facebook"></i></a></li>
-							<li><a href="#"><i class="iconmoon-twitter"></i></a></li>
-							<li><a href="#"><i class="iconmoon-flickr2"></i></a></li>
-							<li><a href="#"><i class="iconmoon-dribbble3"></i></a></li>
-							<li><a href="#"><i class="iconmoon-pinterest"></i></a></li>
-							<li><a href="#"><i class="iconmoon-linkedin2"></i></a></li>
-						</ul>
-						<span class="copyright-mark">&copy; 2015 OAK, ALL RIGHTS
-							RESERVED</span>
+						<span class="copyright-mark">&copy; 2024 PROJECT JTGJ</span>
 					</div>
 				</div>
 			</div>

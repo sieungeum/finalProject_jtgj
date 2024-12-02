@@ -439,6 +439,7 @@
 				v_formData.append("materClassify", v_materClassify.value);
 				v_formData.append("materNo", 0);
 				v_formData.append("roleClassification", "plus");
+				v_formData.append("beforeCategory", "N");
 				
 				console.log(selectedFile);
 				

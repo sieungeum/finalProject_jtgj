@@ -106,7 +106,7 @@
 	    AND ROWNUM = 1
 	</select>
 
-	<update id="editMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
+<!-- 	<update id="editMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">
 		UPDATE
 			building_materials
 		SET
@@ -120,6 +120,23 @@
 			, mater_classify = #{materClassify}
 		WHERE 1=1
 			AND mater_no = #{materNo}
+	</update> -->
+
+	<update id="editMater" parameterType="map">
+		UPDATE
+			building_materials
+		SET
+			  mater_name = #{mater.materName}
+			, mater_category = #{mater.materCategory}
+			, mater_gas_kg = #{mater.materGasKg}
+			, mater_img = #{mater.materImg}
+			, mater_price = #{mater.materPrice}
+			, mater_durability = #{mater.materDurability}
+			, mater_info = #{mater.materInfo}
+			, mater_classify = #{mater.materClassify}
+		WHERE 1=1
+			AND mater_name = #{mater.materName}
+			AND mater_category = #{beforeCategory}
 	</update>
 
 	<insert id="writeMater" parameterType="com.jtgj.finalProject.estimate.dto.EstimateDTO">

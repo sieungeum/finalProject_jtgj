@@ -80,6 +80,11 @@ public class FaqService {
 		List<NoticeDTO> result = dao.getNoticeList();
 		return result;
 	}
+
+	public List<NoticeDTO> getAllNoticeList(){
+		List<NoticeDTO> result = dao.getAllNoticeList();
+		return result;
+	}
 	
 	public int writeNotice(NoticeDTO notice) {
 		int result = dao.writeNotice(notice);
