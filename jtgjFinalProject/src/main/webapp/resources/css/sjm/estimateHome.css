@@ -413,17 +413,21 @@ div{
 /* 계산 중 스피너 */
 /* 계산 중 스피너 */
 .modal-box__spinner{
-    
     /* 기본적으로 숨김 */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     height: 100vh;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
-    background-color: #f4f4f9;
-    position: relative;
+    /* background-color: #f4f4f9; */
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
 }
 
 /* 스피너 래퍼 */
@@ -434,13 +438,7 @@ div{
     
     /* 기본적으로 숨김 */
     visibility: hidden;
-    
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     text-align: center;
-    z-index: 1000;
 }
 
 /* 스피너 */
@@ -642,7 +640,6 @@ div{
 	transform: translate(-50%, -50%);
 	
 	width: 320px;
-	height: 20%;
 	
 	background-color: #fff;
 	
@@ -654,12 +651,29 @@ div{
 .title-modal__flex-down{
 	display: flex;
 	flex-direction: column;
+	
+	width: 100%;
+}
+
+.title-modal__input-down{
+	width: 80%;
+	
+	margin: 8px 0px 0px 15px;
+}
+
+
+#downTitleInput {
+	height: 35px;
 }
 
 .title-modal__btn-down{
 	display: flex;
 	justify-content: end;
 	
+	margin: 10px 10px 8px 0px;
+}
+#downModalSave{
+	margin-right: 8px;
 }
 
 

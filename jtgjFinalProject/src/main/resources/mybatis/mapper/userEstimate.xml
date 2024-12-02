@@ -28,7 +28,8 @@
 			mater_classify,
 			kg_per_pyeong,
 			esti_date,
-			esti_title
+			esti_title,
+			esti_pyeong
 		) VALUES (
 			#{userId},
 			#{estiNo},
@@ -43,7 +44,8 @@
 			#{materClassify},
 			#{kgPerPyeong},
 			SYSDATE,
-			#{estiTitle}
+			#{estiTitle},
+			#{estiPyeong}
 		)
 	</insert>
 	
@@ -63,7 +65,8 @@
 			mater_classify,
 			kg_per_pyeong,
 			esti_date,
-			esti_title
+			esti_title,
+			esti_pyeong
 		FROM user_estimate
 		WHERE 1=1
 			AND user_id = #{userId}

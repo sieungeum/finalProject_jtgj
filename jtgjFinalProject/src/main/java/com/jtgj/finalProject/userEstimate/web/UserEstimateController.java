@@ -44,17 +44,13 @@ public class UserEstimateController {
 	// 유저 견적 마이페이지에 보이게 하는거 test, 이식 끝나면 지우기
 	@ResponseBody
 	@PostMapping("/userEstimate")
-	public List<UserEstimateDTO> userEstimate() {
+	public List<UserEstimateDTO> userEstimate(HttpSession session) {
 		System.out.println(" - userEstimate - ");
-
-		/*
-		 * UserDTO user = (UserDTO) session.getAttribute("login"); String userId =
-		 * user.getUserId();
-		 * 
-		 * System.out.println(userId);
-		 */
-
-		String userId = "gd";
+		
+		UserDTO user = (UserDTO) session.getAttribute("login"); 
+		String userId = user.getUserId();
+		
+		System.out.println(userId);
 
 		List<UserEstimateDTO> userEstimate = userEstimateService.getUserEstimate(userId);
 
@@ -66,17 +62,13 @@ public class UserEstimateController {
 	// 유저 견적 마이페이지에서 삭제 시키기 test, 이식 끝나면 지우기
 	@ResponseBody
 	@PostMapping("/estimateDelete")
-	public List<UserEstimateDTO> estimateDelete(String deleteNo) {
+	public List<UserEstimateDTO> estimateDelete(String deleteNo, HttpSession session) {
 		System.out.println(" - estimateDelete - ");
-
-		/*
-		 * UserDTO user = (UserDTO) session.getAttribute("login"); String userId =
-		 * user.getUserId();
-		 * 
-		 * System.out.println(userId);
-		 */
-
-		String userId = "gd";
+		
+		UserDTO user = (UserDTO) session.getAttribute("login");
+		String userId = user.getUserId();
+		
+		System.out.println(userId);
 		
 		// 선택 견적 삭제
 		System.out.println(deleteNo);
@@ -103,7 +95,7 @@ public class UserEstimateController {
 
 	@ResponseBody
 	@PostMapping("/saveMaterials")
-	public String saveMaterials(String basicMater, String subMatInfo, String estiTitle, String userId) {
+	public String saveMaterials(String basicMater, String subMatInfo, String estiTitle, String userId, String estiPyeong) {
 		System.out.println(" - saveMaterials - ");
 
 		// 테스트 시 사용 (실전에서 주석처리)
@@ -134,6 +126,7 @@ public class UserEstimateController {
 		System.out.println(subMatInfo);
 		System.out.println(estiTitle);
 		System.out.println(userId);
+		System.out.println(estiPyeong);
 
 		// Jackson : JSON 객체 사용 시 필요한 라이브러리
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -190,6 +183,7 @@ public class UserEstimateController {
 			userEsti.setMaterClassify(mater.getMaterClassify());
 			userEsti.setKgPerPyeong(Integer.parseInt(materDict.get("materKg")));
 			userEsti.setEstiTitle(estiTitle);
+			userEsti.setEstiPyeong(Integer.parseInt(estiPyeong));
 
 			userEstimateService.setUserEstimate(userEsti);
 		}
@@ -222,6 +216,7 @@ public class UserEstimateController {
 			userEsti.setMaterClassify(mater.getMaterClassify());
 			userEsti.setKgPerPyeong(Integer.parseInt(materDict.get("materKg")));
 			userEsti.setEstiTitle(estiTitle);
+			userEsti.setEstiPyeong(Integer.parseInt(estiPyeong));
 
 			userEstimateService.setUserEstimate(userEsti);
 		}
@@ -233,7 +228,7 @@ public class UserEstimateController {
 	
 	@ResponseBody
 	@PostMapping("/download/excel")
-	public ResponseEntity<byte[]> downloadExcel(String basicMater, String subMatInfo, String estiTitle) {
+	public ResponseEntity<byte[]> downloadExcel(String basicMater, String subMatInfo, String estiTitle, String estiPyeong) {
 
 		System.out.println(" - saveMaterials - ");
 
@@ -244,6 +239,7 @@ public class UserEstimateController {
 		System.out.println(basicMater);
 		System.out.println(subMatInfo);
 		System.out.println(estiTitle);
+		System.out.println(estiPyeong);
 
 		// Jackson : JSON 객체 사용 시 필요한 라이브러리
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -273,7 +269,7 @@ public class UserEstimateController {
 			// 데이터 생성
 			List<List<String>> sheet1Data = new ArrayList<>();
 			sheet1Data.add(new ArrayList<>(Arrays.asList("mater_category", "mater_name", "mater_gas_kg"
-					, "mater_img", "mater_price", "mater_durability", "mater_info", "kg_per_pyeong")));
+					, "mater_img", "mater_price", "mater_durability", "mater_info", "kg_per_pyeong", "esti_pyeong")));
 			
 			for (Map.Entry<String, Object> entry : jsonMap.entrySet()) {
 				Map<String, String> materDict = (Map<String, String>) entry.getValue();
@@ -289,7 +285,8 @@ public class UserEstimateController {
 				System.out.println(mater);
 				
 				sheet1Data.add(new ArrayList<>(Arrays.asList(materDict.get("materCategory"), mater.getMaterName(), mater.getMaterGasKg() + ""
-						, mater.getMaterImg(), mater.getMaterPrice() + "", mater.getMaterDurability(), mater.getMaterInfo(), Integer.parseInt(materDict.get("materKg")) + "")));
+						, mater.getMaterImg(), mater.getMaterPrice() + "", mater.getMaterDurability(), mater.getMaterInfo(), Integer.parseInt(materDict.get("materKg")) + ""
+						, estiPyeong)));
 			}
 			
 			// 첫 번째 시트 생성 및 데이터 추가
@@ -299,7 +296,7 @@ public class UserEstimateController {
 
 			List<List<String>> sheet2Data = new ArrayList<>();
 			sheet2Data.add(new ArrayList<>(Arrays.asList("mater_category", "mater_name", "mater_gas_kg"
-					, "mater_img", "mater_price", "mater_durability", "mater_info", "kg_per_pyeong")));
+					, "mater_img", "mater_price", "mater_durability", "mater_info", "kg_per_pyeong", "esti_pyeong")));
 			
 			for (Map.Entry<String, Object> entry : jsonMapSub.entrySet()) {
 				Map<String, String> materDict = (Map<String, String>) entry.getValue();
@@ -315,7 +312,8 @@ public class UserEstimateController {
 				System.out.println(mater);
 				
 				sheet2Data.add(new ArrayList<>(Arrays.asList(materDict.get("materCategory"), mater.getMaterName(), mater.getMaterGasKg() + ""
-						, mater.getMaterImg(), mater.getMaterPrice() + "", mater.getMaterDurability(), mater.getMaterInfo(), Integer.parseInt(materDict.get("materKg")) + "")));
+						, mater.getMaterImg(), mater.getMaterPrice() + "", mater.getMaterDurability(), mater.getMaterInfo(), Integer.parseInt(materDict.get("materKg")) + ""
+						, estiPyeong)));
 			}
 			
 			// 두 번째 시트 생성 및 데이터 추가
