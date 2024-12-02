@@ -232,7 +232,14 @@ public class AdminController {
 		
 	}
 	
-
+	@PostMapping("/companyBoardWriteView")
+	public String companyBoardWriteView() {
+		System.out.println();
+		
+		
+		return "companyBoard/companyBoardWriteView";
+		
+	}
 	
 	
 	@RequestMapping("/myPage")
