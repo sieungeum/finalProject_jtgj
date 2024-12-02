@@ -362,8 +362,11 @@
 			        </div>
 			        
 			        <div class="youtubeRink">
-			        	<label> 유튜브 </label>
-			        </div>
+			        	<label for="cpBoardYoutubeLink">YouTube 링크</label>
+					    <input type="text" class="form-control" id="cpBoardYoutubeLink" name="cpBoardYoutubeLink" 
+					           value="${companyBoard.cpBoardYoutubeLink == null ? '' : ''}" />
+					    <small class="form-text text-muted">YouTube 링크를 입력하거나 비워두면 기존 링크를 유지합니다.</small>
+					</div>
 			        
 			        <div class="dFjcE">
 				        <button class="btn btn-success" type="submit">수정 완료</button>

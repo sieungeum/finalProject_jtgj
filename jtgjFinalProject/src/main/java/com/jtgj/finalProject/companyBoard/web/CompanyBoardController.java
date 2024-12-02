@@ -159,7 +159,8 @@ public class CompanyBoardController {
     public String companyBoardEditDo(
             CompanyBoardDTO companyBoard,
             HttpSession session,
-            @RequestParam(value = "cpBoardReperImgFile", required = false) MultipartFile cpBoardReperImgFile) {
+            @RequestParam(value = "cpBoardReperImgFile", required = false) MultipartFile cpBoardReperImgFile,
+            @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink) {
 
         UserDTO login = (UserDTO) session.getAttribute("login");
         if (login == null) {
@@ -171,6 +172,22 @@ public class CompanyBoardController {
         companyBoard.setUserName(login.getUserName());
 
         try {
+        	
+        	// 유튜브 링크 처리
+            if (youtubeLink != null && !youtubeLink.isEmpty()) {
+                String videoId = extractYoutubeVideoId(youtubeLink);
+                if (videoId != null) {
+                    String iframeCode = String.format(
+                        "<iframe width=\"750\" height=\"420\" src=\"https://www.youtube.com/embed/%s\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+                        videoId
+                    );
+                    companyBoard.setCpBoardYoutubeLink(iframeCode);
+                } else {
+                	 CompanyBoardDTO existingBoard = companyBoardService.getCompanyBoardDetail(companyBoard.getCpBoardNo());
+                	 companyBoard.setCpBoardYoutubeLink(existingBoard.getCpBoardYoutubeLink());
+                }
+            }
+        	
             // 서비스 호출을 통해 게시글 및 이미지 수정 처리
             companyBoardService.updateCompanyBoard(companyBoard, cpBoardReperImgFile);
         } catch (IOException e) {

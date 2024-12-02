@@ -95,7 +95,8 @@
             cp_board_intro = #{cpBoardIntro},
             cp_board_content = #{cpBoardContent},
             cp_board_area = #{cpBoardArea},
-            cp_board_reper_img = #{cpBoardReperImg}
+            cp_board_reper_img = #{cpBoardReperImg},
+            cp_board_youtube_link = #{cpBoardYoutubeLink} <!-- YouTube 링크 업데이트 추가 -->
         WHERE cp_board_no = #{cpBoardNo}
     </update>
     

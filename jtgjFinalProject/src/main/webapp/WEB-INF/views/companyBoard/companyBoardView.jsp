@@ -46,7 +46,7 @@
 		                    <div class="header-content">
 		                        <h1> 기업 홍보 게시판 </h1>
 		                        <hr>
-		                        <p>이곳은 건축 관련 기업들을 살펴보는 곳입니다.</p>
+		                        <p>마음에 드는 기업을 찾아보세요.</p>
 		                    </div>
 		                </div>
 		            </div>
@@ -81,7 +81,7 @@
 				                            <!-- 업무 영역 -->
 				                            <p>${companyBoard.cpBoardArea}</p>
 				                            <!-- 게시글 상세보기 링크 (추후 수정 가능) -->
-				                            <a href="single-blog.html"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
+				                            <a href="${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyBoard.cpBoardNo}"><i class="read-more-blog-icon pe-7s-angle-right-circle"></i></a>
 				                        </div>
 		                            </div>
 		                        </div>
