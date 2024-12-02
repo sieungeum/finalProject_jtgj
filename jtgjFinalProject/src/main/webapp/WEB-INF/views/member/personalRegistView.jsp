@@ -23,6 +23,10 @@
             -ms-user-select:none;
             user-select:none
         }
+        
+        .custom-container input{
+        	height:50px;
+        }
 
         .custom-container{
             width: 100%;
@@ -30,8 +34,8 @@
             border-radius: 10px;
             display: flex;
             flex-direction: column;
-            padding-left: 40%;
-            padding-right: 40%;
+            padding-left: 35%;
+            padding-right: 35%;
         }
         
         .profile-box{
@@ -44,6 +48,12 @@
         	width: 100%;
         	height: 300px;
         	cursor: pointer;
+        }
+        
+        #emailSpinner{
+        	position:absolute;
+        	top:50%;
+        	right:-5%;
         }
     </style>
 </head>
@@ -62,7 +72,7 @@
 	</div>
     
     <div class="custom-container">
-        <div class="mb-4" style="text-align:center;"><h4 style="display:inline;">저탄고집 개인회원 가입</h4></div>
+        <div class="mb-5 mt-2" style="text-align:center;"><h4 style="display:inline;font-size:25px;">저탄고집 개인회원 가입</h4></div>
 
 		<form action="${pageContext.request.contextPath }/personalRegistDo" method="POST">
 	       
@@ -103,13 +113,13 @@
 	            </div>  
 	        </div>
 	
-	        <div class="mb-3">
+	        <div class="mb-3" style="position:relative;">
 	            <label for="inputEmail" class="form-label" style="font-weight:bolder;">이메일</label>
 	            <div class="input-group mb-2">
 	                <input type="email" class="form-control me-2" id="inputEmail" placeholder="이메일을 입력하세요" name="userEmail">
 	                <button class="btn btn-warning" type="button" id="emailAuthBtn">인증하기</button>
 	            </div>
-    	        <div class="spinner-border text-primary" role="status" id="emailSpinner" style="display:none;">
+    	        <div class="spinner-border text-primary" role="status" id="emailSpinner" style="display:none">
 					<span class="visually-hidden">Loading...</span>
 				</div>
 	            <div class="input-group" style="display:none;" id="auth-box">
@@ -126,9 +136,9 @@
 	            </div>
 	        </div>
 	
-	        <div class="mt-5">
+	        <div class="mt-5" style="text-align:center;">
 	            <button class="btn btn-primary btn-lg w-100" id="signUpBtn" type="submit" disabled>가입하기</button>
-	            <p id="signUpWarning" style="font-size:13px;color:red;font-weight:bolder;">아이디, 비밀번호, 이름의 중복여부를 확인해주시고 이메일을 인증해주세요!</p>
+	            <p id="signUpWarning" class="mt-2" style="font-size:18px;color:red;font-weight:bolder;">아이디, 비밀번호, 이름의 중복여부를 확인해주시고 이메일을 인증해주세요!</p>
 	        </div>		
 		</form>
 
@@ -236,10 +246,10 @@
 						
 						if(result.success){
 							pwValOn = true;
-							$("#label2").css("color", "green").css("font-size", "13px").text(result.msg);
+							$("#label2").css("color", "green").css("font-size", "12px").text(result.msg);
 						} else{
 							pwValOn = false;
-							$("#label2").css("color", "red").css("font-size", "13px").text(result.msg);
+							$("#label2").css("color", "red").css("font-size", "12px").text(result.msg);
 						}
 					},
 					error:function(xhr){
@@ -345,7 +355,7 @@
 			// 재인증 함수
 			function reSendEmailAuth() {
 				if(confirm('다시 인증번호를 보내시겠습니까?')){
-					$('#emailSpinner').css('display', 'block');
+					$('#emailSpinner').css('display', 'block').css("top", "27%");
 					let email = document.getElementById('inputEmail').value;
 					
 					$.ajax({

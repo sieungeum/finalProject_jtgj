@@ -392,10 +392,10 @@
 					
 					if(result.success){
 						pwValOn = true;
-						$("#label2").css("color", "green").css("font-size", "13px").text(result.msg);
+						$("#label2").css("color", "green").css("font-size", "12px").text(result.msg);
 					} else{
 						pwValOn = false;
-						$("#label2").css("color", "red").css("font-size", "13px").text(result.msg);
+						$("#label2").css("color", "red").css("font-size", "12px").text(result.msg);
 					}
 				},
 				error:function(xhr){

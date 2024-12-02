@@ -257,6 +257,7 @@ public class UserController {
 		user.setUserPw((String) requestData.get("userPw"));
 		user.setUserPhone((String) requestData.get("userPhone"));
 		user.setUserEmail((String) requestData.get("userEmail"));
+		System.out.println(user);
 
 		// CompanyDTO 매핑
 		CompanyDTO company = new CompanyDTO();
@@ -266,6 +267,7 @@ public class UserController {
 		company.setCpAddress((String) requestData.get("cpAddress"));
 		company.setCpCeoName((String) requestData.get("cpCeoName"));
 		company.setCpCarbonEmissions(cpCarbonEmissions);
+		System.out.println(company);
 		
 		// 데이터 베이스에 insert
 		if(user != null && company != null) {
@@ -389,7 +391,7 @@ public class UserController {
 		} 
 		
 		result = true;
-		msg = "사용가능한 비밀번호 입니다!";
+		msg = "사용가능한 비밀번호 입니다! 비밀번호 중복체크를 진행해주세요!";
 		responseMap.put("success", result);
         responseMap.put("msg", msg);
         
