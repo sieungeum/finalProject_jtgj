@@ -288,13 +288,15 @@ public class AdminController {
 		
 	}
 	
-	@PostMapping("/companyBoardDetailView")
-	public String companyBoardDetailView() {
-		System.out.println();
+	@RequestMapping("/companyBoardDetailViewA")
+	public String companyBoardDetailViewA(int cpBoardNo, Model model) {
 		
 		
-		return "companyBoard/companyBoardDetailView";
-		
+	    CompanyBoardDTO companyBoard = adminService.getCompanyBoardDetail(cpBoardNo);
+	    model.addAttribute("companyBoard", companyBoard);
+	    System.out.println(companyBoard);
+	    
+	    return "companyBoard/companyBoardDetailView";
 	}
 	
 	@GetMapping("/noinjungCompany")
