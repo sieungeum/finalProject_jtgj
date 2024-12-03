@@ -141,8 +141,8 @@ public class CompanyBoardService {
     }
     
     // 회사 디테일 번호만 가져오기
-    public int getNumComBoard(String userId) {
-    	int result = dao.getNumComBoard(userId);
+    public List<CompanyBoardDTO> getNumComBoard(String userId) {
+    	List<CompanyBoardDTO> result = dao.getNumComBoard(userId);
     	
     	return result;
     }

@@ -231,10 +231,20 @@
 	    WHERE pt_no = #{ptNo}
 	</update>
 	
-	<!-- 회사 디테일 번호만 가져오기 -->
+<!-- 	회사 디테일 번호만 가져오기
 	<select id="getNumComBoard" parameterType="String" resultType="int">
 		SELECT
 			cp_board_no
+		FROM company_board
+		WHERE 1=1
+			AND user_id = #{userId}
+	</select> -->
+	
+	<!-- 회사 디테일 번호만 가져오기 -->
+	<select id="getNumComBoard" parameterType="String" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">
+		SELECT
+			cp_board_no,
+			cp_board_del_yn
 		FROM company_board
 		WHERE 1=1
 			AND user_id = #{userId}
