@@ -89,7 +89,7 @@
 	
 	<section class="page-section" >
 		<div class="container" style="margin-top: 100px;">
-			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">건의사항</h2>
+			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">공지사항</h2>
 			<table class=" table table-hover">
 				<thead>
 					<tr>
