@@ -92,7 +92,7 @@ public class CompanyBoardController {
 	        @RequestParam("cpBoardReperImgFile") MultipartFile cpBoardReperImgFile,
 	        @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink,
 	        RedirectAttributes redirectAttributes) {
-	    
+
 	    UserDTO login = (UserDTO) session.getAttribute("login");
 	    if (login == null) {
 	        return "redirect:/loginView"; // 로그인 세션 체크
@@ -101,7 +101,7 @@ public class CompanyBoardController {
 	    // 로그인 사용자 정보 설정
 	    companyBoard.setUserId(login.getUserId());
 	    companyBoard.setUserName(login.getUserName());
-	    
+
 	    // **대표 이미지 검증**
 	    if (cpBoardReperImgFile == null || cpBoardReperImgFile.isEmpty()) {
 	        redirectAttributes.addFlashAttribute("errorMessage", "대표 이미지를 첨부 해주십시오.");
@@ -109,8 +109,7 @@ public class CompanyBoardController {
 	    }
 
 	    try {
-	    	
-	    	if (youtubeLink != null && !youtubeLink.isEmpty()) {
+	        if (youtubeLink != null && !youtubeLink.isEmpty()) {
 	            String videoId = extractYoutubeVideoId(youtubeLink);
 	            if (videoId != null) {
 	                String iframeCode = String.format(
@@ -118,12 +117,15 @@ public class CompanyBoardController {
 	                        videoId
 	                );
 	                companyBoard.setCpBoardYoutubeLink(iframeCode);
+	            } else {
+	                redirectAttributes.addFlashAttribute("errorMessage", "올바른 유튜브 링크를 입력해주세요.");
+	                return "redirect:/companyBoardWriteView";
 	            }
-	        }else {
-                redirectAttributes.addFlashAttribute("errorMessage", "올바른 유튜브 링크를 입력해주세요.");
-                return "redirect:/companyBoardWriteView";
-            }
-	    	
+	        } else {
+	            // 유튜브 링크가 비어 있을 경우 'N'으로 설정
+	            companyBoard.setCpBoardYoutubeLink("N");
+	        }
+
 	        // 서비스 호출을 통해 파일 업로드 및 게시글 저장 처리
 	        companyBoardService.writeCompanyBoard(companyBoard, cpBoardReperImgFile);
 	    } catch (IOException e) {
@@ -165,13 +167,14 @@ public class CompanyBoardController {
         return "companyBoard/companyBoardEditView"; // 수정 페이지 JSP
     }
     
- // 수정 요청 처리
+    // 수정 요청 처리
     @PostMapping("/companyBoardEditDo")
     public String companyBoardEditDo(
             CompanyBoardDTO companyBoard,
             HttpSession session,
             @RequestParam(value = "cpBoardReperImgFile", required = false) MultipartFile cpBoardReperImgFile,
-            @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink) {
+            @RequestParam(value = "cpBoardYoutubeLink", required = false) String youtubeLink,
+            RedirectAttributes redirectAttributes) {
 
         UserDTO login = (UserDTO) session.getAttribute("login");
         if (login == null) {
@@ -217,10 +220,13 @@ public class CompanyBoardController {
             companyBoardService.updateCompanyBoard(companyBoard, cpBoardReperImgFile);
         } catch (IOException e) {
             e.printStackTrace();
-            return "error"; // 예외 발생 시 에러 페이지 이동
+            redirectAttributes.addFlashAttribute("errorMessage", "게시글 수정 중 오류가 발생했습니다.");
+            return "redirect:/companyBoardEditView?cpBoardNo=" + companyBoard.getCpBoardNo();
         }
 
-        return "redirect:/companyBoardDetailView?cpBoardNo=" + companyBoard.getCpBoardNo(); // 수정 완료 후 상세 보기로 이동
+     // 수정 완료 후 상세 보기로 이동
+        redirectAttributes.addAttribute("cpBoardNo", companyBoard.getCpBoardNo());
+        return "redirect:/companyBoardDetailView";
     }
     
     // 프로젝트 등록 페이지
@@ -254,7 +260,7 @@ public class CompanyBoardController {
             redirectAttributes.addFlashAttribute("error", "프로젝트 등록 중 오류가 발생했습니다: " + e.getMessage());
         }
 
-        return "redirect:/companyBoardView";
+        return "redirect:/companyBoardDetailView?cpBoardNo=" + cpBoardNo;
     }
     
     @RequestMapping("/companyProjectDetailView")
