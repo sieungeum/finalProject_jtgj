@@ -254,7 +254,7 @@ public class CompanyBoardController {
             redirectAttributes.addFlashAttribute("error", "프로젝트 등록 중 오류가 발생했습니다: " + e.getMessage());
         }
 
-        return "redirect:/companyBoardView";
+        return "redirect:/companyBoardDetailView?cpBoardNo=" + cpBoardNo;
     }
     
     @RequestMapping("/companyProjectDetailView")

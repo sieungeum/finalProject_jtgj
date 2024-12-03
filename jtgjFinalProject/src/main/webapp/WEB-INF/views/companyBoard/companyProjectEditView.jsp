@@ -265,7 +265,7 @@
 	
 	<section class="page-section" id="contact">
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectEditDo" method="POST" enctype="multipart/form-data">
-	    	<input type="hidden" name="cpBoardNo" value="${param.cpBoardNo}"> <!-- cpBoardNo 추가 -->
+	    	<input type="hidden" name="cpBoardNo" value="${companyProject.cpBoardNo}"> <!-- cpBoardNo 추가 -->
 	    	<input type="hidden" name="ptNo" value="${companyProject.ptNo}">
 	    	
 	    	<div class="container">

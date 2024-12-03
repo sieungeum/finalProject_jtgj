@@ -299,12 +299,14 @@
 	</script>
 	
 	<script>
+		// 유튜브 링크 검증 함수
 	    function validateYouTubeLink(link) {
 	        const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)|(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/;
 	        const match = link.match(regex);
 	        return match ? match[1] || match[2] : null; // 동영상 ID 반환
 	    }
 	
+	    // 폼 제출 이벤트 핸들러
 	    document.getElementById('companyBoardWriteForm').addEventListener('submit', function(event) {
 	        // 이미지 필드 검증
 	        const imageField = document.getElementById('cpBoardReperImgFile');
@@ -316,12 +318,13 @@
 	
 	        // 유튜브 링크 검증
 	        const inputField = document.getElementById('youtubeLinkInput');
-	        const youtubeLink = inputField.value;
+	        const youtubeLink = inputField.value.trim(); // 유튜브 링크 입력값 가져오기
+	
 	        if (youtubeLink) {
-	            const videoId = validateYouTubeLink(youtubeLink);
+	            const videoId = validateYouTubeLink(youtubeLink); // 유튜브 링크 유효성 검사
 	            if (!videoId) {
-	                alert('올바른 유튜브 링크를 입력해주세요.');
-	                event.preventDefault();
+	                alert('알맞지 않은 유튜브 링크입니다.');
+	                event.preventDefault(); // 폼 제출 중단
 	                return;
 	            }
 	
