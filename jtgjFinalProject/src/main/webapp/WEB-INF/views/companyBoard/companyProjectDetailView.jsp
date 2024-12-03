@@ -151,7 +151,6 @@
 			border-radius:20px;
 			background-color: #F1F3F5; 
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
 		}
 		
@@ -164,6 +163,7 @@
 			justify-content: space-between;
 			position: fixed;
 			top: 100px;
+			background-color: #F1F3F5;
 			
 		}
 		
@@ -171,6 +171,7 @@
 			width:0%;
 			height: 270px;
 			border-left: 1px solid #868E96;
+			margin-left: 22%;
 		}
 		
 		.width45{
@@ -181,7 +182,7 @@
 		}
 		
 		.marginL_L{
-			margin-left: 50px;
+			margin-left: 20px;
 		}
 		
 		.bigImgBox {

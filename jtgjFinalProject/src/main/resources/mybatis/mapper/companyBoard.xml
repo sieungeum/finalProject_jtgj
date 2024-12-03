@@ -100,10 +100,34 @@
         WHERE cp_board_no = #{cpBoardNo}
     </update>
     
+    <select id="getCompanyProjectDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    SELECT 
+	        user_id,
+	        pt_no,
+	        cp_board_no, <!-- 추가 -->
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area,
+	        pt_total_floor_area,
+	        pt_floor_num,
+	        pt_household_num,
+	        pt_completion_year,
+	        pt_location,
+	        pt_del_yn
+	    FROM company_project_r
+	    WHERE pt_no = #{ptNo}
+	      AND pt_del_yn = 'N'
+	</select>
+    
     <insert id="writeCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
 	    INSERT INTO company_project_r (
 	        user_id, 
 	        pt_no,
+	        cp_board_no, <!-- 추가 -->
 	        pt_thumbnail,
 	        pt_content,
 	        pt_title,
@@ -120,6 +144,7 @@
 	    ) VALUES (
 	        #{userId}, 
 	        (SELECT COUNT(*)+1 FROM company_project_r), 
+	        #{cpBoardNo}, <!-- 추가 -->
 	        #{ptThumbnail}, 
 	        #{ptContent}, 
 	        #{ptTitle}, 
@@ -155,37 +180,32 @@
 	        pt_del_yn
 	    FROM company_project_r
 	    WHERE user_id = #{userId}
+	    	AND cp_board_no = #{cpBoardNo}
 	    	AND pt_del_yn = 'N' <!-- 삭제되지 않은 항목만 -->
 	    ORDER BY pt_no ASC
 	</select>
 	
-	<select id="getCompanyProjectDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	<select id="getCompanyProjectsByBoardNo" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
 	    SELECT 
-	        p.user_id,
-	        p.pt_no,
-	        p.pt_thumbnail,
-	        p.pt_content,
-	        p.pt_title,
-	        p.pt_design,
-	        p.pt_construction,
-	        p.pt_land_area,
-	        p.pt_building_area,
-	        p.pt_total_floor_area,
-	        p.pt_floor_num,
-	        p.pt_household_num,
-	        p.pt_completion_year,
-	        p.pt_location,
-	        p.pt_del_yn, <!-- 삭제 여부 추가 -->
-	        b.cp_board_no -- 추가: company_board 테이블에서 가져오는 cp_board_no
-	    FROM 
-	        company_project_r p
-	    LEFT JOIN 
-	        company_board b 
-	    ON 
-	        p.user_id = b.user_id
-	    WHERE 
-	        p.pt_no = #{ptNo}
-	        AND p.pt_del_yn = 'N' <!-- 삭제되지 않은 항목만 -->
+	        user_id,
+	        pt_no,
+	        cp_board_no,
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area,
+	        pt_total_floor_area,
+	        pt_floor_num,
+	        pt_household_num,
+	        pt_completion_year,
+	        pt_location,
+	        pt_del_yn
+	    FROM company_project_r
+	    WHERE cp_board_no = #{cpBoardNo} AND pt_del_yn = 'N'
+	    ORDER BY pt_no ASC
 	</select>
 	
 	<update id="updateCompanyProject" parameterType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">

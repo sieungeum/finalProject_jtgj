@@ -335,7 +335,7 @@
 					                            </div>
 					                            <span class="btnBefore"></span>
 					                            <span class="btnAfter"></span>
-					                            <a class="main-portfolio-link" href="${pageContext.request.contextPath}/companyProjectDetailView?ptNo=${project.ptNo}"></a>
+					                            <a class="main-portfolio-link" href="${pageContext.request.contextPath}/companyProjectDetailView?ptNo=${project.ptNo}&cpBoardNo=${companyBoard.cpBoardNo}"></a>
 					                        </div>
 					                    </div>
 					                </div>
@@ -347,9 +347,9 @@
 			        
 			        <div class="dFjcE">
 				        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
-				        	<a href="${pageContext.request.contextPath}/companyProjectWriteView">
-				        		<button class="btn btn-success" type="button">프로젝트 추가</button>
-				        	</a>
+				        	<a href="${pageContext.request.contextPath}/companyProjectWriteView?cpBoardNo=${companyBoard.cpBoardNo}">
+							    <button class="btn btn-success" type="button">프로젝트 추가</button>
+							</a>
 				        </c:if>
 			        </div>
 			        

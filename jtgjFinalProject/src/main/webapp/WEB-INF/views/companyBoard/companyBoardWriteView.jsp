@@ -172,7 +172,7 @@
 			        <label for="cpBoardReperImgFile">대표 이미지 업로드</label>
 			        <!-- 숨긴 파일 입력 -->
 			        <input type="file" name="cpBoardReperImgFile" id="cpBoardReperImgFile" 
-			               class="form-control-file" style="display: none;" onchange="previewImage(event)" />
+			               class="form-control-file" style="display: none;"  accept="image/*" onchange="previewImage(event)" />
 			        <!-- 클릭 가능한 이미지 -->
 			        <img id="preview" src="img/blog-header.jpg" alt="대표 이미지 미리보기" 
 			             style="max-width: 300px; max-height: 300px; margin-top: 10px; cursor: pointer;" 

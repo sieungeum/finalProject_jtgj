@@ -154,7 +154,6 @@
 			border-radius:20px;
 			background-color: #F1F3F5; 
 			display: flex;
-			justify-content: space-between;
 			align-items: center;
 		}
 		
@@ -167,6 +166,7 @@
 			justify-content: space-between;
 			position: fixed;
 			top: 100px;
+			background-color: #F1F3F5;
 			
 		}
 		
@@ -174,6 +174,7 @@
 			width:0%;
 			height: 270px;
 			border-left: 1px solid #868E96;
+			margin-left: 22%;
 		}
 		
 		.width45{
@@ -181,7 +182,7 @@
 		}
 		
 		.marginL_L{
-			margin-left: 50px;
+			margin-left: 20px;
 		}
 		
 		.marginL_L40{
@@ -264,7 +265,7 @@
 	
 	<section class="page-section" id="contact">
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectEditDo" method="POST" enctype="multipart/form-data">
-	    	
+	    	<input type="hidden" name="cpBoardNo" value="${param.cpBoardNo}"> <!-- cpBoardNo 추가 -->
 	    	<input type="hidden" name="ptNo" value="${companyProject.ptNo}">
 	    	
 	    	<div class="container">
@@ -281,7 +282,7 @@
 					         onclick="document.getElementById('thumbnailFile').click();" />
 					    <!-- 숨겨진 파일 입력 -->
 					    <input type="file" name="thumbnailFile" id="thumbnailFile" class="form-control-file" 
-					           style="display: none;" onchange="previewThumbnail(event)" />
+					           style="display: none;" accept="image/*" onchange="previewThumbnail(event)" />
 				    </div>
 				</div>
 

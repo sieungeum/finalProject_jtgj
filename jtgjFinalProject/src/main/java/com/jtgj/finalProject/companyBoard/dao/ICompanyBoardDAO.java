@@ -21,7 +21,10 @@ public interface ICompanyBoardDAO {
     
     void writeCompanyProject(CompanyProjectDTO companyProjectDTO);
     
+    
     List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId);
+    // 특정 Board 번호로 프로젝트 리스트 가져오기
+    List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo);
     
     // 특정 프로젝트 가져오기
     CompanyProjectDTO getCompanyProjectDetail(int ptNo);

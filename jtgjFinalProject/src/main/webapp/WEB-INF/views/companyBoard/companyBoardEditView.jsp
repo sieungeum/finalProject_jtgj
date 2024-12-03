@@ -182,7 +182,7 @@
 				         onclick="document.getElementById('cpBoardReperImgFile').click();" />
 				    <!-- 숨겨진 파일 입력 -->
 				    <input type="file" name="cpBoardReperImgFile" id="cpBoardReperImgFile" 
-				           class="form-control" style="display: none;" 
+				           class="form-control" style="display: none;"  accept="image/*" 
 				           onchange="previewImage(event)" />
 				</div>
 
