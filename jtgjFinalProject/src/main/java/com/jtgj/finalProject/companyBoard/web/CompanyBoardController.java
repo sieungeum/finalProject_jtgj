@@ -150,7 +150,7 @@ public class CompanyBoardController {
 	    System.out.println(companyBoard);
 	    
 	    // companyProject 정보 가져오기
-	    List<CompanyProjectDTO> companyProjects = companyBoardService.getCompanyProjectsByUserId(companyBoard.getUserId());
+	    List<CompanyProjectDTO> companyProjects = companyBoardService.getCompanyProjectsByBoardNo(cpBoardNo);
 	    model.addAttribute("companyProjects", companyProjects);
 	    return "companyBoard/companyBoardDetailView";
 	}
@@ -233,6 +233,7 @@ public class CompanyBoardController {
     public String companyProjectWriteDo(
             CompanyProjectDTO companyProjectDTO, 
             @RequestParam("thumbnailFile") MultipartFile thumbnailFile, 
+            @RequestParam("cpBoardNo") int cpBoardNo, // 추가
             HttpSession session, 
             RedirectAttributes redirectAttributes) {
 
@@ -243,6 +244,7 @@ public class CompanyBoardController {
 
         // 로그인 사용자 정보 설정
         companyProjectDTO.setUserId(login.getUserId());
+        companyProjectDTO.setCpBoardNo(cpBoardNo); // 추가
 
         try {
             // 프로젝트 등록 서비스 호출
@@ -257,23 +259,13 @@ public class CompanyBoardController {
     
     @RequestMapping("/companyProjectDetailView")
     public String companyProjectDetailView(@RequestParam("ptNo") int ptNo, Model model) {
-
-        // 프로젝트 상세 데이터 가져오기
         CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
-        if (companyProject == null) {
-            throw new IllegalArgumentException("유효하지 않은 프로젝트 번호입니다: " + ptNo);
-        }
-
-        // 사용자 및 회사 정보 가져오기
-        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardByUserId(companyProject.getUserId());
-        if (companyBoard == null) {
-            throw new IllegalArgumentException("해당 프로젝트와 연결된 기업 게시판 정보가 없습니다.");
-        }
-
-        // 모델에 데이터 추가
+        
+        // `companyProject`에 있는 `cpBoardNo`로 직접 `CompanyBoardDTO` 가져오기
+        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardDetail(companyProject.getCpBoardNo());
+        
         model.addAttribute("companyProject", companyProject);
         model.addAttribute("companyBoard", companyBoard);
-
         return "companyBoard/companyProjectDetailView";
     }
 

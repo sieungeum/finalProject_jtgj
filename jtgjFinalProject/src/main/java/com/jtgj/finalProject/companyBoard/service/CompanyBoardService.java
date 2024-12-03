@@ -147,4 +147,12 @@ public class CompanyBoardService {
     	return result;
     }
     
+    public List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo) {
+        return dao.getCompanyProjectsByBoardNo(cpBoardNo);
+    }
+    
+    public CompanyBoardDTO getCompanyBoardByCpBoardNo(int cpBoardNo) {
+        return dao.getCompanyBoardDetail(cpBoardNo); // 이미 `cpBoardNo`를 기반으로 가져오는 메서드 활용
+    }
+    
 }
