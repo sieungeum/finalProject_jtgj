@@ -117,13 +117,11 @@
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  <c:if test="${sessionScope.login.userRank == 'N'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-	                  </c:if>
+                  
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
@@ -289,7 +287,11 @@
 		// 자재 이미지 추가
 		let imgElement  = document.getElementById('materImagePreview');
 		const initialImg = imgElement.src;
-		const initialImgName = initialImg.split("=")[2];
+		console.log(initialImg);
+		let initialImgName = initialImg.split("=")[2];
+		if(!initialImgName){
+			initialImgName = 'N';
+		}
 		console.log(initialImgName);
 		let selectedFile = null;
 		let inputImageElement = document.getElementById('inputImage');
@@ -490,6 +492,8 @@
 					v_formData.append("materClassify", materClassify);
 					v_formData.append("materNo", materNo);
 					v_formData.append("roleClassification", "edit");
+					
+					console.log(initialImgName);
 					
 					if(selectedFile != null){
 						v_formData.append("file", selectedFile);	

@@ -110,13 +110,11 @@
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  <c:if test="${sessionScope.login.userRank == 'N'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-	                  </c:if>
+                  
 						<c:if
 							test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;"
@@ -445,9 +443,11 @@
 				console.log(selectedFile);
 				
 				if(selectedFile != null){
-					v_formData.append("file", selectedFile);	
+					v_formData.append("file", selectedFile);
+					v_formData.append("profImgName", "N");
 				} else{
 					v_formData.append("file", "N");
+					v_formData.append("profImgName", "N");
 				}
 				
 				for(let [key, value] of v_formData.entries()){

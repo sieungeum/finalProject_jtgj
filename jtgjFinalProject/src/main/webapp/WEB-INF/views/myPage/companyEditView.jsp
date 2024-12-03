@@ -102,13 +102,11 @@
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  <c:if test="${sessionScope.login.userRank == 'N'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-	                  </c:if>
+                  
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
@@ -459,6 +457,16 @@
 		// 비밀번호 유효성 검사
 		function checkPasswordValidation(){
 			let pw = $('#inputPassword').val();
+			let rePw = $('#checkPassword').val();
+			
+			// 비밀번호 칸이 모두 비어 있으면 버튼 활성화
+			if (!pw && !rePw) {
+				pwValOn = true;
+		        pwOn = true;
+		        toggleSignUpButton();
+		        $('#label').text('');
+		        return;
+		    }
 			
 			// 유효성 검사
 			// ajax 전송
@@ -479,11 +487,13 @@
 						pwValOn = false;
 						$("#label").css("color", "red").css("font-size", "13px").text(result.msg);
 					}
+					toggleSignUpButton();
 				},
 				error:function(xhr){
 					console.log(xhr);
 					pwValOn = false;
-					alert(xhr);
+					alert("비밀번호 유효성 검사 중 오류가 발생했습니다.");
+					toggleSignUpButton();
 				},
 			});
 		}
@@ -493,7 +503,18 @@
 			pw = $('#inputPassword').val();
 			rePw = $('#checkPassword').val();
 			
-			if(!pwValOn){
+			// 비밀번호 칸이 모두 비어 있으면 버튼 활성화
+			if(!pw && !rePw){
+				pwOn = true;
+				toggleSignUpButton();
+				$('#label').text('');
+				return;
+			}
+			
+			// 유효성 검사를 통과하지 않으면 실행 중단
+	    	if(!pwValOn){
+	    		pwOn = false;
+	    		toggleSignUpButton();
 				return;
 			}
 			
@@ -542,7 +563,17 @@
 		
 		// 가입 버튼 활성화 상태 관리 함수
 		function toggleSignUpButton() {
-			if(pwOn && corNameOn && ceoOn && addressOn && dateOn && emissionOn){
+			const pw = $('#inputPassword').val();
+		    const rePw = $('#checkPassword').val();
+
+		    // 두 칸이 모두 비어 있을 때 활성화
+		    if (!pw && !rePw) {
+		        v_editBtn.prop('disabled', false); // 버튼 활성화
+		        v_warning.hide(); // 경고 메시지 숨김
+		        return;
+		    }
+			
+			if(pwValOn && pwOn && corNameOn && ceoOn && addressOn && dateOn && emissionOn){
 				v_editBtn.prop('disabled', false);
 				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:none;"
 			} else {
@@ -551,7 +582,10 @@
 			}
 		}
 		
-		$("#inputPassword").on('focusout', checkPasswordValidation); // 비밀번호 유효성 검사 focusout
+		$("#inputPassword").on('input', function () {
+		    checkPasswordValidation();
+		    checkPasswordMatch();
+		}); // 비밀번호 입력 시 유효성 및 일치 여부 확인
 		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
 		$("#inputCorName").on("focusout", checkCorName); // 기업명 focusout 이벤트
 		$("#inputCEO").on("focusout", checkCeoName); // 대표자명 focusout 이벤트
