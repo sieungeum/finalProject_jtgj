@@ -338,6 +338,16 @@
 		// 비밀번호 유효성 검사
 		function checkPasswordValidation(){
 			let pw = $('#inputPassword').val();
+			let rePw = $('#checkPassword').val();
+			
+			// 비밀번호 칸이 모두 비어 있으면 버튼 활성화
+			if (!pw && !rePw) {
+				pwValOn = true;
+		        pwOn = true;
+		        toggleSignUpButton();
+		        $('#label').text('');
+		        return;
+		    }
 			
 			// 유효성 검사
 			// ajax 전송
@@ -358,11 +368,13 @@
 						pwValOn = false;
 						$("#label").css("color", "red").css("font-size", "13px").text(result.msg);
 					}
+					toggleSignUpButton();
 				},
 				error:function(xhr){
 					console.log(xhr);
 					pwValOn = false;
-					alert(xhr);
+					alert("비밀번호 유효성 검사 중 오류가 발생했습니다.");
+					toggleSignUpButton();
 				},
 			});
 		}
@@ -372,7 +384,18 @@
 			pw = $('#inputPassword').val();
 			rePw = $('#checkPassword').val();
 			
+			// 비밀번호 칸이 모두 비어 있으면 버튼 활성화
+			if(!pw && !rePw){
+				pwOn = true;
+				toggleSignUpButton();
+				$('#label').text('');
+				return;
+			}
+			
+			// 유효성 검사를 통과하지 않으면 실행 중단
 	    	if(!pwValOn){
+	    		pwOn = false;
+	    		toggleSignUpButton();
 				return;
 			}
 			
@@ -421,7 +444,17 @@
 		
 		// 가입 버튼 활성화 상태 관리 함수
 		function toggleSignUpButton() {
-			if(pwOn && nameOn){
+			const pw = $('#inputPassword').val();
+		    const rePw = $('#checkPassword').val();
+
+		    // 두 칸이 모두 비어 있을 때 활성화
+		    if (!pw && !rePw) {
+		        v_editBtn.prop('disabled', false); // 버튼 활성화
+		        v_warning.hide(); // 경고 메시지 숨김
+		        return;
+		    }
+			
+			if(pwValOn && pwOn && nameOn){
 				v_editBtn.prop('disabled', false);
 				v_warning[0]['attributes']['style']['value'] = "text-align:center;font-size:13px;color:red;font-weight:bolder;display:none;"
 			} else {
@@ -430,7 +463,11 @@
 			}
 		}
 		
-		$("#inputPassword").on('focusout', checkPasswordValidation); // 비밀번호 유효성 검사 focusout
+		// 이벤트 연결
+		$("#inputPassword").on('input', function () {
+		    checkPasswordValidation();
+		    checkPasswordMatch();
+		}); // 비밀번호 입력 시 유효성 및 일치 여부 확인
 		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
 		$("#inputName").on("focusout", checkNameDuplicate); // 유저이름 focusout 이벤트
 		

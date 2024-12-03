@@ -445,9 +445,11 @@
 				console.log(selectedFile);
 				
 				if(selectedFile != null){
-					v_formData.append("file", selectedFile);	
+					v_formData.append("file", selectedFile);
+					v_formData.append("profImgName", "N");
 				} else{
 					v_formData.append("file", "N");
+					v_formData.append("profImgName", "N");
 				}
 				
 				for(let [key, value] of v_formData.entries()){
