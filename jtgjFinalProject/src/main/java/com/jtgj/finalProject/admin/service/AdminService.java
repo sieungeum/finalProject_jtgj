@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.jtgj.finalProject.admin.dao.IAdminDAO;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
+import com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO;
 import com.jtgj.finalProject.estimate.dao.IEstimateDAO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
@@ -130,5 +131,19 @@ public class AdminService {
 	public CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo) {
 	    return dao.getCompanyBoardDetail(cpBoardNo);
 	}
+	
+	public List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId) {
+        return dao.getCompanyProjectsByUserId(userId);
+    }
+	
+	public CompanyProjectDTO getCompanyProjectDetail(int ptNo) {
+    	CompanyProjectDTO projectDetail = dao.getCompanyProjectDetail(ptNo);
+        
+        return projectDetail;
+    }
+	
+	public List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo) {
+        return dao.getCompanyProjectsByBoardNo(cpBoardNo);
+    }
 	
 }
