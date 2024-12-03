@@ -271,13 +271,11 @@
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  <c:if test="${sessionScope.login.userRank == 'N'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-	                  </c:if>
+                  
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
                      <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
                   </c:if>
@@ -354,7 +352,10 @@
 											    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=${user.userEmail}" target="_blank">${user.userEmail}</a>
 											</td>
 											<td>${user.userDate }</td>
-											<td>${user.userAccount }</td>
+											<td>
+												<c:if test="${user.userAccount == 'C' }">기업</c:if>
+												<c:if test="${user.userAccount == 'P' }">개인</c:if>
+											</td>
 											<td>
 											<c:if test="${user.userAccount == 'C'}">
 												<c:if test="${user.userRank == 'N'}">
@@ -502,7 +503,7 @@
 					                            <c:if test="${faq.faqAst == 'N'}">
 					                                <form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
 					                                    <input type="hidden" name="faqNo" value="${faq.faqNo}">
-					                                    <button class="btn btn-warning btn-xl" id="checkBtnN" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미답변</button>
+					                                    <button class="btn btn-warning btn-xl" id="checkBtnN" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">답변대기</button>
 					                                </form>
 					                            </c:if>
 					                            <c:if test="${faq.faqAst == 'Y'}">

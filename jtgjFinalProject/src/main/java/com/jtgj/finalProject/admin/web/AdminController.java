@@ -288,14 +288,28 @@ public class AdminController {
 		
 	}
 	
-	@PostMapping("/companyBoardDetailView")
-	public String companyBoardDetailView() {
-		System.out.println();
+	@RequestMapping("/companyBoardDetailViewA")
+	public String companyBoardDetailViewA(int cpBoardNo, Model model) {
 		
 		
-		return "companyBoard/companyBoardDetailView";
-		
+	    CompanyBoardDTO companyBoard = adminService.getCompanyBoardDetail(cpBoardNo);
+	    model.addAttribute("companyBoard", companyBoard);
+	    System.out.println(companyBoard);
+	    
+	    return "companyBoard/companyBoardDetailView";
 	}
+	
+	@RequestMapping("/companyProjectDetailViewA")
+    public String companyProjectDetailViewA(@RequestParam("ptNo") int ptNo, Model model) {
+        CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+        
+        // `companyProject`에 있는 `cpBoardNo`로 직접 `CompanyBoardDTO` 가져오기
+        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardDetail(companyProject.getCpBoardNo());
+        
+        model.addAttribute("companyProject", companyProject);
+        model.addAttribute("companyBoard", companyBoard);
+        return "companyBoard/companyProjectDetailView";
+    }
 	
 	@GetMapping("/noinjungCompany")
 	public String noinjungCompany() {

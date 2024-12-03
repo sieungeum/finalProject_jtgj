@@ -265,7 +265,7 @@
 	
 	<section class="page-section" id="contact">
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectEditDo" method="POST" enctype="multipart/form-data">
-	    	<input type="hidden" name="cpBoardNo" value="${param.cpBoardNo}"> <!-- cpBoardNo 추가 -->
+	    	<input type="hidden" name="cpBoardNo" value="${companyProject.cpBoardNo}"> <!-- cpBoardNo 추가 -->
 	    	<input type="hidden" name="ptNo" value="${companyProject.ptNo}">
 	    	
 	    	<div class="container">
@@ -305,10 +305,12 @@
 		                            <!-- 기업명 -->
 		                            <h4>기업명 : ${sessionScope.login.userName}</h4>
 		                        </div>
+		                        <%-- 
 			                    <div class="dFjcC  marR15 marB20">
 			                        <button type="button" class="btn btn-success marR15">기업으로</button>
 			                        <button type="button" class="btn btn-primary">프로젝트 공유</button>
 			                    </div>
+			                    --%>
 		                    </div>
 		                </div>
 		            </div>

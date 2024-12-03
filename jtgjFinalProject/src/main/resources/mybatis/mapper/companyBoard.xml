@@ -223,7 +223,7 @@
 	        pt_household_num = #{ptHouseholdNum},
 	        pt_completion_year = #{ptCompletionYear},
 	        pt_location = #{ptLocation}
-	    WHERE pt_no = #{ptNo}
+	    WHERE pt_no = #{ptNo} AND cp_board_no = #{cpBoardNo}
 	</update>
 	
 	<select id="getCompanyBoardByUserId" parameterType="String" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO">

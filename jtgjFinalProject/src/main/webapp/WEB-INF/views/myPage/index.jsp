@@ -403,17 +403,16 @@
                   <c:if test="${sessionScope.login.userAccount != 'C'}">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
                   </c:if>
+                  
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
+	                  <c:if test="${sessionScope.login.userRank == 'N'}">
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
-	                  </c:if>
+                  
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
                      <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
                   </c:if>
@@ -584,7 +583,8 @@
 					</div>
 					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					
-					<c:if test="${sessionScope.login.userRank != 'N'}">
+					<c:if test="${sessionScope.login.userAccount == 'C'}">
+					<c:if test="${sessionScope.login.userRank == 'M'}">
 					<div class="card mb-4">
 						<div class="card-header">기업 홍보</div>
 						<div class="card-body">
@@ -592,7 +592,7 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">소개글</th>
+										<th scope="col">제목</th>
 										<th scope="col">기업명</th>
 										<th scope="col">등록일</th>
 									</tr>
@@ -602,7 +602,7 @@
 									<c:if test="${cb.userId == sessionScope.login.userId }">
 										<tr>
 											<td>${cb.cpBoardNo}</td>
-											<td><a href="<c:url value="/companyBoardDetailView?cpBoardNo=${cb.cpBoardIntro}"/>">${cb.cpBoardIntro}</a></td>
+											<td><a href="<c:url value="/companyProjectDetailView?ptNo=${cb.cpBoardNo}"/>">${cb.cpBoardIntro}</a></td>
 											<td>${cb.userName}</td>
 											<td>${cb.cpBoardDate}</td>
 										</tr>
@@ -612,6 +612,7 @@
 							</table>
 						</div>
 					</div>
+					</c:if>
 					</c:if>
 					
 					

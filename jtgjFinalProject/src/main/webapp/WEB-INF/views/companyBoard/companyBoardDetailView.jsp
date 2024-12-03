@@ -256,7 +256,7 @@
 		                    <div class="proInput">
 		                        <label class="marB20 fontSize15" for="inputTitle">프로필</label>
 		                        <!-- 기업 소개글 입력 --><!-- 이곳은 기업소개 cpBoardContent textarea 말고 이미 입려되서 보이게  -->
-		                        <p class="fontSize15">${companyBoard.cpBoardContent}</p>
+		                        <p style="white-space: pre-line;" class="fontSize15">${companyBoard.cpBoardContent}</p>
 		                    </div>
 		
 		                    <!-- 여기가 카드부분 -->
@@ -356,7 +356,9 @@
 			        <div class="youtubeVideo">
 					    <label class="fontSize15">유튜브 영상</label>
 					    <c:if test="${not empty companyBoard.cpBoardYoutubeLink}">
-					        <div>${companyBoard.cpBoardYoutubeLink}</div>
+					    	<c:if test="${companyBoard.cpBoardYoutubeLink != 'N' }">
+						        <div>${companyBoard.cpBoardYoutubeLink}</div>
+					    	</c:if>
 					    </c:if>
 					</div>
 					<div class="dFjcE">
