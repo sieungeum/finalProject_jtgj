@@ -30,6 +30,10 @@
 			width: 120px;
 			border-radius: 60px;
 			overflow: hidden;
+			
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 		
 		.profileImg{

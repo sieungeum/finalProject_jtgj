@@ -92,6 +92,7 @@
 	            
 	        </div>
 	    </div>
+	    
 	    <c:if test="${sessionScope.login != null && sessionScope.login.userAccount == 'C'}">
 		    <!-- 글쓰기 버튼 (삭제 여부 확인하여 출력) -->
 		    <c:if test="${!hasPosted}">
@@ -100,7 +101,7 @@
 		        </a>
 		    </c:if>
 		</c:if>
-		<%-- 
+		<%--
 		<!-- Paging Bar -->
 		<div class="d-flex justify-content-center">
 			<nav aria-label="Page navigation example">

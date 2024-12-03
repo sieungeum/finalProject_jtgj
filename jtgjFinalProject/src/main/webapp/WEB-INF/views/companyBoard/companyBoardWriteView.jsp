@@ -144,6 +144,10 @@
 			margin-top: 25px;
 		}
 		
+		.marL25 {
+			margin-left: 25px;
+		}
+		
 	</style>
 	
 </head>
@@ -192,7 +196,7 @@
 										<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
 									</div>
 								</c:if>
-		                        <div class="dFDjcA">
+		                        <div class="dFDjcA marL25">
 		                            <!-- 기업명 -->
 		                            <p class="boer">${user.userName}</p>
 		                            <!-- 소개글 입력 -->
