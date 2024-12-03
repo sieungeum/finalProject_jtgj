@@ -56,7 +56,7 @@
 	
 		#emailSpinner{
 			position: absolute;
-			top: 39.5%;
+			top: 41%;
 			right: 4%;
 			display: none;
 		}

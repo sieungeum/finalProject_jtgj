@@ -127,6 +127,7 @@
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
+							<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
 					</div>
 				</div>
 			</nav>
@@ -257,7 +258,7 @@
 									<input type="hidden" id="materNo" value="${mater.materNo}">
 									
 									<div class="d-flex mar-buttom mt-2" style="flex-direction:column;">
-										<button class="btn btn-primary btn-xl m-right mb-2" id="registBtn" type="button" disabled>등록</button>
+										<button class="btn btn-primary btn-xl m-right mb-2" id="registBtn" type="button" disabled>수정</button>
 										<div class="d-flex">
 											<a class="btn btn-success btn-xl a-sor w-50 me-2" href="${pageContext.request.contextPath}/adminPage">돌아가기</a>
 											<button class="btn btn-danger btn-xl a-sor w-50" id="deleteBtn" type="button">자재삭제</button>

@@ -312,15 +312,14 @@ public class FaqController {
 	  
 	  pageSearch.setTotalRowCount(totalRowCount); 
 	  pageSearch.pageSetting(); 
-		 
-	  System.out.println(totalRowCount);
-
 		
-	  List<NoticeDTO> noticeList = faqService.getAllNoticeList();
+	  // faqService.getFaqList(pageSearch);
+	  
+	  List<NoticeDTO> noticeList = faqService.getAllNoticeList(pageSearch);
+	  
 	  model.addAttribute("pageSearch", pageSearch);
 	  model.addAttribute("noticeList", noticeList);
-		 
 		
-		return "faq/faqOnlyAnnouncementView";
+	  return "faq/faqOnlyAnnouncementView";
 	}
 }

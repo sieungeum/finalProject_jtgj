@@ -112,6 +112,7 @@
 						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
 						</c:if>
+						<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div>
 					</div>
 				</div>
 			</nav>
@@ -179,6 +180,10 @@
 							            <div class="input-group mb-2">
 							                <input type="text" class="form-control me-2" id="inputName" value="${login.userName }">
 							            </div>
+							            
+							            <div class="d-flex mt-2">
+							            	<label class="me-3" id="label3"></label>
+							            </div>  
 							        </div>
 							
 							        <div class="mb-3">
@@ -280,6 +285,7 @@
 		let v_userName;
 		let pw = $('#inputPassword');
 		let rePw = $('#checkPassword');
+		let initName = $("#inputName").val();
 		
 		let v_editBtn = $('#editBtn'); // 가입하기 버튼
 		let v_warning = $('#signUpWarning'); // 가입 조건 안내
@@ -290,18 +296,43 @@
 		let pwOn = true;
 		let nameOn = true;
 		
-		// 기업명
-		function checkName(){
-			v_userName = $('#inputName').val();
-			console.log(v_userName);
+		// 닉네임 중복 체크 함수
+		function checkNameDuplicate(){
+			let name = $("#inputName").val();
 			
-			if(v_userName){
-				nameOn = true;
-				toggleSignUpButton();
-			}else{
+			if(name == "" || name.length == 0){
+				$("#label3").css('color', 'red').css('font-size', '13px').text('공백은 닉네임으로 사용할 수 없습니다.');
 				nameOn = false;
-				toggleSignUpButton();
+				toggleSignUpButton(); 
+				return;
 			}
+			
+			if(name === initName){
+				$("#label3").text('');
+				nameOn = true;
+				toggleSignUpButton(); 
+				return;
+			}
+			
+			$.ajax({
+				url : '${pageContext.request.contextPath}/ConfirmName',
+				data : {
+					name : name
+				},
+				type : "POST",
+				dataType : 'json',
+				success : function(result){
+					if(result == true){
+						nameOn = true;
+						$("#label3").css('color', 'green').css('font-size', '13px').text('사용 가능한 닉네임입니다!');
+					} else {
+						nameOn = false;
+						$('#label3').css('color', 'red').css('font-size', '13px').text('사용 불가능한 닉네임입니다!');
+						$('#inputName').val("");
+					}
+					toggleSignUpButton();
+				}
+			});
 		}
 		
 		// 비밀번호 유효성 검사
@@ -401,7 +432,7 @@
 		
 		$("#inputPassword").on('focusout', checkPasswordValidation); // 비밀번호 유효성 검사 focusout
 		$('#inputPassword, #checkPassword').on("input", checkPasswordMatch); // 비밀번호 focusout 이벤트
-		$("#inputName").on("focusout", checkName); // 유저이름 focusout 이벤트
+		$("#inputName").on("focusout", checkNameDuplicate); // 유저이름 focusout 이벤트
 		
 		// 수정 버튼 클릭
 		document.getElementById("editBtn").addEventListener("click", () => {

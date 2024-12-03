@@ -151,7 +151,7 @@
     <div class="custom-container">
         
         <div class="sign-in-box" data-wow-duration="0.8s" data-wow-delay="0.3s">
-			<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;padding:10px;">
+			<div class="row" style="height:100%;display:flex;justify-content:center;align-items:center;margin-left:30px;padding:10px;opacity:90%;">
 				<div id="history-images" class="owl-carousel">
 					<div>
 						<img class="img-responsive center-block" src="img/test/login-test1.jpg" style="width:100%;height:350px;overflow:hidden;">
@@ -177,11 +177,11 @@
 				<form action="${pageContext.request.contextPath }/loginDo" method="POST">
 			       	<input type="hidden" value="${fromUrl }" name="fromUrl">
 					<div class="id-box">
-	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }" style="height:50px;">
+	                    <input class="form-control" type="text" placeholder="아이디" name='userId' value="${cookie.rememberId.value }" style="height:50px;font-size:13px;">
 	                </div>
 	
 	                <div class="pw-box">
-	                    <input class="form-control" type="password" placeholder="비밀번호" name="userPw" style="height:50px;">
+	                    <input class="form-control" type="password" placeholder="비밀번호" name="userPw" style="height:50px;font-size:13px;">
 	                </div>
 	
 	                <div class="check-box">
@@ -192,15 +192,15 @@
 	                </div>
 	
 	                <div class="login-btn-box">
-	                    <button class="btn btn-primary btn-lg" id="login-btn" type="submit">로그인</button>
+	                    <button class="btn btn-primary btn-lg" id="login-btn" type="submit" style="font-size:13px;">로그인</button>
 	                </div>				
 				</form>
                 
 
                 <div class="find-create-member">
                     <div style="width:100%;display:flex;flex-direction:column;">
-                        <a class="btn btn-secondary mb-3" style="text-decoration:none;color:white;height:30px;" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
-                    	<a class="btn btn-secondary" style="text-decoration:none;color:white;height:30px;" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a>
+                        <a class="btn btn-secondary mb-3" style="text-decoration:none;color:white;height:30px;style="font-size:13px;"" href="${pageContext.request.contextPath }/selectSignUpView">회원가입</a>
+                    	<a class="btn btn-secondary" style="text-decoration:none;color:white;height:30px;style="font-size:13px;"" href="${pageContext.request.contextPath }/findAccountView">아이디/비밀번호 찾기</a>
                     </div>
                 </div>
             </div>
