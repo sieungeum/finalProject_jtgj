@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ import com.jtgj.finalProject.admin.service.AdminService;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.util.FileUploadUtils;
 import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
+import com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO;
 import com.jtgj.finalProject.companyBoard.service.CompanyBoardService;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
@@ -259,19 +261,29 @@ public class AdminController {
 		// sjm
 		UserDTO login = (UserDTO) session.getAttribute("login");
 		
+		List<CompanyBoardDTO> cpNumDelyn = companyBoardService.getNumComBoard(login.getUserId());
 		int cpNum;
 		try {
-			cpNum = companyBoardService.getNumComBoard(login.getUserId());
-			
-			String v_url = "?cpBoardNo=" + cpNum;
-			
-			System.out.println(v_url);
-			
-			return "redirect:/companyBoardDetailView" + v_url;
+			for (int i = 0; i < cpNumDelyn.size(); i++) {
+				System.out.println(cpNumDelyn.get(i).getCpBoardDelYn());
+				if (cpNumDelyn.get(i).getCpBoardDelYn().equals("Y")) {
+					continue;
+				}
+				
+				cpNum = cpNumDelyn.get(i).getCpBoardNo();
+				
+				String v_url = "?cpBoardNo=" + cpNum;
+				
+				System.out.println(v_url);
+				
+				return "redirect:/companyBoardDetailView" + v_url;
+			}
 		} catch (Exception e) {
 			cpNum = 0;
 			return "companyBoard/companyBoardWriteView";
 		}
+		
+		return "companyBoard/companyBoardWriteView";
 		
 		
 	}
