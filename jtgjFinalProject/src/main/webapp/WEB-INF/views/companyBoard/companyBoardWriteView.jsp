@@ -299,7 +299,7 @@
 	</script>
 	
 	<script>
-		// 유튜브 링크 검증 함수
+	    // 유튜브 링크 검증 함수
 	    function validateYouTubeLink(link) {
 	        const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)|(?:https?:\/\/)?(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]+)/;
 	        const match = link.match(regex);
@@ -338,6 +338,8 @@
 	            iframeField.value = iframeCode;
 	            this.appendChild(iframeField);
 	        }
+	
+	        // 유튜브 링크가 비어 있는 경우에도 폼 제출 허용
 	    });
 	</script>
 	
