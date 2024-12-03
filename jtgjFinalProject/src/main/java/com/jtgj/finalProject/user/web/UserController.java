@@ -615,6 +615,7 @@ public class UserController {
 			
 			Random r = new Random();
 			int findAccountDice = r.nextInt(4589362) + 493111; // 이메일로 받는 인증코드 부분(난수)
+			System.out.println(findAccountDice);
 			
 			// 세션에 고유 ID와 함께 난수 저장
 			request.getSession().setAttribute("findAccountDice_" + email, findAccountDice);
