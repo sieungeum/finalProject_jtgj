@@ -215,6 +215,65 @@
 		let v_userPhone;
 		let v_userEmail;
 		let v_cpRegiNum;
+		
+		// "2023 년 12 월 07 일"을 "2023-12-07"로 변환하는 함수
+		function formatDateToISO(dateString) {
+			console.log(dateString);
+		    // 공백을 기준으로 분리
+		    const dateParts = dateString.split(' ');
+		    console.log(dateParts);
+		    
+		    let newDate = "";
+		    for(let i = 0; i < dateParts.length; i++){
+		    	if(i % 2 != 0){
+		    		dateParts[i] = '-';
+		    	}
+		    	
+		    	if(i == dateParts.length - 1){
+		    		dateParts[i] = "";
+		    	}
+		    	
+		    	newDate = newDate + dateParts[i];
+		    }
+		    
+		    return newDate;
+		}
+		
+		function checkAddressWithAPI(address) {
+		    // Daum Postcode API 사용
+		    new daum.Postcode({
+		        oncomplete: function(data) {
+		            // 주소 검색 결과 처리
+		            let roadAddr = data.roadAddress; // 도로명 주소
+		            let jibunAddr = data.jibunAddress; // 지번 주소
+		            let postCode = data.zonecode; // 우편번호
+		            let extraAddr = ''; // 참고 항목 초기화
+
+		            // 참고항목 설정
+		            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+		                extraAddr += data.bname;
+		            }
+		            if (data.buildingName !== '' && data.apartment === 'Y') {
+		                extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+		            }
+		            if (extraAddr !== '') {
+		                extraAddr = ' (' + extraAddr + ')';
+		            }
+
+		            // input 필드에 값 설정
+		            document.getElementById('inputAddress').value = roadAddr || jibunAddr; // 도로명 주소 우선
+		            document.getElementById('zipCode').value = postCode; // 우편번호
+		            document.getElementById('extraAddress').value = extraAddr; // 참고 항목
+		            document.getElementById('detailAddress').value = ''; // 상세 주소 초기화
+
+		            // 상세주소 필드로 포커스 이동
+		            document.getElementById('detailAddress').focus();
+		        },
+		    }).open({
+		        q: address, // 자동으로 검색될 키워드
+		        autoClose: true, // 검색 후 창 자동 닫기
+		    });
+		}
 	
 		function regiNumDuplicateCheck(regiNum, callback){			
 			console.log(regiNum);
@@ -276,7 +335,6 @@
 						$("#loadingBtn").css("display", "none");
 						$("#moreInfoBox").css("display", "block");
 						$("#inputFile").prop('disabled', true);
-						alert('사업자 등록이 확인됐습니다!');
 					}
 				},
 				error: function(xhr, status, error){
@@ -313,6 +371,8 @@
 				.then(response => response.json())
 				.then(data => {
 					if(data.business_registration_number){
+						console.log(data);
+						
 						let regiNum = data.business_registration_number.replace(/-/g, '');
 						v_cpRegiNum = regiNum;		
 						console.log(regiNum);
@@ -331,6 +391,18 @@
 							verifyBusinessNumber(regiNum);
 						});
 
+						// 상호, 대표자, 개업일 입력
+		                let storeName = data.store_name;
+		                let ceoName = data.owner_name;
+		                let startDate = formatDateToISO(data.start_date);
+		                let address = data.address.split(',')[0];
+
+		                document.getElementById('inputCorName').value = storeName; // 기업명
+		                document.getElementById('inputCEO').value = ceoName; // 대표자
+		                document.getElementById('inputDate').value = startDate; // 개업일
+
+		                // 주소 검색 API 호출
+		                checkAddressWithAPI(address);
 					} else{
 						$("#submitFile").css("display", "block");
 						$("#loadingBtn").css("display", "none");
@@ -383,47 +455,37 @@
 		}
 		
 		// 회사주소 입력 함수
-		function DaumPostCode(){
-			new daum.Postcode({
-	            oncomplete: function(data) {
-	                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-	                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-	                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-	                var roadAddr = data.roadAddress; // 도로명 주소 변수
-	                var extraRoadAddr = ''; // 참고 항목 변수
-
-	                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-	                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-	                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-	                    extraRoadAddr += data.bname;
-	                }
-	                // 건물명이 있고, 공동주택일 경우 추가한다.
-	                if(data.buildingName !== '' && data.apartment === 'Y'){
-	                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-	                }
-	                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-	                if(extraRoadAddr !== ''){
-	                    extraRoadAddr = ' (' + extraRoadAddr + ')';
-	                }
-
-	                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-	                document.getElementById('zipCode').value = data.zonecode;
-	                
-	                if(data.userSelectedType === 'R'){
-	                	document.getElementById("inputAddress").value = roadAddr;
-	                } else{
-	                	document.getElementById("inputAddress").value = data.jibunAddress;
-	                }
-
-	                // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-	                if(roadAddr !== ''){
-	                    document.getElementById("extraAddress").value = extraRoadAddr;
-	                } else {
-	                    document.getElementById("extraAddress").value = '';
-	                }
-	            }
-	        }).open();
+		function DaumPostCode() {
+		    new daum.Postcode({
+		        oncomplete: function(data) {
+		            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+		            var roadAddr = data.roadAddress; // 도로명 주소
+		            var extraRoadAddr = ''; // 참고 항목
+		
+		            // 참고 항목 추가
+		            if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+		                extraRoadAddr += data.bname;
+		            }
+		            if (data.buildingName !== '' && data.apartment === 'Y') {
+		                extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+		            }
+		            if (extraRoadAddr !== '') {
+		                extraRoadAddr = ' (' + extraRoadAddr + ')';
+		            }
+		
+		            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		            document.getElementById('zipCode').value = data.zonecode; // 우편번호
+		            document.getElementById('inputAddress').value = roadAddr; // 주소 필드에 도로명 주소 기입
+		            document.getElementById('extraAddress').value = extraRoadAddr; // 참고항목 필드
+		
+		            // 상세주소 초기화
+		            document.getElementById('detailAddress').value = ''; // 상세주소를 초기화합니다.
+		            document.getElementById('detailAddress').focus(); // 상세주소에 포커스
+		
+		            // 자동으로 checkAddress 호출
+		            checkAddress();
+		        }
+		    }).open();
 		}
 		
 		// 회사주소
