@@ -473,6 +473,14 @@ div{
 /* 계산 후 모달 */
 /* 계산 후 모달 */
 /* 계산 후 모달 */
+.mat-title{
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.mb-mat-box{
+	margin-bottom: 15px;
+}
 
 .modal-box__cancel{
 	position: sticky;
@@ -520,7 +528,17 @@ div{
 }
 
 .mat-box__half{
-	width: 100%;
+	width: 80%;
+}
+
+.right-border{
+    position: fixed;
+    top: 12%;
+    left: 47%;
+	
+    height: 62%;
+	border-right: 3px dotted black;
+	margin-right: 15px;
 }
 .mat-box__flow-y{
 	max-height: 450px;
@@ -541,7 +559,7 @@ div{
 	padding: 3px 6px 3px 6px;
 	
 	background-color: yellowgreen;
-	border: 1px solid green;
+	/* border: 1px solid green; */
 	border-radius: 10px;
 	
 	color: white;

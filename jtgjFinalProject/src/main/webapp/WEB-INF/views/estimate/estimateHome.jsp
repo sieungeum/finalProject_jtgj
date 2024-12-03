@@ -58,8 +58,7 @@
 			</div>
 			<div class="budget-btn-box">
 				<div id="budgetBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
-				<a href="${pageContext.request.contextPath}/testUserEstimateView">
-					test </a>
+				<!-- <a href="${pageContext.request.contextPath}/testUserEstimateView">test </a> -->
 			</div>
 		</div>
 	</div>
@@ -289,11 +288,12 @@
 		</div>
 
 		<!-- 선택한 자제, 대체 자제 -->
-		<div class="only-flex">
+		<div class="only-flex mb-mat-box">
 			<!-- 결과 모달창 -->
 			<div class="modal-box_sort mat-box__flow-y">
 				<!-- 기본 자제 -->
 				<div class="mat-box__half">
+					<div class="mat-title">선택 자재</div>
 					<div class="mat-box">
 						<div class="select-mat">
 							<div>외장재</div>
@@ -314,8 +314,9 @@
 					</div>
 					<!-- 기본 자제 -->
 				</div>
-
+				<div class="right-border"></div>
 				<div class="mat-box__half">
+					<div class="mat-title">대체 자재</div>
 					<!-- 대체 자제 -->
 					<div class="mat-box">
 						<div class="select-mat">
@@ -1389,13 +1390,26 @@
 					let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
 					let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
 					
+					// 카테고리별 색상 추가
+					let v_categoryColor = {"외장재": "rgb(145, 179, 140)",
+							"지붕재": "rgb(160, 80, 60)",
+							"창호재": "rgb(90, 110, 140)",
+							"거실": "rgb(220, 210, 195)",
+							"욕실": "rgb(160, 210, 230)",
+							"주방": "rgb(230, 190, 80)",
+							"방":"rgb(140, 100, 90)"}
+					
+					
+					
 					for (let k = 0; k < v_matBox.length; k++){
 						v_matBox[k].innerHTML = "";
 						for (let i = 0; i < v_materCategory.length; i++){
 							
 							let v_query = ""
 								v_query += '<div class="select-mat">'
-								v_query += '	<div class="select-mat__category">' + v_materCategory[i].innerHTML + '</div>'
+								v_query += '	<div class="select-mat__category" style="background-color:' 
+									+ v_categoryColor[v_materCategory[i].innerHTML.replace(/[0-9]/g, '')] + ';">' + v_materCategory[i].innerHTML
+									+ '</div>'
 								v_query += '</div>'
 								
 							v_matBox[k].innerHTML += v_query;
@@ -1813,7 +1827,7 @@
 				    document.getElementById('excelDown').submit();
 				    
 				    // 저장 완료 후 창 닫기
-				    alert("다운로드가 완료되었습니다!");
+				    alert("다운로드를 실행합니다.");
 
 					v_titleModalDown.style.display = "none";
 					return;
