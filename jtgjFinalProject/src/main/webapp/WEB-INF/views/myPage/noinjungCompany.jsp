@@ -111,7 +111,7 @@
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
 	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
@@ -131,10 +131,10 @@
 			<main>
 				<div class="container-fluid px-4">
 					<div class="row d-flex justify-content-center mt-3">
-						<div class="col-xl-4 col-lg-5">
+						<div class="col-xl-4 col-lg-5" style="margin-top:15%;">
 							<div class="card mb-4">
 								<div class="card-header">알림</div>
-								<div class="card-body">
+								<div class="card-body" style="display: flex; justify-content: center; align-items: center; margin: 20px;">
 								<a>
 									인증받지 못한 기업입니다.<br>
 									건의사항 게시판에 신청해주세요. <br>

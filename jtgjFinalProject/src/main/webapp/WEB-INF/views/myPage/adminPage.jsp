@@ -79,7 +79,7 @@
 
   .userTable th:nth-child(5), /* 기업여부 */
   .userTable td:nth-child(5) {
-    width: 5%; 
+    width: 10%; 
     text-align: center; /* 중앙 정렬 */
   }
 
@@ -272,7 +272,7 @@
 	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
 	                  <c:if test="${sessionScope.login.userRank == 'N' || sessionScope.login.userRank == 'L'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보2 </a>
+	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
