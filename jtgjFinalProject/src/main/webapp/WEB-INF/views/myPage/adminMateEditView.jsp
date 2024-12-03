@@ -287,7 +287,11 @@
 		// 자재 이미지 추가
 		let imgElement  = document.getElementById('materImagePreview');
 		const initialImg = imgElement.src;
-		const initialImgName = initialImg.split("=")[2];
+		console.log(initialImg);
+		let initialImgName = initialImg.split("=")[2];
+		if(!initialImgName){
+			initialImgName = 'N';
+		}
 		console.log(initialImgName);
 		let selectedFile = null;
 		let inputImageElement = document.getElementById('inputImage');
@@ -488,6 +492,8 @@
 					v_formData.append("materClassify", materClassify);
 					v_formData.append("materNo", materNo);
 					v_formData.append("roleClassification", "edit");
+					
+					console.log(initialImgName);
 					
 					if(selectedFile != null){
 						v_formData.append("file", selectedFile);	
