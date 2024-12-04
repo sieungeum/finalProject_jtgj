@@ -14,6 +14,7 @@ import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dao.IFaqDAO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.dto.NoticeDTO;
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Service
@@ -145,5 +146,6 @@ public class AdminService {
 	public List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo) {
         return dao.getCompanyProjectsByBoardNo(cpBoardNo);
     }
+	
 	
 }

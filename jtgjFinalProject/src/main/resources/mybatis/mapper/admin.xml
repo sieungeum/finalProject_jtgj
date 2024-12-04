@@ -314,4 +314,6 @@
 	      AND pt_del_yn = 'N'
 	</select>
 	
+	
+	
 </mapper>

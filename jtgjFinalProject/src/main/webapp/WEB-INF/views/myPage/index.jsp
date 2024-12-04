@@ -467,6 +467,7 @@
 								</div>
 							</div>
 						</div>
+						<c:if test="${sessionScope.login.userAccount == 'C' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
@@ -480,10 +481,11 @@
 								<div class="card-body" style="height: 330px;">
 									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
 										<canvas id="myDoughnutChart" width="400" height="400"></canvas>
-									</div>
+ 									</div>
 								</div>
 							</div>
 						</div>
+						</c:if>
 					</div> 
 					<div class="card mb-4">
 						<div class="card-header">내 게시글</div>
@@ -798,7 +800,7 @@
                 labels: ['탄소배출권 사용량', '남은 탄소배출권'],  // 각 구역의 레이블
                 datasets: [{
                     label: 'My Doughnut Chart',  // 차트의 라벨
-                    data: [80, 20],  // 각 구역의 값 (각각의 섹터 크기)
+                    data: [800, 200],  // 각 구역의 값 (각각의 섹터 크기)
                     backgroundColor: ['#FF6384', '#36A2EB'],  // 각 구역의 색상
                     hoverBackgroundColor: ['#FF4560', '#4D9EEC'],  // 마우스 호버 색상
                 }]

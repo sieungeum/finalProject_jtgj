@@ -15,6 +15,7 @@ import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.dto.NoticeDTO;
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Mapper
@@ -53,4 +54,5 @@ public interface IAdminDAO {
 	List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId);
 	List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo);
 	CompanyProjectDTO getCompanyProjectDetail(int ptNo);
+	
 }

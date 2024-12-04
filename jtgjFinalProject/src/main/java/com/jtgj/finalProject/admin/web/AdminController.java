@@ -41,6 +41,7 @@ import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
 import com.jtgj.finalProject.faq.dto.NoticeDTO;
 import com.jtgj.finalProject.faq.service.FaqService;
+import com.jtgj.finalProject.user.dto.CompanyDTO;
 import com.jtgj.finalProject.user.dto.UserDTO;
 
 @Controller
@@ -334,6 +335,7 @@ public class AdminController {
 		List<CompanyBoardDTO> CBList = adminService.getCBList();
 		model.addAttribute("CBList", CBList);
 		
+		
 		return "myPage/index";
 	}
 	
@@ -352,4 +354,6 @@ public class AdminController {
 
 	  
 }
+
+
 
