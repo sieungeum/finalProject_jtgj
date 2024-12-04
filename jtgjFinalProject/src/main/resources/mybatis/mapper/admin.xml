@@ -291,4 +291,27 @@
 	        a.cp_board_del_yn = 'N'
 	</select>
 	
+	<select id="getCompanyProjectDetail" parameterType="int" resultType="com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO">
+	    SELECT 
+	        user_id,
+	        pt_no,
+	        cp_board_no, <!-- 추가 -->
+	        pt_thumbnail,
+	        pt_content,
+	        pt_title,
+	        pt_design,
+	        pt_construction,
+	        pt_land_area,
+	        pt_building_area,
+	        pt_total_floor_area,
+	        pt_floor_num,
+	        pt_household_num,
+	        pt_completion_year,
+	        pt_location,
+	        pt_del_yn
+	    FROM company_project_r
+	    WHERE pt_no = #{ptNo}
+	      AND pt_del_yn = 'N'
+	</select>
+	
 </mapper>

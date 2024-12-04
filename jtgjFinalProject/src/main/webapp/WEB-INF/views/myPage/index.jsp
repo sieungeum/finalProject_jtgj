@@ -592,7 +592,7 @@
 								<thead>
 									<tr>
 										<th scope="col">번호</th>
-										<th scope="col">소개글</th>
+										<th scope="col">제목</th>
 										<th scope="col">기업명</th>
 										<th scope="col">등록일</th>
 									</tr>
@@ -602,7 +602,7 @@
 									<c:if test="${cb.userId == sessionScope.login.userId }">
 										<tr>
 											<td>${cb.cpBoardNo}</td>
-											<td><a href="<c:url value="/companyBoardDetailView?cpBoardNo=${cb.cpBoardNo}"/>">${cb.cpBoardIntro}</a></td>
+											<td><a href="<c:url value="/companyProjectDetailView?ptNo=${cb.cpBoardNo}"/>">${cb.cpBoardIntro}</a></td>
 											<td>${cb.userName}</td>
 											<td>${cb.cpBoardDate}</td>
 										</tr>

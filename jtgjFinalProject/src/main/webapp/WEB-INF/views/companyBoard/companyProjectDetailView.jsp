@@ -155,7 +155,7 @@
 		}
 		
 		.companyProfile{
-			width: 25%;
+			width: 20%;
 			min-height: 150px;
 			border-radius:20px;
 			border: 2px solid #F1F3F5;
@@ -213,6 +213,10 @@
 		
 		.marTop10{
 			margin-top: 10px;
+		}
+		
+		.marTop20{
+			margin-top: 20px;
 		}
 		
 	</style>
@@ -280,17 +284,17 @@
 		                <div class="dFjc_C">
 		                
 		                	<div class="width65">
-			                	<h1>프로젝트명</h1>
-			                	<span>${companyProject.ptTitle }</span>
+			                	<h2>프로젝트명</h2>
+			                	<h1>${companyProject.ptTitle }</h1>
 		                	</div>
 		
 		                    <div class="proInput">
 		                        <!-- 간단한 프로젝트 소개 -->
 		                        <h2>프로젝트 소개</h2>
-		                        <span>${companyProject.ptContent }</span>
+		                        <span style="white-space: pre-line;">${companyProject.ptContent }</span>
 		                    </div>
 		                    
-		                    <div class="dFjc_C width65">
+		                    <div class="dFjc_C width65 marTop20">
 		                    	<!-- 여기가 프로젝트 주소 -->
 		                    	<label>프로젝트 주소</label>
 		                    	<span>${companyProject.ptLocation }</span>

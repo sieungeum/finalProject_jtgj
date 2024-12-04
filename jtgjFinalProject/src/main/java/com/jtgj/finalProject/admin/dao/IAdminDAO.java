@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import com.jtgj.finalProject.attach.dto.AttachDTO;
 import com.jtgj.finalProject.common.vo.PageSearchVO;
 import com.jtgj.finalProject.companyBoard.dto.CompanyBoardDTO;
+import com.jtgj.finalProject.companyBoard.dto.CompanyProjectDTO;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.faq.dto.CommentDTO;
 import com.jtgj.finalProject.faq.dto.FaqDTO;
@@ -48,4 +49,8 @@ public interface IAdminDAO {
 	
 	List<CompanyBoardDTO> getCBList();
 	CompanyBoardDTO getCompanyBoardDetail(int cpBoardNo);
+	
+	List<CompanyProjectDTO> getCompanyProjectsByUserId(String userId);
+	List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo);
+	CompanyProjectDTO getCompanyProjectDetail(int ptNo);
 }

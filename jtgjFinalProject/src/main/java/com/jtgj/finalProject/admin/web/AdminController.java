@@ -299,6 +299,18 @@ public class AdminController {
 	    return "companyBoard/companyBoardDetailView";
 	}
 	
+	@RequestMapping("/companyProjectDetailViewA")
+    public String companyProjectDetailViewA(@RequestParam("ptNo") int ptNo, Model model) {
+        CompanyProjectDTO companyProject = companyBoardService.getCompanyProjectDetail(ptNo);
+        
+        // `companyProject`에 있는 `cpBoardNo`로 직접 `CompanyBoardDTO` 가져오기
+        CompanyBoardDTO companyBoard = companyBoardService.getCompanyBoardDetail(companyProject.getCpBoardNo());
+        
+        model.addAttribute("companyProject", companyProject);
+        model.addAttribute("companyBoard", companyBoard);
+        return "companyBoard/companyProjectDetailView";
+    }
+	
 	@GetMapping("/noinjungCompany")
 	public String noinjungCompany() {
 		System.out.println("되나?");
