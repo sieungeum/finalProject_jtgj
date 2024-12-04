@@ -38,7 +38,7 @@ jQuery(window).load(function($) {
                 data.forEach(function (project) {
                     newItems += '<div class="col-md-6 col-sm-6 col-xs-12" style="margin-top:20px;">' +
                                     '<div class="img home-portfolio-image" style="width:550px; height:300px;">' +
-                                        '<img src="img/pj-test/' + project.ptThumbnail + '" alt="Portfolio Item" style="width:100%;height:100%;">' +
+                                        '<img src="/finalProject/displayProfImg?atchtype=companyProject&imgName=' + project.ptThumbnail + '" alt="Portfolio Item" style="width:100%;height:100%;">' +
                                         '<div class="overlay-thumb">' +
                                             '<div class="details">' +
                                                 '<span class="title">' + project.ptTitle + '</span>' +
@@ -46,7 +46,7 @@ jQuery(window).load(function($) {
                                             '</div>' +
                                             '<span class="btnBefore"></span>' +
                                             '<span class="btnAfter"></span>' +
-                                            '<a class="main-portfolio-link" href="#' + project.ptNo + '"></a>' +
+                                            '<a class="main-portfolio-link" href="/finalProject/companyProjectDetailView?ptNo=' + project.ptNo + '&cpBoardNo=' + project.cpBoardNo + '"></a>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>';

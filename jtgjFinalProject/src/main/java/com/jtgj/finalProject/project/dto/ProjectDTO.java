@@ -14,6 +14,7 @@ public class ProjectDTO {
 	private String ptFloorNum;	 	
 	private String ptHouseholdNum;
 	private String ptCompletionYear;
+	private int cpBoardNo;
 	
 	private String userName;
 	
@@ -21,11 +22,11 @@ public class ProjectDTO {
 		super();
 	}
 
-	public ProjectDTO(String user_id, String ptThumbnail, String ptContent, String ptTitle, int ptNo, String ptDesign,
+	public ProjectDTO(String userId, String ptThumbnail, String ptContent, String ptTitle, int ptNo, String ptDesign,
 			String ptConstruction, int ptLandArea, int ptBuildingArea, int ptTotalFloorArea, String ptFloorNum,
-			String ptHouseholdNum, String ptCompletionYear, String userName) {
+			String ptHouseholdNum, String ptCompletionYear, int cpBoardNo, String userName) {
 		super();
-		this.userId = user_id;
+		this.userId = userId;
 		this.ptThumbnail = ptThumbnail;
 		this.ptContent = ptContent;
 		this.ptTitle = ptTitle;
@@ -38,16 +39,18 @@ public class ProjectDTO {
 		this.ptFloorNum = ptFloorNum;
 		this.ptHouseholdNum = ptHouseholdNum;
 		this.ptCompletionYear = ptCompletionYear;
+		this.cpBoardNo = cpBoardNo;
 		this.userName = userName;
 	}
 
 	@Override
 	public String toString() {
-		return "ProjectDTO [user_id=" + userId + ", ptThumbnail=" + ptThumbnail + ", ptContent=" + ptContent
+		return "ProjectDTO [userId=" + userId + ", ptThumbnail=" + ptThumbnail + ", ptContent=" + ptContent
 				+ ", ptTitle=" + ptTitle + ", ptNo=" + ptNo + ", ptDesign=" + ptDesign + ", ptConstruction="
 				+ ptConstruction + ", ptLandArea=" + ptLandArea + ", ptBuildingArea=" + ptBuildingArea
 				+ ", ptTotalFloorArea=" + ptTotalFloorArea + ", ptFloorNum=" + ptFloorNum + ", ptHouseholdNum="
-				+ ptHouseholdNum + ", ptCompletionYear=" + ptCompletionYear + ", userName=" + userName + "]";
+				+ ptHouseholdNum + ", ptCompletionYear=" + ptCompletionYear + ", cpBoardNo=" + cpBoardNo + ", userName="
+				+ userName + "]";
 	}
 
 	public String getUserId() {
@@ -154,6 +157,14 @@ public class ProjectDTO {
 		this.ptCompletionYear = ptCompletionYear;
 	}
 
+	public int getCpBoardNo() {
+		return cpBoardNo;
+	}
+
+	public void setCpBoardNo(int cpBoardNo) {
+		this.cpBoardNo = cpBoardNo;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -162,7 +173,5 @@ public class ProjectDTO {
 		this.userName = userName;
 	}
 
-	
-	
 	
 }

@@ -73,6 +73,7 @@ public class HomeController {
 			 
 		// 초기 프로젝트 2개 가져오기
 		List<ProjectDTO> initialProjects = projectService.getInitialProjects(2);
+		System.out.println(initialProjects);
 		
 		// 초기 ptNo 목록 생성
 		List<Integer> displayedPtNos = initialProjects.stream().map(ProjectDTO::getPtNo).collect(Collectors.toList());
