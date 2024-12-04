@@ -20,6 +20,16 @@
 			pointer-events: none;
 			opacity: 0.5; 
 		}
+		
+		.blog-front-image img {
+		    width: 870px; /* 이미지 너비 */
+		    height: 400px; /* 이미지 높이 */
+		    object-fit: cover; /* 이미지를 비율에 맞게 잘라서 박스에 맞춤 */
+		    border-radius: 8px; /* 필요 시 모서리를 둥글게 */
+		    display: block; /* 이미지를 블록 요소로 표시 */
+		    margin: 0 auto; /* 이미지를 카드 중앙 정렬 */
+		}
+		
 	</style>
 	
 </head>
@@ -67,7 +77,7 @@
 		                            <!-- 대표 이미지 -->
 		                            <a href="${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyBoard.cpBoardNo}">
 	                    				<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyBoard&imgName=${companyBoard.cpBoardReperImg}" 
-	     									alt="Blog Image" style="width: 100%; height: auto;">
+	     									alt="Blog Image">
 		                            </a>
 		                            
 		                        </div>
