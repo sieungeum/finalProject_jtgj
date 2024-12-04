@@ -50,12 +50,15 @@
 
 	<!-- budget input -->
 	<div class="container">
-		<div class="main-title column-center-flex" >
+		<div class="main-title">
 			<div class="header-font">원하시는 평수 및 건물 구조를 정해주세요</div>
 			<div class="budget-input-box">
 				<input class="input-budget" type="text" placeholder="단위 : ㎡"
 					id="budget">
 			</div>
+<!-- 			<div class="budget-btn-box">
+				<div id="budgetBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
+			</div> -->
 		</div>
 	</div>
 
@@ -121,7 +124,7 @@
 				</div>
 			</div>
 			<div class="room-percent-btn-box">
-				<div id="roomPercentBtn" class="sjm-btn sjm-btn-lg sjm-btn-success room-btn-width">다음</div>
+				<div id="roomPercentBtn" class="sjm-btn sjm-btn-lg sjm-btn-success">다음</div>
 			</div>
 		</div>
 	</div>
@@ -210,31 +213,30 @@
 		<div class="main-title">
 			<div class="calculate-box">
 
-				<div>
-					<!-- 총 탄소배출량 계산량(처음엔 0) -->
-					<div class="calculate-carbon calculate-sort">
-						<div class="cal-subtitle" style="letter-spacing: 1px;">탄소배출량</div>
-						<div class="calculate-sort">
-							<div id="calCarbon" class="cal-result-style">
-								<span id="carbonSum" class="cal-mr">0</span>
-								<!-- 여기부터 자제 선택 시 hidden으로 탄소배출량, kg 저장 -->
-							</div>
-							<span class="cal-ml">KG</span>
+				<!-- 총 탄소배출량 계산량(처음엔 0) -->
+				<div class="calculate-carbon calculate-sort">
+					<div class="cal-subtitle" style="letter-spacing: 1px;">탄소배출량</div>
+					<div class="calculate-sort">
+						<div id="calCarbon" class="cal-result-style">
+							<span id="carbonSum" class="cal-mr">0</span>
+							<!-- 여기부터 자제 선택 시 hidden으로 탄소배출량, kg 저장 -->
 						</div>
-					</div>
-	
-					<!-- 총 자제 가격 계산(처음엔 0) -->
-					<div class="calculate-cost calculate-sort">
-						<div class="cal-subtitle" style="letter-spacing: 16px;">자재비</div>
-						<div class="calculate-sort">
-							<div id="calPrice" class="cal-result-style">
-								<span id="priceSum" class="cal-mr">0</span>
-								<!-- 여기부터 자제 선택 시 hidden으로 가격, kg 저장 -->
-							</div>
-							<span class="cal-ml">(원)</span>
-						</div>
+						<span class="cal-ml">KG</span>
 					</div>
 				</div>
+
+				<!-- 총 자제 가격 계산(처음엔 0) -->
+				<div class="calculate-cost calculate-sort">
+					<div class="cal-subtitle" style="letter-spacing: 16px;">자재비</div>
+					<div class="calculate-sort">
+						<div id="calPrice" class="cal-result-style">
+							<span id="priceSum" class="cal-mr">0</span>
+							<!-- 여기부터 자제 선택 시 hidden으로 가격, kg 저장 -->
+						</div>
+						<span class="cal-ml">(원)</span>
+					</div>
+				</div>
+
 				<!-- 계산버튼 -->
 				<div class="cal-btn-box">
 					<div id="resultBtn" class="sjm-btn sjm-btn-success sjm-btn-lg">계산</div>
@@ -284,17 +286,13 @@
 				탄소배출량 감소</div>
 		</div>
 
-		<div class="mat-division">
-			<div class="mat-title">선택 자재</div>
-			<div class="mat-title">대체 자재</div>
-		</div>
-		
 		<!-- 선택한 자제, 대체 자제 -->
 		<div class="only-flex mb-mat-box">
 			<!-- 결과 모달창 -->
 			<div class="modal-box_sort mat-box__flow-y">
 				<!-- 기본 자제 -->
 				<div class="mat-box__half">
+					<div class="mat-title">선택 자재</div>
 					<div class="mat-box">
 						<div class="select-mat">
 							<div>외장재</div>
@@ -317,6 +315,7 @@
 				</div>
 				<div class="right-border"></div>
 				<div class="mat-box__half">
+					<div class="mat-title">대체 자재</div>
 					<!-- 대체 자제 -->
 					<div class="mat-box">
 						<div class="select-mat">
@@ -621,7 +620,7 @@
 					v_container[3].style.display = "block"; // 견적 구성
 					v_container[4].style.display = "block"; // 임시 저장 리스트
 					v_container[5].style.display = "block"; // 총 탄소배출량, 가격
-					break;
+					return;
 				}
 			}
 			
@@ -662,14 +661,15 @@
 							
 						v_cardWrapper.innerHTML += v_query;
 					}
-					
-					for (let j = 0; j < 4 - parseInt(v_cntRoom[i - 1].innerHTML); j++){
-						let v_query = '<div style="height: 500px; width: 250px;">'
-							
-						v_cardWrapper.innerHTML += v_query;
-					}
 				}
 			}
+			
+			// 남은 기능들 보이게하기
+			v_container[1].style.display = "none"; // 방 구조
+			v_container[2].style.display = "none"; // 방 구조
+			v_container[3].style.display = "block";
+			v_container[4].style.display = "block";
+			v_container[5].style.display = "block";
 			
 			/* 자제 선택 클릭 이벤트 */
 			let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
@@ -683,16 +683,9 @@
 					let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
 					console.log(v_category);
 					sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
-
-					
-					// 스크롤 초기화  
-					setTimeout(() => {
-						v_modalBox.scrollTop = 0;
-					}, 0);
 					
 					document.querySelector(".overlay").classList.add("show");
 					document.body.style.overflow = "hidden";
-					
 					v_modalBox.style.display = "block"; // 모달창 활성화
 				});
 			}
@@ -706,6 +699,59 @@
 				document.body.style.overflow = "auto";
 				v_modalBox.style.display = "none";
 			});
+		});
+		
+		
+		/* card grapDrag */
+
+
+		const scrollContainer = document.querySelector('.card-wrapper');
+		
+		let isDown = false;
+		let startX;
+		let scrollLeft;
+		
+		scrollContainer.addEventListener('mousedown', (e) => {
+		    isDown = true;
+		    scrollContainer.classList.add('active');
+		    startX = e.pageX - scrollContainer.offsetLeft;
+		    scrollLeft = scrollContainer.scrollLeft;
+		});
+		
+		scrollContainer.addEventListener('mouseleave', () => {
+		    isDown = false;
+		    scrollContainer.classList.remove('active');
+		});
+		
+		scrollContainer.addEventListener('mouseup', () => {
+		    isDown = false;
+		    scrollContainer.classList.remove('active');
+		});
+		
+		scrollContainer.addEventListener('mousemove', (e) => {
+		    if (!isDown) return;
+		    e.preventDefault();
+		    const x = e.pageX - scrollContainer.offsetLeft;
+		    const walk = (x - startX) * 1;
+		    scrollContainer.scrollLeft = scrollLeft - walk;
+		});
+		
+		// 모바일 터치 지원
+		scrollContainer.addEventListener('touchstart', (e) => {
+		    isDown = true;
+		    startX = e.touches[0].pageX - scrollContainer.offsetLeft;
+		    scrollLeft = scrollContainer.scrollLeft;
+		});
+		
+		scrollContainer.addEventListener('touchend', () => {
+		    isDown = false;
+		});
+		
+		scrollContainer.addEventListener('touchmove', (e) => {
+		    if (!isDown) return;
+		    const x = e.touches[0].pageX - scrollContainer.offsetLeft;
+		    const walk = (x - startX) * 1;
+		    scrollContainer.scrollLeft = scrollLeft - walk;
 		});
 		
 
@@ -1094,39 +1140,39 @@
 			if (Object.keys(selectCateDict).length < allSelectCategory.length){
 				alert("카테고리별로 최소 하나씩은 선택해주세요.");
 				return;
-			} else {
-				/* 스피너 생성 */
-				const modalBoxSpinner = document.querySelector(".modal-box__spinner");
-				const spinnerWrapper = document.getElementById("spinnerWrapper");
-				const spinnerMessage = document.getElementById("spinnerMessage");
-				
-				modalBoxSpinner.style.display = "flex";
-				spinnerWrapper.style.visibility = "visible";
-				document.querySelector(".overlay").classList.add("show");
-				document.body.style.overflow = "hidden";
-		
-				const messages = ["계산중입니다..", "계산중입니다....", "계산중입니다......"];
-				let step = 0;
-				
-			    // 메시지 업데이트 및 스피너 유지
-			    const interval = setInterval(() => {
-			        spinnerMessage.textContent = messages[step];
-			        step++;
-
-			        if (step >= messages.length) {
-			            clearInterval(interval);
-
-			            // 완료 후 스피너와 배경 숨기기
-			            setTimeout(() => {
-			    			modalBoxSpinner.style.display = "none";
-			                spinnerWrapper.style.visibility = "hidden";
-			                spinnerMessage.textContent = "계산중입니다";
-			                step = 0;
-							v_modalBoxCal.style.display = "block";
-			            }, 1000); // 1초 후 초기화
-			        }
-			    }, 1000); // 메시지 변경 간격 (1초마다 업데이트)
 			}
+			
+			const modalBoxSpinner = document.querySelector(".modal-box__spinner");
+			const spinnerWrapper = document.getElementById("spinnerWrapper");
+			const spinnerMessage = document.getElementById("spinnerMessage");
+			
+			/* 스피너 생성 */
+			modalBoxSpinner.style.display = "flex";
+			spinnerWrapper.style.visibility = "visible";
+			document.querySelector(".overlay").classList.add("show");
+			document.body.style.overflow = "hidden";
+	
+			const messages = ["계산중입니다..", "계산중입니다....", "계산중입니다......"];
+			let step = 0;
+			
+		    // 메시지 업데이트 및 스피너 유지
+		    const interval = setInterval(() => {
+		        spinnerMessage.textContent = messages[step];
+		        step++;
+
+		        if (step >= messages.length) {
+		            clearInterval(interval);
+
+		            // 완료 후 스피너와 배경 숨기기
+		            setTimeout(() => {
+		    			modalBoxSpinner.style.display = "none";
+		                spinnerWrapper.style.visibility = "hidden";
+		                spinnerMessage.textContent = "계산중입니다";
+		                step = 0;
+						v_modalBoxCal.style.display = "block";
+		            }, 1000); // 1초 후 초기화
+		        }
+		    }, 1000); // 메시지 변경 간격 (1초마다 업데이트)
 			
 			/* 최종 결과 계산 */
 			let v_sendMaterials = {}; // ajax로 보낼 json 형식의 데이터
@@ -1375,12 +1421,12 @@
 					let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
 					
 					// 카테고리별 색상 추가
-					let v_categoryColor = {"외장재": "#36c684",
-							"지붕재": "#e74c3c",
-							"창호재": "#3498db",
-							"거실": "#d5b897",
-							"욕실": "#1abc9c",
-							"주방": "#f1c40f",
+					let v_categoryColor = {"외장재": "rgb(145, 179, 140)",
+							"지붕재": "rgb(160, 80, 60)",
+							"창호재": "rgb(90, 110, 140)",
+							"거실": "rgb(220, 210, 195)",
+							"욕실": "rgb(160, 210, 230)",
+							"주방": "rgb(230, 190, 80)",
 							"방":"rgb(140, 100, 90)"}
 					
 					

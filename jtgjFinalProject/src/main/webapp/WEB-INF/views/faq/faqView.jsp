@@ -30,7 +30,6 @@
 		.buttonBox{
 			display: flex;
 			justify-content: end;
-			margin-right: 13%;
 		}
 		
 		.leftM{
@@ -132,16 +131,16 @@
 					</c:forEach>
 				</tbody>
 			</table>
-		</div>
-		<div class="buttonBox">
-			<a href="${pageContext.request.contextPath }/faqWriteView">
-				<button class="button btn btn-success">글쓰기</button>
-			</a>
-			<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
-				<a href="${pageContext.request.contextPath }/noticeWriteView">
-					<button class="leftM button btn btn-primary">공지사항 쓰기</button>
+			<div class="buttonBox">
+				<a href="${pageContext.request.contextPath }/faqWriteView">
+					<button class="button btn btn-success">글쓰기</button>
 				</a>
-			</c:if>
+				<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
+					<a href="${pageContext.request.contextPath }/noticeWriteView">
+						<button class="leftM button btn btn-primary">공지사항 쓰기</button>
+					</a>
+				</c:if>
+			</div>
 		</div>
 		
 		<!-- Paging Bar -->
