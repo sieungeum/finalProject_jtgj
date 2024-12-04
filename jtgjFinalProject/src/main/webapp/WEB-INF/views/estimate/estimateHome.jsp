@@ -128,7 +128,7 @@
 
 	<!-- card -->
 	<div class="container">
-		<div class="main-title">
+		<div class="main-title card-select-box">
 			<!-- 글머리 -->
 			<div class="header-font">견적을 구성해주세요.</div>
 
@@ -273,12 +273,12 @@
 
 		<!-- 최적, 가격, 탄소배출량으로 결과를 나눔 -->
 		<div class="result-type-box">
-			<div id="rtOptimum"
-				class="result-type__optimum result-type-margin sjm-btn sjm-btn-dark">
-				최적 대체</div>
 			<div id="rtPrice"
 				class="result-type__price result-type-margin sjm-btn sjm-btn-light">
 				가격 감소</div>
+			<div id="rtOptimum"
+				class="result-type__optimum result-type-margin sjm-btn sjm-btn-dark">
+				최적 대체</div>
 			<div id="rtCarbon"
 				class="result-type__carbon result-type-margin sjm-btn sjm-btn-light">
 				탄소배출량 감소</div>
@@ -295,9 +295,20 @@
 			<div class="modal-box_sort mat-box__flow-y">
 				<!-- 기본 자제 -->
 				<div class="mat-box__half">
-					<div class="mat-box">
-						<div class="select-mat">
-							<div>외장재</div>
+					<div class="mat-thead">
+						<div class="mat-th th-w-1">카테고리</div>
+						<div class="mat-th th-w-2">자재명</div>
+						<div class="mat-th th-w-3">가격(원)</div>
+						<div class="mat-th th-w-4">탄소배출량(kg)</div>
+						<div class="mat-th th-w-5">총 kg</div>
+					</div>
+					<div class="mat-box mat-tbody">
+						<div class="select-mat mat-tr">
+							<div class="mat-td th-w-1">외장재</div>
+							<div class="mat-td th-w-2">집</div>
+							<div class="mat-td th-w-3">10000000</div>
+							<div class="mat-td th-w-4">900.1</div>
+							<div class="mat-td th-w-5">340	</div>
 							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
 						</div>
 						<div class="select-mat">
@@ -315,35 +326,12 @@
 					</div>
 					<!-- 기본 자제 -->
 				</div>
-				<div class="right-border"></div>
-				<div class="mat-box__half">
-					<!-- 대체 자제 -->
-					<div class="mat-box">
-						<div class="select-mat">
-							<div>외장재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>지붕재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>창호재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>거실</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-					</div>
-					<!-- 대체 자제 -->
-				</div>
-
+				
 			</div>
 
 		</div>
 
-		<div class="modal-box_sort">
+		<div class="modal-box_sort compare-box">
 			<!-- 기본 자제 최종 가격, 탄소배출량 -->
 			<div class="mat-box__half">
 				<!-- 탄소, 가격 변경사항 -->
@@ -351,7 +339,7 @@
 
 					<!-- 탄소배출량 -->
 					<div class="compare-percent__carbon">
-						<div>탄소배출량</div>
+						<div>총 탄소배출량</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 탄소배출량 -->
 							<div class="cal-before"></div>
@@ -360,7 +348,7 @@
 
 					<!-- 가격 -->
 					<div class="compare-percent__price">
-						<div>가격</div>
+						<div>총 가격</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 가격 -->
 							<div class="cal-before"></div>
@@ -377,7 +365,7 @@
 
 					<!-- 탄소배출량 -->
 					<div class="compare-percent__carbon">
-						<div>탄소배출량</div>
+						<div>총 탄소배출량</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 탄소배출량 -->
 							<div class="cal-after"></div>
@@ -386,7 +374,7 @@
 
 					<!-- 가격 -->
 					<div class="compare-percent__price">
-						<div>가격</div>
+						<div>총 가격</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 가격 -->
 							<div class="cal-after"></div>
@@ -399,9 +387,9 @@
 
 		<div class="modal-box__result-btn">
 			<!-- 다운로드 버튼 -->
-			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn">
+			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn" style="background-color: #00B050;">
 				<form id="excelDown" method="POST"
-					action="${pageContext.request.contextPath}/download/excel">
+					action="${pageContext.request.contextPath}/download/excel" >
 					<input type="hidden" name="basicMater" id="basicMater"> 
 					<input type="hidden" name="subMatInfo" id="subMatInfo"> 
 					<input type="hidden" name="estiTitle" id="estiTitle"> 
@@ -411,7 +399,7 @@
 			</div>
 
 			<!-- 임시 저장 버튼 -->
-			<div id="tempSaveBtn" class="sjm-btn sjm-btn-primary final-btn">
+			<div id="tempSaveBtn" class="sjm-btn sjm-btn-warning final-btn">
 				임시 저장</div>
 			<!-- 임시 저장 버튼 -->
 
@@ -430,7 +418,7 @@
 		<div class="title-modal__flex">
 			<div class="title-modal__input">
 				<div>견적명을 입력해주세요.</div>
-				<input id="titleInput" type="text">
+				<input id="titleInput" type="text" placeholder="예) 견적1(최적대체)">
 			</div>
 
 			<div class="title-modal__btn">
@@ -447,7 +435,7 @@
 		<div class="title-modal__flex-down">
 			<div class="title-modal__input-down">
 				<div>파일명을 입력해주세요.</div>
-				<input id="downTitleInput" type="text">
+				<input id="downTitleInput" type="text" placeholder="예) 견적3(가격감소)">
 			</div>
 
 			<div class="title-modal__btn-down">
@@ -662,12 +650,13 @@
 							
 						v_cardWrapper.innerHTML += v_query;
 					}
-					
+					/* 
 					for (let j = 0; j < 4 - parseInt(v_cntRoom[i - 1].innerHTML); j++){
 						let v_query = '<div style="height: 500px; width: 250px;">'
 							
 						v_cardWrapper.innerHTML += v_query;
 					}
+					 */
 				}
 			}
 			
@@ -1122,6 +1111,13 @@
 			                spinnerWrapper.style.visibility = "hidden";
 			                spinnerMessage.textContent = "계산중입니다";
 			                step = 0;
+			                
+			                /* 최종 결과 모달창 나오게 하기*/
+							// 스크롤 초기화  
+							setTimeout(() => {
+								v_modalBoxCal.scrollTop = 0;
+							}, 0);
+			                
 							v_modalBoxCal.style.display = "block";
 			            }, 1000); // 1초 후 초기화
 			        }
@@ -1365,91 +1361,85 @@
 					console.log(v_basicMat);
 					console.log(v_subMat);
 					console.log("선택된 자제들 - 완 - ");
-
-					/* 기본자제, 대체자제 모달창에 추가 */
-					let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
-					let v_subPriceSum = 0; // 대체 자제 총 가격
 					
 					// 주방1, 욕실 2 같은거 때문에 최종 결과 카테고리 div 추가
 					let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
 					let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
-					
-					// 카테고리별 색상 추가
-					let v_categoryColor = {"외장재": "#36c684",
-							"지붕재": "#e74c3c",
-							"창호재": "#3498db",
-							"거실": "#d5b897",
-							"욕실": "#1abc9c",
-							"주방": "#f1c40f",
-							"방":"rgb(140, 100, 90)"}
-					
-					
-					
-					for (let k = 0; k < v_matBox.length; k++){
-						v_matBox[k].innerHTML = "";
-						for (let i = 0; i < v_materCategory.length; i++){
-							
-							let v_query = ""
-								v_query += '<div class="select-mat">'
-								v_query += '	<div class="select-mat__category" style="background-color:' 
-									+ v_categoryColor[v_materCategory[i].innerHTML.replace(/[0-9]/g, '')] + ';">' + v_materCategory[i].innerHTML
-									+ '</div>'
-								v_query += '</div>'
-								
-							v_matBox[k].innerHTML += v_query;
-						}
-					}
-					
-					let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
-					
-					// for (let k = 0; k < v_matBox.length; k++){ // k = 0:기본자제, 1:대체자제
-					for (let i = 0; i < v_matBox[0].children.length; i++){
-						// category 공백제거 div - div - div(카테고리명)
-						let v_category = v_matBox[0].children[i].children[0].innerHTML.trim();
-						
-						let v_tempDiv = document.createElement("div"); // 한번 사용하면 두번 사용 못함 그래서 .cloneNode(true) 써줘야됨.
-						if (v_matBox[0].children[i].children.length == 1){
-							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-						} else {
-							v_matBox[0].children[i].children[1].remove();
-							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-							v_matBox[1].children[i].children[1].remove();
-							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-						}
-						
-						// 자제 정보 html에 추가
-						for (let dataIdx = 0; dataIdx < v_basicMat.length; dataIdx++){
-							if (v_category == v_basicMatDict[dataIdx]['matCategory']){
+
+					/* 최종 견적서 */
+					let v_matTitle = document.querySelectorAll(".mat-title");
+					for (let btnIdx = 0; btnIdx < 2; btnIdx++){
+						// 0:기본자제
+						v_matTitle[btnIdx].addEventListener("click", ()=>{
+							if (btnIdx == 0){
 								// 기본 자제
-								v_matBox[0].children[i].children[1].innerHTML +=  v_basicMat[dataIdx]["matName"] + "<br>";
-								v_matBox[0].children[i].children[1].innerHTML += '<input type="hidden" value='+ v_basicMat[dataIdx]["matKg"] +'>';
-								
+								v_matTitle[0].style.backgroundColor = "#ccc";
+								v_matTitle[1].style.backgroundColor = "#eee";
+							} else if (btnIdx == 1) {
 								// 대체 자제
-								v_matBox[1].children[i].children[1].innerHTML += v_subMat[dataIdx]["materName"] + "<br>";
-								let v_num = v_basicMat[dataIdx]["matKg"]; 
+								v_matTitle[1].style.backgroundColor = "#ccc";
+								v_matTitle[0].style.backgroundColor = "#eee";
+							}
+	
+							/* 기본자제, 대체자제 모달창에 추가 */
+							let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
+							let v_subPriceSum = 0; // 대체 자제 총 가격
+							
+							v_matBox[0].innerHTML = "";
+							for (let i = 0; i < v_basicMat.length; i++){
+								let v_query = ""
+									v_query += '<div class="select-mat mat-tr">'
+									v_query += '</div>'
+									
+								v_matBox[0].innerHTML += v_query;
+							}
+							
+							let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
+							
+							// 자제 정보 html에 추가
+							for (let dataIdx = 0; dataIdx < v_basicMat.length; dataIdx++){
+								// 갯수
+								let v_num = v_basicMat[dataIdx]["matKg"];
+								
+								if (btnIdx == 0){
+									// 기본 자제
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_basicMat[dataIdx]["matCategory"] + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_basicMat[dataIdx]["matName"] + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_basicMat[dataIdx]["matPrice"] * v_num).toString()) + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_basicMat[dataIdx]["matCarbon"] * v_num).toFixed(2)) + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+								} else if (btnIdx == 1) {
+									// 대체 자제
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_subMat[dataIdx]["materCategory"] + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_subMat[dataIdx]["materName"] + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_subMat[dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_subMat[dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+									v_matBox[0].children[dataIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+								}
 								
 								// 대체 자제들 총 탄소, 가격
 								v_subCarbonSum += v_subMat[dataIdx]['materGasKg'] * v_num;
 								v_subPriceSum += v_subMat[dataIdx]['materPrice'] * v_num;
-
 							}
-						}
+							
+							
+							let v_carbonSum = document.getElementById("carbonSum").innerHTML; // 기본 자제들 총 탄소배출량
+							let v_priceSum = document.getElementById("priceSum").innerHTML.replaceAll(",", ""); // 기본 자제들 총 가격
+	
+							/* 기본 자제들 총합 */
+							let v_calBefore = document.querySelectorAll(".cal-before");
+							v_calBefore[0].innerHTML = v_carbonSum + " Kg";
+							v_calBefore[1].innerHTML = insertComma(v_priceSum.toString()) + " 원";
+	
+							/* 대체 자제들 총합 */
+							let v_calAfter = document.querySelectorAll(".cal-after");
+							v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2)) + " Kg";
+							v_calAfter[1].innerHTML = insertComma(v_subPriceSum.toString()) + " 원";
+						});
+						
 					}
 					
-					let v_carbonSum = document.getElementById("carbonSum").innerHTML; // 기본 자제들 총 탄소배출량
-					let v_priceSum = document.getElementById("priceSum").innerHTML.replaceAll(",", ""); // 기본 자제들 총 가격
-
-					/* 기본 자제들 총합 */
-					let v_calBefore = document.querySelectorAll(".cal-before");
-					v_calBefore[0].innerHTML = v_carbonSum;
-					v_calBefore[1].innerHTML = insertComma(v_priceSum.toString());
-
-					/* 대체 자제들 총합 */
-					let v_calAfter = document.querySelectorAll(".cal-after");
-					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
-					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
-					
+					v_matTitle[0].click();
 					
 					// 모달창 출력	
 					// document.querySelector(".overlay").classList.add("show");
