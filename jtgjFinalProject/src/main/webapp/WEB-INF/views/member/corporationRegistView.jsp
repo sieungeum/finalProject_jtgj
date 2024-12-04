@@ -216,9 +216,19 @@
 		let v_userEmail;
 		let v_cpRegiNum;
 		
+		let corNameOn = false;
+		let ceoOn = false;
+		let addressOn = false;
+		let dateOn = false;
+		let idOn = false;
+		let pwValOn = false;
+		let pwOn = false;
+		let emailOn = false;
+		
 		// "2023 년 12 월 07 일"을 "2023-12-07"로 변환하는 함수
 		function formatDateToISO(dateString) {
 			console.log(dateString);
+
 		    // 공백을 기준으로 분리
 		    const dateParts = dateString.split(' ');
 		    console.log(dateParts);
@@ -268,6 +278,8 @@
 
 		            // 상세주소 필드로 포커스 이동
 		            document.getElementById('detailAddress').focus();
+		            addressOn = true;
+			    	toggleSignUpButton();
 		        },
 		    }).open({
 		        q: address, // 자동으로 검색될 키워드
@@ -331,7 +343,7 @@
 					console.log("통신완료");
 					console.log(result);
 					if(result){
-						$("#submitFile").css("display", "block").prop('disabled', true);
+						$("#submitFile").css("display", "block").prop('disabled', true).text("인증완료");
 						$("#loadingBtn").css("display", "none");
 						$("#moreInfoBox").css("display", "block");
 						$("#inputFile").prop('disabled', true);
@@ -371,11 +383,8 @@
 				.then(response => response.json())
 				.then(data => {
 					if(data.business_registration_number){
-						console.log(data);
-						
 						let regiNum = data.business_registration_number.replace(/-/g, '');
 						v_cpRegiNum = regiNum;		
-						console.log(regiNum);
 						
 						// 사업자 등록번호 중복 체크
 						regiNumDuplicateCheck(regiNum, function(isUnique){
@@ -391,18 +400,42 @@
 							verifyBusinessNumber(regiNum);
 						});
 
-						// 상호, 대표자, 개업일 입력
-		                let storeName = data.store_name;
-		                let ceoName = data.owner_name;
-		                let startDate = formatDateToISO(data.start_date);
-		                let address = data.address.split(',')[0];
+						let storeName = "";
+						let ceoName = "";
+						let startDate = "";
+						let address = "";
+						
+						if(data.store_name){
+							storeName = data.store_name;
+							v_userName = storeName;
+							corNameOn = true;
+							toggleSignUpButton();
+						}
+						
+						if(data.owner_name){
+							ceoName = data.owner_name;
+							v_cpCeoName = ceoName;
+							ceoOn = true;
+							toggleSignUpButton();
+						}
+						
+						if(data.start_date){
+							startDate = formatDateToISO(data.start_date);
+							v_cpOpenDate = startDate;
+							dateOn = true;
+							toggleSignUpButton();
+						}						
 
 		                document.getElementById('inputCorName').value = storeName; // 기업명
 		                document.getElementById('inputCEO').value = ceoName; // 대표자
 		                document.getElementById('inputDate').value = startDate; // 개업일
 
-		                // 주소 검색 API 호출
-		                checkAddressWithAPI(address);
+		                if(data.address){
+							address = data.address.split(',')[0];
+							// 주소 검색 API 호출
+			                checkAddressWithAPI(address);
+						}
+		                
 					} else{
 						$("#submitFile").css("display", "block");
 						$("#loadingBtn").css("display", "none");
@@ -418,16 +451,7 @@
 				});
 			}
 		}
-		
-		let corNameOn = false;
-		let ceoOn = false;
-		let addressOn = false;
-		let dateOn = false;
-		let idOn = false;
-		let pwValOn = false;
-		let pwOn = false;
-		let emailOn = false;
-		
+
 		// 기업명
 		function checkCorName(){
 			v_userName = $('#inputCorName').val();
@@ -549,6 +573,7 @@
 						idOn = true;
 						$("#label1").css("color", "green").css("font-size", "13px").text(result.warning);
 					}
+					toggleSignUpButton();
 				},
 				error:function(xhr){
 					console.log(xhr);
@@ -713,6 +738,14 @@
 		
 		// 가입 버튼 활성화 상태 관리 함수
 		function toggleSignUpButton(){
+			console.log("-------------------------------------------------");
+			console.log(corNameOn);
+			console.log(ceoOn);
+			console.log(addressOn);
+			console.log(dateOn);
+			console.log(idOn);
+			console.log(pwOn);
+			console.log(emailOn);
 			if(corNameOn && ceoOn && addressOn && dateOn && idOn && pwOn && emailOn){
 				$("#signUpBtn").prop('disabled', false);
 			} else {

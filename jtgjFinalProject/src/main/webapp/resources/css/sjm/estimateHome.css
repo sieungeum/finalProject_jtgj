@@ -161,9 +161,17 @@ div{
 
 /* 자제 카테고리 */
 /* 카드 드래그 시 이미지 드래그 방지 css */
+.card-select-box{
+	border: 1px solid  black;
+	border-radius: 8px;
+	
+	padding: 20px 0px 15px 0px !important;
+	margin-bottom: 10px !important;
+}
 
 .card-wrapper{
 	display:flex;
+	justify-content: center;
 	flex-wrap: wrap;
 	
 	overflow-y: auto;
@@ -181,9 +189,8 @@ div{
 	display: flex;
 	flex-direction: column;
 	
-	width: 275px;
+	width: 50%;
 	
-	margin-right: 20px;
 	margin-bottom: 10px;
 	
 	border-radius: 7px;
@@ -535,9 +542,18 @@ div{
 	display: flex;
 	justify-content: space-around;
 	
-	margin-top: 10px;
+	width: 85% !important;
+	
+	margin: auto;
 }
 .mat-title{
+	width: 50%;
+	
+	padding: 5px 0px 5px 0px;
+	
+	text-align: center;
+	
+	background-color: #ccc;
 	font-weight: bold;
 	font-size: 20px;
 }
@@ -556,13 +572,16 @@ div{
 	margin: 10px 10px 0px 0px;
 }
 
-.modal-box_sort{
-	display: flex;
+.compare-box{
+	width: 85% !important;
 	
-	width: 100%;
+	margin: auto;
+	padding : 8px 12px 8px 12px;
 	
-	margin: 10px 0px 0px 10px;
+	border: 1px solid black;
+	border-radius: 8px;
 	
+	background-color: #ddd;
 }
 
 .compare-percent__result{
@@ -574,6 +593,7 @@ div{
 
 .modal-box__cal{
 	display: none;
+	
 	position: fixed;
 	z-index: 999;
 	
@@ -581,8 +601,8 @@ div{
 	left: 50%;
 	transform: translate(-50%, -50%);
 	
-	width: 740px;
-	height: 85%;
+	width: 900px;
+	padding-bottom: 20px;
 	
 	background-color: #fff;
 	
@@ -591,22 +611,76 @@ div{
 	
 }
 
-.mat-box__half{
-	width: 80%;
+.modal-box_sort{
+	display: flex;
+	
+	width: 100%;
+	
+	border: 1px solid black;
+	background-color: #eee;
 }
 
-.right-border{
-    position: fixed;
-    top: 15%;
-    left: 47%;
-	
-    height: 58%;
-	border-right: 3px dotted black;
-	margin-right: 15px;
+.mat-box__half{
+	width: 100%;
 }
+
+.mat-thead{
+	display: flex;
+	border: 1px solid black;
+}
+
+.mat-th{
+	padding: 3px 0px 3px 0px;
+	text-align : center;
+	border: 1px solid black;
+}
+
+.mat-td{
+	padding: 3px 5px 3px 0px;
+	text-align : end;
+	border: 1px solid black;
+}
+
+.mat-tbody{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.mat-tr{
+	display: flex;
+	width: 100%;
+}
+/* 15 35 20 20 10  */
+.th-w-1{
+	border: 1px solid black;
+	width : calc(100% / 10 + 100% / 20);
+}
+.th-w-2{
+	border: 1px solid black;
+	width : calc(100% / 5 + 100% / 10 + 100% / 20);
+	text-align: center !important;
+}
+.th-w-3{
+	border: 1px solid black;
+	width : calc(100% / 5);
+}
+.th-w-4{
+	border: 1px solid black;
+	width : calc(100% / 5);
+}
+.th-w-5{
+	border: 1px solid black;
+	width : calc(100% / 10);
+}
+
 .mat-box__flow-y{
-	max-height: 450px;
+	width: 85% !important;
+	max-height: 400px;
 	overflow-y: auto;
+	
+	margin: auto;
 }
 .mat-box{
 	width: 100%;
@@ -615,7 +689,7 @@ div{
 }
 
 .select-mat{
-	margin: 5px 5px 5px 5px;
+	/* padding: 5px 5px 5px 10px; */
 }
 .select-mat__category{
 	display: inline-block;
@@ -640,12 +714,14 @@ div{
 }
 
 .result-type-box{
-	display: flex;	
+	display: flex;
+	width: 85%;
+	margin: auto;
+	border: 1px solid black;
 }
 
 .result-type-margin{
-	
-	margin-left: 7px;
+	width: 100%;
 }
 
 .range-header{
@@ -655,10 +731,12 @@ div{
 
 .modal-box__result-btn{
 	display: flex;
-	justify-content: center;
+	justify-content: end;
 	
+	width: 85% !important;
+	
+	margin: auto;
 	margin-top: 20px;
-	margin-left: 15px;
 }
 
 .final-btn{
