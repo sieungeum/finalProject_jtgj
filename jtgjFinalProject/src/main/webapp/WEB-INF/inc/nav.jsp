@@ -20,14 +20,14 @@
 		<nav class="menu">
 			<div class="menu-list">
 				<ul>
-					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/estimateHome">견적작성</a>
+					<li style="margin-bottom:15px;" class="menu-item-has-children"><a href="${pageContext.request.contextPath}/estimateHome">견적작성</a>
 						
-					<li class="menu-item-has-children"><a href="${pageContext.request.contextPath}/companyBoardView">기업홍보게시판</a>	
+					<li style="margin-bottom:15px;" class="menu-item-has-children"><a href="${pageContext.request.contextPath}/companyBoardView">기업홍보게시판</a>	
 						
 					<!-- 건의사항 페이지 추가 -->			
-					<li class="menu-item-has-children"><a href="#">FAQ</a>
+					<li style="margin-bottom:15px;" class="menu-item-has-children"><a href="#">FAQ</a>
                         <ul class="sub-menu">
-                            <li><a href="${pageContext.request.contextPath }/faqView">- 건의사항</a></li>
+                            <li style="margin-bottom:5px;"><a href="${pageContext.request.contextPath }/faqView">- 건의사항</a></li>
                             <li><a href="${pageContext.request.contextPath }/faqOnlyAnnouncementView">- 공지사항</a></li>
                         </ul>
                     </li>
@@ -39,13 +39,13 @@
 						<li class="menu-item-has-children"><a href="#">${sessionScope.login.userName }님</a>
 							<ul class="sub-menu">
 							
-								<li><a href="${pageContext.request.contextPath }/myPage">마이페이지</a></li>
+								<li style="margin-bottom:10px;"><a href="${pageContext.request.contextPath }/myPage">- 마이페이지</a></li>
 								
 								<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L' }">
-									<li><a href="${pageContext.request.contextPath }/adminPage">관리자페이지</a></li>
+									<li style="margin-bottom:10px;"><a href="${pageContext.request.contextPath }/adminPage">- 관리자페이지</a></li>
 								</c:if>
 								
-								<li><a href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></li>
+								<li><a href="${pageContext.request.contextPath }/logoutDo">- 로그아웃</a></li>
 							</ul>
 						</li>
 					</c:if>

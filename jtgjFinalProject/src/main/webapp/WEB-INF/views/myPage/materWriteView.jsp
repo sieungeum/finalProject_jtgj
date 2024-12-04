@@ -72,6 +72,12 @@
 	width: 200px;
 	cursor: pointer;
 }
+
+.btn-secondary.active {
+    background-color: #9C9C9C !important; /* 기존보다 어두운 색상 */
+    border:none;
+}
+
 </style>
 </head>
 <body class="sb-nav-fixed">

@@ -72,7 +72,7 @@
             if (card) {
                 // 이미지 경로 업데이트
                 const thumbnail = card.querySelector(".project-thumbnail");
-                thumbnail.src = "img/pj-test/" + project.ptThumbnail;
+                thumbnail.src = "/finalProject/displayProfImg?atchtype=companyProject&imgName=" + project.ptThumbnail;
                 thumbnail.alt = project.ptTitle;
 
                 // 제목 업데이트
@@ -85,8 +85,8 @@
 
                 // 링크 업데이트
                 const link = card.querySelector(".main-portfolio-link");
-                link.href = "#" + project.ptNo;
-                
+                link.href = "${pageContext.request.contextPath}/companyProjectDetailView?ptNo=" + project.ptNo + "&cpBoardNo=" + project.cpBoardNo;
+
                 // displayedPtNos 배열에 pt_no 추가
                 displayedPtNos.push(project.ptNo);
             }
@@ -280,10 +280,6 @@
 	
 	<!-- footer -->
 	<%@ include file="/WEB-INF/inc/footer.jsp" %>
-	
-	<script>
-	
-	</script>
 
 </body>
 </html>

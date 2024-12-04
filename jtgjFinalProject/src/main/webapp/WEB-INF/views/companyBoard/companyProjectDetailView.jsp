@@ -291,7 +291,7 @@
 		                    <div class="proInput">
 		                        <!-- 간단한 프로젝트 소개 -->
 		                        <h2>프로젝트 소개</h2>
-		                        <span style="white-space: pre-line;">${companyProject.ptContent }</span>
+		                        <p style="white-space: pre-line;">${companyProject.ptContent }</p>
 		                    </div>
 		                    
 		                    <div class="dFjc_C width65 marTop20">

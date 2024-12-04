@@ -155,10 +155,10 @@ public class UserController {
 
 			PrintWriter out = response.getWriter();
 			if (fromUrl.contains("Do") || fromUrl.contains("find") || fromUrl.contains("Regist")) {
-				out.println("<script>alert('환영합니다!'); location.href='" + request.getContextPath() + "/';</script>");
+				out.println("<script>location.href='" + request.getContextPath() + "/';</script>");
 				out.close();
 			}
-			out.println("<script>alert('환영합니다!'); location.href='" + fromUrl + "';</script>");
+			out.println("<script>location.href='" + fromUrl + "';</script>");
 			out.close();
 
 			return;

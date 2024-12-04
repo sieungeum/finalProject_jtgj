@@ -15,6 +15,7 @@
 	<%@ include file="/WEB-INF/inc/header.jsp" %>
 	
 	<script src="${pageContext.request.contextPath}/nse/js/HuskyEZCreator.js" type="text/javascript"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	
 	<style type="text/css">
 		
@@ -158,7 +159,7 @@
 		}
 		
 		.companyProfile{
-			width: 25%;
+			width: 20%;
 			min-height: 150px;
 			border-radius:20px;
 			border: 2px solid #F1F3F5;
@@ -247,6 +248,12 @@
 			width: 190px;
 		}
 		
+		input[type=date] {
+			height: 34px;
+			width: 190px;
+		}
+		
+		
 	</style>
 	
 </head>
@@ -328,11 +335,23 @@
 		                        <textarea id="ptContent" name="ptContent" class="form-control" rows="5" placeholder="프로젝트 소개를 입력하세요">${companyProject.ptContent}</textarea>
 		                    </div>
 		                    
+		                    <%-- 
 		                    <div class="dFjc_C width65">
 		                    	<!-- 여기가 프로젝트 주소 -->
 		                    	<label>프로젝트 주소 입력란</label>
 		                    	<input type="text" id="ptLocation" name="ptLocation" class="form-control" value="${companyProject.ptLocation}" placeholder="프로젝트 주소를 입력하세요">
 		                    </div>
+		                    --%>
+		                    
+		                    <div class="dFjc_C width65">
+							    <!-- 프로젝트 주소 검색 -->
+							    <label for="ptLocation">프로젝트 주소</label>
+							    <div style="display: flex; gap: 10px;">
+							        <input type="text" id="ptLocation" name="ptLocation" class="form-control" 
+							               placeholder="프로젝트 주소를 입력하세요" value="${companyProject.ptLocation}" readonly required>
+							        <button type="button" class="btn btn-primary" onclick="searchAddress()">주소 검색</button>
+							    </div>
+							</div>
 		
 		                    <!-- 여기가 카드부분 -->
 		                    <div class="width65">
@@ -382,7 +401,7 @@
 		                    			</div>
 		                    			<div class="width45">
 		                    				<label for="ptCompletionYear">준공년도</label>
-                    						<input type="text" id="ptCompletionYear" name="ptCompletionYear" class="form-control" value="${companyProject.ptCompletionYear}" placeholder="준공년도를 입력하세요">
+                    						<input type="date" id="ptCompletionYear" name="ptCompletionYear" class="form-control" value="${companyProject.ptCompletionYear}" placeholder="준공년도를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    	</div>
@@ -418,6 +437,20 @@
 	            document.getElementById('thumbnailPreview').src = `${pageContext.request.contextPath}/img/blog-header.jpg`;
 	        }
 	    }
+	</script>
+	
+	<script>
+	function searchAddress() {
+	    new daum.Postcode({
+	        oncomplete: function(data) {
+	            // 도로명 주소만 추출
+	            var roadAddress = data.roadAddress;
+	
+	            // 도로명 주소를 input에 삽입
+	            document.getElementById('ptLocation').value = roadAddress;
+	        }
+	    }).open();
+	}
 	</script>
 	
 </body>

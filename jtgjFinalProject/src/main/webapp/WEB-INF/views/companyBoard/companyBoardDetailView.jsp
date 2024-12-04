@@ -176,25 +176,21 @@
 		}
 		
 		.bigImgBox {
-			height: 400px;
-			width: 1170px;
-			border-radius: 15px;
-			overflow: hidden;
-			
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			
-			background-color: #e9ecef;
+		    width: 1170px;
+		    height: 400px;
+		    border-radius: 15px;
+		    overflow: hidden;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    margin: 0 auto; /* 가운데 정렬 */
+		    background-color: #e9ecef;
 		}
 		
 		.bigImg {
-			height: 400px;
-			width: auto;
-			
-			display: flex;
-			align-items: center;
-			justify-content: center;
+		    width: 75%;
+		    height: 100%;
+		    object-fit: cover; /* 이미지를 박스 크기에 맞게 조정 */
 		}
 		
 		
