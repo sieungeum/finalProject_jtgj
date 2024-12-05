@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jtgj.finalProject.chat.dao.IRoomDAO">
+
+	<select id="getRoomList" resultType="com.jtgj.finalProject.chat.dto.RoomDTO">
+		SELECT
+		      a.room_no
+		    , a.room_name 
+		    , a.user_id 
+		    , b.user_name
+		    , a.reg_date 
+		    , a.del_yn
+		FROM rooms a, users b
+		WHERE a.user_id = b.user_id
+		ORDER BY 1 DESC
+	</select>
+	
+	<select id="getRoom" resultType="com.jtgj.finalProject.chat.dto.RoomDTO" parameterType="int">
+		SELECT
+		      a.room_no
+		    , a.room_name 
+		    , a.user_id 
+		    , b.user_name
+		    , a.reg_date 
+		    , a.del_yn
+		FROM rooms a, users b
+		WHERE a.user_id = b.user_id
+		  AND a.room_no = #{roomNo}
+	</select>
+	
+	<insert id="createRoom" parameterType="com.jtgj.finalProject.chat.dto.RoomDTO">
+		INSERT INTO rooms (
+		      room_no
+		    , room_name 
+		    , user_id 
+		    , reg_date
+		    , del_yn
+		) VALUES (
+		      room_seq.nextval
+		    , #{roomName}
+		    , #{userId}
+		    , SYSDATE
+		    , 'N'
+		)
+	</insert>
+	
+	<update id="deleteRoom" parameterType="int">
+		UPDATE rooms
+			SET del_yn = 'Y'
+		WHERE room_no = #{roomNo}
+	</update>
+	
+
+</mapper>
