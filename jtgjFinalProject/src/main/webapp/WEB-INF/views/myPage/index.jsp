@@ -142,7 +142,6 @@
   display: block;
 }
 
-
 /* 계산 */
 .cal-ml{
 	margin-left: 5px;
@@ -153,7 +152,7 @@
 
 .calculate-box{
 	display: flex;
-	flex-direction: column;
+	justify-content: space-between;
 	
 }
 
@@ -178,12 +177,35 @@
 }
 
 .cal-btn-box{
-	margin-top: 20px;
+	margin: 0px 10px 15px 0px;
 	
 	text-align: end;
 }
 
 /* 계산 후 모달 */
+.mat-division{
+	display: flex;
+	justify-content: space-around;
+	
+	width: 85% !important;
+	
+	margin: auto;
+}
+.mat-title{
+	width: 50%;
+	
+	padding: 5px 0px 5px 0px;
+	
+	text-align: center;
+	
+	background-color: #ccc;
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.mb-mat-box{
+	margin-bottom: 15px;
+}
 
 .modal-box__cancel{
 	position: sticky;
@@ -195,13 +217,16 @@
 	margin: 10px 10px 0px 0px;
 }
 
-.modal-box_sort{
-	display: flex;
+.compare-box{
+	width: 85% !important;
 	
-	width: 100%;
+	margin: auto;
+	padding : 8px 12px 8px 12px;
 	
-	margin: 10px 0px 0px 10px;
+	border: 1px solid black;
+	border-radius: 8px;
 	
+	background-color: #ddd;
 }
 
 .compare-percent__result{
@@ -213,6 +238,7 @@
 
 .modal-box__cal{
 	display: none;
+	
 	position: fixed;
 	z-index: 999;
 	
@@ -220,8 +246,8 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	
-	width: 740px;
-	height: 80%;
+	width: 900px;
+	padding-bottom: 20px;
 	
 	background-color: #fff;
 	
@@ -230,13 +256,76 @@
 	
 }
 
+.modal-box_sort{
+	display: flex;
+	
+	width: 100%;
+	
+	border: 1px solid black;
+	background-color: #eee;
+}
+
 .mat-box__half{
 	width: 100%;
 }
-.mat-box__flow-y{
+
+.mat-thead{
+	display: flex;
+	border: 1px solid black;
+}
+
+.mat-th{
+	padding: 3px 0px 3px 0px;
+	text-align : center;
+	border: 1px solid black;
+}
+
+.mat-td{
+	padding: 3px 5px 3px 0px;
+	text-align : end;
+	border: 1px solid black;
+}
+
+.mat-tbody{
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
 	width: 100%;
-	max-height: 450px;
+}
+
+.mat-tr{
+	display: flex;
+	width: 100%;
+}
+/* 15 35 20 20 10  */
+.th-w-1{
+	border: 1px solid black;
+	width : calc(100% / 10 + 100% / 20);
+}
+.th-w-2{
+	border: 1px solid black;
+	width : calc(100% / 5 + 100% / 10 + 100% / 20);
+	text-align: center !important;
+}
+.th-w-3{
+	border: 1px solid black;
+	width : calc(100% / 5);
+}
+.th-w-4{
+	border: 1px solid black;
+	width : calc(100% / 5);
+}
+.th-w-5{
+	border: 1px solid black;
+	width : calc(100% / 10);
+}
+
+.mat-box__flow-y{
+	width: 85% !important;
+	max-height: 400px;
 	overflow-y: auto;
+	
+	margin: auto;
 }
 .mat-box{
 	width: 100%;
@@ -245,7 +334,7 @@
 }
 
 .select-mat{
-	margin: 5px 5px 5px 5px;
+	/* padding: 5px 5px 5px 10px; */
 }
 .select-mat__category{
 	display: inline-block;
@@ -253,7 +342,7 @@
 	padding: 3px 6px 3px 6px;
 	
 	background-color: yellowgreen;
-	border: 1px solid green;
+	/* border: 1px solid green; */
 	border-radius: 10px;
 	
 	color: white;
@@ -270,12 +359,14 @@
 }
 
 .result-type-box{
-	display: flex;	
+	display: flex;
+	width: 85%;
+	margin: auto;
+	border: 1px solid black;
 }
 
 .result-type-margin{
-	
-	margin-left: 7px;
+	width: 100%;
 }
 
 .range-header{
@@ -285,10 +376,12 @@
 
 .modal-box__result-btn{
 	display: flex;
-	justify-content: center;
+	justify-content: end;
 	
+	width: 85% !important;
+	
+	margin: auto;
 	margin-top: 20px;
-	margin-left: 15px;
 }
 
 .final-btn{
@@ -352,7 +445,6 @@
 	transform: translate(-50%, -50%);
 	
 	width: 320px;
-	height: 20%;
 	
 	background-color: #fff;
 	
@@ -364,13 +456,31 @@
 .title-modal__flex-down{
 	display: flex;
 	flex-direction: column;
+	
+	width: 100%;
+}
+
+.title-modal__input-down{
+	width: 80%;
+	
+	margin: 8px 0px 0px 15px;
+}
+
+
+#downTitleInput {
+	height: 35px;
 }
 
 .title-modal__btn-down{
 	display: flex;
 	justify-content: end;
 	
+	margin: 10px 10px 8px 0px;
 }
+#downModalSave{
+	margin-right: 8px;
+}
+
 
 </style>
 
@@ -419,7 +529,7 @@
 	            	<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
                </div>
             </div>
-         </nav>
+		</nav>
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
@@ -642,15 +752,31 @@
 				width="25px">
 		</div><!-- 닫기 버튼 -->
 		
+		<div class="mat-division">
+			<div class="mat-title">선택 자재</div>
+			<div class="mat-title">대체 자재</div>
+		</div>
+		
 		<!-- 선택한 자제, 대체 자제 -->
-		<div class="only-flex">
+		<div class="only-flex mb-mat-box">
 			<!-- 결과 모달창 -->
 			<div class="modal-box_sort mat-box__flow-y">
 				<!-- 기본 자제 -->
 				<div class="mat-box__half">
-					<div class="mat-box">
-						<div class="select-mat">
-							<div>외장재</div>
+					<div class="mat-thead">
+						<div class="mat-th th-w-1">카테고리</div>
+						<div class="mat-th th-w-2">자재명</div>
+						<div class="mat-th th-w-3">가격(원)</div>
+						<div class="mat-th th-w-4">탄소배출량(kg)</div>
+						<div class="mat-th th-w-5">총 kg</div>
+					</div>
+					<div class="mat-box mat-tbody">
+						<div class="select-mat mat-tr">
+							<div class="mat-td th-w-1">외장재</div>
+							<div class="mat-td th-w-2">집</div>
+							<div class="mat-td th-w-3">10000000</div>
+							<div class="mat-td th-w-4">900.1</div>
+							<div class="mat-td th-w-5">340	</div>
 							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
 						</div>
 						<div class="select-mat">
@@ -665,36 +791,15 @@
 							<div>거실</div>
 							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
 						</div>
-					</div> <!-- 기본 자제 -->
-				</div>
-				
-				<div class="mat-box__half">
-					<!-- 대체 자제 -->
-					<div class="mat-box">
-						<div class="select-mat">
-							<div>외장재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>지붕재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>창호재</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-						<div class="select-mat">
-							<div>거실</div>
-							<!-- div 생성 후 안에 대체 자제명, input__hidden으로 갯수 추가됨 -->
-						</div>
-					</div> <!-- 대체 자제 -->
+					</div>
+					<!-- 기본 자제 -->
 				</div>
 				
 			</div>
 			
 		</div>
 		
-		<div class="modal-box_sort">
+		<div class="modal-box_sort compare-box">
 			<!-- 기본 자제 최종 가격, 탄소배출량 -->
 			<div class="mat-box__half">
 				<!-- 탄소, 가격 변경사항 -->
@@ -702,7 +807,7 @@
 					
 					<!-- 탄소배출량 -->
 					<div class="compare-percent__carbon">
-						<div>탄소배출량</div>
+						<div>총 탄소배출량</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 탄소배출량 -->
 							<div class="cal-before"></div>
@@ -711,7 +816,7 @@
 					
 					<!-- 가격 -->
 					<div class="compare-percent__price">
-						<div>가격</div>
+						<div>총 가격</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 가격 -->
 							<div class="cal-before"></div>
@@ -728,7 +833,7 @@
 					
 					<!-- 탄소배출량 -->
 					<div class="compare-percent__carbon">
-						<div>탄소배출량</div>
+						<div>총 탄소배출량</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 탄소배출량 -->
 							<div class="cal-after"></div>
@@ -737,7 +842,7 @@
 					
 					<!-- 가격 -->
 					<div class="compare-percent__price">
-						<div>가격</div>
+						<div>총 가격</div>
 						<div class="compare-percent__result">
 							<!-- 기본 자제 총 가격 -->
 							<div class="cal-after"></div>
@@ -749,10 +854,17 @@
 		</div>
 		
 		<div class="modal-box__result-btn">
+			<!-- 불러오기 버튼 -->
+			<form id="estiLoadDo" action="${pageContext.request.contextPath}/estiLoadDo" method="POST">
+				<div id="estiLoadBtn" class="sjm-btn sjm-btn-primary final-btn">
+					불러오기
+				</div>
+				<input type="hidden" name="estiNo" id="estiNo">
+			</form>
 			<!-- 초기화 버튼 -->
 			<div id="estiDeleteBtn" class="sjm-btn sjm-btn-primary final-btn">
 				삭제
-			</div> <!-- 초기화 버튼 -->
+			</div>
 		</div>
 		
 	</div> <!-- Finally Calculate Modal -->
@@ -937,21 +1049,10 @@
 				console.log("왜 클릭 이벤트가 안됨");
 				console.log(v_estiTableBody.children[1]);
 				v_estiTableBody.addEventListener("click", () => {
-					/* 테이블에서 테이블 헤더의 값과 데이블 바디의 값이 같은 것을 클릭 하는 용도 */
-/* 					const target = event.target; // 클릭된 요소
-					const children = Array.from(target.parentElement.children);
-					const index = children.indexOf(target);
-					
-					// parent - 위 형제 - children - children[1].textContent
-					let v_tableHeadEsti = event.target.parentElement.parentElement.previousElementSibling.children[0].children[index].textContent;
-					
-					console.log(v_tableHeadEsti);
-					if (v_tableHeadEsti != "견적"){
-						return;
-					} */
 					
 					const v_nowNo = v_realNo[event.target.parentElement.children[0].innerHTML]; // 현재 견적번호
 					v_deleteNo = v_nowNo; // 삭제 시 필요
+					document.getElementById("estiNo").value = v_nowNo; // 불러오기 시 필요 
 
 					console.log("현재 글번호 : ", event.target.parentElement.children[0].innerHTML);
 					console.log("진짜 글번호 : ", v_nowNo);
@@ -961,79 +1062,100 @@
 					
 					// 주방1, 욕실 2 같은거 때문에 최종 결과 카테고리 div 추가
 					let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
-					
-					for (let k = 0; k < v_matBox.length; k++){
-						v_matBox[k].innerHTML = "";
-						for (let cateIdx = 0; cateIdx < v_noCategoryDict[v_nowNo].length; cateIdx++){
+
+					/* 최종 견적서 */
+					let v_matTitle = document.querySelectorAll(".mat-title");
+					for (let btnIdx = 0; btnIdx < 2; btnIdx++){
+						// 0:기본자제
+						v_matTitle[btnIdx].addEventListener("click", ()=>{
+							if (btnIdx == 0){
+								// 기본 자제
+								v_matTitle[0].style.backgroundColor = "#ccc";
+								v_matTitle[1].style.backgroundColor = "#eee";
+							} else if (btnIdx == 1) {
+								// 대체 자제
+								v_matTitle[1].style.backgroundColor = "#ccc";
+								v_matTitle[0].style.backgroundColor = "#eee";
+							}
 							
-							let v_query = ""
-								v_query += '<div class="select-mat">'
-								v_query += '	<div class="select-mat__category">' + v_noCategoryDict[v_nowNo][cateIdx] + '</div>'
-								v_query += '</div>'
-								
-							v_matBox[k].innerHTML += v_query;
-						}
-					}
+							v_matBox[0].innerHTML = "";
+							for (let i = 0; i < v_estiNoDict[v_nowNo].length / 2; i++){
+								let v_query = ""
+									v_query += '<div class="select-mat mat-tr">'
+									v_query += '</div>'
+									
+								v_matBox[0].innerHTML += v_query;
+							}
 
-					/* 기본자제, 대체자제 모달창에 추가 */
-					let v_basicCarbonSum = 0; // 기본 자제 총 탄소배출량
-					let v_basicPriceSum = 0; // 기본 자제 총 가격
-					let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
-					let v_subPriceSum = 0; // 대체 자제 총 가격
-					
-					let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
-					
-					for (let i = 0; i < v_matBox[0].children.length; i++){
-						// category 공백제거 div - div - div(카테고리명)
-						let v_category = v_matBox[0].children[i].children[0].innerHTML.trim();
-						
-						let v_tempDiv = document.createElement("div"); // 한번 사용하면 두번 사용 못함 그래서 .cloneNode(true) 써줘야됨.
-						if (v_matBox[0].children[i].children.length == 1){
-							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-						} else {
-							v_matBox[0].children[i].children[1].remove();
-							v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-							v_matBox[1].children[i].children[1].remove();
-							v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-						}
-						
-						// 자제 정보 html에 추가
-						for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
-							if (v_category == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
-								
-								if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
-									
-									// 기본 자제
-									v_matBox[0].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
+							/* 기본자제, 대체자제 모달창에 추가 */
+							let v_basicCarbonSum = 0; // 기본 자제 총 탄소배출량
+							let v_basicPriceSum = 0; // 기본 자제 총 가격
+							let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
+							let v_subPriceSum = 0; // 대체 자제 총 가격
+							
+							let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
+							
+							// 자제 정보 html에 추가
+							console.log(v_estiNoDict[v_nowNo]);
+							
+							let sortIdx = 0;
+							for (let idx = 0; idx < v_noCategoryDict[v_nowNo].length; idx++){
+								for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
 
-									// 기본 자제들 총 탄소, 가격
-									let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"]; 
-									v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
-									v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
-								} else {
-									
-									// 대체 자제
-									v_matBox[1].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
-									
 									// 대체 자제들 총 탄소, 가격
 									let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"];
-									v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
-									v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+									
+									if (btnIdx == 0){
+										if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"
+												&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+											// 기본 자제
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+											sortIdx++;
+										}
+									} else if (btnIdx == 1) {
+										if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"
+												&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+											// 대체 자제
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+											sortIdx++;
+										}
+									}
+									
+
+									if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
+										// 기본 자제들 총 탄소, 가격
+										v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
+										v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+									} else if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"){
+										// 대체 자제들 총 탄소, 가격
+										v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]['materGasKg'] * v_num;
+										v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]['materPrice'] * v_num;
+									}
 								}
 							}
-						}
+							
+
+							/* 기본 자제들 총합 */
+							let v_calBefore = document.querySelectorAll(".cal-before");
+							v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
+							v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
+
+							/* 대체 자제들 총합 */
+							let v_calAfter = document.querySelectorAll(".cal-after");
+							v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
+							v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
+						});
 					}
-
-					/* 기본 자제들 총합 */
-					let v_calBefore = document.querySelectorAll(".cal-before");
-					v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
-					v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
-
-					/* 대체 자제들 총합 */
-					let v_calAfter = document.querySelectorAll(".cal-after");
-					v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
-					v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
+					
+					v_matTitle[0].click();
 					
 					// 모달창 출력	
 					document.querySelector(".overlay").classList.add("show");
@@ -1176,18 +1298,6 @@
 					console.log(v_estiTableBody.children[1]);
 					
 					v_estiTableBody.children[1].addEventListener("click", () => {
-						/* 테이블에서 테이블 헤더의 값과 데이블 바디의 값이 같은 것을 클릭 하는 용도 */
-	/* 					const target = event.target; // 클릭된 요소
-						const children = Array.from(target.parentElement.children);
-						const index = children.indexOf(target);
-						
-						// parent - 위 형제 - children - children[1].textContent
-						let v_tableHeadEsti = event.target.parentElement.parentElement.previousElementSibling.children[0].children[index].textContent;
-						
-						console.log(v_tableHeadEsti);
-						if (v_tableHeadEsti != "견적"){
-							return;
-						} */
 						
 						const v_nowNo = v_realNo[event.target.parentElement.children[0].innerHTML]; // 현재 견적번호
 						v_deleteNo = v_nowNo; // 삭제 시 필요
@@ -1195,84 +1305,105 @@
 						console.log("현재 글번호 : ", event.target.parentElement.children[0].innerHTML);
 						console.log("진짜 글번호 : ", v_nowNo);
 						console.log(v_estiNoDict[v_nowNo][0]["estiTitle"]);
-						
+
 						/* 최종 결과 계산 */
 						
 						// 주방1, 욕실 2 같은거 때문에 최종 결과 카테고리 div 추가
 						let v_matBox = document.querySelectorAll(".mat-box"); // 기본 자제들, 대체 자제들
-						
-						for (let k = 0; k < v_matBox.length; k++){
-							v_matBox[k].innerHTML = "";
-							for (let cateIdx = 0; cateIdx < v_noCategoryDict[v_nowNo].length; cateIdx++){
+
+						/* 최종 견적서 */
+						let v_matTitle = document.querySelectorAll(".mat-title");
+						for (let btnIdx = 0; btnIdx < 2; btnIdx++){
+							// 0:기본자제
+							v_matTitle[btnIdx].addEventListener("click", ()=>{
+								if (btnIdx == 0){
+									// 기본 자제
+									v_matTitle[0].style.backgroundColor = "#ccc";
+									v_matTitle[1].style.backgroundColor = "#eee";
+								} else if (btnIdx == 1) {
+									// 대체 자제
+									v_matTitle[1].style.backgroundColor = "#ccc";
+									v_matTitle[0].style.backgroundColor = "#eee";
+								}
 								
-								let v_query = ""
-									v_query += '<div class="select-mat">'
-									v_query += '	<div class="select-mat__category">' + v_noCategoryDict[v_nowNo][cateIdx] + '</div>'
-									v_query += '</div>'
-									
-								v_matBox[k].innerHTML += v_query;
-							}
-						}
+								v_matBox[0].innerHTML = "";
+								for (let i = 0; i < v_estiNoDict[v_nowNo].length / 2; i++){
+									let v_query = ""
+										v_query += '<div class="select-mat mat-tr">'
+										v_query += '</div>'
+										
+									v_matBox[0].innerHTML += v_query;
+								}
 
-						/* 기본자제, 대체자제 모달창에 추가 */
-						let v_basicCarbonSum = 0; // 기본 자제 총 탄소배출량
-						let v_basicPriceSum = 0; // 기본 자제 총 가격
-						let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
-						let v_subPriceSum = 0; // 대체 자제 총 가격
-						
-						let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
-						
-						for (let i = 0; i < v_matBox[0].children.length; i++){
-							// category 공백제거 div - div - div(카테고리명)
-							let v_category = v_matBox[0].children[i].children[0].innerHTML.trim();
-							
-							let v_tempDiv = document.createElement("div"); // 한번 사용하면 두번 사용 못함 그래서 .cloneNode(true) 써줘야됨.
-							if (v_matBox[0].children[i].children.length == 1){
-								v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-								v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-							} else {
-								v_matBox[0].children[i].children[1].remove();
-								v_matBox[0].children[i].appendChild(v_tempDiv.cloneNode(true));
-								v_matBox[1].children[i].children[1].remove();
-								v_matBox[1].children[i].appendChild(v_tempDiv.cloneNode(true));
-							}
-							
-							// 자제 정보 html에 추가
-							for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
-								if (v_category == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
-									
-									if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
-										
-										// 기본 자제
-										v_matBox[0].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
+								/* 기본자제, 대체자제 모달창에 추가 */
+								let v_basicCarbonSum = 0; // 기본 자제 총 탄소배출량
+								let v_basicPriceSum = 0; // 기본 자제 총 가격
+								let v_subCarbonSum = 0; // 대체 자제 총 탄소배출량
+								let v_subPriceSum = 0; // 대체 자제 총 가격
+								
+								let v_selectMat = document.querySelectorAll(".select-mat"); // 각 카테고리별 자제들
+								
+								// 자제 정보 html에 추가
+								console.log(v_estiNoDict[v_nowNo]);
+								
+								let sortIdx = 0;
+								for (let idx = 0; idx < v_noCategoryDict[v_nowNo].length; idx++){
+									for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
 
-										// 기본 자제들 총 탄소, 가격
-										let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"]; 
-										v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
-										v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
-									} else {
-										
-										// 대체 자제
-										v_matBox[1].children[i].children[1].innerHTML += v_estiNoDict[v_nowNo][dataIdx]["materName"] + "<br>";
-										
 										// 대체 자제들 총 탄소, 가격
 										let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"];
-										v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
-										v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+										
+										if (btnIdx == 0){
+											if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"
+													&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+												// 기본 자제
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+												sortIdx++;
+											}
+										} else if (btnIdx == 1) {
+											if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"
+													&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+												// 대체 자제
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+												v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+												sortIdx++;
+											}
+										}
+										
+
+										if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
+											// 기본 자제들 총 탄소, 가격
+											v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
+											v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
+										} else if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"){
+											// 대체 자제들 총 탄소, 가격
+											v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]['materGasKg'] * v_num;
+											v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]['materPrice'] * v_num;
+										}
 									}
 								}
-							}
+								
+
+								/* 기본 자제들 총합 */
+								let v_calBefore = document.querySelectorAll(".cal-before");
+								v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
+								v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
+
+								/* 대체 자제들 총합 */
+								let v_calAfter = document.querySelectorAll(".cal-after");
+								v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
+								v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
+							});
 						}
-
-						/* 기본 자제들 총합 */
-						let v_calBefore = document.querySelectorAll(".cal-before");
-						v_calBefore[0].innerHTML = parseFloat(v_basicCarbonSum.toFixed(2));
-						v_calBefore[1].innerHTML = insertComma(v_basicPriceSum.toString());
-
-						/* 대체 자제들 총합 */
-						let v_calAfter = document.querySelectorAll(".cal-after");
-						v_calAfter[0].innerHTML = parseFloat(v_subCarbonSum.toFixed(2));
-						v_calAfter[1].innerHTML = insertComma( v_subPriceSum.toString());
+						
+						v_matTitle[0].click();
 						
 						// 모달창 출력
 						document.querySelector(".overlay").classList.add("show");
@@ -1287,7 +1418,12 @@
 			document.querySelector(".overlay").classList.remove("show");
 			document.body.style.overflow = "auto";
 			v_modalBoxCal.style.display = "none";
-		})
+		});
+		
+		/* 데이터 불러오기 */
+		document.getElementById("estiLoadBtn").addEventListener("click", () => {
+			document.getElementById("estiLoadDo").submit(); // 로드 불러오기
+		});
 		
 		/* 예산 입력 시 세자리마다 콤마 추가 */
 		function insertComma(num) {    

@@ -28,4 +28,7 @@ public interface IUserEstimateDAO {
 	
 	// 견적 삭제하기
 	int delUserEstimate(UserEstimateDTO esti);
+	
+	// 견적 번호 자재들 가져오기
+	List<UserEstimateDTO> estiNoToUserEstimate(int estiNo);
 }

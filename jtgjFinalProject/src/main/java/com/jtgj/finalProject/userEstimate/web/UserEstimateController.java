@@ -20,11 +20,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jtgj.finalProject.estimate.dto.EstimateDTO;
 import com.jtgj.finalProject.estimate.service.EstimateService;
@@ -41,7 +43,7 @@ public class UserEstimateController {
 	@Autowired
 	EstimateService estimateService;
 
-	// 유저 견적 마이페이지에 보이게 하는거 test, 이식 끝나면 지우기
+	// 유저 견적 마이페이지에 보이게 하는거
 	@ResponseBody
 	@PostMapping("/userEstimate")
 	public List<UserEstimateDTO> userEstimate(HttpSession session) {
@@ -59,7 +61,7 @@ public class UserEstimateController {
 		return userEstimate;
 	}
 
-	// 유저 견적 마이페이지에서 삭제 시키기 test, 이식 끝나면 지우기
+	// 유저 견적 마이페이지에서 삭제 시키기
 	@ResponseBody
 	@PostMapping("/estimateDelete")
 	public List<UserEstimateDTO> estimateDelete(String deleteNo, HttpSession session) {
@@ -353,6 +355,31 @@ public class UserEstimateController {
 				cell.setCellValue(rowData.get(j));
 			}
 		}
+	}
+	
+	// 견적 불러오기
+	@RequestMapping("/estiLoadDo")
+	public String estiLoadDo(Model model, int estiNo) {
+		System.out.println(" - estiLoadDo - ");
+		
+		System.out.println(estiNo);
+		
+		List<UserEstimateDTO> estiList = userEstimateService.estiNoToUserEstimate(estiNo);
+		
+		System.out.println(estiList);    
+		
+		// ObjectMapper로 Java 리스트를 JSON 문자열로 변환
+	    ObjectMapper mapper = new ObjectMapper();
+	    String jsonList;
+		try {
+			jsonList = mapper.writeValueAsString(estiList);
+			model.addAttribute("jsonList", jsonList);
+			
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+		return "estimate/estimateCal";
 	}
 
 }

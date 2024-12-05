@@ -81,4 +81,33 @@
 			AND user_id = #{userId}
 			AND esti_no = #{estiNo}
 	</delete>
+	
+	<!-- 견적 번호로 유져 견적 가져오기 -->
+	<select id="estiNoToUserEstimate" parameterType="int" resultType="com.jtgj.finalProject.userEstimate.dto.UserEstimateDTO">
+		SELECT
+			user_id,
+			esti_no,
+			mater_no,
+			mater_category,
+			mater_name,
+			mater_gas_kg,
+			mater_img,
+			mater_price,
+			mater_durability,
+			mater_info,
+			mater_classify,
+			kg_per_pyeong,
+			esti_date,
+			esti_title,
+			esti_pyeong
+		FROM user_estimate
+		WHERE 1=1
+			AND esti_no = #{estiNo}
+	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

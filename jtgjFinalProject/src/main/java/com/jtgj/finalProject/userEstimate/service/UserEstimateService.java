@@ -49,4 +49,11 @@ public class UserEstimateService {
 		
 		return result;
 	}
+	
+	// 견적 번호로 유저 견적 가져오기
+	public List<UserEstimateDTO> estiNoToUserEstimate(int estiNo){
+		List<UserEstimateDTO> result = dao.estiNoToUserEstimate(estiNo);
+		
+		return result;
+	}
 }

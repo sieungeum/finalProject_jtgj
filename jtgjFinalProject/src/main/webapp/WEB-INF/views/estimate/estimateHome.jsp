@@ -477,6 +477,15 @@
 			}
 		}
 		
+		/* 불러오기 실행 시 값이 들어감 */
+		let estiNoData = "";
+		if (JSON.stringify(${jsonList}) == null){
+			console.log("읎어요");
+		} else {
+			estiNoData = JSON.parse(JSON.stringify(${jsonList})));
+		}
+		
+		
 		/* model로 가져온 "basicMatter" : 모든 기본 자제들 */
 		let v_matInfoDict = {}; // 모든 기본 자제들이 담길 dictionary
 		
@@ -672,7 +681,6 @@
 					let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
 					console.log(v_category);
 					sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
-
 					
 					// 스크롤 초기화  
 					setTimeout(() => {
@@ -697,7 +705,6 @@
 			});
 		});
 		
-
 		
 		/* modal */
 		let v_addModal = document.querySelector(".add-modal"); // 선택한 카테고리별 모달 생성
@@ -1517,7 +1524,6 @@
 					v_matInfo = v_matInfoStack[v_stackKey - 2]; // 자제 정보
 					v_matNum = v_matInfoStack[v_stackKey - 1]; // 자제 갯수
 					
-
 					console.log("임시저장 클릭");
 					console.log(v_matInfo);
 					console.log(v_matNum);
