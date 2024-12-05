@@ -335,10 +335,10 @@ public class AdminController {
 		List<CompanyBoardDTO> CBList = adminService.getCBList();
 		model.addAttribute("CBList", CBList);
 		
-		  Map<String, Object> chartData = adminService.getChartData();
+		Map<String, Object> chartData = adminService.getChartData();
 
-	        // JSP로 전달할 데이터를 모델에 추가
-	        model.addAttribute("values", chartData.get("values"));
+		// JSP로 전달할 데이터를 모델에 추가
+		model.addAttribute("values", chartData.get("values"));
 
 		
 		

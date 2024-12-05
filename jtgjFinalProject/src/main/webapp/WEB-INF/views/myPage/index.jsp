@@ -125,6 +125,18 @@
   
 /* sjm Zone 영역 전개 */
 
+
+/* index 꾸미 */
+.sb-topnav{
+	background-color: green !important;
+}
+
+.sb-sidenav-menu{
+	background-color: green;
+}
+
+
+
 .only-flex{
 	display:flex;
 }
@@ -492,12 +504,16 @@
 <body class="sb-nav-fixed">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" style="font-size: 40px; font-weight: bold;" href="home">저탄고집</a>
-		<!-- Sidebar Toggle-->
+		<a class="navbar-brand" style="text-align: center; margin-top: 20px;" href="home">
+			<img src="img/logo-1-remove.png" alt="Logo" style="width:50%; height: 35px;">
+		</a>
+		<!-- 
+		Sidebar Toggle
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
 			<i class="fas fa-bars"></i>
 		</button>
+		 -->
 	</nav>
 
 	<div id="layoutSidenav">
@@ -579,19 +595,33 @@
 							</div>
 						</div>
 						<c:if test="${sessionScope.login.userAccount == 'C' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-						<div class="col-xl-4 col-lg-5">
+						
+<!-- 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
 								<div class="card-body" style="height: 330px;">
 								</div>
 							</div>
-						</div>
+						</div> -->
+						
 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
-								<div class="card-header">탄소배출권</div>
+								<div class="card-header">기본 자재 탄소배출권 현황</div>
 								<div class="card-body" style="height: 330px;">
 									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
 										<canvas id="carbonChart" width="400" height="400"></canvas>
+										
+ 									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-xl-4 col-lg-5">
+							<div class="card mb-4">
+								<div class="card-header">대체 자재 탄소배출권 현황</div>
+								<div class="card-body" style="height: 330px;">
+									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
+										<canvas id="ecoCarbonChart" width="400" height="400"></canvas>
 										
  									</div>
 								</div>
@@ -896,8 +926,6 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
 		crossorigin="anonymous"></script>
-	<script src="assets/demo/chart-area-demo.js"></script>
-	<script src="assets/demo/chart-bar-demo.js"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
 		crossorigin="anonymous"></script>
@@ -906,39 +934,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
 	<script>
-    var values = ${values};  // JSP에서 전달한 values
-
-    // 도넛 차트 설정
-    var ctx = document.getElementById('carbonChart').getContext('2d');
-    var carbonChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['총 탄소배출량'],  // 레이블
-            datasets: [{
-                label: '탄소배출량',
-                data: values,  // 데이터
-                backgroundColor: ['#FF0000', '#00FF00', '#0000FF'], // 차트 색상 (기업 수에 맞게 조정)
-                borderColor: ['#FFFFFF', '#FFFFFF', '#FFFFFF'], // 테두리 색상
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(tooltipItem) {
-                            return tooltipItem.label + ": " + tooltipItem.raw + "kg"; // 툴팁에 단위 추가
-                        }
-                    }
-                }
-            }
-        }
-    });
-</script>
+		// 기본 탄소 사용량, 대체 탄소 사용량 선언(맨 밑에 chart script 있음) 
+		let v_carbonUse = 0;
+		let v_carbonEcoUse = 0;
+		
+		// 기업의 전체 탄소 사용량
+		let v_carbonEmission = parseInt("${sessionScope.company.cpCarbonEmissions}");
+	</script>
 
 
 	<script type="text/javascript">
@@ -980,6 +982,14 @@
 						v_estiNoDict[v_list[i]["estiNo"]].push(v_list[i]);
 						v_noCategoryDict[v_list[i]["estiNo"]].push(v_list[i]["materCategory"]);
 					}
+					
+					// 기본 자재 사용량, 대체 자재 사용량 구하기
+					if (v_list[i]["materClassify"] == "N"){
+						v_carbonUse += parseInt(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
+					} else{
+						v_carbonEcoUse += parseInt(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
+					}
+					
 				}
 				
 				console.log(v_estiNoDict);
@@ -1466,6 +1476,76 @@
 			
 			return newNum.join(',');
 		}
+	</script>
+
+
+	<script type="text/javascript">
+	
+	console.log("기본 사용량", v_carbonUse);
+	console.log("대체 사용량", v_carbonEcoUse);
+	console.log("남은량", v_carbonEmission);
+	
+	// 도넛 차트 설정
+	var ctx = document.getElementById('carbonChart').getContext('2d');
+	var carbonChart = new Chart(ctx, {
+		type: 'doughnut',
+		data: {
+			labels: ['탄소배출량', '남은 배출량'],  // 레이블
+			datasets: [{
+				label: '기본자재 탄소 배출량',
+				data: [v_carbonUse / 1000, (v_carbonEmission - v_carbonUse) / 1000],  // 데이터
+				backgroundColor: ['red', '#eee'], // 차트 색상 (기업 수에 맞게 조정)
+				borderColor: ['#FFFFFF', '#FFFFFF'], // 테두리 색상
+				borderWidth: 1,
+			}],
+		},
+		options: {
+			responsive: true,
+			plugins: {
+				legend: {
+					position: 'top',
+				},
+				tooltip: {
+					callbacks: {
+						label: function(tooltipItem) {
+							return tooltipItem.label + ": " + tooltipItem.raw + "t"; // 툴팁에 단위 추가
+						}
+					}
+				}
+			}
+		}
+	});
+	
+	// 도넛 차트 설정
+		var ecoCtx = document.getElementById('ecoCarbonChart').getContext('2d');
+		var ecoCarbonChart = new Chart(ecoCtx, {
+			type: 'doughnut',
+			data: {
+				labels: ['탄소배출량', '남은 배출량'],  // 레이블
+				datasets: [{
+					label: '대체자재 탄소 배출량',
+					data: [v_carbonEcoUse / 1000, (v_carbonEmission - v_carbonEcoUse) / 1000],  // 데이터
+					backgroundColor: ['green', '#eee'], // 차트 색상 (기업 수에 맞게 조정)
+					borderColor: ['#FFFFFF', '#FFFFFF'], // 테두리 색상
+					borderWidth: 1,
+				}],
+			},
+			options: {
+				responsive: true,
+				plugins: {
+					legend: {
+						position: 'top',
+					},
+					tooltip: {
+						callbacks: {
+							label: function(tooltipItem) {
+								return tooltipItem.label + ": " + tooltipItem.raw + "t"; // 툴팁에 단위 추가
+							}
+						}
+					}
+				}
+			}
+		});
 	</script>
 
 
