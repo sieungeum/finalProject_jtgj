@@ -48,9 +48,10 @@
 			justify-content: center;
 		}
 		
-		.center{
-			display: flex;
-			justify-content: center;
+		.end{
+			height:40px;
+			margin-bottom:20px;
+			display:block;
 		}
 		
 		.height100{
@@ -69,6 +70,10 @@
 			margin-top: 10px;
 		}
 		
+		.faq-row td {
+		    border-bottom: 2px solid #F5F5F5 !important;
+		}
+				
 	</style>
 	
 </head>
@@ -87,15 +92,31 @@
 	</div>
 	
 	<section class="page-section" >
-		<div class="container" style="margin-top: 100px;">
-			<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">건의사항</h2>
-			<table class=" table table-hover">
-				<thead>
+		<div class="container" style="margin-top:25px;">
+			<h2 class="page-section-heading text-center text-uppercase text-secondary" style="margin-bottom:70px;font-size:40px;font-weight:600;">건의사항</h2>
+			
+			<div class="end marginT10">
+				<form class="searchBox" style="width:100%;display:flex;justify-content:end;" action="<c:url value="/faqView"/>" method="GET">
+					<select class="form-select height50"  name="searchOption" style="width:7%;;height:100%;margin-right:10px;padding-left:10px;border-radius:5px;">
+						<option value="title" selected>제목</option>
+						<option value="content">내용</option>
+						<option value="name">작성자</option>
+					</select>
+					<input class="form-control" size=10 type="text" name="searchWord" style="width:30%;height:100%;margin-right:5px;">
+					<button class="btn btn-success height50" type="submit" style="height:100%;color:white;border-radius:10px;">
+						검색
+					</button>
+				</form>
+			</div>
+		
+			
+			<table class="table table-hover">
+				<thead style="background-color:#F5F5F5;border-top:2px solid #5CB85C;">
 					<tr>
-						<td>번호</td>
-						<td>제목</td>
-						<td>작성자</td>
-						<td>날짜</td>
+						<td style="font-weight:bolder;">번호</td>
+						<td style="font-weight:bolder;">제목</td>
+						<td style="font-weight:bolder;">작성자</td>
+						<td style="font-weight:bolder;">날짜</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -110,7 +131,7 @@
 				</tbody>
 				<tbody>
 					<c:forEach items="${faqList }" var="faq">
-						<tr>
+						<tr class="faq-row">
 							<td scope="row">${faq.faqNo }</td>
 							<td>
                                 <c:choose>
@@ -133,7 +154,7 @@
 			</table>
 			<div class="buttonBox">
 				<a href="${pageContext.request.contextPath }/faqWriteView">
-					<button class="button btn btn-success">글쓰기</button>
+					<button class="button btn btn-success" style="border:0px;font-size:15px;padding:10px;border-radius:10px;">글쓰기</button>
 				</a>
 				<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K'}">
 					<a href="${pageContext.request.contextPath }/noticeWriteView">
@@ -144,7 +165,7 @@
 		</div>
 		
 		<!-- Paging Bar -->
-		<div class="pagingBar">
+		<div class="pagingBar" style="margin-bottom:250px;">
 			
 				<ul class="pagination">
 
@@ -168,12 +189,12 @@
 						<c:if test="${searchWord == null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.firstPage - 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 							</a>
 						</c:if> <c:if test="${searchWord != null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.firstPage - 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+								aria-label="Previous"> <span aria-hidden="true">&lt;</span>
 							</a>
 						</c:if>
 					</li>
@@ -198,13 +219,13 @@
 						<c:if test="${pageSearch.searchWord == null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.lastPage + 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								aria-label="Next"> <span aria-hidden="true">&gt;</span>
 							</a>
 						</c:if> 
 						<c:if test="${pageSearch.searchWord != null }">
 							<a class="page-link"
 								href="${pageContext.request.contextPath }/faqView?pageNo=${pageSearch.lastPage + 1 }&rowSizePerPage=${pageSearch.rowSizePerPage}&searchOption=${pageSearch.searchOption}&searchWord=${pageSearch.searchWord}"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+								aria-label="Next"> <span aria-hidden="true">&gt;</span>
 							</a>
 						</c:if>
 					</li>
@@ -228,20 +249,7 @@
 			
 		</div>
 		
-		<div class="center marginT10">
-			<form class="searchBox width60" action="<c:url value="/faqView"/>" method="GET">
-				<select class="form-select me-1 height50"  name="searchOption">
-					<option value="title" selected>제목</option>
-					<option value="content">내용</option>
-					<option value="name">작성자</option>
-				</select>
-				<input class="form-control" size=10 type="text" name="searchWord">
-				<button class="btn btn-success height50" type="submit">
-					<i class="fa-solid fa-magnifying-glass fa-2xl" style="color: #ffffff;"></i>
-				</button>
-			</form>
-		</div>
-		
+
 	</section>
 	
 	
