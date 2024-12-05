@@ -379,7 +379,7 @@ public class UserEstimateController {
 			e.printStackTrace();
 		}
 		
-		return "estimate/estimateCal";
+		return "estimate/estimateHome";
 	}
 
 }

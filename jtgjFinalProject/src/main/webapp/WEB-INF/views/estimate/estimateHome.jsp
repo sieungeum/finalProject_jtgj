@@ -478,11 +478,24 @@
 		}
 		
 		/* 불러오기 실행 시 값이 들어감 */
+		let v_estiLoadOn = false; // 불러오기 유무
 		let estiNoData = "";
+		let v_estiLoadPyeong; // 불러온 평수
+		let v_estiLoadRoomNum = []; // 불러운 욕실, 주방, 방 갯수
+		
 		if (JSON.stringify(${jsonList}) == null){
 			console.log("읎어요");
 		} else {
-			estiNoData = JSON.parse(JSON.stringify(${jsonList})));
+			estiNoData = JSON.parse(JSON.stringify(${jsonList}));
+			console.log(estiNoData);
+			v_estiLoadOn = true;
+			
+			// 해체 쇼쇼쇼
+			v_estiLoadPyeong = estiNoData;
+			
+			
+			
+			
 		}
 		
 		
@@ -527,28 +540,6 @@
 			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
 			// this.value = insertComma(this.value.replace(/[,]/g, ''));
 		});
-		
-/* 		// 다음 버튼 클릭 시
-		document.getElementById("budgetBtn").addEventListener("click", ()=>{
-			while(true){
-				if (!v_budget.value){
-					alert("입력 후 눌러주세요");
-					break;
-				} else {
-					let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
-					console.log(v_intBudget);
-					if (v_intBudget < 10){
-						alert("최소 10평 이상 입력해주세요.");
-						break;
-					}
-					
-					// 알맞은 예산 입력 시 다음 기능 보이기
-					v_container[1].style.display = "none"; // 평수 입력
-					v_container[2].style.display = "block";
-					break;
-				}
-			}
-		}); */
 		
 		// 평수 입력 시 욕실, 주방, 방 갯수 와 비율에 맞게 평수 분할
 		let v_plusRoom = document.querySelectorAll(".plus-room");

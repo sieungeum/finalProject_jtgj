@@ -1019,8 +1019,19 @@
 				for (let i of Object.keys(v_estiNoDict)){
 					v_noCategoryDict[i] = [...new Set(v_noCategoryDict[i])];
 					v_noCategoryDict[i] = customSort(v_noCategoryDict[i]);
+
+					// 정렬 함수
+					v_estiNoDict[i].sort((a, b) => {
+					    const aIndex = v_noCategoryDict[i].indexOf(a.materCategory);
+					    const bIndex = v_noCategoryDict[i].indexOf(b.materCategory);
+
+					    // 기준 배열에 없는 항목은 맨 뒤로 보냄
+					    return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+					});
 				}
-				console.log(v_noCategoryDict);
+				
+				console.log("과연 정령이 됬을까욤?")
+				console.log(v_estiNoDict);
 				
 				// 왜인진 모르겠는데 html 코드에 id 든 class 든 추가해도 추가가 안됨. 그래서 근처 id 태그에서 접근 중
 				let v_estiTableBody = document.getElementById("datatablesEarnings");
@@ -1099,46 +1110,43 @@
 							console.log(v_estiNoDict[v_nowNo]);
 							
 							let sortIdx = 0;
-							for (let idx = 0; idx < v_noCategoryDict[v_nowNo].length; idx++){
-								for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
+							for (let dataIdx = 0; dataIdx < v_estiNoDict[v_nowNo].length; dataIdx++){
 
+								// 대체 자제들 총 탄소, 가격
+								let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"];
+								
+								if (btnIdx == 0){
+									if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N") {
+											// && v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+										// 기본 자제
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+										sortIdx++;
+									}
+								} else if (btnIdx == 1) {
+									if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"){
+											//&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
+										// 대체 자제
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
+										v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
+										sortIdx++;
+									}
+								}
+								
+								if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
+									// 기본 자제들 총 탄소, 가격
+									v_basicCarbonSum += parseFloat(v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num);
+									v_basicPriceSum += parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num);
+								} else if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"){
 									// 대체 자제들 총 탄소, 가격
-									let v_num = v_estiNoDict[v_nowNo][dataIdx]["kgPerPyeong"];
-									
-									if (btnIdx == 0){
-										if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"
-												&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
-											// 기본 자제
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
-											sortIdx++;
-										}
-									} else if (btnIdx == 1) {
-										if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"
-												&& v_noCategoryDict[v_nowNo][idx] == v_estiNoDict[v_nowNo][dataIdx]['materCategory']){
-											// 대체 자제
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-1">' + v_estiNoDict[v_nowNo][dataIdx]["materCategory"] + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-2">' + v_estiNoDict[v_nowNo][dataIdx]["materName"] + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-3">' + insertComma(parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num).toString()) + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-4">' + parseFloat((v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num).toFixed(2)) + '</div>';
-											v_matBox[0].children[sortIdx].innerHTML +=  '<div class="mat-td th-w-5">' + v_num + '</div>';
-											sortIdx++;
-										}
-									}
-									
-
-									if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "N"){
-										// 기본 자제들 총 탄소, 가격
-										v_basicCarbonSum += v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num;
-										v_basicPriceSum += v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num;
-									} else if (v_estiNoDict[v_nowNo][dataIdx]['materClassify'] == "Y"){
-										// 대체 자제들 총 탄소, 가격
-										v_subCarbonSum += v_estiNoDict[v_nowNo][dataIdx]['materGasKg'] * v_num;
-										v_subPriceSum += v_estiNoDict[v_nowNo][dataIdx]['materPrice'] * v_num;
-									}
+									v_subCarbonSum += parseFloat(v_estiNoDict[v_nowNo][dataIdx]["materGasKg"] * v_num);
+									v_subPriceSum += parseInt(v_estiNoDict[v_nowNo][dataIdx]["materPrice"] * v_num);
 								}
 							}
 							
@@ -1267,8 +1275,19 @@
 					for (let i = 1; i < Object.keys(v_noCategoryDict).length + 1; i++){
 						v_noCategoryDict[i] = [...new Set(v_noCategoryDict[i])];
 						v_noCategoryDict[i] = customSort(v_noCategoryDict[i]);
+
+						// 정렬 함수
+						v_estiNoDict[i].sort((a, b) => {
+						    const aIndex = v_noCategoryDict[i].indexOf(a.materCategory);
+						    const bIndex = v_noCategoryDict[i].indexOf(b.materCategory);
+
+						    // 기준 배열에 없는 항목은 맨 뒤로 보냄
+						    return (aIndex === -1 ? Number.MAX_SAFE_INTEGER : aIndex) - (bIndex === -1 ? Number.MAX_SAFE_INTEGER : bIndex);
+						});
 					}
-					console.log(v_noCategoryDict);
+					
+					console.log("과연 정령이 됬을까욤?")
+					console.log(v_estiNoDict);
 					
 					// 왜인진 모르겠는데 html 코드에 id 든 class 든 추가해도 추가가 안됨. 그래서 근처 id 태그에서 접근 중
 					let v_estiTableBody = document.getElementById("datatablesEarnings");
