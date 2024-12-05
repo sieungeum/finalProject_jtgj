@@ -55,4 +55,8 @@ public interface IAdminDAO {
 	List<CompanyProjectDTO> getCompanyProjectsByBoardNo(int cpBoardNo);
 	CompanyProjectDTO getCompanyProjectDetail(int ptNo);
 	
+	List<CompanyDTO> getCompanyList();
+	int getUserId(CompanyDTO userId);
+	
+	
 }

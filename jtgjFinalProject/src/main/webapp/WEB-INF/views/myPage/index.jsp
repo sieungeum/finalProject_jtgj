@@ -17,6 +17,7 @@
 <link href="css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 .profile-div {
@@ -590,7 +591,8 @@
 								<div class="card-header">탄소배출권</div>
 								<div class="card-body" style="height: 330px;">
 									<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
-										<canvas id="myDoughnutChart" width="400" height="400"></canvas>
+										<canvas id="carbonChart" width="400" height="400"></canvas>
+										
  									</div>
 								</div>
 							</div>
@@ -902,34 +904,40 @@
 	<script src="js/datatables-simple-demo.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	
 	<script>
-    // 페이지가 로드된 후 차트를 생성
-    window.onload = function() {
-        var ctx = document.getElementById('myDoughnutChart').getContext('2d');
-        var myDoughnutChart = new Chart(ctx, {
-            type: 'doughnut',  // 도넛 차트 타입
-            data: {
-                labels: ['탄소배출권 사용량', '남은 탄소배출권'],  // 각 구역의 레이블
-                datasets: [{
-                    label: 'My Doughnut Chart',  // 차트의 라벨
-                    data: [800, 200],  // 각 구역의 값 (각각의 섹터 크기)
-                    backgroundColor: ['#FF6384', '#36A2EB'],  // 각 구역의 색상
-                    hoverBackgroundColor: ['#FF4560', '#4D9EEC'],  // 마우스 호버 색상
-                }]
-            },
-            options: {
-                responsive: true,  // 화면 크기에 맞춰서 차트 크기 조정
-                plugins: {
-                    legend: {
-                        position: 'top',  // 범례 위치
-                    },
-                    tooltip: {
-                        enabled: true,  // 툴팁 표시 여부
+    var values = ${values};  // JSP에서 전달한 values
+
+    // 도넛 차트 설정
+    var ctx = document.getElementById('carbonChart').getContext('2d');
+    var carbonChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['총 탄소배출량'],  // 레이블
+            datasets: [{
+                label: '탄소배출량',
+                data: values,  // 데이터
+                backgroundColor: ['#FF0000', '#00FF00', '#0000FF'], // 차트 색상 (기업 수에 맞게 조정)
+                borderColor: ['#FFFFFF', '#FFFFFF', '#FFFFFF'], // 테두리 색상
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ": " + tooltipItem.raw + "kg"; // 툴팁에 단위 추가
+                        }
                     }
                 }
             }
-        });
-    };
+        }
+    });
 </script>
 
 
