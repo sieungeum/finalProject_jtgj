@@ -314,6 +314,12 @@
 	      AND pt_del_yn = 'N'
 	</select>
 	
-	
+	<select id="getCompanyList" resultType="com.jtgj.finalProject.user.dto.CompanyDTO">
+    SELECT 
+        a.cp_carbon_emissions,
+        b.user_id
+    FROM company_info a
+    JOIN users b ON a.user_id = b.user_id
+</select>
 	
 </mapper>
