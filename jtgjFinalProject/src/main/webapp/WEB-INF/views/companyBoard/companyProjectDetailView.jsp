@@ -73,6 +73,8 @@
 		
 		.width100{
 			width: 100%;
+			display: flex;
+			justify-content: space-between;
 		}
 		
 		.marB20{
@@ -145,13 +147,20 @@
 			margin-bottom: 10px;
 		}
 		
+		.width70{
+			width: 70%;
+		}
+		
 		.projectDeatailCard{
 			width: 100%;
-			min-height: 300px;
-			border-radius:20px;
-			background-color: #F1F3F5; 
-			display: flex;
-			align-items: center;
+		    border-radius: 20px;
+		    background-color: #F1F3F5;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    padding: 20px;
+		    min-height:100px;
+		    padding-left: 10px;
 		}
 		
 		.companyProfile{
@@ -169,9 +178,9 @@
 		
 		.hB {
 			width:0%;
-			height: 270px;
-			border-left: 1px solid #868E96;
-			margin-left: 22%;
+			height: 100px;
+			border-left: 5px solid #868E96;
+			margin-left: 20px;
 		}
 		
 		.width45{
@@ -183,25 +192,23 @@
 		
 		.marginL_L{
 			margin-left: 20px;
+			width:48%;
 		}
 		
 		.bigImgBox {
 			height: 400px;
-			width: 65%;
+			width: 75%;
 			border-radius: 15px;
 			overflow: hidden;
-			
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			
 			background-color: #e9ecef;
+			margin-top:30px;
 		}
 		
 		.bigImg {
-			height: 400px;
-			width: auto;
-			
+			width: 100%;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -217,6 +224,35 @@
 		
 		.marTop20{
 			margin-top: 20px;
+		}
+		
+		button{
+			border-radius:5px !important;
+		}
+		
+		.center{
+			display:flex;
+			justify-content:center;
+			align-items:center;
+		}
+		
+		.width100{
+			width: 100%;
+		}
+		
+		.profile-card{
+			position:fixed;
+			top:130px;
+			right:20%;
+			width:250px;
+			height:300px;		
+			display:flex;
+			flex-direction:column;
+			align-items:center;
+			padding:20px;
+			border:0.5px solid #CCCCCC;
+			border-radius:10px;
+			box-shadow:1px 1px 0px 1px grey;
 		}
 		
 	</style>
@@ -236,118 +272,112 @@
 	</div>
 	
 	<section class="page-section" id="contact">
-		
-	    	<div class="container">
+	    	<div class="container" style="position:relative;">
 		        <!-- 대표이미지 -->
-		       
                 <div class="form-group highlight bigImgBox">
                     <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" alt="대표 이미지 미리보기" 
                          class="thumbnail-preview bigImg" />
                 </div>
-		    </div>    
-			<div class="container margin-top">
-			    <div class="single-blog-wrapper">
-		            <div class="row">
-		                <div class="dFjcE_E marB marTop10">
-		                    <div class="dFjcE_E companyProfile">
-		                    	<div class="marR15 marTop10">
-								    <!-- 프로필 이미지 표시 -->
-								    <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
-								        <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
-								    </c:if>
-								    <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
-								        <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
-								             class="profileImg" alt="프로필 이미지">
-								    </c:if>
-		                    	</div>
-							    <div class="dFDjcA marR15">
-							        <!-- 기업명 -->
-							        <h4>기업명 : ${companyBoard.userName}</h4>
-							        <!-- users 테이블에서 가져온 userName -->
-							        <!-- 기타 추가 정보 필요 시 아래에 추가 가능 -->
-							    </div>
-							    <div class="dFjcC marR15 marB20">
-							        <c:if test="${companyProject.cpBoardNo != null}">
-									    <button 
-									        type="button" 
-									        class="btn btn-success marR15" 
-									        onclick="location.href='${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyProject.cpBoardNo}'">
-									        기업으로
-									    </button>
-									</c:if>
-							        <button type="button" class="btn btn-primary" onclick="shareOnKakao()">카카오 공유하기</button>
-							    </div>
-							</div>
-		                </div>
+                
+            	<div class="profile-card">
+	           		<div>
+		                <!-- 프로필 이미지 표시 -->
+		                <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
+		                    <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
+		                </c:if>
+		                <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
+		                    <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
+		                         class="profileImg" alt="프로필 이미지">
+		                </c:if>
 		            </div>
+		            
+		            <div style="margin-top:10px;">
+		            	<h4 style="font-weight:bolder;font-size:20px;">${companyBoard.userName }</h4>
+		            </div>
+		            
+		            <c:if test="${companyProject.cpBoardNo != null }">
+		            	<div style="width:100%;margin-bottom:10px;">
+			            	<button style="width:100%;" type="button" class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/companyBoardDetailView?cpBoardNo=${companyProject.cpBoardNo}'">
+			            		기업으로
+			            	</button>
+		            	</div>
+		            </c:if>
+		            
+		            <div style="width:100%;display:flex;">
+		            	<div style="width:20%;margin-right:5px;"><img style="width:100%;" src="img/katalk.png"></div>
+		            	<div style="width:80%;"><button style="width:100%;height:100%;background-color:#FAE301" type="button" class="btn" onclick="shareOnKakao()">공유하기</button></div>
+		            </div>
+		        </div>
+	        </div>  
+    
+			<div class="container">
+			    <div class="single-blog-wrapper">
+		            
 		            <div class="blog-post">
-		                <div class="dFjc_C">
-		                
-		                	<div class="width65">
-			                	<h2>프로젝트명</h2>
-			                	<h1>${companyProject.ptTitle }</h1>
+		                <div class="dFjc_C">		             
+		                	<div style="width:75%;">
+			                	<h1 style="font-size:40px;font-weight:700;line-height:1.5;margin-bottom: 24px;">${companyProject.ptTitle }</h1>
 		                	</div>
 		
-		                    <div class="proInput">
+		                    <div style="width:75%;min-height:100px;">
 		                        <!-- 간단한 프로젝트 소개 -->
-		                        <h2>프로젝트 소개</h2>
-		                        <p style="white-space: pre-line;">${companyProject.ptContent }</p>
+		                        <p style="white-space: pre-line;color: #4E5968;font-size:20px;font-weight:400;line-height:2;margin-bottom: 1.75rem;">${companyProject.ptContent }</p>
 		                    </div>
 		                    
-		                    <div class="dFjc_C width65 marTop20">
+		                    <div class="width65" style="display:flex;margin-bottom:75px;">
 		                    	<!-- 여기가 프로젝트 주소 -->
-		                    	<label>프로젝트 주소</label>
-		                    	<span>${companyProject.ptLocation }</span>
+		                    	<img src="img/geo-alt-fill.svg" style="margin-right:5px;">              
+		                    	<span style="font-size:15px;color:#8B9DB0">${companyProject.ptLocation }</span>
 		                    </div>
 		
 		                    <!-- 여기가 카드부분 -->
-		                    <div class="width65">
-		                    	<h3>소개</h3>
+		                    <div style="width:75%;">
+		                    	<div style="width:100%;border-bottom:0.5px solid #CCCCCC;margin-bottom:20px;"><h3 style="margin:0;">건축물 소개</h3></div>
 		                    	
 		                    	<div class="projectDeatailCard">
 		                    		<div class="marginL_L">
-		                    			<div class="width45">
+		                    			<div class="width100">
 		                    				<label for="ptDesign">설계 기간</label>
 		                    				<span>${companyProject.ptDesign }</span>
 		                    			</div>
-		                    			<div class="width45">
+		                    			<div class="width100">
 		                    				<label for="ptConstruction">시공 기간</label>
 		                    				<span>${companyProject.ptConstruction }</span>
 		                    			</div>
-		                    			<div class="width45">
+		                    			<div class="width100">
 		                    				<label for="ptFloorNum">층수</label>
 		                    				<span>${companyProject.ptFloorNum }</span>
 		                    			</div>
-		                    			<div class="width45">
+		                    			<div class="width100">
 		                    				<label for="ptHouseholdNum">가구수</label>
 		                    				<span>${companyProject.ptHouseholdNum }</span>
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
 		                    		<div class="marginL_L">
-		                    			<div class="width45">
-		                    				<label for="ptLandArea">대지 면적</label>
+		                    			<div class="width100">
+		                    				<label for="ptLandArea" class="input-label">대지 면적</label>
 		                    				<div  class="dF">
 		                    					<span>${companyProject.ptLandArea }</span>
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptBuildingArea">건축 면적</label>
+		                    			<div class="width100">
+		                    				<label for="ptBuildingArea" class="input-label">건축 면적</label>
 		                    				<div class="dF">
 		                    					<span>${companyProject.ptBuildingArea }</span>
 	                    						<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptTotalFloorArea">연면적</label>
+		                    			<div class="width100">
+		                    				<label for="ptTotalFloorArea" class="input-label">연면적</label>
 		                    				<div class="dF">
 		                    					<span>${companyProject.ptTotalFloorArea }</span>
 			                    				<span>(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptCompletionYear">준공년도</label>
+		                    			<div class="width100">
+		                    				<label for="ptCompletionYear" class="input-label">준공년도</label>
 		                    				<span>${companyProject.ptCompletionYear }</span>
 		                    			</div>
 		                    		</div>

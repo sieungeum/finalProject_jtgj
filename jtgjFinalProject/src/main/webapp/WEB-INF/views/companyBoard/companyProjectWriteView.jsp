@@ -156,11 +156,6 @@
 			padding:20px;
 		}
 		
-		.companyProfile{
-			
-			
-		}
-		
 		.hB {
 			width:0%;
 			height: 270px;
@@ -286,8 +281,8 @@
 		<form id="companyBoardWriteForm" action="${pageContext.request.contextPath }/companyProjectWriteDo" method="POST" enctype="multipart/form-data">
 	    	<input type="hidden" name="cpBoardNo" value="${param.cpBoardNo}"> <!-- cpBoardNo 추가 -->
 	    	<div class="container ">
-				<div class="dFjcE_E center companyProfile" style="margin-bottom:30px;padding:25px;border-radius:15px;">
-                    <!-- 프로필 이미지 표시 -->
+	    		<!-- 프로필 이미지 표시 -->
+				<div class="dFjcE_E center" style="margin-bottom:30px;padding:25px;border-radius:15px;">
                     <div class="profileImgBox">
 	                    <c:if test="${sessionScope.login.userProfImg == 'N' }">
 							<img src="img/default_img.png" class="profileImg" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
@@ -312,7 +307,7 @@
 					         onclick="document.getElementById('thumbnailFile').click();" />
 					    <!-- 숨겨진 파일 입력 -->
 					    <input type="file" name="thumbnailFile" id="thumbnailFile" class="form-control-file"  
-					           style="display: none;"  accept="image/*" onchange="previewThumbnail(event)" />
+					           style="display: none;" accept="image/*" onchange="previewThumbnail(event)" />
 				    </div>
 				</div>
 		    </div>    
@@ -320,7 +315,7 @@
 			    <div class="single-blog-wrapper">
 		            <div style="margin-bottom:25px;">
 		                <div class="dFjc_C">
-		                	<div style="width:100%;display:flex;">
+		                	<div style="width:100%;display:flex;">	         
 		                		<div style="width:50%;display:flex;flex-direction:column;justify-content:space-between;">
 			                		<div style="margin-bottom:15px;">
 					                	<h1 style="font-size:20px;font-weight:bolder;">프로젝트명</h1>
@@ -344,13 +339,10 @@
 			                        <textarea id="ptContent" name="ptContent" class="form-control" style="height:75%;" rows="5" placeholder="프로젝트 소개를 입력하세요"></textarea>
 			                    </div>	   
 		                	</div>	
-		                	       
-		                	
-		                    
 
 		                    <!-- 여기가 카드부분 -->
 		                    <div style="width:100%;margin-top:30px;">
-		                    	<h3 style="font-size:20px;font-weight:bolder;">소개</h3>
+		                    	<h3 style="font-size:20px;font-weight:bolder;">건축물 소개</h3>
 		                    	
 		                    	<div class="projectDeatailCard">
 		                    		<div class="marginL_L">
