@@ -466,6 +466,7 @@
 
 	<!-- custom JavaScript -->
 	<script type="text/javascript">
+		
 		// (추가할 기능) 처음 들어왔을 때 비로그인 시 로그인 안하면 저장 못한다고 알려주기
 		if ("${login.userId}" == ""){ // 로그인 안할 경우 실행 나중에 != 를 == 로 바꿔주기
 			if (window.confirm("비로그인 시 해당 견적을 저장해둘 수 없습니다. 로그인 하시겠습니까?")) {

@@ -239,18 +239,51 @@
     text-align: center; /* 중앙 정렬 */
     border: 1px solid #ddd; /* 테두리 */
   }
+
+/* sjm Zone 영역 전개 */
+
+/* index 꾸미 */
+.sb-topnav{
+	background-color: green !important;
+}
+
+.sb-sidenav-menu{
+	background-color: green;
+}
+
+/* nav a태그 꾸미기 */
+.nav a::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 0;
+	height: 2px;
+	background: #36c684;
+	transition: width 0.4s ease; /* 부드러운 애니메이션 */
+}
+.nav a:hover::after {
+	width: 80%; /* 밑줄 확장 */
+}
 </style>
 
+<!-- 한글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" style="font-family: 'Noto Sans KR', sans-serif;">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" style="font-size: 40px; font-weight: bold;" href="home">저탄고집</a>
-		<!-- Sidebar Toggle-->
+		<a class="navbar-brand" style="text-align: start; margin: 40px 0px 0px 15px;" href="home">
+			<img src="img/logo-1-remove.png" alt="Logo" style="width:70%; height: 60px;">
+		</a>
+		<!-- 
+		Sidebar Toggle
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
 			<i class="fas fa-bars"></i>
 		</button>
+		 -->
 	</nav>
 
 	<div id="layoutSidenav">
@@ -557,7 +590,7 @@
 							    </tbody>
 							</table>
 							<a href="${pageContext.request.contextPath }/materWriteView">
-								<button class="btn btn-primary btn-xl m-right">자재추가</button>
+								<button class="btn btn-success btn-xl m-right">자재추가</button>
 							</a>
 						</div>
 					</div>
@@ -579,6 +612,11 @@
 	
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+		new simpleDatatables.DataTable("#datatablesSimple", {
+			perPage: 5,
+			searchable: true,
+			sortable: true,
+		});
         // 기존 견적 목록 (myEarnings)
         new simpleDatatables.DataTable("#datatablesEarnings", {
             perPage: 5,
@@ -592,6 +630,22 @@
             searchable: true,
             sortable: true,
         });
+		
+		let v_datatableDropdown = document.querySelectorAll(".datatable-dropdown");
+		
+		console.log(v_datatableDropdown.length)
+		
+		for (let i = 0; i < v_datatableDropdown.length; i++){
+			let v_changeText = v_datatableDropdown[i].querySelector("label");
+			
+			v_changeText.innerHTML = v_changeText.innerHTML.replace("entries per page", "표시할 게시글 수를 선택하세요");
+		}
+		
+		let v_datatableBottom = document.querySelectorAll(".datatable-bottom");
+		
+		for (let i = v_datatableBottom.length - 1; i >= 0; i--){
+			v_datatableBottom[i].remove();
+		}
     });
 </script>
 

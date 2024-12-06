@@ -125,7 +125,6 @@
   
 /* sjm Zone 영역 전개 */
 
-
 /* index 꾸미 */
 .sb-topnav{
 	background-color: green !important;
@@ -495,17 +494,35 @@
 }
 
 
+.nav a::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 0;
+	height: 2px;
+	background: #36c684;
+	transition: width 0.4s ease; /* 부드러운 애니메이션 */
+}
+.nav a:hover::after {
+	width: 80%; /* 밑줄 확장 */
+}
+
+
 </style>
 
 <!-- sjm Zone 영역 전개 -->
 <link rel="stylesheet" href="css/sjm/sjm-custom.css">
 
+<!-- 한글 폰트 -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" style="font-family: 'Noto Sans KR', sans-serif;">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand" style="text-align: center; margin-top: 20px;" href="home">
-			<img src="img/logo-1-remove.png" alt="Logo" style="width:50%; height: 35px;">
+		<a class="navbar-brand" style="text-align: start; margin: 40px 0px 0px 15px;" href="home">
+			<img src="img/logo-1-remove.png" alt="Logo" style="width:70%; height: 60px;">
 		</a>
 		<!-- 
 		Sidebar Toggle
@@ -518,35 +535,34 @@
 
 	<div id="layoutSidenav">
 		<div id="layoutSidenav_nav">
-			 <nav
-            class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
-            id="sidenavAccordion">
-            <div class="sb-sidenav-menu">
-               <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-                  <c:if test="${sessionScope.login.userAccount == 'C'}">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
-                  </c:if>
-                  <c:if test="${sessionScope.login.userAccount != 'C'}">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
-                  </c:if>
-                  
-                  <c:if test="${sessionScope.login.userAccount == 'C'}">
-                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
+			<nav class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
+            	id="sidenavAccordion">
+	            <div class="sb-sidenav-menu">
+	               <div class="nav" style="font-size: 30px; color: black; padding-top: 30px; font-family: 'Noto Sans KR', sans-serif;">
+	                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+	                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+	                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
+	                  <c:if test="${sessionScope.login.userAccount != 'C'}">
+	                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
 	                  </c:if>
-                  </c:if>
-                  
-                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-                     <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
-                  </c:if>
-	            	<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
-               </div>
-            </div>
-		</nav>
+	                  
+	                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+	                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
+		                  </c:if>
+		                  <c:if test="${sessionScope.login.userRank == 'N'}">
+		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
+		                  </c:if>
+	                  </c:if>
+	                  
+	                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
+	                     <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+	                  </c:if>
+		            	<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
+	               </div>
+	            </div>
+			</nav>
 		</div>
 		<div id="layoutSidenav_content">
 			<main>
@@ -631,7 +647,7 @@
 					</div> 
 					<div class="card mb-4">
 						<div class="card-header">내 게시글</div>
-						<div class="card-body">
+						<div class="card-body" style="padding:16px 16px 0px 16px;">
 							<table class="faqTable" id="datatablesSimple">
 								<thead>
 									<tr>
@@ -688,13 +704,13 @@
 								</tbody>
 							</table>
 						</div>
-						<div style="margin:10px;" >
+						<div style="margin:0px 0px 10px 10px;" >
 							<a href="${pageContext.request.contextPath }/faqWriteView">
-								<button class="btn btn-primary btn-xl">건의사항 작성</button>
+								<button class="btn btn-success btn-xl">건의사항 작성</button>
 							</a>
 							<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
 								<a href="${pageContext.request.contextPath }/noticeWriteView">
-									<button class="btn btn-primary btn-xl">공지사항 작성</button>
+									<button class="btn btn-success btn-xl">공지사항 작성</button>
 								</a>
 							</c:if>
 						</div>
@@ -703,7 +719,7 @@
 					<!-- WARING WARING THIS IS "SJM ZONE" DON'T TOUCH -->
 					<div class="card mb-4">
 						<div class="card-header">내 견적</div>
-						<div id="estiCard" class="card-body">
+						<div id="estiCard" class="card-body" style="padding:16px 16px 0px 16px;">
 							<table id="datatablesEarnings" >
 								<thead>
 									<tr>
@@ -719,9 +735,9 @@
 								</tbody>
 							</table>
 						</div>
-						<div style="margin:10px;" >
+						<div style="margin:0px 0px 10px 10px;" >
 						<a href="${pageContext.request.contextPath }/estimateHome">
-								<button class="btn btn-primary btn-xl">견적작성</button>
+								<button class="btn btn-success btn-xl">견적작성</button>
 							</a>
 						</div>
 					</div>
@@ -902,20 +918,41 @@
 	</div> <!-- Finally Calculate Modal -->
 
 	<script>
-    // Datatable 초기화
-    document.addEventListener('DOMContentLoaded', function() {
-        new simpleDatatables.DataTable("#datatablesEarnings", {
-            perPage: 5,
-            searchable: true,
-            sortable: true,
-        });
-        
-     // 새로운 주문 목록 (myOrders)
-        new simpleDatatables.DataTable("#datatablesOrders", {
-            perPage: 5,
-            searchable: true,
-            sortable: true,
-        });
+	// Datatable 초기화
+	document.addEventListener('DOMContentLoaded', function() {
+		new simpleDatatables.DataTable("#datatablesSimple", {
+			perPage: 5,
+			searchable: true,
+			sortable: true,
+		});
+		new simpleDatatables.DataTable("#datatablesEarnings", {
+			perPage: 5,
+			searchable: true,
+			sortable: true,
+		});
+		
+	// 새로운 주문 목록 (myOrders)
+		new simpleDatatables.DataTable("#datatablesOrders", {
+			perPage: 5,
+			searchable: true,
+			sortable: true,
+		});
+		
+		let v_datatableDropdown = document.querySelectorAll(".datatable-dropdown");
+		
+		console.log(v_datatableDropdown.length)
+		
+		for (let i = 0; i < v_datatableDropdown.length; i++){
+			let v_changeText = v_datatableDropdown[i].querySelector("label");
+			
+			v_changeText.innerHTML = v_changeText.innerHTML.replace("entries per page", "표시할 게시글 수를 선택하세요");
+		}
+		
+		let v_datatableBottom = document.querySelectorAll(".datatable-bottom");
+		
+		for (let i = v_datatableBottom.length - 1; i >= 0; i--){
+			v_datatableBottom[i].remove();
+		}
     });
 </script>
 
@@ -934,6 +971,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	
 	<script>
+	
 		// 기본 탄소 사용량, 대체 탄소 사용량 선언(맨 밑에 chart script 있음) 
 		let v_carbonUse = 0;
 		let v_carbonEcoUse = 0;
