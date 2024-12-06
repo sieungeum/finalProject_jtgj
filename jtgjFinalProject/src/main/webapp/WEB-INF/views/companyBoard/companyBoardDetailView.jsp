@@ -21,24 +21,9 @@
 	<style type="text/css">
 		
 		.dFjcB{
+			width:100%;
 			display: flex;
 			justify-content: space-between;
-		}
-		
-		.profileImgBox{
-			height: 120px;
-			width: 120px;
-			border-radius: 60px;
-			overflow: hidden;
-			
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		
-		.profileImg{
-			width: auto;
-			height: 150px;
 		}
 		
 		.marB{
@@ -56,7 +41,7 @@
 		.dFDjcA{
 			display: flex;
 			flex-direction: column;
-			justify-content: space-around;
+			justify-content:center;
 		}
 		
 		.dFjcC{
@@ -88,9 +73,26 @@
 			margin-bottom: 20px;
 		}
 		
+		.profileImgBox{
+			border-radius:100%;
+			height:100%;
+			width:20%;
+			overflow:hidden;
+			border:0.5px solid #CCCCCC;
+			margin-right: 20px;
+		}
+		
+		.profileImg{
+			width: 100%;
+			height: auto;
+		}
+		
 		.proInput{
 			width: 65%;
 			min-height: 470px;
+			border: 2px solid black;
+		    padding: 30px;
+		    border-radius: 20px;
 		}
 		
 		.proText{
@@ -142,7 +144,7 @@
 		}
 		
 		.projectArea {
-			min-height: 400px;
+			margin-bottom:100px;
 		}
 		
 		.aE {
@@ -158,7 +160,7 @@
 		}
 		
 		.marR30 {
-			margin-right: 30px;
+			
 		}
 		
 		.fontSize20{
@@ -184,15 +186,32 @@
 		    align-items: center;
 		    justify-content: center;
 		    margin: 0 auto; /* 가운데 정렬 */
-		    background-color: #e9ecef;
+		    background-color: rgb(245, 245, 245);
 		}
 		
 		.bigImg {
-		    width: 75%;
+		    width: 85%;
 		    height: 100%;
 		    object-fit: cover; /* 이미지를 박스 크기에 맞게 조정 */
 		}
 		
+		.youtube-box{
+			width:100%;
+		}
+		
+		.youtube-box iframe{
+			width: 100%;
+			height: 700px;
+		}
+		
+		button{
+			border-radius:5px !important;
+		}
+		
+		.editDelBtn{
+			display:flex;
+			align-items:end;
+		}
 		
 	</style>
 	
@@ -217,40 +236,49 @@
 						alt="대표 이미지">
 				</div>
 		    </div>    
-			<div class="container margin-top">
+			<div class="container margin-top" style="padding:0;">
 			    <div class="single-blog-wrapper">
-		            <div class="row">
+		            <div class="row" style="padding-right:15px;">
 		                <div class="dFjcB marB">
 		                    <div class="dF">
 								<c:if test="${companyBoard.userProfImg == null}">
-									<div class="profileImgBox marR30">
+									<div class="profileImgBox">
 										<img src="img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
 									</div>
 								</c:if>
 								<c:if test="${companyBoard.userProfImg != null}">
-									<div class="profileImgBox marR30">
+									<div class="profileImgBox">
 										<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
 										     class="profileImg" alt="프로필 이미지">
 									</div>
 								</c:if>
 								<div class="dFDjcA">
-									<p class="boer fontSize15">${companyBoard.userName}</p> <!-- 기업명 -->
-									<p class="fontSize15">${companyBoard.cpBoardIntro}</p> <!-- 소개글 -->
+									<p class="boer fontSize15" style="font-size:25px !important;margin-bottom:30px !important;">${companyBoard.userName}</p> <!-- 기업명 -->
+									<p class="fontSize15" style="font-size:16px !important;">${companyBoard.cpBoardIntro}</p> <!-- 소개글 -->
 								</div>
 							</div>
-							<%--
-		                    <div class="dFjcC">
-		                        <button type="button" class="btn btn-primary" onclick="shareOnKakao()">카카오 공유하기</button>
-		                    </div>
-							 --%>
+							
+							<div class="editDelBtn">
+						        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
+						        	<div class="">
+								        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
+								            <button class="btn btn-success" type="button">홍보 수정</button>
+								        </a>
+						        	</div>
+						        	<div>
+								        <form class="mL20" action="${pageContext.request.contextPath}/companyBoardDelete" method="post">
+										    <input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}" />
+										    <button type="submit" class="btn btn-danger">게시글 삭제</button>
+										</form>
+						        	</div>
+						        </c:if>
+							</div>
 		                </div>
 		            </div>
 		            <div class="blog-post">
 		                <div class="dFjcB">
-		
 		                    <!-- 프로필 부분 -->
 		                    <div class="proInput">
-		                        <label class="marB20 fontSize15" for="inputTitle">프로필</label>
 		                        <!-- 기업 소개글 입력 --><!-- 이곳은 기업소개 cpBoardContent textarea 말고 이미 입려되서 보이게  -->
 		                        <p style="white-space: pre-line;" class="fontSize15">${companyBoard.cpBoardContent}</p>
 		                    </div>
@@ -307,7 +335,7 @@
 			        
 			        <!-- 여기부터 프로젝트 -->
 			        <div class="projectArea">
-			        	<label>프로젝트</label>
+			        	<label style="font-size:20px;margin-bottom:20px;">${companyBoard.userName}'s PROJECTS</label>
 			        	<br>
 			        	<div class="js-masonry">
 			                <div class="row" id="work-grid">
@@ -336,7 +364,6 @@
 					                    </div>
 					                </div>
             					</c:forEach>
-			                    
 			                </div>
 			            </div>
 			        </div>
@@ -350,29 +377,13 @@
 			        </div>
 			        
 			        <div class="youtubeVideo">
-					    <label class="fontSize15">유튜브 영상</label>
+					    <label class="fontSize15" style="font-size:20px;margin-bottom:20px;">YouTube</label>
 					    <c:if test="${not empty companyBoard.cpBoardYoutubeLink}">
 					    	<c:if test="${companyBoard.cpBoardYoutubeLink != 'N' }">
-						        <div>${companyBoard.cpBoardYoutubeLink}</div>
+						        <div class="youtube-box">${companyBoard.cpBoardYoutubeLink}</div>
 					    	</c:if>
 					    </c:if>
 					</div>
-					<div class="dFjcE">
-				        <c:if test="${sessionScope.login.userId == companyBoard.userId }">
-				        	<div class="dFjcE aE">
-						        <a href="${pageContext.request.contextPath}/companyBoardEditView?cpBoardNo=${companyBoard.cpBoardNo}">
-						            <button class="btn btn-success" type="button">홍보 수정</button>
-						        </a>
-				        	</div>
-				        	<div>
-						        <form class="mL20" action="${pageContext.request.contextPath}/companyBoardDelete" method="post" style="margin-top: 20px;">
-								    <input type="hidden" name="cpBoardNo" value="${companyBoard.cpBoardNo}" />
-								    <button type="submit" class="btn btn-danger">게시글 삭제</button>
-								</form>
-				        	</div>
-				        </c:if>
-					</div>
-			        
 			    </div>
 			</div>
 	</section>
