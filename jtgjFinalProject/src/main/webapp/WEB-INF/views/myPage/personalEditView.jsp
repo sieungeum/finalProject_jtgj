@@ -70,49 +70,79 @@
 .custom-table a:hover {
 	text-decoration: underline;
 }
+
+/* sjm Zone 영역 전개 */
+
+/* index 꾸미 */
+.sb-topnav{
+	background-color: green !important;
+}
+
+.sb-sidenav-menu{
+	background-color: green;
+}
+
+/* nav a태그 꾸미기 */
+.nav a::after{
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 0;
+	height: 2px;
+	background: #36c684;
+	transition: width 0.4s ease; /* 부드러운 애니메이션 */
+}
+.nav a:hover::after {
+	width: 80%; /* 밑줄 확장 */
+}
 </style>
 </head>
-<body class="sb-nav-fixed">
+<body class="sb-nav-fixed" style="font-family: 'Noto Sans KR', sans-serif;">
 	<nav class="sb-topnav navbar navbar-expand navbar-dark bg-primary">
 		<!-- Navbar Brand-->
-		<a class="navbar-brand ps-3" style="font-size: 40px; font-weight: bold;" href="home">저탄고집</a>
-		<!-- Sidebar Toggle-->
+		<a class="navbar-brand" style="text-align: start; margin: 40px 0px 0px 15px;" href="home">
+			<img src="img/logo-1-remove.png" alt="Logo" style="width:70%; height: 60px;">
+		</a>
+		<!-- 
+		Sidebar Toggle
 		<button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0"
 			id="sidebarToggle" href="#!">
 			<i class="fas fa-bars"></i>
 		</button>
+		 -->
 	</nav>
 
 	<div id="layoutSidenav">
 		<!-- nav -->
 		<div id="layoutSidenav_nav">
-			<nav
-				class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
-				id="sidenavAccordion">
-				<div class="sb-sidenav-menu">
-					<div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
-						<c:if test="${sessionScope.login.userAccount == 'C'}">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
-						</c:if>
-						<c:if test="${sessionScope.login.userAccount != 'C'}">
-						<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
-						</c:if>
-						<c:if test="${sessionScope.login.userAccount == 'C'}">
-                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+			<nav class="sb-sidenav accordion sb-sidenav-dark bg-primary text-white"
+            	id="sidenavAccordion">
+	            <div class="sb-sidenav-menu">
+	               <div class="nav" style="font-size: 30px; color: black; padding-top: 30px; font-family: 'Noto Sans KR', sans-serif;">
+	                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
+	                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+	                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
 	                  </c:if>
-	                  <c:if test="${sessionScope.login.userRank == 'N'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
+	                  <c:if test="${sessionScope.login.userAccount != 'C'}">
+	                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
 	                  </c:if>
-                  </c:if>
-                  
-						<c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-							<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
-						</c:if>
-						<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div>
-					</div>
-				</div>
+	                  
+	                  <c:if test="${sessionScope.login.userAccount == 'C'}">
+	                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
+		                  </c:if>
+		                  <c:if test="${sessionScope.login.userRank == 'N'}">
+		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
+		                  </c:if>
+	                  </c:if>
+	                  
+	                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
+	                     <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+	                  </c:if>
+		            	<div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
+	               </div>
+	            </div>
 			</nav>
 		</div>
 		
@@ -201,7 +231,7 @@
 							</div>
 							
 							<div class="mt-2">
-					            <button class="btn btn-primary btn-lg w-100 mb-2" id="editBtn" type="button" >수정하기</button>
+					            <button class="btn btn-success btn-lg w-100 mb-2" id="editBtn" type="button" >수정하기</button>
 					        	<p id="signUpWarning" style="display:none;">비밀번호 일치, 불일치 혹은 다른 항목에 빈칸이 있는지 확인해주세요!</p>
 				        	</div>	
 						</div>						
