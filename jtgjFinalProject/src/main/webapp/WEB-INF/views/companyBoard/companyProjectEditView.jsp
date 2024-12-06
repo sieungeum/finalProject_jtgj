@@ -42,6 +42,7 @@
 		
 		.dF{
 		 	display: flex;
+		 	width:85%;
 		}
 		
 		.marR{
@@ -155,27 +156,15 @@
 			border-radius:20px;
 			background-color: #F1F3F5; 
 			display: flex;
+			justify-content:space-between;
 			align-items: center;
-		}
-		
-		.companyProfile{
-			width: 20%;
-			min-height: 150px;
-			border-radius:20px;
-			border: 2px solid #F1F3F5;
-			display: flex;
-			justify-content: space-between;
-			position: fixed;
-			top: 100px;
-			background-color: #F1F3F5;
-			
+			padding:20px;
 		}
 		
 		.hB {
 			width:0%;
 			height: 270px;
-			border-left: 1px solid #868E96;
-			margin-left: 22%;
+			border-left: 5px solid #868E96;
 		}
 		
 		.width45{
@@ -184,6 +173,7 @@
 		
 		.marginL_L{
 			margin-left: 20px;
+			width:48%;
 		}
 		
 		.marginL_L40{
@@ -214,15 +204,13 @@
 		
 		.bigImgBox {
 			height: 400px;
-			width: 65%;
+			width: 100%;
 			border-radius: 15px;
 			overflow: hidden;
-			
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			
-			background-color: #e9ecef;
+			background-color: rgb(245, 245, 245);
 		}
 		
 		.bigImg {
@@ -234,25 +222,53 @@
 			justify-content: center;
 		}
 		
-		.inputBoxHW{
-			height: 34px;
+		button{
+			border-radius:5px !important;
 		}
 		
-		input[type=text] {
-			height: 34px;
-			width: 190px;
+		.input-label{
+			width:15%;
+			display:flex;
+			align-items:center;
+			font-size:15px;
 		}
 		
-		input[type=number] {
-			height: 34px;
-			width: 190px;
+		.input-value{
+			width:80% !important;
+			height:50px !important;
+			font-size:16px;
+			border-radius: 10px;
 		}
 		
-		input[type=date] {
-			height: 34px;
-			width: 190px;
+		.input-value-sec{
+			width:95% !important;
+			height:50px !important;
+			font-size:16px;
+			border-radius: 10px;
+			border: 0px;
+			padding-left:10px;
 		}
 		
+		#ptCompletionYear{
+			width:81% !important;
+			height:50px !important;
+			font-size:16px;
+			border-radius: 10px;
+			border: 0px;
+			padding-left:10px;
+		}
+		
+		.width100{
+			width:100%;
+			display:flex;
+			margin-bottom:15px;
+		}
+		
+		.center{
+			display:flex;
+			justify-content:center;
+			align-items:center;
+		}
 		
 	</style>
 	
@@ -276,131 +292,115 @@
 	    	<input type="hidden" name="ptNo" value="${companyProject.ptNo}">
 	    	
 	    	<div class="container">
+	    		<!-- 프로필 이미지 표시 -->
+	    		<div class="dFjcE_E center" style="margin-bottom:30px;padding:25px;border-radius:15px;">
+                    <div class="profileImgBox">
+	                    <c:if test="${sessionScope.login.userProfImg == 'N' }">
+							<img src="img/default_img.png" class="profileImg" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+						</c:if>
+						<c:if test="${sessionScope.login.userProfImg != 'N' }">
+							<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg">
+						</c:if>
+                    </div>
+                    <div class="dFDjcA" style="margin-top:20px;">
+                       	<!-- 기업명 -->
+                       	<h5 style="text-align:center;">${sessionScope.login.userName}</h5>
+                        <h4 style="font-size:25px;">PROJECT <span style="font-weight:bolder;color:rgb(100, 100, 100);">${companyProject.ptTitle }</span></h4>
+                    </div>
+               </div>	    		
+
 		        <!-- 이미지 업로드 -->
 		    	<div class="form-group highlight imgboxD">
-				    <label for="thumbnailFile">대표 이미지</label>
+				    <label for="thumbnailFile"  style="font-size:20px;margin-bottom:20px;">대표 이미지</label>
 				    <!-- 클릭 가능한 이미지 -->
 				    <div class="bigImgBox">
-					    <img id="thumbnailPreview" 
-					         src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" 
-					         alt="대표 이미지 미리보기" 
-					         class="thumbnail-preview" 
-					         style="width: auto; height: 400px; cursor: pointer;" 
+					    <img id="thumbnailPreview" src="${pageContext.request.contextPath}/displayProfImg?atchtype=companyProject&imgName=${companyProject.ptThumbnail}" 
+					         alt="대표 이미지 미리보기" class="thumbnail-preview" style=" width: 85%; height: auto; cursor: pointer;"
 					         onclick="document.getElementById('thumbnailFile').click();" />
 					    <!-- 숨겨진 파일 입력 -->
 					    <input type="file" name="thumbnailFile" id="thumbnailFile" class="form-control-file" 
 					           style="display: none;" accept="image/*" onchange="previewThumbnail(event)" />
 				    </div>
 				</div>
-
-		    </div>    
-			<div class="container margin-top">
+		    </div>   
+		     
+			<div class="container" style="margin-top:30px;">
 			    <div class="single-blog-wrapper">
-		            <div class="row">
-		                <div class="dFjcE_E marB">
-		                    <div class="dFjcE_E companyProfile">
-		                        <!-- 프로필 이미지 표시 -->
-		                        <div class="profileImgBox marR30 marTop10">
-			                        <c:if test="${sessionScope.login.userProfImg == 'N' }">
-										<img src="img/default_img.png" class="profileImg marR30"  style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-									</c:if>
-									<c:if test="${sessionScope.login.userProfImg != 'N' }">
-										<img src="<c:url value="/displayProfImg?atchtype=prof_img&imgName=${sessionScope.login.userProfImg }"/>" class="profileImg marR30" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
-									</c:if>
-		                        </div>
-		                        <div class="dFDjcA marR15">
-		                            <!-- 기업명 -->
-		                            <h4>기업명 : ${sessionScope.login.userName}</h4>
-		                        </div>
-		                        <%-- 
-			                    <div class="dFjcC  marR15 marB20">
-			                        <button type="button" class="btn btn-success marR15">기업으로</button>
-			                        <button type="button" class="btn btn-primary">프로젝트 공유</button>
+		            <div style="margin-bottom:25px;">
+		                <div class="dFjc_C">		
+		                    <div style="width:100%;display:flex;">	             
+			                    <div style="width:50%;display:flex;flex-direction:column;justify-content:space-between;">       
+				                	<div style="margin-bottom:15px;">
+					                	<h1 style="font-size:20px;font-weight:bolder;">프로젝트명</h1>
+					                	<input style="width:90%;" type="text" id="ptTitle" name="ptTitle" class="form-control" value="${companyProject.ptTitle}" placeholder="프로젝트명을 입력하세요" required>
+				                	</div>
+				
+									<div class="dFjc_C">
+									    <!-- 프로젝트 주소 검색 -->
+									    <label for="ptLocation" style="font-size:20px;margin-bottom:10px;">프로젝트 주소</label>
+									    <div style="display: flex; gap: 10px; width:90%;">
+									        <input type="text" id="ptLocation" name="ptLocation" class="form-control" 
+									               placeholder="프로젝트 주소를 입력하세요" style="width:80%;" value="${companyProject.ptLocation}" readonly required>
+									        <button type="button" style="width:20%;" class="btn btn-primary" onclick="searchAddress()">주소 검색</button>
+									    </div>
+									</div>
+								</div>
+			
+			                    <div  style="width:50%;">
+			                        <!-- 간단한 프로젝트 소개 -->
+			                        <h2 style="font-size:20px;font-weight:bolder;">프로젝트 소개</h2>
+			                        <textarea id="ptContent" name="ptContent" class="form-control" style="height:75%;" rows="5" placeholder="프로젝트 소개를 입력하세요">${companyProject.ptContent}</textarea>
 			                    </div>
-			                    --%>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="blog-post">
-		                <div class="dFjc_C">
-		                
-		                	<div class="width65">
-			                	<h1>프로젝트명</h1>
-			                	<input type="text" id="ptTitle" name="ptTitle" class="form-control" value="${companyProject.ptTitle}" placeholder="프로젝트명을 입력하세요" required>
-		                	</div>
-		
-		                    <div class="proInput">
-		                        <!-- 간단한 프로젝트 소개 -->
-		                        <h2>프로젝트 소개</h2>
-		                        <textarea id="ptContent" name="ptContent" class="form-control" rows="5" placeholder="프로젝트 소개를 입력하세요">${companyProject.ptContent}</textarea>
-		                    </div>
-		                    
-		                    <%-- 
-		                    <div class="dFjc_C width65">
-		                    	<!-- 여기가 프로젝트 주소 -->
-		                    	<label>프로젝트 주소 입력란</label>
-		                    	<input type="text" id="ptLocation" name="ptLocation" class="form-control" value="${companyProject.ptLocation}" placeholder="프로젝트 주소를 입력하세요">
-		                    </div>
-		                    --%>
-		                    
-		                    <div class="dFjc_C width65">
-							    <!-- 프로젝트 주소 검색 -->
-							    <label for="ptLocation">프로젝트 주소</label>
-							    <div style="display: flex; gap: 10px;">
-							        <input type="text" id="ptLocation" name="ptLocation" class="form-control" 
-							               placeholder="프로젝트 주소를 입력하세요" value="${companyProject.ptLocation}" readonly required>
-							        <button type="button" class="btn btn-primary" onclick="searchAddress()">주소 검색</button>
-							    </div>
-							</div>
+							</div>   
 		
 		                    <!-- 여기가 카드부분 -->
-		                    <div class="width65">
-		                    	<h3>소개</h3>
+		                    <div style="width:100%;margin-top:30px;">
+		                    	<h3 style="font-size:20px;font-weight:bolder;">건축물 소개</h3>
 		                    	
 		                    	<div class="projectDeatailCard">
 		                    		<div class="marginL_L">
-		                    			<div class="width45">
-		                    				<label for="ptDesign">설계 기간</label>
-		                    				<input type="text" id="ptDesign" name="ptDesign" class="form-control" value="${companyProject.ptDesign}" placeholder="설계 기간을 입력하세요">
+		                    			<div class="width100">
+		                    				<label for="ptDesign" class="input-label">설계 기간</label>
+		                    				<input type="text" id="ptDesign" name="ptDesign" class="input-value" value="${companyProject.ptDesign}" placeholder="설계 기간을 입력하세요">
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptConstruction">시공 기간</label>
-		                    				<input type="text" id="ptConstruction" name="ptConstruction" class="form-control" value="${companyProject.ptConstruction}" placeholder="시공 기간을 입력하세요">
+		                    			<div class="width100">
+		                    				<label for="ptConstruction" class="input-label">시공 기간</label>
+		                    				<input type="text" id="ptConstruction" name="ptConstruction" class="input-value" value="${companyProject.ptConstruction}" placeholder="시공 기간을 입력하세요">
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptFloorNum">층수</label>
-                   							<input type="text" id="ptFloorNum" name="ptFloorNum" class="form-control" value="${companyProject.ptFloorNum}" placeholder="층수를 입력하세요">
+		                    			<div class="width100">
+		                    				<label for="ptFloorNum" class="input-label">층수</label>
+                   							<input type="text" id="ptFloorNum" name="ptFloorNum" class="input-value" value="${companyProject.ptFloorNum}" placeholder="층수를 입력하세요">
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptHouseholdNum">가구수</label>
-                    						<input type="text" id="ptHouseholdNum" name="ptHouseholdNum" class="form-control" value="${companyProject.ptHouseholdNum}" placeholder="가구수를 입력하세요">
+		                    			<div class="width100">
+		                    				<label for="ptHouseholdNum" class="input-label">가구수</label>
+                    						<input type="text" id="ptHouseholdNum" name="ptHouseholdNum" class="input-value" value="${companyProject.ptHouseholdNum}" placeholder="가구수를 입력하세요">
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
-		                    		<div class="marginL_L40">
-		                    			<div class="width45">
-		                    				<label for="ptLandArea">대지 면적</label>
+		                    		<div class="marginL_L">
+		                    			<div class="width100">
+		                    				<label for="ptLandArea" class="input-label">대지 면적</label>
 		                    				<div  class="dF">
-	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="form-control" value="${companyProject.ptLandArea}" step="0.01" placeholder="대지 면적을 입력하세요">
-			                    				<span>(㎡)</span>
+	                    						<input type="number" id="ptLandArea" name="ptLandArea" class="input-value-sec" value="${companyProject.ptLandArea}" step="0.01" placeholder="대지 면적을 입력하세요">
+			                    				<span class="center">(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptBuildingArea">건축 면적</label>
+		                    			<div class="width100">
+		                    				<label for="ptBuildingArea" class="input-label">건축 면적</label>
 		                    				<div class="dF">
-	                    						<input type="number" id="ptBuildingArea" name="ptBuildingArea" class="form-control" value="${companyProject.ptBuildingArea}" step="0.01" placeholder="건축 면적을 입력하세요">
-	                    						<span>(㎡)</span>
+	                    						<input type="number" id="ptBuildingArea" name="ptBuildingArea" class="input-value-sec" value="${companyProject.ptBuildingArea}" step="0.01" placeholder="건축 면적을 입력하세요">
+	                    						<span class="center">(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptTotalFloorArea">연면적</label>
+		                    			<div class="width100">
+		                    				<label for="ptTotalFloorArea" class="input-label">연면적</label>
 		                    				<div class="dF">
-	                    						<input type="number" id="ptTotalFloorArea" name="ptTotalFloorArea" class="form-control" value="${companyProject.ptTotalFloorArea}" step="0.01" placeholder="연면적을 입력하세요">
-			                    				<span>(㎡)</span>
+	                    						<input type="number" id="ptTotalFloorArea" name="ptTotalFloorArea" class="input-value-sec" value="${companyProject.ptTotalFloorArea}" step="0.01" placeholder="연면적을 입력하세요">
+			                    				<span class="center">(㎡)</span>
 		                    				</div>
 		                    			</div>
-		                    			<div class="width45">
-		                    				<label for="ptCompletionYear">준공년도</label>
+		                    			<div class="width100">
+		                    				<label for="ptCompletionYear" class="input-label">준공년도</label>
                     						<input type="date" id="ptCompletionYear" name="ptCompletionYear" class="form-control" value="${companyProject.ptCompletionYear}" placeholder="준공년도를 입력하세요">
 		                    			</div>
 		                    		</div>
@@ -412,6 +412,7 @@
 		                    
 		                </div>
 		            </div>
+		            
 			        
 			        <div class="dFjcE">
 				        <button class="btn btn-success" type="submit">수정 완료</button>
