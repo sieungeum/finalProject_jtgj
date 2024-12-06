@@ -481,7 +481,7 @@
 		let v_estiLoadOn = false; // 불러오기 유무
 		let estiNoData = "";
 		let v_estiLoadPyeong; // 불러온 평수
-		let v_estiLoadRoomNum = []; // 불러운 욕실, 주방, 방 갯수
+		let v_estiLoadRoomNum = {"욕실":0, "주방":0, "방":0}; // 불러운 욕실, 주방, 방 갯수
 		
 		if (JSON.stringify(${jsonList}) == null){
 			console.log("읎어요");
@@ -491,10 +491,25 @@
 			v_estiLoadOn = true;
 			
 			// 해체 쇼쇼쇼
-			v_estiLoadPyeong = estiNoData;
+			v_estiLoadPyeong = estiNoData[0]["estiPyeong"];
 			
-			
-			
+			const v_regex = /\d+/;
+			for (let i = 0; i < estiNoData.length; i++){
+				if (v_regex.test(estiNoData[i]["materCategory"])){
+					let v_num = estiNoData[i]["materCategory"].match(v_regex)[0];
+					let v_category = estiNoData[i]["materCategory"].split(v_regex)[0];
+
+					console.log(v_num);
+					console.log(v_category);
+					
+					if (v_estiLoadRoomNum[v_category] < v_num){
+						v_estiLoadRoomNum[v_category] = v_num;
+					}
+				}
+			}
+
+			console.log("평수", v_estiLoadPyeong);
+			console.log("방들 갯수 ", v_estiLoadRoomNum);
 			
 		}
 		
@@ -535,11 +550,15 @@
 		let v_budget = document.getElementById("budget");
 		
 		// 평수 입력 시 이벤트 발생
-		v_budget.addEventListener('keyup', function(event) {
-			// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지
-			this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
-			// this.value = insertComma(this.value.replace(/[,]/g, ''));
-		});
+		if (!v_estiLoadOn){
+			v_budget.addEventListener('keyup', function(event) {
+				// 0으로 시작하면 0 지우기 / 숫자 외 문자 입력방지
+				this.value = this.value.replace(/^[0]|[^0-9,]/g, '');
+				// this.value = insertComma(this.value.replace(/[,]/g, ''));
+			});
+		} else{
+			v_budget.value = v_estiLoadPyeong;
+		}
 		
 		// 평수 입력 시 욕실, 주방, 방 갯수 와 비율에 맞게 평수 분할
 		let v_plusRoom = document.querySelectorAll(".plus-room");
@@ -589,56 +608,142 @@
 		let v_cardWrapper = document.querySelector(".card-wrapper"); // 카드 box
 		
 		// 다음 버튼 클릭 시
-		v_roomPercentBtn.addEventListener("click", () => {
-			while(true){
-				if (!v_budget.value){
-					alert("입력 후 눌러주세요");
-					return;
-				} else {
-					let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
-					console.log(v_intBudget);
-					if (v_intBudget < 10){
-						alert("최소 10평 이상 입력해주세요.");
+		if (!v_estiLoadOn){
+			v_roomPercentBtn.addEventListener("click", () => {
+				while(true){
+					if (!v_budget.value){
+						alert("입력 후 눌러주세요");
 						return;
+					} else {
+						let v_intBudget = parseInt(v_budget.value.replaceAll(",", ""));
+						console.log(v_intBudget);
+						if (v_intBudget < 10){
+							alert("최소 10평 이상 입력해주세요.");
+							return;
+						}
+						
+						// 알맞은 예산 입력 시 다음 기능 보이기
+						v_container[1].style.display = "none"; // 평수 입력
+						v_container[2].style.display = "none";
+						
+						v_container[3].style.display = "block"; // 견적 구성
+						v_container[4].style.display = "block"; // 임시 저장 리스트
+						v_container[5].style.display = "block"; // 총 탄소배출량, 가격
+						break;
+					}
+				}
+				
+				let v_roomPercentPyeng = document.querySelectorAll(".room-percent__pyeng");
+				
+				for (let i = 0; i < v_roomPercentPyeng.length; i++){
+					let v_cntRoom = document.querySelectorAll(".cnt-room");
+					
+					let v_value = 0.0;
+					// 거실 35%, 욕실 10%, 주방 15%, 방 40%
+					if (i == 0){ // 거실은 왠만하면 1개여서 거실은 1개로 고정
+						v_value = parseInt(v_budget.value) * 0.35;
+					} else if (i == 1){
+						v_value = parseInt(v_budget.value) * 0.1 / parseInt(v_cntRoom[i - 1].innerHTML);
+					} else if (i == 2){
+						v_value = parseInt(v_budget.value) * 0.15 / parseInt(v_cntRoom[i - 1].innerHTML);
+					} else if (i == 3){
+						v_value = parseInt(v_budget.value) * 0.4 / parseInt(v_cntRoom[i - 1].innerHTML);
 					}
 					
-					// 알맞은 예산 입력 시 다음 기능 보이기
-					v_container[1].style.display = "none"; // 평수 입력
-					v_container[2].style.display = "none";
+					v_roomPercentPyeng[i].value = v_value.toFixed(1);
 					
-					v_container[3].style.display = "block"; // 견적 구성
-					v_container[4].style.display = "block"; // 임시 저장 리스트
-					v_container[5].style.display = "block"; // 총 탄소배출량, 가격
-					break;
+					if (i > 0) { // 거실은 왠만하면 1개여서 욕실, 주방, 방 카드만 추가됨.
+						for (let j = 0; j < parseInt(v_cntRoom[i - 1].innerHTML); j++){
+							let v_query = ""
+								v_query += '<div class="card-box card" style="height: 500px;">'
+								v_query += '	<div class="card-box__top">'
+								v_query += '		<div class="mater-category">' + v_cntRoom[i - 1].previousElementSibling.innerHTML + (j+1) + '</div>'
+								v_query += '		<img src="${pageContext.request.contextPath}/img/mat-category/mat_category' + (i + 4) + '.jpg">'
+								v_query += '	</div>'
+								v_query += '	<div class="card-box__bottom">'
+								v_query += '	<div class="materials" style="height: 80%;"></div>'
+								v_query += '		<div class="btn-box" style="height: 20%;">'
+								v_query += '			<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>'
+								v_query += '		</div>'
+								v_query += '	</div>'
+								v_query += '</div>'
+								
+							v_cardWrapper.innerHTML += v_query;
+						}
+					}
 				}
-			}
+				
+				/* 자제 선택 클릭 이벤트 */
+				let v_btnModal = document.querySelectorAll(".btn-modal"); // 자제 선택 버튼
+				
+				/* card */
+				let v_materials = document.querySelectorAll(".materials"); // 선택한 자제들
+				let v_materCategory = document.querySelectorAll(".mater-category"); // 자제 카테고리
+				
+				for (let i = 0; i < v_btnModal.length; i++) { 
+					v_btnModal[i].addEventListener("click", () => {
+						let v_category = "materCategory=" + v_materCategory[i].innerHTML; // 카테고리 ajax로 보낼 형태로 저장
+						console.log(v_category);
+						sendCategory(v_category, i); // 바닐라 ajax, 카테고리별 자제 정보 요청
+						
+						// 스크롤 초기화  
+						setTimeout(() => {
+							v_modalBox.scrollTop = 0;
+						}, 0);
+						
+						document.querySelector(".overlay").classList.add("show");
+						document.body.style.overflow = "hidden";
+						
+						v_modalBox.style.display = "block"; // 모달창 활성화
+					});
+				}
+				
+				/* 닫기 클릭 */
+				let v_selectModalCancel = document.getElementById("selectModalCancel");
+				
+				v_selectModalCancel.addEventListener("click", () => {
+
+					document.querySelector(".overlay").classList.remove("show");
+					document.body.style.overflow = "auto";
+					v_modalBox.style.display = "none";
+				});
+			});
+		} else {
+			// 알맞은 예산 입력 시 다음 기능 보이기
+			v_container[1].style.display = "none"; // 평수 입력
+			v_container[2].style.display = "none";
+			
+			v_container[3].style.display = "block"; // 견적 구성
+			v_container[4].style.display = "block"; // 임시 저장 리스트
+			v_container[5].style.display = "block"; // 총 탄소배출량, 가격
 			
 			let v_roomPercentPyeng = document.querySelectorAll(".room-percent__pyeng");
 			
-			for (let i = 0; i < v_roomPercentPyeng.length; i++){
+			let v_fixCategory = ["욕실", "주방", "방"];
+			for (let i = 0; i < Object.keys(v_estiLoadRoomNum).length + 1; i++){
 				let v_cntRoom = document.querySelectorAll(".cnt-room");
 				
 				let v_value = 0.0;
 				// 거실 35%, 욕실 10%, 주방 15%, 방 40%
-				if (i == 0){ // 거실은 왠만하면 1개여서 거실은 1개로 고정
+				if (i == 3){ // 거실은 왠만하면 1개여서 거실은 1개로 고정
 					v_value = parseInt(v_budget.value) * 0.35;
+				} else if (i == 0){
+					v_value = parseInt(v_budget.value) * 0.1 / parseInt(v_estiLoadRoomNum["욕실"]);
 				} else if (i == 1){
-					v_value = parseInt(v_budget.value) * 0.1 / parseInt(v_cntRoom[i - 1].innerHTML);
+					v_value = parseInt(v_budget.value) * 0.15 / parseInt(v_estiLoadRoomNum["주방"]);
 				} else if (i == 2){
-					v_value = parseInt(v_budget.value) * 0.15 / parseInt(v_cntRoom[i - 1].innerHTML);
-				} else if (i == 3){
-					v_value = parseInt(v_budget.value) * 0.4 / parseInt(v_cntRoom[i - 1].innerHTML);
+					v_value = parseInt(v_budget.value) * 0.4 / parseInt(v_estiLoadRoomNum["방"]);
 				}
 				
 				v_roomPercentPyeng[i].value = v_value.toFixed(1);
 				
-				if (i > 0) { // 거실은 왠만하면 1개여서 욕실, 주방, 방 카드만 추가됨.
-					for (let j = 0; j < parseInt(v_cntRoom[i - 1].innerHTML); j++){
+				if (i != 3) { // 거실은 왠만하면 1개여서 욕실, 주방, 방 카드만 추가됨.
+					for (let j = 0; j < parseInt(v_estiLoadRoomNum[v_fixCategory[i]]); j++){
 						let v_query = ""
 							v_query += '<div class="card-box card" style="height: 500px;">'
 							v_query += '	<div class="card-box__top">'
-							v_query += '		<div class="mater-category">' + v_cntRoom[i - 1].previousElementSibling.innerHTML + (j+1) + '</div>'
-							v_query += '		<img src="${pageContext.request.contextPath}/img/mat-category/mat_category' + (i + 4) + '.jpg">'
+							v_query += '		<div class="mater-category">' + v_fixCategory[i] + (j+1) + '</div>'
+							v_query += '		<img src="${pageContext.request.contextPath}/img/mat-category/mat_category' + (i + 5) + '.jpg">'
 							v_query += '	</div>'
 							v_query += '	<div class="card-box__bottom">'
 							v_query += '	<div class="materials" style="height: 80%;"></div>'
@@ -650,13 +755,6 @@
 							
 						v_cardWrapper.innerHTML += v_query;
 					}
-					/* 
-					for (let j = 0; j < 4 - parseInt(v_cntRoom[i - 1].innerHTML); j++){
-						let v_query = '<div style="height: 500px; width: 250px;">'
-							
-						v_cardWrapper.innerHTML += v_query;
-					}
-					 */
 				}
 			}
 			
@@ -694,7 +792,98 @@
 				document.body.style.overflow = "auto";
 				v_modalBox.style.display = "none";
 			});
-		});
+			
+			
+			/* 불러온 자제들 적용하기 */
+			
+			for (let i = 0; i < v_materials.length; i++){
+				let v_roomPercentPyeong = document.querySelectorAll(".room-percent__pyeng");
+				let v_diffPyong = 0;
+				let v_materNamePlusNum = v_materCategory[i].innerHTML;
+				
+				for (let k = 0; k < v_roomPercentPyeong.length; k++){
+					if (k > 2){
+						if (v_materCategory[i].innerHTML == "거실"){
+							v_diffPyong = v_roomPercentPyeong[0].value
+						}
+						break;
+					}
+					
+					// ajax로 가져온 데이터들이 욕실, 주방, 방 일 경우 비율에 맞는 평수 가져오기
+					if (v_materCategory[i].innerHTML.replace(/[0-9]/g, '') == "욕실"){
+						v_diffPyong = v_roomPercentPyeong[1].value
+						break;
+					} else if (v_materCategory[i].innerHTML.replace(/[0-9]/g, '') == "주방"){
+						v_diffPyong = v_roomPercentPyeong[2].value
+						break;
+					} else if (v_materCategory[i].innerHTML.replace(/[0-9]/g, '') == "방"){
+						v_diffPyong = v_roomPercentPyeong[3].value
+						break;
+					}
+				}
+				
+				if (v_diffPyong == 0){
+					v_diffPyong = v_budget.value;
+				}
+				
+				for(let j = 0; j < estiNoData.length; j++){
+					if (estiNoData[j]['materClassify'] == "N"
+							&& v_materCategory[i].innerHTML == estiNoData[j]['materCategory']){
+						console.log(v_materCategory[i].innerHTML);
+						
+						// 새로운 자재 요소를 생성
+						let v_newMaterialDiv = document.createElement("div");
+						v_newMaterialDiv.classList.add("material-box__add");
+						
+						// 등록한 자제 html 태그
+						v_newMaterialDiv.innerHTML = '<div>' + estiNoData[j]['materName'] + '</div>';
+						// 닫기 이미지
+						v_newMaterialDiv.innerHTML += '<img width="22px" height="22px" src="${pageContext.request.contextPath}/img/delete_icon.png">'
+						
+						// 숨겨진 input 요소 생성
+						let v_price = document.createElement("input");
+						v_price.type = "hidden";
+						v_price.value =  estiNoData[j]['materPrice'];
+						
+						let v_carbon = document.createElement("input");
+						v_carbon.type = "hidden";
+						v_carbon.value =  estiNoData[j]['materGasKg'];
+						
+						// 새로 생성한 요소들을 추가
+						v_materials[i].appendChild(v_newMaterialDiv);
+						v_newMaterialDiv.appendChild(v_price);
+						v_newMaterialDiv.appendChild(v_carbon);
+						
+						// 등록할 자제 정보 딕셔너리로 저장
+						console.log("kg당 평수", estiNoData[j]['kgPerPyeong']);
+						console.log("평수", v_diffPyong);
+						let v_materDataDict = {'matName' : estiNoData[j]['materName']
+							, 'matPrice' : estiNoData[j]['materPrice']
+							, 'matCarbon' : estiNoData[j]['materGasKg']
+							, 'matCategory' : v_materNamePlusNum
+							, 'kgPerPyeong' : parseInt(estiNoData[j]['kgPerPyeong'] / parseInt(v_diffPyong)) }
+						
+						console.log(v_materDataDict);
+						
+						console.log("평수");
+						console.log(estiNoData[j]['materCategory']);
+						console.log(v_materNamePlusNum);
+						console.log(v_diffPyong);
+						
+						// 따로 먼저 실행 안할 시 input에 입력해야만 실행되기 때문에 먼저 실행
+						f_inputValue(v_diffPyong, v_materDataDict);
+
+					    // 선택 자제 삭제하기
+					    let imgElement = v_newMaterialDiv.querySelector("img");
+					    imgElement.addEventListener("click", () => {
+					    	v_newMaterialDiv.remove();
+							f_deleteValue(v_materDataDict);
+					    });
+					}
+				}
+			}
+			
+		}
 		
 		
 		/* modal */
@@ -1057,8 +1246,16 @@
 		const v_rtPrice = document.getElementById("rtPrice"); // 가격 감소
 		const v_rtCarbon = document.getElementById("rtCarbon"); // 탄소배출량 감소
 		
+		
+		
+		let v_sortCategorySend = []; // 순차적인 카테고리
+		console.log(v_sortCategorySend);
+		
+		
+		
 		// 계산 버튼 클릭 시
 		v_resultBtn.addEventListener("click", ()=>{
+			v_sortCategorySend = []; // 순차적인 카테고리
 			
 			/* 카테고리별로 하나 이상씩 선택 안하면 계산 안되게 함 */
 			let allSelectCategory = document.querySelectorAll(".mater-category"); // 모든 카테고리 종류
@@ -1068,6 +1265,8 @@
 			
 			for (let i = 0; i < allSelectCategory.length; i++){
 				let v_partCategory = allSelectCategory[i].innerHTML;
+				v_sortCategorySend.push(v_partCategory);
+				
 				for (let j = 1; j < selectCategory.children.length; j++){
 					let v_selectCategory = selectCategory.children[j].textContent.split(",")[1];
 
@@ -1133,24 +1332,29 @@
 			let v_calPrices = document.getElementById("calPrice");
 			let v_sendPrices = v_calPrices.querySelectorAll("div");
 			
-			for (let i = 0; i < v_sendCarbons.length; i++){
-				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
-				console.log(v_matCategory);
-				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
-				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
-				
-				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
-				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
-				
-				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
-				console.log(v_matCategory);
-				v_sendMaterials[i] = {'matCategory': v_matCategory
-						, 'matName' : v_matName
-						, 'matCarbon' : v_matCarbon
-						, 'matPrice' : v_matPrice
-						, 'matKg': v_matKg}
-				
-				console.log(v_sendMaterials);
+			let sortCnt = 0;
+			for (let idx = 0; idx < v_sortCategorySend.length; idx++){
+				for (let i = 0; i < v_sendCarbons.length; i++){
+					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+					
+					if (v_sortCategorySend[idx] == v_matCategory){
+						console.log(v_matCategory);
+						let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+						let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+						
+						let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+						let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+						
+						// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+						v_sendMaterials[sortCnt] = {'matCategory': v_matCategory
+								, 'matName' : v_matName
+								, 'matCarbon' : v_matCarbon
+								, 'matPrice' : v_matPrice
+								, 'matKg': v_matKg}
+						
+						sortCnt++;
+					}
+				}
 			}
 			
 			// 버튼 클릭 시 다른거 비활성화
@@ -1185,22 +1389,29 @@
 			let v_calPrices = document.getElementById("calPrice");
 			let v_sendPrices = v_calPrices.querySelectorAll("div");
 			
-			for (let i = 0; i < v_sendCarbons.length; i++){
-				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
-				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
-				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
-				
-				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
-				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
-				
-				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
-				v_sendMaterials[i] = {'matCategory': v_matCategory
-						, 'matName' : v_matName
-						, 'matCarbon' : v_matCarbon
-						, 'matPrice' : v_matPrice
-						, 'matKg': v_matKg}
+			let sortCnt = 0;
+			for (let idx = 0; idx < v_sortCategorySend.length; idx++){
+				for (let i = 0; i < v_sendCarbons.length; i++){
+					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+					
+					if (v_sortCategorySend[idx] == v_matCategory){
+						let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+						let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+						
+						let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+						let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+						
+						// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+						v_sendMaterials[sortCnt] = {'matCategory': v_matCategory
+								, 'matName' : v_matName
+								, 'matCarbon' : v_matCarbon
+								, 'matPrice' : v_matPrice
+								, 'matKg': v_matKg}
+						
+						sortCnt++;
+					}
+				}
 			}
-			
 			// ajax 통신 함수
 			f_ajaxJsonString(v_sendMaterials, 3000);
 			
@@ -1231,22 +1442,30 @@
 			let v_calPrices = document.getElementById("calPrice");
 			let v_sendPrices = v_calPrices.querySelectorAll("div");
 			
-			for (let i = 0; i < v_sendCarbons.length; i++){
-				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
-				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
-				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
-				
-				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
-				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
-				
-				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
-				v_sendMaterials[i] = {'matCategory': v_matCategory
-						, 'matName' : v_matName
-						, 'matCarbon' : v_matCarbon
-						, 'matPrice' : v_matPrice
-						, 'matKg': v_matKg}
+			let sortCnt = 0;
+			for (let idx = 0; idx < v_sortCategorySend.length; idx++){
+				for (let i = 0; i < v_sendCarbons.length; i++){
+					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+					
+					if (v_sortCategorySend[idx] == v_matCategory){
+						let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+						let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+						
+						let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+						let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+						
+						// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+						console.log(v_matCategory);
+						v_sendMaterials[sortCnt] = {'matCategory': v_matCategory
+								, 'matName' : v_matName
+								, 'matCarbon' : v_matCarbon
+								, 'matPrice' : v_matPrice
+								, 'matKg': v_matKg}
+						
+						sortCnt++;
+					}
+				}
 			}
-			
 			// ajax 통신 함수
 			f_ajaxJsonString(v_sendMaterials, 1);
 
@@ -1277,20 +1496,28 @@
 			let v_calPrices = document.getElementById("calPrice");
 			let v_sendPrices = v_calPrices.querySelectorAll("div");
 			
-			for (let i = 0; i < v_sendCarbons.length; i++){
-				let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
-				let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
-				let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
-				
-				let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
-				let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
-				
-				// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
-				v_sendMaterials[i] = {'matCategory': v_matCategory
-						, 'matName' : v_matName
-						, 'matCarbon' : v_matCarbon
-						, 'matPrice' : v_matPrice
-						, 'matKg': v_matKg}
+			let sortCnt = 0;
+			for (let idx = 0; idx < v_sortCategorySend.length; idx++){
+				for (let i = 0; i < v_sendCarbons.length; i++){
+					let v_matCategory = v_sendCarbons[i].textContent.split(",")[1]; // 카테고리
+					
+					if (v_sortCategorySend[idx] == v_matCategory){
+						let v_matName = v_sendCarbons[i].textContent.split(",")[0]; // 자제명
+						let v_matCarbon = v_sendCarbons[i].children[0].value.split(",")[0]; // 탄소배출량 
+						
+						let v_matPrice = v_sendPrices[i].children[0].value.split(",")[0]; // 가격
+						let v_matKg = v_sendPrices[i].children[0].value.split(",")[1]; // 사용량(kg)
+						
+						// ajax에 보낼 데이터는 {카테고리, 자제명, 사용량(kg)}
+						v_sendMaterials[sortCnt] = {'matCategory': v_matCategory
+								, 'matName' : v_matName
+								, 'matCarbon' : v_matCarbon
+								, 'matPrice' : v_matPrice
+								, 'matKg': v_matKg}
+						
+						sortCnt++;
+					}
+				}
 			}
 			
 			// ajax 통신 함수
@@ -1352,6 +1579,9 @@
 					// Controller에서 LinckedMap 으로 가져와서 순서가 고정
 					// 이를 이용해 미리 저장해 둔 카테고리명으로 주방 -> 주방2 이렇게 바꿔주는 과정
 					for (let i = 0; i < v_basicMat.length; i++){
+						console.log(i);
+						console.log(v_basicMat[i]["matCategory"]);
+						console.log(v_subMat[i]["materCategory"]);
 						v_subMat[i]["materCategory"] = v_basicMat[i]["matCategory"]
 					}
 
@@ -1437,12 +1667,7 @@
 						
 					}
 					
-					v_matTitle[0].click();
-					
-					// 모달창 출력	
-					// document.querySelector(".overlay").classList.add("show");
-					// document.body.style.overflow = "hidden";
-					// v_modalBoxCal.style.display = "block";
+					v_matTitle[1].click();
  					
 					
  					v_matInfo = {}; // 선택한 기본 자제들의 정보, 계산마다 초기화 해줘야함
@@ -1460,7 +1685,6 @@
  			 					if (v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "주방" || v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "욕실" || v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] == "방"){
  			 						
  			 						v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"] = v_basicMat[j]['matCategory'];
- 			 						console.log(v_matInfo[Object.keys(v_matInfo).length - 1]["materCategory"]);
  			 					}
  			 					
  			 					

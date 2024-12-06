@@ -232,7 +232,7 @@ public class UserEstimateController {
 	@PostMapping("/download/excel")
 	public ResponseEntity<byte[]> downloadExcel(String basicMater, String subMatInfo, String estiTitle, String estiPyeong) {
 
-		System.out.println(" - saveMaterials - ");
+		System.out.println(" - download - ");
 
 		// 테스트 시 사용 (실전에서 주석처리)
 		// basicMater = "{\"0\":{\"materNo\":\"41\",\"materCategory\":\"외장재\",\"materName\":\"구리 시트\",\"materGasKg\":\"1.52\",\"materPrice\":\"8000\",\"materKg\":\"144\"},\"1\":{\"materNo\":\"42\",\"materCategory\":\"지붕재\",\"materName\":\"클링커 - 석기\",\"materGasKg\":\"0.3\",\"materPrice\":\"4250\",\"materKg\":\"96\"},\"2\":{\"materNo\":\"45\",\"materCategory\":\"욕실1\",\"materName\":\"세라믹 타일\",\"materGasKg\":\"0.52\",\"materPrice\":\"6500\",\"materKg\":\"96\"},\"3\":{\"materNo\":\"47\",\"materCategory\":\"거실\",\"materName\":\"석고 섬유 보드 (종이)\",\"materGasKg\":\"-0.03\",\"materPrice\":\"2500\",\"materKg\":\"120\"},\"4\":{\"materNo\":\"47\",\"materCategory\":\"방1\",\"materName\":\"석고 섬유 보드 (종이)\",\"materGasKg\":\"-0.03\",\"materPrice\":\"2500\",\"materKg\":\"180\"},\"5\":{\"materNo\":\"61\",\"materCategory\":\"창호재\",\"materName\":\"이중 유리창\",\"materGasKg\":\"1.79\",\"materPrice\":\"7000\",\"materKg\":\"96\"},\"6\":{\"materNo\":\"76\",\"materCategory\":\"주방1\",\"materName\":\"천연 대리석\",\"materGasKg\":\"1.0\",\"materPrice\":\"10000\",\"materKg\":\"240\"}}\r\n";
@@ -378,6 +378,9 @@ public class UserEstimateController {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
+
+		List<EstimateDTO> basicMatter = estimateService.basic_mater();
+		model.addAttribute("basicMatter", basicMatter);
 		
 		return "estimate/estimateHome";
 	}

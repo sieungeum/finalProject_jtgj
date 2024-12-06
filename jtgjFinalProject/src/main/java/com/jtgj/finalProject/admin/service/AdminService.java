@@ -1,7 +1,12 @@
 package com.jtgj.finalProject.admin.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +30,8 @@ public class AdminService {
 
 	@Autowired
 	IEstimateDAO estimateDAO;
+	
+
 	
 	public List<UserDTO> getUserList(){
 		List<UserDTO> result = dao.getUserList();
@@ -148,4 +155,20 @@ public class AdminService {
     }
 	
 	
+	// 총 탄소배출량 데이터 가져오기
+	public Map<String, Object> getChartData() {
+        List<CompanyDTO> companyList = dao.getCompanyList();  // 기업 목록 가져오기
+
+        List<Integer> values = new ArrayList<>();
+
+        // 각 기업의 이름과 총 탄소배출량을 리스트에 저장
+        for (CompanyDTO company : companyList) {
+            values.add(company.getCpCarbonEmissions());  // 탄소배출량
+        }
+
+        Map<String, Object> chartData = new HashMap<>();
+        chartData.put("values", values);  // 차트의 데이터
+
+        return chartData;
+    }
 }
