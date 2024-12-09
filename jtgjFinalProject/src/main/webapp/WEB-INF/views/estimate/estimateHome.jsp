@@ -51,7 +51,7 @@
 	<!-- budget input -->
 	<div class="container">
 		<div class="main-title column-center-flex" >
-			<div class="header-font">원하시는 평수 및 건물 구조를 정해주세요</div>
+			<div class="header-font">원하시는 연면적 및 건물 구조를 정해주세요</div>
 			<div class="budget-input-box">
 				<input class="input-budget" type="text" placeholder="단위 : ㎡"
 					id="budget">

@@ -135,7 +135,7 @@
 			, mater_info = #{mater.materInfo}
 			, mater_classify = #{mater.materClassify}
 		WHERE 1=1
-			AND mater_name = #{mater.materName}
+			AND mater_no = #{mater.materNo}
 			AND mater_category = #{beforeCategory}
 	</update>
 
