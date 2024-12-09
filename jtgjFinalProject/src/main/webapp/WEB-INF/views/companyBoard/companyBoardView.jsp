@@ -155,12 +155,12 @@
 	        // 동영상 경로 리스트
 	        const videoSources = [
 	            "${pageContext.request.contextPath}/resources/video/cpTest1.mp4",
+	            "${pageContext.request.contextPath}/resources/video/cpTest2.mp4",
 	            "${pageContext.request.contextPath}/resources/video/cpTest3.mp4",
 	            "${pageContext.request.contextPath}/resources/video/cpTest4.mp4",
 	            "${pageContext.request.contextPath}/resources/video/cpTest5.mp4",
 	            "${pageContext.request.contextPath}/resources/video/cpTest6.mp4",
-	            "${pageContext.request.contextPath}/resources/video/cpTest7.mp4",
-	            "${pageContext.request.contextPath}/resources/video/cpTest8.mp4"
+	            "${pageContext.request.contextPath}/resources/video/cpTest7.mp4"
 	        ];
 	
 	        let currentVideoIndex = 0;
