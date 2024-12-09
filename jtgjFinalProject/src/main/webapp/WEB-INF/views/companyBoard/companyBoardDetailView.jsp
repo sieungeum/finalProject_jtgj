@@ -241,12 +241,12 @@
 		            <div class="row" style="padding-right:15px;">
 		                <div class="dFjcB marB">
 		                    <div class="dF">
-								<c:if test="${companyBoard.userProfImg == null}">
+								<c:if test="${companyBoard.userProfImg == 'N'}">
 									<div class="profileImgBox">
 										<img src="img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
 									</div>
 								</c:if>
-								<c:if test="${companyBoard.userProfImg != null}">
+								<c:if test="${companyBoard.userProfImg != 'N'}">
 									<div class="profileImgBox">
 										<img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
 										     class="profileImg" alt="프로필 이미지">
