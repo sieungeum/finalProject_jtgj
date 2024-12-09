@@ -548,12 +548,12 @@
 	                  </c:if>
 	                  
 	                  <c:if test="${sessionScope.login.userAccount == 'C'}">
-	                  	  <c:if test="${sessionScope.login.userRank == 'M'}">
+	                  	  <c:if test="${sessionScope.company.cpCertification == 'Y'}">
 		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyBoardWriteViewAd"> 홍보 </a>
 		                  </c:if>
-		                  <c:if test="${sessionScope.login.userRank == 'N'}">
+<%-- 		                  <c:if test="${sessionScope.login.userRank == 'N'}">
 		                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
-		                  </c:if>
+		                  </c:if> --%>
 	                  </c:if>
 	                  
 	                  <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
@@ -644,7 +644,21 @@
 							</div>
 						</div>
 						</c:if>
-					</div> 
+					</div>
+					
+					<div class="col-xl-12 col-lg-12">
+						<div class="card mb-4">
+							<div class="card-header">탄소배출권 시세
+								<span id="carbonCost" ></span>
+							</div>
+							<div class="card-body" style="height: 330px;">
+								<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
+									<img src="http://172.30.1.62:5000/pltimg" width="100%" height="100%" >
+								</div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="card mb-4">
 						<div class="card-header">내 게시글</div>
 						<div class="card-body" style="padding:16px 16px 0px 16px;">
@@ -1514,6 +1528,24 @@
 			
 			return newNum.join(',');
 		}
+		
+		
+		// 크롤링
+		const v_ajaxCrawling = new XMLHttpRequest();
+		v_ajaxCrawling.open("GET", "http://172.30.1.62:5000/carbon_cost");
+		v_ajaxCrawling.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+		v_ajaxCrawling.onload = () => {
+			if(v_ajaxCrawling.status == 200){
+				
+				console.log("이게 되네[]");
+				console.log(v_ajaxCrawling.response);
+				
+				document.getElementById("carbonCost").innerHTML = "[현재가 : " + JSON.parse(v_ajaxCrawling.response)["recent"] + "]";
+			}
+		}
+		
+		v_ajaxCrawling.send();
 	</script>
 
 

@@ -43,7 +43,7 @@
 			, SYSDATE
 			, #{userPhone}
 			, 'P'
-			, 'N'
+			, 'M'
 			, 'N'
 		)
 	</select>

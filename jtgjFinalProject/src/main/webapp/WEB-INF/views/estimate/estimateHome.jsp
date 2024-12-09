@@ -387,7 +387,7 @@
 
 		<div class="modal-box__result-btn">
 			<!-- 다운로드 버튼 -->
-			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn" style="background-color: #00B050;">
+			<div id="excelDownBtn" class="sjm-btn sjm-btn-primary final-btn" style="background-color: #00B050; border-color:#00B050; ">
 				<form id="excelDown" method="POST"
 					action="${pageContext.request.contextPath}/download/excel" >
 					<input type="hidden" name="basicMater" id="basicMater"> 
@@ -485,13 +485,13 @@
 		let v_estiLoadRoomNum = {"욕실":0, "주방":0, "방":0}; // 불러운 욕실, 주방, 방 갯수
 		
 		if (JSON.stringify(${jsonList}) == null){
-			console.log("읎어요");
+			console.log("불러오기 X");
 		} else {
 			estiNoData = JSON.parse(JSON.stringify(${jsonList}));
 			console.log(estiNoData);
 			v_estiLoadOn = true;
 			
-			// 해체 쇼쇼쇼
+			// 데이터 split
 			v_estiLoadPyeong = estiNoData[0]["estiPyeong"];
 			
 			const v_regex = /\d+/;
