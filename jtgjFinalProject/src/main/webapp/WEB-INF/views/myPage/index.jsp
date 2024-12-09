@@ -739,7 +739,7 @@
 									<tr>
 										<th scope="col">번호</th>
 										<th scope="col">견적명</th>
-										<th scope="col">평수</th>
+										<th scope="col">연면적</th>
 										<th scope="col">작성일</th>
 									</tr>
 								</thead>
@@ -960,12 +960,6 @@
 			let v_changeText = v_datatableDropdown[i].querySelector("label");
 			
 			v_changeText.innerHTML = v_changeText.innerHTML.replace("entries per page", "표시할 게시글 수를 선택하세요");
-		}
-		
-		let v_datatableBottom = document.querySelectorAll(".datatable-bottom");
-		
-		for (let i = v_datatableBottom.length - 1; i >= 0; i--){
-			v_datatableBottom[i].remove();
 		}
     });
 </script>

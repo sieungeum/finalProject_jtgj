@@ -295,22 +295,22 @@
                <div class="nav" style="font-size: 30px; color: black; padding-top: 30px;">
                   <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath}/myPage"> 마이페이지 </a> 
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyEditView"> 수정 </a> 
                   </c:if>
                   <c:if test="${sessionScope.login.userAccount != 'C'}">
-                  <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
+                  <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/personalEditView"> 수정 </a> 
                   </c:if>
                   <c:if test="${sessionScope.login.userAccount == 'C'}">
                   	  <c:if test="${sessionScope.login.userRank == 'M'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
+	                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/companyBoardWriteView"> 홍보 </a>
 	                  </c:if>
 	                  <c:if test="${sessionScope.login.userRank == 'N'}">
-	                  	<a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
+	                  	<a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/noinjungCompany"> 홍보 </a>
 	                  </c:if>
                   </c:if>
                   
                   <c:if test="${sessionScope.login.userRank == 'Y' || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'L'  }">
-                     <a class="nav-link" style="color: white; padding-top: 30px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
+                     <a class="nav-link" style="color: white; padding-top: 15px;" href="${pageContext.request.contextPath }/adminPage">관리자페이지</a>
                   </c:if>
                   	  <div style="margin: 10px; margin-left:0; padding-right: 100px;"><a class="nav-link" style="color: white; font-size: 20px;'" href="${pageContext.request.contextPath }/logoutDo">로그아웃</a></div> 
                </div>
@@ -639,12 +639,6 @@
 			let v_changeText = v_datatableDropdown[i].querySelector("label");
 			
 			v_changeText.innerHTML = v_changeText.innerHTML.replace("entries per page", "표시할 게시글 수를 선택하세요");
-		}
-		
-		let v_datatableBottom = document.querySelectorAll(".datatable-bottom");
-		
-		for (let i = v_datatableBottom.length - 1; i >= 0; i--){
-			v_datatableBottom[i].remove();
 		}
     });
 </script>
