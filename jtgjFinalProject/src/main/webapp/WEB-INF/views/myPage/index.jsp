@@ -685,7 +685,7 @@
 												<c:if test="${faq.faqAst == 'N'}">
 															<form action="${pageContext.request.contextPath }/faqAstDo" method="POST" id="checkFormN">
 																<input type="hidden" name="faqNo" value="${faq.faqNo}">
-															    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit" disabled style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미답변</button>
+															    	<button class="btn btn-primary btn-xl" id="checkBtnN" type="submit" disabled style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">답변대기</button>
 															</form>
 													</c:if>
 													
