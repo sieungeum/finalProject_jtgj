@@ -243,7 +243,7 @@
 		.profile-card{
 			position:fixed;
 			top:130px;
-			right:20%;
+			right:10%;
 			width:250px;
 			height:300px;		
 			display:flex;
@@ -282,10 +282,10 @@
             	<div class="profile-card">
 	           		<div>
 		                <!-- 프로필 이미지 표시 -->
-		                <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
+		                <c:if test="${companyBoard.userProfImg == 'N' || companyBoard.userProfImg == ''}">
 		                    <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
 		                </c:if>
-		                <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
+		                <c:if test="${companyBoard.userProfImg != 'N' && companyBoard.userProfImg != ''}">
 		                    <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
 		                         class="profileImg" alt="프로필 이미지">
 		                </c:if>
