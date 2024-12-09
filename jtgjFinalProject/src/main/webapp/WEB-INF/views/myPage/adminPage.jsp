@@ -349,14 +349,14 @@
 								</div>
 							</div>
 						</div> --%>
-						<div class="col-xl-4 col-lg-5">
+<!-- 						<div class="col-xl-4 col-lg-5">
 							<div class="card mb-4">
 								<div class="card-header">차트</div>
 								<div class="card-body" style="height: 330px;">
 								
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					
 					

@@ -99,7 +99,7 @@
 	                    <div class="dFjcE">
 	                    	<div class="check-box d-flex align-items-center ms-2">
 							    <input type="checkbox" id="checkYn" name="faqSicYn" value="S" class="me-1"/>
-							    <label for="checkYn">비밀글 여부?</label>
+							    <label for="checkYn">비밀글</label>
 							    <input type="hidden" id="faqSicYnHidden" name="faqSicYn" value="N"/>
 							</div>
 	                    </div>
