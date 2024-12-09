@@ -1532,7 +1532,7 @@
 		
 		// 크롤링
 		const v_ajaxCrawling = new XMLHttpRequest();
-		v_ajaxCrawling.open("GET", "http://172.30.1.62:5000/carbon_cost");
+		v_ajaxCrawling.open("GET", "http://192.168.0.33:5000/carbon_cost");
 		v_ajaxCrawling.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
 		v_ajaxCrawling.onload = () => {
