@@ -136,13 +136,13 @@
 							<td>
                                 <c:choose>
                                     <c:when test="${faq.faqSicYn == 'N'}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }[ <c:if test="${faq.faqAst == 'N' }">답변미완</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle }[ <c:if test="${faq.faqAst == 'N' }">답변대기</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
                                     </c:when>
                                     <c:when test="${faq.faqSicYn == 'S' && (faq.userId == sessionScope.login.userId || sessionScope.login.userRank == 'K' || sessionScope.login.userRank == 'Y')}">
-                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span>[ <c:if test="${faq.faqAst == 'N' }">답변미완</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
+                                        <a href="<c:url value='/faqDetailView?faqNo=${faq.faqNo }'/>">${faq.faqTitle } <span class="text-muted">(비밀글)</span>[ <c:if test="${faq.faqAst == 'N' }">답변대기</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</a>
                                     </c:when>
                                     <c:otherwise>
-                                        <span>비밀글 입니다.[${faq.faqCount }]</span>
+                                        <span>비밀글 입니다.[ <c:if test="${faq.faqAst == 'N' }">답변대기</c:if><c:if test="${faq.faqAst == 'Y' }">답변완료</c:if> ]</span>
                                     </c:otherwise>
                                 </c:choose>
                             </td>
