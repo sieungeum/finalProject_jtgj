@@ -653,7 +653,7 @@
 							</div>
 							<div class="card-body" style="height: 330px;">
 								<div class="container d-flex justify-content-center" style="width: 100%; height: 100%;">
-									<img src="http://172.30.1.62:5000/pltimg" width="100%" height="100%" >
+									<img src="http://192.168.0.33:5000/pltimg" width="100%" height="100%" >
 								</div>
 							</div>
 						</div>
