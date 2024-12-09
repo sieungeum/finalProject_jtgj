@@ -72,7 +72,7 @@
             if (card) {
                 // 이미지 경로 업데이트
                 const thumbnail = card.querySelector(".project-thumbnail");
-                thumbnail.src = "/finalProject/displayProfImg?atchtype=companyProject&imgName=" + project.ptThumbnail;
+                thumbnail.src = "/displayProfImg?atchtype=companyProject&imgName=" + project.ptThumbnail;
                 thumbnail.alt = project.ptTitle;
 
                 // 제목 업데이트
