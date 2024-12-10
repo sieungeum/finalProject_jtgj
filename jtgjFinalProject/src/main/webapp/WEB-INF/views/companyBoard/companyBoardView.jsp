@@ -91,7 +91,7 @@
 				</video>
 				
 				<div class="slider-description info-box">
-					<div class="slider-description-inner">
+					<div class="slider-description-inner" style="margin:0;">
 						<h1 style="color:#FFFFFF;">
 							<!-- span 태그를 붙이면 민트 바탕이 나타남 -->
 							기업홍보 게시판
