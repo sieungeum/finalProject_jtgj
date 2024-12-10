@@ -245,7 +245,7 @@
 			top:130px;
 			right:10%;
 			width:250px;
-			height:300px;		
+			height:340px;
 			display:flex;
 			flex-direction:column;
 			align-items:center;

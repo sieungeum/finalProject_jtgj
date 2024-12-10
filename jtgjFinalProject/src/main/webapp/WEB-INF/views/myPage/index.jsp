@@ -1031,9 +1031,9 @@
 					
 					// 기본 자재 사용량, 대체 자재 사용량 구하기
 					if (v_list[i]["materClassify"] == "N"){
-						v_carbonUse += parseInt(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
+						v_carbonUse += parseFloat(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
 					} else{
-						v_carbonEcoUse += parseInt(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
+						v_carbonEcoUse += parseFloat(v_list[i]["materGasKg"]) * parseInt(v_list[i]["kgPerPyeong"]);
 					}
 					
 				}
@@ -1557,7 +1557,7 @@
 			labels: ['탄소배출량', '남은 배출량'],  // 레이블
 			datasets: [{
 				label: '기본자재 탄소 배출량',
-				data: [v_carbonUse / 1000, v_carbonEmission - (v_carbonUse / 1000)],  // 데이터
+				data: [parseFloat((v_carbonUse / 1000).toFixed(2)), parseFloat((v_carbonEmission - (v_carbonUse / 1000)).toFixed(2))],  // 데이터
 				backgroundColor: ['red', '#eee'], // 차트 색상 (기업 수에 맞게 조정)
 				borderColor: ['#FFFFFF', '#FFFFFF'], // 테두리 색상
 				borderWidth: 1,
@@ -1588,7 +1588,7 @@
 				labels: ['탄소배출량', '남은 배출량'],  // 레이블
 				datasets: [{
 					label: '대체자재 탄소 배출량',
-					data: [v_carbonEcoUse / 1000, v_carbonEmission - (v_carbonEcoUse / 1000)],  // 데이터
+					data: [parseFloat((v_carbonEcoUse / 1000).toFixed(2)), parseFloat(v_carbonEmission - (v_carbonEcoUse / 1000).toFixed(2))],  // 데이터
 					backgroundColor: ['green', '#eee'], // 차트 색상 (기업 수에 맞게 조정)
 					borderColor: ['#FFFFFF', '#FFFFFF'], // 테두리 색상
 					borderWidth: 1,
