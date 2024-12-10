@@ -243,7 +243,7 @@
 		.profile-card{
 			position:fixed;
 			top:130px;
-			right: 23%;
+			right: 20%;
 			width:250px;
 			height:340px;
 			display:flex;
