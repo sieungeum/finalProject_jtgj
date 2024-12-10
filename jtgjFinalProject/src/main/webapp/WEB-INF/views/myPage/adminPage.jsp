@@ -395,7 +395,7 @@
 															<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
 																<input type="hidden" name="userId" value="${user.userId}">
 																<input type="hidden" name="userName" value="${user.userName}">
-															    	<button class="btn btn-danger btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
+															    	<button class="btn btn-primary btn-xl" id="checkBtnB" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
 															</form>
 													</c:if>
 													
@@ -403,7 +403,7 @@
 														<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">
-															    <button class="btn btn-primary btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">인증기업</button>
+															    <button class="btn btn-danger btn-xl" id="checkBtnA" type="submit" style="height: 23px; font-size: 15px; display: flex; justify-content: center; align-items: center; line-height: 23px; width: auto; margin: 0 auto;">미인증기업</button>
 														</form>
 													</c:if>
 													

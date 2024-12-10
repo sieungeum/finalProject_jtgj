@@ -243,9 +243,13 @@
 		.profile-card{
 			position:fixed;
 			top:130px;
+<<<<<<< HEAD
 			right: 23%;
+=======
+			right:10%;
+>>>>>>> branch 'main' of https://github.com/sieungeum/finalProject_jtgj.git
 			width:250px;
-			height:300px;		
+			height:340px;
 			display:flex;
 			flex-direction:column;
 			align-items:center;
@@ -282,10 +286,10 @@
             	<div class="profile-card">
 	           		<div>
 		                <!-- 프로필 이미지 표시 -->
-		                <c:if test="${companyBoard.userProfImg == null || companyBoard.userProfImg == ''}">
+		                <c:if test="${companyBoard.userProfImg == 'N' || companyBoard.userProfImg == ''}">
 		                    <img src="${pageContext.request.contextPath}/img/default_img.png" class="profileImg" alt="기본 프로필 이미지">
 		                </c:if>
-		                <c:if test="${companyBoard.userProfImg != null && companyBoard.userProfImg != ''}">
+		                <c:if test="${companyBoard.userProfImg != 'N' && companyBoard.userProfImg != ''}">
 		                    <img src="${pageContext.request.contextPath}/displayProfImg?atchtype=prof_img&imgName=${companyBoard.userProfImg}" 
 		                         class="profileImg" alt="프로필 이미지">
 		                </c:if>

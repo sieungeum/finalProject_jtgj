@@ -348,19 +348,19 @@
 		                    		<div class="marginL_L">
 		                    			<div class="width100">
 		                    				<label for="ptDesign" class="input-label">설계 기간</label>
-		                    				<input type="text" class="input-value" id="ptDesign" name="ptDesign" placeholder="설계 기간을 입력하세요">
+		                    				<input type="text" class="input-value" id="ptDesign" name="ptDesign" placeholder="설계 기간을 입력하세요 ex) 1년 6개월">
 		                    			</div>
 		                    			<div class="width100">
 		                    				<label for="ptConstruction" class="input-label">시공 기간</label>
-		                    				<input type="text" class="input-value" id="ptConstruction" name="ptConstruction" placeholder="시공 기간을 입력하세요">
+		                    				<input type="text" class="input-value" id="ptConstruction" name="ptConstruction" placeholder="시공 기간을 입력하세요 ex) 1년 6개월">
 		                    			</div>
 		                    			<div class="width100">
 		                    				<label for="ptFloorNum" class="input-label">층수</label>
-                   							<input type="text" class="input-value" id="ptFloorNum" name="ptFloorNum" placeholder="층수를 입력하세요">
+                   							<input type="text" class="input-value" id="ptFloorNum" name="ptFloorNum" placeholder="층수를 입력하세요 ex) 지상 1층">
 		                    			</div>
 		                    			<div class="width100">
 		                    				<label for="ptHouseholdNum" class="input-label">가구수</label>
-                    						<input type="text" class="input-value" id="ptHouseholdNum" name="ptHouseholdNum" placeholder="가구수를 입력하세요">
+                    						<input type="text" class="input-value" id="ptHouseholdNum" name="ptHouseholdNum" placeholder="가구수를 입력하세요 ex) 1가구">
 		                    			</div>
 		                    		</div>
 		                    		<div class="hB"></div>
