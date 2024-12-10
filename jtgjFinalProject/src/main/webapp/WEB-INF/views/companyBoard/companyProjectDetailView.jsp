@@ -243,11 +243,7 @@
 		.profile-card{
 			position:fixed;
 			top:130px;
-<<<<<<< HEAD
 			right: 23%;
-=======
-			right:10%;
->>>>>>> branch 'main' of https://github.com/sieungeum/finalProject_jtgj.git
 			width:250px;
 			height:340px;
 			display:flex;
