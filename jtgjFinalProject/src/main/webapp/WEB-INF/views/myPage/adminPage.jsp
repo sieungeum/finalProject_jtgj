@@ -391,7 +391,7 @@
 											</td>
 											<td>
 											<c:if test="${user.userAccount == 'C'}">
-												<c:if test="${user.userRank == 'N'}">
+												<c:if test="${user.userRank == 'M'}">
 															<form action="${pageContext.request.contextPath }/userProDo" method="POST" id="checkFormB">
 																<input type="hidden" name="userId" value="${user.userId}">
 																<input type="hidden" name="userName" value="${user.userName}">
@@ -399,7 +399,7 @@
 															</form>
 													</c:if>
 													
-													<c:if test="${user.userRank == 'M'}">
+													<c:if test="${user.userRank == 'N'}">
 														<form action="${pageContext.request.contextPath }/userDelDo" method="POST" id="checkFormA">
 															<input type="hidden" name="userId" value="${user.userId}">
 															<input type="hidden" name="userName" value="${user.userName}">

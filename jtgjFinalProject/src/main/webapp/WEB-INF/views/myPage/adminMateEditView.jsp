@@ -87,7 +87,7 @@
 }
 
 .btn-secondary.active {
-    background-color: #9C9C9C !important; /* 기존보다 어두운 색상 */
+    background-color: #008000 !important; /* 기존보다 어두운 색상 */
     border:none;
 }
 

@@ -74,7 +74,7 @@
 }
 
 .btn-secondary.active {
-    background-color: #9C9C9C !important; /* 기존보다 어두운 색상 */
+    background-color: #008000 !important; /* 기존보다 어두운 색상 */
     border:none;
 }
 
@@ -610,8 +610,8 @@
 									<div class="mb-3" style="display:flex;flex-direction:column;">
 										<label for="materClassify" style="font-weight:bolder;">대체자재여부</label>
 										<div class="btn-group mb-3 mt-2" role="group" aria-label="대체자재여부 선택">
-											<button type="button" class="btn btn-success me-2" onclick="selectClassify('Y', this)">Y</button>
-											<button type="button" class="btn btn-success" onclick="selectClassify('N', this)">N</button>
+											<button type="button" class="btn btn-secondary me-2" onclick="selectClassify('Y', this)">Y</button>
+											<button type="button" class="btn btn-secondary" onclick="selectClassify('N', this)">N</button>
 										</div>
 										<input type="hidden" id="materClassify" name="materClassify" required />
 									</div>
