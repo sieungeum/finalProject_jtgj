@@ -749,7 +749,7 @@
 							v_query += '	<div class="card-box__bottom">'
 							v_query += '	<div class="materials" style="height: 80%;"></div>'
 							v_query += '		<div class="btn-box" style="height: 20%;">'
-							v_query += '			<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>'
+							v_query += '			<div class="sjm-btn sjm-btn-primary btn-modal">자재 추가하기</div>'
 							v_query += '		</div>'
 							v_query += '	</div>'
 							v_query += '</div>'
