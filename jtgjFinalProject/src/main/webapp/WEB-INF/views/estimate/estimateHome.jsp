@@ -143,7 +143,7 @@
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
 						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
+							<div class="sjm-btn sjm-btn-primary btn-modal">자재 추가하기</div>
 						</div>
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
 						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
+							<div class="sjm-btn sjm-btn-primary btn-modal">자재 추가하기</div>
 						</div>
 					</div>
 				</div>
@@ -173,7 +173,7 @@
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
 						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
+							<div class="sjm-btn sjm-btn-primary btn-modal">자재 추가하기</div>
 						</div>
 					</div>
 				</div>
@@ -188,7 +188,7 @@
 					<div class="card-box__bottom">
 						<div class="materials" style="height: 80%;"></div>
 						<div class="btn-box" style="height: 20%;">
-							<div class="sjm-btn sjm-btn-primary btn-modal">자제 추가하기</div>
+							<div class="sjm-btn sjm-btn-primary btn-modal">자재 추가하기</div>
 						</div>
 					</div>
 				</div>
